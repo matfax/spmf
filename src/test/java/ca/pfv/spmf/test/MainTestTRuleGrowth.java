@@ -1,19 +1,21 @@
 package ca.pfv.spmf.test;
 
+import ca.pfv.spmf.algorithms.sequential_rules.trulegrowth.AlgoTRuleGrowth;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-
-import ca.pfv.spmf.algorithms.sequential_rules.trulegrowth.AlgoTRuleGrowth;
 
 /**
  * Example of how to use the TRULEGROWTH algorithm in source code.
  * @author Philippe Fournier-Viger (Copyright 2010)
  */
 public class MainTestTRuleGrowth {
-	
-	public static void main(String [] arg) throws IOException{
-		String input = fileToPath("contextPrefixSpan.txt");  // the database
+
+	@Test
+	public void main() throws IOException{
+		String input = "contextPrefixSpan.txt";  // the database
 		String output = ".//output.txt";  // the path for saving the frequent itemsets found
 
 		//  Applying RuleGROWTH algorithm with minsup = 3 sequences and minconf = 0.5
