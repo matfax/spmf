@@ -1,8 +1,5 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.estDec;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Hashtable;
 
 /**
@@ -69,7 +66,8 @@ public class Algo_estDec {
 			throws FileNotFoundException, IOException {
 
 		// read the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				this.getClass().getResourceAsStream("/" + input)));
 		String line;
 //		int n=0;
 		// for each line (transaction)

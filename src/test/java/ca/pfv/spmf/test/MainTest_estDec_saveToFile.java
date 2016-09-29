@@ -16,7 +16,7 @@ public class MainTest_estDec_saveToFile {
 	@Test
 	public void main() throws FileNotFoundException, IOException{
 		
-		String database = fileToPath("contextIGB.txt");
+		String database = "contextIGB.txt";
 		String  output = "output";
         
         double minsup = 0.1;

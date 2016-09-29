@@ -1,8 +1,5 @@
 package ca.pfv.spmf.output;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Rule {
 
     public Rule(Integer support, Double confidence, int[] antecedent, int[] consequent) {
@@ -17,15 +14,15 @@ public class Rule {
 
     private Integer support;
 
-    private int[] antecedent
+    private int[] antecedent;
 
-    private int[] consequent
+    private int[] consequent;
 
-    public List<Integer> getAntecedent() {
+    public int[] getAntecedent() {
         return antecedent;
     }
 
-    public List<Integer> getConsequent() {
+    public int[] getConsequent() {
         return consequent;
     }
 
