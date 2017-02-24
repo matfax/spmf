@@ -110,7 +110,7 @@ public class SequenceDatabase {
             }
 
             shrinkDatabase(frequentItems.keySet());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             if (myInput != null) {
                 myInput.close();
@@ -122,7 +122,7 @@ public class SequenceDatabase {
      * It creates and addes the sequence found in the array of Strings
      * @param integers 
      */
-    public void addSequence(String[] integers) {
+    private void addSequence(String[] integers) {
         ItemAbstractionPairCreator creadorPares = ItemAbstractionPairCreator.getInstance();
         long timestamp;
         Sequence sequence = new Sequence(sequences.size());

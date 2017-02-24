@@ -47,18 +47,18 @@ import java.util.Random;
 public class AlgoKMeans {
 
 	// The list of clusters generated
-	protected List<ClusterWithMean> clusters = null;
+    List<ClusterWithMean> clusters = null;
 	
 	// A random number generator because K-Means is a randomized algorithm
-	protected final static Random random = new Random(System.currentTimeMillis());
+	private final static Random random = new Random(System.currentTimeMillis());
 	
 	// For statistics
-	protected long startTimestamp; // the start time of the latest execution
-	protected long endTimestamp;  // the end time of the latest execution
-	long iterationCount; // the number of iterations that was performed
+    long startTimestamp; // the start time of the latest execution
+	long endTimestamp;  // the end time of the latest execution
+	private long iterationCount; // the number of iterations that was performed
 	
 	/* The distance function to be used for clustering */
-	protected DistanceFunction distanceFunction = null;
+    DistanceFunction distanceFunction = null;
 	
 	/** The names of the attributes **/
 	private List<String> attributeNames = null;
@@ -289,8 +289,8 @@ public class AlgoKMeans {
 	 * @param vectorsSize the desired vector size
 	 * @return the random vector
 	 */
-	DoubleArray generateRandomVector(double minValue, double maxValue,
-			int vectorsSize) {
+    private DoubleArray generateRandomVector(double minValue, double maxValue,
+                                             int vectorsSize) {
 		// create a new vector
 		double[] vector = new double[vectorsSize];
 		// for each position generate a random number

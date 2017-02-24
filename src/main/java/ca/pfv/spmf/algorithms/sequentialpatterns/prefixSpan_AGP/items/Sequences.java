@@ -33,8 +33,8 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.prefixSpan_AGP.items.patterns.P
  */
 public class Sequences {
 
-    public List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
-    public int numberOfFrequentSequences = 0;
+    private List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
+    private int numberOfFrequentSequences = 0;
     private final String string;
 
     public Sequences(String name) {

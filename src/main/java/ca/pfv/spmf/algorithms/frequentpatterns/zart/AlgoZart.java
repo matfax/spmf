@@ -50,9 +50,9 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoZart {
 	
 	// start time of the latest execution
-	long startTimestamp;
+    private long startTimestamp;
 	// end time of the latest execution
-	long endTimestamp;
+    private long endTimestamp;
 
 	// relative minimum support threshold
 	private int minsupRelative =0;
@@ -235,7 +235,7 @@ public class AlgoZart {
 						//31 
 						// if c is set to true in mapKey and its support is 
 						// equal to the one of predSup
-						if(tableCandidate.mapKey.get(c) == true && c.getAbsoluteSupport() == tableCandidate.mapPredSupp.get(c)){
+						if(tableCandidate.mapKey.get(c) && c.getAbsoluteSupport() == tableCandidate.mapPredSupp.get(c)){
 							// set its key to false!
 							tableCandidate.mapKey.put(c, false); //32
 						}
@@ -269,7 +269,7 @@ public class AlgoZart {
 				for(Itemset l : tableFrequent.getLevelForZart(i-1)){
 					//  if it is marked as closed, then we add it to
 					// the tale of closed itemsets.
-					if(tableFrequent.mapClosed.get(l) == true){
+					if(tableFrequent.mapClosed.get(l)){
 						tableClosed.getLevelForZart(i-1).add(l);
 					}
 				}
@@ -321,7 +321,7 @@ public class AlgoZart {
 		// for each frequent itemsets of size i-1
 		for(Itemset l : tableFrequent.getLevelForZart(i-1)){
 			// if the key value is set to true and it is not closed
-			if(tableFrequent.mapKey.get(l) == true && tableFrequent.mapClosed.get(l) == false){
+			if(tableFrequent.mapKey.get(l) && !tableFrequent.mapClosed.get(l)){
 				// then add it to the list of generators
 				frequentGeneratorsFG.add(l);
 			}
@@ -429,7 +429,7 @@ public class AlgoZart {
 					}
 				}
 				// if the current subset of S is not frequent
-				if(found == false){ 
+				if(!found){
 					// then we remove it from the candidates
 					tableCandidate.levels.get(i).remove(c);
 				}else{
@@ -445,7 +445,7 @@ public class AlgoZart {
 						tableCandidate.mapPredSupp.put(c, tableCandidate.mapPredSupp.get(c));
 					}
 					// After that, if the previous occurrence has the key set to false
-					if(tableFrequent.mapKey.get(occurenceS) == false){  // 12 
+					if(!tableFrequent.mapKey.get(occurenceS)){  // 12
 						// we will also set it to false in the table of candidates
 						tableCandidate.mapKey.put(c, false); 
 					}
@@ -456,7 +456,7 @@ public class AlgoZart {
 			// finally, if the key of the candidate c has been set to false
 			// then we will set its support to the support stored in the
 			// table of candidates.
-			if(tableCandidate.mapKey.get(c) == false){
+			if(!tableCandidate.mapKey.get(c)){
 				c.setAbsoluteSupport(tableCandidate.mapPredSupp.get(c));
 			}
 		}
@@ -486,7 +486,7 @@ public class AlgoZart {
 	 * It is similar to the Apriori candidate generation.
 	 * @param size  the size i
 	 */
-	protected void prepareCandidateSizeI(int size) {
+    private void prepareCandidateSizeI(int size) {
 		// add a new list in candidates to store the candidates of size i
 		tableCandidate.levels.add(new ArrayList<Itemset>());
 		

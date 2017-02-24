@@ -103,8 +103,6 @@ public class ArraysAlgos {
 	
 	/**
 	 * This method performs the intersection of two sorted arrays of integers and return a new sorted array.
-	 * @param a the first array
-	 * @param b the second array
 	 * @return the resulting sorted array
 	 */
 	public static int[] intersectTwoSortedArrays(int[] array1, int[] array2){
@@ -258,7 +256,6 @@ loop1:		for(int i =0; i < itemset2.length; i++){
 	/**
 	 * Check if a sorted itemset is contained in another
 	 * @param itemset1 the first itemset
-	 * @param length of the first itemset
 	 * @param itemset2 the second itemset
 	 * @return true if yes, otherwise false
 	 */

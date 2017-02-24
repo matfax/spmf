@@ -39,11 +39,11 @@ import java.util.Hashtable;
  */
 public class Algo_estDec {
 	// the "monitoring lattice" tree
-	estTree tree;
+    private estTree tree;
 	
 	// for stats
 	private long miningTime = 0; 
-	double sumTransactionInsertionTime = 0; // sum of time for inserting transactions
+	private double sumTransactionInsertionTime = 0; // sum of time for inserting transactions
 	
 	private double maxMemory = 0;
 
@@ -61,13 +61,11 @@ public class Algo_estDec {
 	/**
 	 * Run the algorithm by loading the transactions from an input file.
 	 * @param input   the input file path
-	 * @param output  the output file path for saving the result
-	 * @param mins    the minsup threshold as a double value in [0, 1]
 	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 
 		// read the input file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
@@ -95,14 +93,12 @@ public class Algo_estDec {
 	/**
 	 * Run the algorithm by loading the transactions from an input file.
 	 * @param input   the input file path
-	 * @param output  the output file path for saving the result
-	 * @param mins    the minsup threshold as a double value in [0, 1]
 	 * @param lineCount the number of lines to be read
 	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input, int lineCount)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 
 		// read the input file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
@@ -148,8 +144,7 @@ public class Algo_estDec {
 	 * Mine recent frequent itemsets from the current tree and 
 	 * save the result to memory
 	 * @throws IOException
-	 * @param outputPath the output file path
-	 * @return 
+	 * @return
 	 */
 	public Hashtable<int[], Double> performMining_saveResultToMemory() throws IOException {
 		// Perform mining

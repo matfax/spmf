@@ -66,7 +66,6 @@ public class Itemset extends AbstractOrderedItemset{
 	
 	/**
 	 * Constructor 
-	 * @param items a list of Integer representing items in the itemset
 	 * @param support the support of the itemset
 	 */
 	public Itemset(List<Integer> itemset, int support){
@@ -147,7 +146,7 @@ public class Itemset extends AbstractOrderedItemset{
 		// for each item of this itemset
 		for(int j =0; j < itemset.length; j++){
 			// copy the item except if it is not an item that should be excluded
-			if(itemsetToNotKeep.contains(itemset[j]) == false){
+			if(!itemsetToNotKeep.contains(itemset[j])){
 				newItemset[i++] = itemset[j];
 			}
 		}

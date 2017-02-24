@@ -180,7 +180,7 @@ public class ItemValued extends ItemSimple{
 	 * Get the minimum value associated to this item.
 	 * @return a double value
 	 */
-	public double getMin() {
+    private double getMin() {
 		return min;
 	}
 
@@ -188,7 +188,7 @@ public class ItemValued extends ItemSimple{
 	 * Get the maximum value associated to this item.
 	 * @return a double value
 	 */
-	public double getMax() {
+    private double getMax() {
 		return max;
 	}
 

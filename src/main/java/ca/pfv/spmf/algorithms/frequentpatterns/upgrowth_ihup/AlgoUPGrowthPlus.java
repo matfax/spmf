@@ -96,7 +96,7 @@ public class AlgoUPGrowthPlus {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
@@ -145,7 +145,7 @@ public class AlgoUPGrowthPlus {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
@@ -249,7 +249,7 @@ public class AlgoUPGrowthPlus {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
@@ -347,7 +347,7 @@ public class AlgoUPGrowthPlus {
 	 * @param minUtility minimum utility threshold
 	 * @param prefix the prefix itemset
 	 */
-	private void upgrowthPlus(UPTreePlus tree, int minUtility, int[] prefix) throws IOException {
+	private void upgrowthPlus(UPTreePlus tree, int minUtility, int[] prefix) {
 
 		// For each item in the header table list of the tree in reverse order.
 		for (int i = tree.headerList.size() - 1; i >= 0; i--) {
@@ -544,11 +544,9 @@ public class AlgoUPGrowthPlus {
 	/**
 	 * Update the exact utility of an itemset given a transaction
 	 * It assumes that itemsets are sorted according to the lexical order.
-	 * @param itemset1 the first itemset
-	 * @param itemset2 the second itemset
 	 * @return true if the first itemset contains the second itemset
 	 */
-	public void updateExactUtility(List<Item> transaction, Itemset itemset){
+    private void updateExactUtility(List<Item> transaction, Itemset itemset){
 		int utility = 0;
 			// for each item in the  itemset
 loop1:		for(int i =0; i < itemset.size(); i++){
@@ -580,7 +578,6 @@ loop1:		for(int i =0; i < itemset.size(); i++){
 	/**
 	 * Write a HUI to the output file
 	 * @param HUI
-	 * @param utility
 	 * @throws IOException
 	 */
 	private void writeOut(Itemset HUI) throws IOException {

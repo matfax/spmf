@@ -54,17 +54,17 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoBIDEPlus{
 		
 	/** for statistics **/
-	long startTime;
-	long endTime;
+	private long startTime;
+	private long endTime;
 	
 	/** the number of pattern found */
-	public int patternCount;
+	private int patternCount;
 	
 	/** absolute minimum support */
 	private int minsuppAbsolute;
 
 	/** writer to write output file */
-	BufferedWriter writer = null;
+	private BufferedWriter writer = null;
 	
 	/** The sequential patterns that are found  (if the user want to keep them into memory) */
 	private SequentialPatterns patterns = null;
@@ -73,53 +73,53 @@ public class AlgoBIDEPlus{
 	private int maximumPatternLength = Integer.MAX_VALUE;
 	
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+	private boolean showSequenceIdentifiers = false;
 	
 	/** buffer for storing the current pattern that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	private int[] patternBuffer = new int[BUFFERS_SIZE];
 	
 	/** original sequence count **/
-	int sequenceCount = 0;
+	private int sequenceCount = 0;
 	
 	/** the sequence database **/
-	SequenceDatabase sequenceDatabase;
+	private SequenceDatabase sequenceDatabase;
 	
 	/** boolean indicating whether this database contains itemsets with multiple items or not */
-	boolean containsItemsetsWithMultipleItems = false;
+	private boolean containsItemsetsWithMultipleItems = false;
 	
 	/**
 	 * A set that is used to remember which items we have already seen in a sequence. It is
 	 * a variable reused by various methods, to save memory 
 	 */
-	Set<Integer> alreadySeen = new HashSet<Integer>();
+	private Set<Integer> alreadySeen = new HashSet<Integer>();
 	/**
 	 * A set that is used to remember which items we have already seen in a sequence. It is
 	 * a variable reused by various methods, to save memory 
 	 */
-	Set<Integer> alreadySeenPostfix = new HashSet<Integer>();
+	private Set<Integer> alreadySeenPostfix = new HashSet<Integer>();
 	/**
 	 * A set that is used to remember which items we have already seen in a sequence. It is
 	 * a variable reused by various methods, to save memory 
 	 */
-	Set<Integer> alreadySeenSuffix = new HashSet<Integer>();
+	private Set<Integer> alreadySeenSuffix = new HashSet<Integer>();
 	
 	/**
 	 * A variable reused by various method for counting the support of items that can extend a sequential pattern
 	 * by s-extension in a projected database
 	 */
-	Map<Integer,Integer> mapItemSupport = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> mapItemSupport = new HashMap<Integer,Integer>();
 	/**
 	 * A variable reused by various method for counting the support of items that can extend a sequential pattern
 	 * by i-extension (as part of a postfix) in a projected database
 	 */
-	Map<Integer,Integer> mapsItemSupportPostfix = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> mapsItemSupportPostfix = new HashMap<Integer,Integer>();
 	/**
 	 * A variable reused by various method for counting the support of items that can extend a sequential pattern
 	 * by i-extension (as part of a suffix) in a projected database
 	 */
-	Map<Integer,Integer> mapsItemSupportSuffix = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> mapsItemSupportSuffix = new HashMap<Integer,Integer>();
 	
 	/**
 	 * Default constructor
@@ -292,7 +292,6 @@ public class AlgoBIDEPlus{
 						System.arraycopy(sequence, 0, newSequence, 0, currentPosition+1);
 						sequenceDatabase.getSequences().set(i, newSequence);
 						// continue to next sequence
-						continue; 
 					}else{
 						// if the sequence is  empty, delete this sequence by replacing it with null
 						sequenceDatabase.getSequences().set(i, null);
@@ -353,7 +352,6 @@ public class AlgoBIDEPlus{
 	 * This method checks if the current pattern respects the backscan pruning condition of the BIDE+ algorithm (if it
 	 * should not be pruned).
 	 * It is optimized for patterns containing a single item.
-	 * @param the item the pattern consisting of a single item
 	 * @param sequenceIDs the identifiers of the sequences containing this pattern
 	 * @return true if there is no backward extension. Otherwise, false.
 	 */
@@ -392,7 +390,7 @@ public class AlgoBIDEPlus{
 						// and it is not the item used for projection, we increase its support by 1.
 						// We first make sure that we have not updated the support of this item
 						// already for the current sequence.
-						if(alreadySeen.contains(token) == false){
+						if(!alreadySeen.contains(token)){
 							// Get the support of that item
 							Integer itemSupport = mapItemSupport.get(token);
 							// increase the support
@@ -436,7 +434,6 @@ public class AlgoBIDEPlus{
 	/**
 	 * This method checks if the current pattern has a backward extension.
 	 * This method is optimized for patterns containing a single item.
-	 * @param the item a pattern consisting of a single item
 	 * @param sequenceIDs the identifiers of the sequences containing this pattern
 	 * @return true if there is no backward extension. Otherwise false.
 	 */
@@ -476,7 +473,7 @@ public class AlgoBIDEPlus{
 						// and it is not the item used for projection, we update its support
 						// We first make sure that we have not updated the support of this item
 						// already for the current sequence.
-						if(alreadySeen.contains(token) == false){
+						if(!alreadySeen.contains(token)){
 							Integer itemSupport = mapItemSupport.get(token);
 							if(itemSupport == null){
 								itemSupport = 1;
@@ -578,7 +575,6 @@ public class AlgoBIDEPlus{
 						System.arraycopy(sequence, 0, newSequence, 0, currentPosition+1);
 						sequenceDatabase.getSequences().set(i, newSequence);
 						// continue to next sequence
-						continue; 
 					}else{
 						// If the sequence is  empty after having removed the infrequent items, 
 						// we delete this sequence by replacing it with null.
@@ -715,7 +711,7 @@ public class AlgoBIDEPlus{
 					// if it can be a postfix extension
 					if(couldBePostfixExtension){
 						// and if we have not seen that item yet as a postfix extension in that sequence
-						if(alreadySeenPostfix.contains(token) == false){
+						if(!alreadySeenPostfix.contains(token)){
 							// update the support of that item as a postfix of the current pattern 
 							Integer itemSupport = mapsItemSupportPostfix.get(token);
 							if(itemSupport == null){
@@ -742,7 +738,7 @@ public class AlgoBIDEPlus{
 					// If the item can be an s-extension of the current pattern
 					if(couldBeExtension){
 						// and if we have not seen that item yet as an s-extension in that sequence
-						if(alreadySeen.contains(token) == false){
+						if(!alreadySeen.contains(token)){
 							// Get the support of that item in the current projected 
 							Integer itemSupport = mapItemSupport.get(token);
 							// increase the support
@@ -836,7 +832,7 @@ public class AlgoBIDEPlus{
 					// if the current item would NOT be in the same itemset as the pattern
 					if(i < posItemset){
 						// If we did not see this item yet in this sequence
-						if(alreadySeen.contains(token) == false){
+						if(!alreadySeen.contains(token)){
 							// Get its support
 							Integer itemSupport = mapItemSupport.get(token);
 							// Increase its support by 1
@@ -862,7 +858,7 @@ public class AlgoBIDEPlus{
 						
 					}else{
 						// If we did not see this item yet in this sequence
-						if(alreadySeenPostfix.contains(token) == false){
+						if(!alreadySeenPostfix.contains(token)){
 							// Get its support
 							Integer itemSupport = mapsItemSupportPostfix.get(token);
 							// Increase its support by 1
@@ -947,7 +943,6 @@ public class AlgoBIDEPlus{
 	 * Save a pattern containing two or more items to the output file (or in memory, depending on what the user prefer)
 	 * @param lastBufferPosition the last position in the buffer for this pattern
 	 * @param pseudoSequences the list of pseudosequences where this pattern appears.
-	 * @param length the pattern length in terms of number of items.
 	 * @throws IOException if error when writing to file
 	 */
 	private void savePattern(int lastBufferPosition, List<PseudoSequence> pseudoSequences) throws IOException {
@@ -963,7 +958,7 @@ public class AlgoBIDEPlus{
 				// append the element
 				r.append(patternBuffer[i]);
 				// if this database does not have multiple items per itemset in sequence
-				if(containsItemsetsWithMultipleItems == false){
+				if(!containsItemsetsWithMultipleItems){
 					// append the -1 separator
 					r.append(" -1");
 				}
@@ -971,7 +966,7 @@ public class AlgoBIDEPlus{
 			}
 			
 			// if this database does not have multiple items per itemset in sequence
-			if(containsItemsetsWithMultipleItems == false){
+			if(!containsItemsetsWithMultipleItems){
 				r.append("-1 ");
 			}
 			
@@ -1087,7 +1082,6 @@ public class AlgoBIDEPlus{
 	 * Create a projected database by pseudo-projection with the initial database and a given item.
 	 * This method is optimized for the case of a database containing a single item per itemset in sequences
 	 * @param item The item to use to make the pseudo-projection
-	 * @param list  The list of sequence ids containing the item
 	 * @return the projected database.
 	 */
 	private List<PseudoSequence> buildProjectedDatabaseSingleItems(int item, List<Integer> sequenceIDs) {
@@ -1125,7 +1119,6 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	 * Create a projected database by pseudo-projection with the initial database and a given item.
 	 * This method is optimized for the case of sequences that may contain multiple items per itemset.
 	 * @param item The item to use to make the pseudo-projection
-	 * @param list  The list of sequence ids containing the item
 	 * @return the projected database.
 	 */
 	private List<PseudoSequence> buildProjectedDatabaseFirstTimeMultipleItems(int item, List<Integer> sequenceIDs) {
@@ -1144,7 +1137,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 				if(token == item){
 					// if it is not the end of the sequence
 					boolean isEndOfSequence = sequence[j+1] == -1 && sequence[j+2] == -2;
-					if(isEndOfSequence == false){
+					if(!isEndOfSequence){
 						// Create a pseudo-sequence by cutting that sequence at position j, so that items from
 						// position j+1 and after remains in the sequence
 						PseudoSequence pseudoSequence = new PseudoSequence(sequenceID, j+1);
@@ -1286,7 +1279,7 @@ loopSeq:	for(int k =0; k < projectedDatabase.size(); k++){
 							// if it is an item that appear before the item that we are looking for
 							// and we did not count its support yet for this sequence
 							// and it is between the previous item that we are looking for an the one that we are looking for
-							if(alreadySeen.contains(token) == false && currentPositionToMatch == i){
+							if(!alreadySeen.contains(token) && currentPositionToMatch == i){
 								Integer itemSupport = mapItemSupport.get(token);
 								if(itemSupport == null){
 									itemSupport = 1;
@@ -1328,7 +1321,6 @@ loopSeq:	for(int k =0; k < projectedDatabase.size(); k++){
 	 * This method checks if the current pattern respect the backscan pruning condition.
 	 * This method is optimized for sequence databases that may contain only a single item per itemset in sequences
 	 * @param lastBufferPosition the last position used in the buffer for storing the current prefix
-	 * @param sequenceIDs the ids of sequences containing this pattern
 	 * @return true if there is not backward extension. Otherwise false.
 	 */
 	private boolean checkBackwardExtensionSingleItems(int lastBufferPosition, List<PseudoSequence> projectedDatabase) {
@@ -1398,7 +1390,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 							// if it is an item that appear before the item  ei and after ei-1
 							// and we did not count its support yet for this sequence
 							// and it is between the item that we are looking for and the one after
-							if(currentPositionToMatch == i-1 && alreadySeen.contains(token) == false){
+							if(currentPositionToMatch == i-1 && !alreadySeen.contains(token)){
 								Integer itemSupport = mapItemSupport.get(token);
 								if(itemSupport == null){
 									itemSupport = 1;
@@ -1872,7 +1864,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 
 				// END FOR TOKEN
 				
-				if(hasFoundExtension == true){
+				if(hasFoundExtension){
 					return false;
 				}
 				
@@ -1919,10 +1911,10 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 //		}
 		
 		// we will check the backscan pruning condition for each item in the current pattern
-loopi:	for(int i=0; i <= lastBufferPosition; i++){
+		for (int i = 0; i <= lastBufferPosition; i++) {
 			// As an optimization, we will use a variable to remember the highest support until now.
 			int highestSupportUntilNow = 0;
-			
+
 //			if(lastBufferPosition == 2 && patternBuffer[0] == 5 && patternBuffer[1] == -1 && patternBuffer[2] == 2){
 //				System.out.println("POS: " + i);
 //			}
@@ -1931,41 +1923,41 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 //				System.out.println("POS: " + i);
 //			}
 
-			
+
 			// =======  IMPORTANT ==============
 			// skip if there is a -1 (an itemset separator)
-			if(patternBuffer[i] == -1){
+			if (patternBuffer[i] == -1) {
 				continue;
 			}
 			//===================================
-			
+
 			//===========================================
 			// ====== REALLY IMPORTANT ==================
 			// if the position before i is a -1 in the pattern buffer,
 			// we backward one more position to get the real position of
 			// ei-1 in the buffer.
-			int posIminus1 = i-1;
-			if(i>0 && patternBuffer[i-1] == -1){
+			int posIminus1 = i - 1;
+			if (i > 0 && patternBuffer[i - 1] == -1) {
 				posIminus1--;
 			}
 			// ==========================================
 			//===========================================
-			
+
 			// We use three maps the store the support of possible item that could be used for the backscan pruning
 			mapItemSupport.clear();
 			mapsItemSupportPostfix.clear();
 			mapsItemSupportSuffix.clear();
-			
+
 			// for each sequence where the pattern appears
-			for(int k =0; k < sequences.size(); k++){
+			for (int k = 0; k < sequences.size(); k++) {
 
 
 				PseudoSequence pseudoSequence = sequences.get(k);
-				int sid =+ pseudoSequence.getOriginalSequenceID();
+				int sid = +pseudoSequence.getOriginalSequenceID();
 				int[] sequence = sequenceDatabase.getSequences().get(sid);
-				
-				if(lastBufferPosition == 1 && 
-						patternBuffer[0] == 4 && patternBuffer[1] == 5 ){
+
+				if (lastBufferPosition == 1 &&
+						patternBuffer[0] == 4 && patternBuffer[1] == 5) {
 					System.out.println("pos = " + i);
 					System.out.println(Arrays.toString(sequence));
 				}
@@ -1973,14 +1965,14 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 				alreadySeen.clear();
 				alreadySeenPostfix.clear();
 				alreadySeenSuffix.clear();
-			
+
 
 				//======================================================
 				// FIRST we will try to match  e1, e2, ei-1, Ei
 				// (all items before the position of the current item ei and also ei)
 				// Note that it is possible that ei, ei+1... appears in the same itemset as ei-1.
 				// Also note that between ei-1 and ei, there might be a -1 between them in the pattenr buffer. 
-				
+
 				// This variable is used to remember the begining of the current itemset in the pattern
 				int resetPosition = 0;
 				// This variable is used to remember the position of the current item to match in the pattern
@@ -1989,158 +1981,154 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 				int posItemFirst = 0;
 				// This is the position of the first item of the itemset in the sequence containing ei-1
 				int posItemsetFirst = 0;
-				
+
 				// The position of the item ei if it is found
 				int posItemLast = 9999;
 				// This is the position of the first item in the itemset in containing ei
 				int posLastItemset = 0;
-				
+
 				// IMPORTANT =================
 				int firstBufferPositioninEIm1Itemset = -1;
-				
+
 //				if ( i>1){
 //					System.out.println("TEST");
 //				}
-				
+
 				// For each item in the sequence...
-				for(int j = 0; ; j++){
+				for (int j = 0; ; j++) {
 					// This is the current item in the sequence.
 					int token = sequence[j];
-					
+
 					// IF it is the end of an itemset in the sequence
 					// it means that we have not matched the whole itemset of the pattern
-					if(token == -1){
+					if (token == -1) {
 						// thus we need to restart trying to match the current itemset of the pattern
-						currentPositionToMatch = resetPosition; 
-						if(currentPositionToMatch <= posIminus1){
-							posItemsetFirst = j+1;
+						currentPositionToMatch = resetPosition;
+						if (currentPositionToMatch <= posIminus1) {
+							posItemsetFirst = j + 1;
 							posItemFirst = -999;
 							firstBufferPositioninEIm1Itemset = -1;
 						}
-						posLastItemset = j+1;
+						posLastItemset = j + 1;
 						posItemLast = 99999;
 					}
-					
-					if(token > 0){
+
+					if (token > 0) {
 						// If it is an item that we want to match
-						if(token == patternBuffer[currentPositionToMatch]){
+						if (token == patternBuffer[currentPositionToMatch]) {
 							// IMPORTANT: 
 							// Remember the first buffer position that match for the itemset that
 							// may contain ei-1
-							if(firstBufferPositioninEIm1Itemset == -1 && currentPositionToMatch <= posIminus1){
+							if (firstBufferPositioninEIm1Itemset == -1 && currentPositionToMatch <= posIminus1) {
 								firstBufferPositioninEIm1Itemset = currentPositionToMatch;
 							}
-							
+
 							// if it is ei-1 we will save its position
-							if(currentPositionToMatch == posIminus1){
-								posItemFirst = j+1;   // IMPORTANT :::::: +1
+							if (currentPositionToMatch == posIminus1) {
+								posItemFirst = j + 1;   // IMPORTANT :::::: +1
 							}
 							// if it is ei we will save its position
-							else if(currentPositionToMatch == i){
-								posItemLast = (j == 0) ? j : j-1;  // IMPORTANT :::::: -1
-								
+							else if (currentPositionToMatch == i) {
+								posItemLast = (j == 0) ? j : j - 1;  // IMPORTANT :::::: -1
+
 							}
-	
+
 							// increase the position to look for
 							currentPositionToMatch++;
-						
+
 							// if we have matched the full itemset in the pattern and 
 							// and that itemset contained ei, then we can stop here
-							if(currentPositionToMatch > lastBufferPosition ||
-									patternBuffer[currentPositionToMatch] == -1 
-									){
-								if(currentPositionToMatch >= i ){
+							if (currentPositionToMatch > lastBufferPosition ||
+									patternBuffer[currentPositionToMatch] == -1
+									) {
+								if (currentPositionToMatch >= i) {
 									break;
 								}
-								
+
 
 								// ======= IMPORTANT ======
 								// We move to the next position in the buffer because
 								// the current position is a -1
 								currentPositionToMatch++;
 								//==========================
-								
+
 								// Since we have matched a full itemset of the pattern, 
 								// next time, we will start to match from the next position
 								resetPosition = currentPositionToMatch;
-								
+
 							}
 						}
 					}
 				}
-				
+
 //				System.out.println(" " + posItemFirst + "  " + posItemLast);
-				
+
 				// IMPORTANT:
-				if(firstBufferPositioninEIm1Itemset == -1){
+				if (firstBufferPositioninEIm1Itemset == -1) {
 					firstBufferPositioninEIm1Itemset = 0;
 				}
-			
-			///=================================================================================
-			// NEXT WE WILL UPDATE THE SUPPORT OF ITEMS in the  ]posItemFirst, posItemLast[ interval,
-		   // in other words in the ]first occurrence of ei-1, last occurrence of ei[ interval
-				
-			// First, we will update the support the support of all the item in the postfix of the itemset containing
-		    // the item "ei - 1".
-			// We do this, if the itemset containing ei-1 is a postfix
-				
-			// FIND The last item in the itemset containing ei
-			int endOfLastItemset = posItemLast;
-			while(sequence[endOfLastItemset+1] != -1){
-				endOfLastItemset++;
-			}
-			
-			
-			int endOfLastBufferItemset = i;
-			while(true){
-				if(endOfLastBufferItemset == lastBufferPosition){
-					break;
+
+				///=================================================================================
+				// NEXT WE WILL UPDATE THE SUPPORT OF ITEMS in the  ]posItemFirst, posItemLast[ interval,
+				// in other words in the ]first occurrence of ei-1, last occurrence of ei[ interval
+
+				// First, we will update the support the support of all the item in the postfix of the itemset containing
+				// the item "ei - 1".
+				// We do this, if the itemset containing ei-1 is a postfix
+
+				// FIND The last item in the itemset containing ei
+				int endOfLastItemset = posItemLast;
+				while (sequence[endOfLastItemset + 1] != -1) {
+					endOfLastItemset++;
 				}
-				if(patternBuffer[endOfLastBufferItemset+1] != -1){
-					endOfLastBufferItemset++;
-				}
-				else{
-					break;
-				}
-			}
-			
-			
-			// Recursive call
-			hasFoundExtension = false;
-			boolean eim1WasSeen = i == 0;
-			recursiveExtensionChecking(sequence, 
-					posItemsetFirst, firstBufferPositioninEIm1Itemset, posIminus1, i, 
-				    endOfLastItemset, eim1WasSeen,
-				    sequences.size(), endOfLastBufferItemset);
 
 
-			// END FOR TOKEN
-			
-			if(hasFoundExtension == true){
-				return false;
-			}
-			
+				int endOfLastBufferItemset = i;
+				while (true) {
+					if (endOfLastBufferItemset == lastBufferPosition) {
+						break;
+					}
+					if (patternBuffer[endOfLastBufferItemset + 1] != -1) {
+						endOfLastBufferItemset++;
+					} else {
+						break;
+					}
+				}
+
+
+				// Recursive call
+				hasFoundExtension = false;
+				boolean eim1WasSeen = i == 0;
+				recursiveExtensionChecking(sequence,
+						posItemsetFirst, firstBufferPositioninEIm1Itemset, posIminus1, i,
+						endOfLastItemset, eim1WasSeen,
+						sequences.size(), endOfLastBufferItemset);
+
+
+				// END FOR TOKEN
+
+				if (hasFoundExtension) {
+					return false;
+				}
+
 //			// Optimization: if there is not enough sequences left for finding a backward extension given
 //			// the highest support found until now, we can know that there will not be any backward extension for that pattern.
 //			if(highestSupportUntilNow + (sequences.size() - k - 1) < sequences.size()) {
 //				continue loopi;
 //			}
-			
+
 			} // END FOR EACH SEQUENCE
 		} // END FOR EACH i
 
 		return true;
 	}
 	
-	boolean hasFoundExtension = false;
+	private boolean hasFoundExtension = false;
 
 	/**
 	 * This method attemps to match an itemset and update the maps accordingly
 	 * @param sequence  a sequence from the database
-	 * @param min  the position of the first item to be checked in the itemset containing ei-1
-	 * @param max   the position of the first item to be checked in the itemset containing ei
-	 * @param highestSupportUntilNow 
-	 * @param posIminus1 
+	 * @param posIminus1
 	 * @param endOfLastItemset 
 	 * @param lastBufferPosition 
 	 * @return true if all the following itemsets in the buffer have matched. Otherwise, false.
@@ -2264,7 +2252,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 							// If item ei  
 							// If the item is a postfix
 							if(posEim1 != -1 && k > posEim1){
-								if(alreadySeenPostfix.contains(item) == false){
+								if(!alreadySeenPostfix.contains(item)){
 									Integer itemSupport = mapsItemSupportPostfix.get(item);
 									itemSupport = (itemSupport == null) ? 1: itemSupport+1;
 									if(itemSupport ==  supportOfPattern){
@@ -2279,7 +2267,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 							}
 							
 							if(posEi != -1 && k < posEi){
-								if(alreadySeenSuffix.contains(item) == false){
+								if(!alreadySeenSuffix.contains(item)){
 									Integer itemSupport = mapsItemSupportSuffix.get(item);
 									itemSupport = (itemSupport == null) ? 1: itemSupport+1;
 									if(itemSupport ==  supportOfPattern){
@@ -2294,7 +2282,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 							}
 							
 							if(eim1WasSeen && posEim1 == -1 && posEi == -1){
-								if(alreadySeen.contains(item) == false){
+								if(!alreadySeen.contains(item)){
 									Integer itemSupport = mapItemSupport.get(item);
 									itemSupport = (itemSupport == null) ? 1: itemSupport+1;
 									if(itemSupport ==  supportOfPattern){
@@ -2327,12 +2315,11 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 	 * Method to find all frequent items in a projected sequence database
 	 * This method is optimized for sequence databases that may contain no more than an item per itemset in sequences
 	 * @param sequences  the set of sequences
-	 * @param patternBuffer  the current sequential pattern that we want to try to grow
 	 * @param lastBufferPosition the last position used in the buffer for storing the current prefix
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Map<Integer,List<PseudoSequence>>  findAllFrequentPairsSingleItems(List<PseudoSequence> sequences, int lastBufferPosition){
+	private Map<Integer,List<PseudoSequence>>  findAllFrequentPairsSingleItems(List<PseudoSequence> sequences, int lastBufferPosition){
 		// We use a Map the store the pairs.
 		Map<Integer,List<PseudoSequence>>  mapItemsPseudoSequences = new HashMap<Integer,List<PseudoSequence>>();
 
@@ -2383,16 +2370,16 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 	public class MapFrequentPairs{
 	    public final Map<Pair, Pair>  mapPairs = new HashMap<Pair, Pair>();
 	    public final Map<Pair, Pair>  mapPairsInPostfix = new HashMap<Pair, Pair>();
-	};
+	}
 
-	/**
+    /**
 	 * Method to find all frequent items in a projected sequence database
 	 * @param sequences  the set of sequences
 	 * @param lastBufferPosition the last position used in the buffer for storing the current prefix
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected MapFrequentPairs findAllFrequentPairs(List<PseudoSequence> sequences, int lastBufferPosition){
+	private MapFrequentPairs findAllFrequentPairs(List<PseudoSequence> sequences, int lastBufferPosition){
 		// We use an object containing two maps the store the pairs.
 		MapFrequentPairs mapsPairs = new MapFrequentPairs();
 		
@@ -2404,9 +2391,9 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 				firstPositionOfLastItemsetInBuffer++;
 				break;
 			}
-		};
-		
-		// use a variable to try to match the last itemset of the pattern in the buffer
+		}
+
+        // use a variable to try to match the last itemset of the pattern in the buffer
 		int positionToBeMatched = firstPositionOfLastItemsetInBuffer;
 		
 		// for each sequence
@@ -2466,7 +2453,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 					///////// ====== IMPORTANT =========
 					// if the current itemset is a postfix and it is not the first itemset
 					// we must also consider that it may not be a postfix for extending the current prefix
-					if(currentItemsetIsPostfix && isFirstItemset == false){
+					if(currentItemsetIsPostfix && !isFirstItemset){
 						// create the pair corresponding to this item
 						 pair = new Pair(token);     // FALSE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 						// get the pair object store in the map if there is one already
@@ -2494,7 +2481,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 					//////////////////////////////////////////////////////////
 
 					//  try to match this item with the last itemset in the prefix
-					if(currentItemsetIsPostfix == false && patternBuffer[positionToBeMatched] == token){
+					if(!currentItemsetIsPostfix && patternBuffer[positionToBeMatched] == token){
 						positionToBeMatched++;
 						if(positionToBeMatched > lastBufferPosition){
 							currentItemsetIsPostfix = true;

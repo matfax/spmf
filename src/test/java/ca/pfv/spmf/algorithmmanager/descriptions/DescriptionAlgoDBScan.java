@@ -58,7 +58,7 @@ public class DescriptionAlgoDBScan extends DescriptionOfAlgorithm {
 		double epsilon = getParamAsDouble(parameters[1]);
 		
 		String separator;
-		if (parameters.length > 2 && "".equals(parameters[2]) == false) {
+		if (parameters.length > 2 && !"".equals(parameters[2])) {
 			separator = getParamAsString(parameters[2]);
 		}else{
 			separator = " ";

@@ -48,34 +48,34 @@ import java.util.Map;
 public class AlgoHUGMiner {
 
 	/** maximum memory usage */
-	public double maxMemory = 0;    
+    private double maxMemory = 0;
 	/** start time of the algorithm */
-	public long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** end time of the algorithm */
-	public long endTimestamp = 0;   
+    private long endTimestamp = 0;
 	/** number of HUGs found */
-	public int hugsCount =0;  
+    private int hugsCount =0;
 	
 	/** number of candidates considered by the algorithm */
-	public long candidateCount =0;
+    private long candidateCount =0;
 	/** number of candidates avoided by FHM (EUCP) pruning */
-	public long candidateAvoidedbyFHMPruning =0;
+    private long candidateAvoidedbyFHMPruning =0;
 	
 	/** number of times that an itemset was checked if it was a generator */
-	public long generatorChecks = 0;
+    private long generatorChecks = 0;
 	/** number of times that the generator check was stoped early due to optimizations */
-	public long partiallyAvoidedOrAvoidedGeneratorChecks = 0;
+    private long partiallyAvoidedOrAvoidedGeneratorChecks = 0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** NEW OPTIMIZATION - Structure used by the EUCP strategy (as in the FHM paper)
 	 Key: for an item x, 
 	 Value: a map of item where key is an item y and value is the TWU of {x,y} */
-	Map<Integer, Map<Integer, Integer>> mapFMAP;  
+    private Map<Integer, Map<Integer, Integer>> mapFMAP;
 	
 	/** number of transaction in the database */
 	private int transactionCount = 0;
@@ -91,10 +91,10 @@ public class AlgoHUGMiner {
 	/* the idea is to always reuse the same buffer to reduce memory usage. */
 	private int[] itemsetBuffer = null;
 	/** The default buffer size */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	
 	/** enable LA-prune pruning strategy (as in the HUP-Miner paper)*/
-	boolean enableLAPrune = true;
+    private boolean enableLAPrune = true;
 	
 	/**
 	 * Default constructor
@@ -143,7 +143,7 @@ public class AlgoHUGMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' 		|| thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' 		|| thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -213,7 +213,7 @@ public class AlgoHUGMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -753,7 +753,7 @@ public class AlgoHUGMiner {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 		System.out.println("=============  HUG-Miner ALGORITHM - SPMF 0.97e - STATS =============");
 		System.out.println("   Candidate count : "             + candidateCount  + "     (avoided by EUCP strategy : " + candidateAvoidedbyFHMPruning 
 				+ ")\n"

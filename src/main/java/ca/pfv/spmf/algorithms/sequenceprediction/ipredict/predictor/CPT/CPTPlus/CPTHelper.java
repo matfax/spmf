@@ -19,7 +19,7 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
  */
 public class CPTHelper {
 
-	public CPTPlusPredictor predictor;
+	private CPTPlusPredictor predictor;
 	
 	private Encoder encoder;
 	
@@ -134,7 +134,6 @@ public class CPTHelper {
 	/**
 	 * Return a bit vector representing the set of similar sequence of the specified sequence
 	 * @param sequence The sequence to used to find similar sequences
-	 * @param II The inverted index containing the bit vectors
 	 * @return The similar sequences as a bit vector, where each bit indicate whether a sequence is similar or not
 	 */
 	public Bitvector getSimilarSequencesIds(Item[] sequence) {

@@ -61,7 +61,7 @@ public class PorterStemmer
    * the stemmer by calling add(char) and then stem(), you must call reset()
    * before starting another word.
    */
-  public void reset() { i = 0; dirty = false; }
+  private void reset() { i = 0; dirty = false; }
 
   /**
    * Add a character to the word being stemmed.  When you are finished
@@ -98,12 +98,12 @@ public class PorterStemmer
 
   /* cons(i) is true <=> b[i] is a consonant. */
 
-  private final boolean cons(int i) {
+  private boolean cons(int i) {
     switch (b[i]) {
     case 'a': case 'e': case 'i': case 'o': case 'u':
       return false;
     case 'y':
-      return (i==k0) ? true : !cons(i-1);
+      return (i == k0) || !cons(i - 1);
     default:
       return true;
     }
@@ -120,7 +120,7 @@ public class PorterStemmer
           ....
   */
 
-  private final int m() {
+  private int m() {
     int n = 0;
     int i = k0;
     while(true) {
@@ -154,7 +154,7 @@ public class PorterStemmer
 
   /* vowelinstem() is true <=> k0,...j contains a vowel */
 
-  private final boolean vowelinstem() {
+  private boolean vowelinstem() {
     int i;
     for (i = k0; i <= j; i++)
       if (! cons(i))
@@ -164,7 +164,7 @@ public class PorterStemmer
 
   /* doublec(j) is true <=> j,(j-1) contain a double consonant. */
 
-  private final boolean doublec(int j) {
+  private boolean doublec(int j) {
     if (j < k0+1)
       return false;
     if (b[j] != b[j-1])
@@ -181,7 +181,7 @@ public class PorterStemmer
 
   */
 
-  private final boolean cvc(int i) {
+  private boolean cvc(int i) {
     if (i < k0+2 || !cons(i) || cons(i-1) || !cons(i-2))
       return false;
     else {
@@ -191,7 +191,7 @@ public class PorterStemmer
     return true;
   }
 
-  private final boolean ends(String s) {
+  private boolean ends(String s) {
     int l = s.length();
     int o = k-l+1;
     if (o < k0)
@@ -206,7 +206,7 @@ public class PorterStemmer
   /* setto(s) sets (j+1),...k to the characters in the string s, readjusting
      k. */
 
-  void setto(String s) {
+  private void setto(String s) {
     int l = s.length();
     int o = j+1;
     for (int i = 0; i < l; i++)
@@ -217,7 +217,7 @@ public class PorterStemmer
 
   /* r(s) is used further down. */
 
-  void r(String s) { if (m() > 0) setto(s); }
+  private void r(String s) { if (m() > 0) setto(s); }
 
   /* step1() gets rid of plurals and -ed or -ing. e.g.
 
@@ -241,7 +241,7 @@ public class PorterStemmer
 
   */
 
-  private final void step1() {
+  private void step1() {
     if (b[k] == 's') {
       if (ends("sses")) k -= 2;
       else if (ends("ies")) setto("i");
@@ -268,7 +268,7 @@ public class PorterStemmer
 
   /* step2() turns terminal y to i when there is another vowel in the stem. */
 
-  private final void step2() {
+  private void step2() {
     if (ends("y") && vowelinstem()) {
       b[k] = 'i';
       dirty = true;
@@ -279,7 +279,7 @@ public class PorterStemmer
      -ation) maps to -ize etc. note that the string before the suffix must give
      m() > 0. */
 
-  private final void step3() {
+  private void step3() {
     if (k == k0) return; 
     switch (b[k-1]) {
     case 'a':
@@ -323,7 +323,7 @@ public class PorterStemmer
 
   /* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
 
-  private final void step4() {
+  private void step4() {
     switch (b[k]) {
     case 'e':
       if (ends("icate")) { r("ic"); break; }
@@ -345,7 +345,7 @@ public class PorterStemmer
 
   /* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
 
-  private final void step5() {
+  private void step5() {
     if (k == k0) return; 
     switch (b[k-1]) {
     case 'a':
@@ -399,7 +399,7 @@ public class PorterStemmer
 
   /* step6() removes a final -e if m() > 1. */
 
-  private final void step6() {
+  private void step6() {
     j = k;
     if (b[k] == 'e') {
       int a = m();
@@ -435,7 +435,7 @@ public class PorterStemmer
    * the input.  You can retrieve the result with
    * getResultLength()/getResultBuffer() or toString().
    */
-  public boolean stem(char[] wordBuffer, int offset, int wordLen) {
+  private boolean stem(char[] wordBuffer, int offset, int wordLen) {
     reset();
     if (b.length < wordLen) {
       char[] new_b = new char[wordLen + EXTRA];
@@ -451,7 +451,7 @@ public class PorterStemmer
    * from the input.  You can retrieve the result with
    * getResultLength()/getResultBuffer() or toString().
    */
-  public boolean stem(char[] word, int wordLen) {
+  private boolean stem(char[] word, int wordLen) {
     return stem(word, 0, wordLen);
   }
 
@@ -464,7 +464,7 @@ public class PorterStemmer
     return stem(0);
   }
 
-  public boolean stem(int i0) {
+  private boolean stem(int i0) {
     k = i - 1;
     k0 = i0;
     if (k > k0+1) {

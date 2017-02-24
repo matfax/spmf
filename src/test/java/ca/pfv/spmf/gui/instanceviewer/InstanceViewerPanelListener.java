@@ -25,14 +25,12 @@ package ca.pfv.spmf.gui.instanceviewer;
  * 
  * @author Philippe Fournier-Viger 2016
  */
-public interface InstanceViewerPanelListener {
+interface InstanceViewerPanelListener {
 	/** 
 	 * Notify listeners of the new chart position
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 * @param colorUnderMouse the color of the pixel under the mouse
-	 * @param objectUnderMouse 
-	 */
+     */
     void notifyOfNewMousePosition(double x, double y);
 
     /**

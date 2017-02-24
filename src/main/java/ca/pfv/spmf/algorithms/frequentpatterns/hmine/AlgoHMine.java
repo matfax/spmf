@@ -53,30 +53,30 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoHMine {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	/** the number of patterns generated */
-	int patternCount =0;  
+    private int patternCount =0;
 	
 	/** writer to write the output file **/
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	/** if true, debugging information will be shown in the console */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** This represent the cells in transactions in the projected databasee 
 	 * It is an array, where each  transaction appears followed by "-1". 
 	 * This is the most efficient way that I have found to implement projected databases.**/
-	int cells[];
+    private int[] cells;
 	
 	/** the minSupport threshold **/
-	int minSupport = 0;
+    private int minSupport = 0;
 	
 	/** temporary structure used to match an item to its row in a header table structure.
 	 * It is used for building each projected H structure. 
@@ -85,7 +85,7 @@ public class AlgoHMine {
 	
 	/** a class to convert old item name to new item names according to
 	 * the total oder for optimization **/
-	ItemNameConverter nameConverter;
+    private ItemNameConverter nameConverter;
 	
 	/**
 	 * Default constructor
@@ -131,7 +131,7 @@ public class AlgoHMine {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -229,7 +229,7 @@ public class AlgoHMine {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -418,8 +418,6 @@ public class AlgoHMine {
 
 	/**
 	 * Method to write an itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param support the support of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */

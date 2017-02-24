@@ -25,11 +25,11 @@ import java.util.Arrays;
  * @see Element
  * @author Philippe Fournier-Viger
  */
-public class Itemset {
+class Itemset {
 
-	int[] itemset;
-	long utility; 
-	int support;
+	private int[] itemset;
+	private long utility;
+	private int support;
 	
 	/**
 	 * Default constructor

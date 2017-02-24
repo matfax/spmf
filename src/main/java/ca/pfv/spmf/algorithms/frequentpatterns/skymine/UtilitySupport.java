@@ -26,7 +26,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class UtilitySupport {
+class UtilitySupport {
 	
 	/** a support value */
 	public int support = 0;

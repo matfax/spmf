@@ -84,7 +84,7 @@ class PseudoSequence {
 	 * @param lastItemset the last itemset index
 	 * @param lastItem  the last item index
 	 */
-	public PseudoSequence(long timeShift, PseudoSequence sequence, int indexItemset, int indexItem, int lastItemset, int lastItem){
+    private PseudoSequence(long timeShift, PseudoSequence sequence, int indexItemset, int indexItem, int lastItemset, int lastItem){
 		// save the parameters
 		this.timeShift = timeShift;
 		this.sequence = sequence.sequence;
@@ -186,7 +186,7 @@ class PseudoSequence {
 	 * @param index  the position "index"
 	 * @return  true if yes, otherwise false.
 	 */
-	public boolean isFirstItemset(int index){
+    private boolean isFirstItemset(int index){
 		return index == 0;
 	}
 	
@@ -195,7 +195,7 @@ class PseudoSequence {
 	 * @param index  the position "index"
 	 * @return  true if yes, otherwise false.
 	 */
-	public boolean isLastItemset(int index){
+    private boolean isLastItemset(int index){
 		return (index + firstItemset) == lastItemset;
 	}
 	
@@ -355,7 +355,7 @@ class PseudoSequence {
 	 * the "first instance" or "last instance", we find all instances and
 	 * they also respect the timestamps!
 	 */
-	 List<PseudoSequencePair> getAllInstancesOfPrefix(Sequence prefix, int i){
+    private List<PseudoSequencePair> getAllInstancesOfPrefix(Sequence prefix, int i){
 		List<List<Position>> listInstances  
 		  = getAllInstancesOfPrefixHelper(prefix, 0, new ArrayList<List<Position>>(), new ArrayList<Position>(), 0, 0);
 		//we cut the instances found according to the maximum size
@@ -370,13 +370,13 @@ class PseudoSequence {
 	}
 	
 	// helper for the above method
-	 List<List<Position>> getAllInstancesOfPrefixHelper(Sequence prefix, int indexItemset, 
-			 List<List<Position>> allInstances, List<Position> listPositionsTotal, 
-			long itemsetShift, int decalageItemset){
+    private List<List<Position>> getAllInstancesOfPrefixHelper(Sequence prefix, int indexItemset,
+                                                               List<List<Position>> allInstances, List<Position> listPositionsTotal,
+                                                               long itemsetShift, int decalageItemset){
 
 		for(int i=decalageItemset; i< size(); i++){
 			boolean firstTime = indexItemset ==0;
-			if(!firstTime && getTimeStamp(i)-itemsetShift != prefix.get(indexItemset).getTimestamp()){  // VÉRIFIER DÉCALAGE TEMPS
+			if(!firstTime && getTimeStamp(i)-itemsetShift != prefix.get(indexItemset).getTimestamp()){  // Vï¿½RIFIER Dï¿½CALAGE TEMPS
 				continue;
 			}
 			int indexItem =0;
@@ -387,7 +387,7 @@ class PseudoSequence {
 				int id = getItemAtInItemsetAt(j, i).getId();
 				if(id == iDCourant){// l'item match
 					listPositions.add(new Position(i,j));
-					if(listPositions.size()+ listPositionsTotal.size()	== prefix.getItemOccurencesTotalCount())  // si on a trouvé tout le préfix
+					if(listPositions.size()+ listPositionsTotal.size()	== prefix.getItemOccurencesTotalCount())  // si on a trouvï¿½ tout le prï¿½fix
 					{
 						List<Position> newList = new ArrayList<Position>(listPositionsTotal);
 						newList.addAll(listPositions);
@@ -465,10 +465,10 @@ class PseudoSequence {
 	 *                                          LL1 =  second A in S and 
 	 *                                          LL2 = third C in S
 	 * @param prefix : le prefix
-	 * @param i : le ième élément du préfixe.
+	 * @param i : le iï¿½me ï¿½lï¿½ment du prï¿½fixe.
 	 * @return the ith last-in-last appearance
 	 */
-	Position getIthLastInLastApearanceWithRespectToPrefix(Sequence prefix, int i, boolean withTimeStamps){
+    private Position getIthLastInLastApearanceWithRespectToPrefix(Sequence prefix, int i, boolean withTimeStamps){
 		// we obtain the last instance:
 		// The last instance is a PseudoSequencePair object.
 		// It consists of 
@@ -477,7 +477,7 @@ class PseudoSequence {
 		PseudoSequencePair lastInstancePair = getLastInstanceOfPrefixSequence(prefix, prefix.getItemOccurencesTotalCount());
 		
 		// IF WE DON'T USE TIMESTAMP THE "ITH LAST IN LAST" IS A LITTLE BIT COMPLICATED TO GET : 
-		if(withTimeStamps == false){
+		if(!withTimeStamps){
 			// ith item of prefix id is :
 			int iditem = prefix.getIthItem(i).getId();
 			
@@ -579,7 +579,7 @@ class PseudoSequence {
 	 * 
 	 * @return null If the result is an empty sequence.!
 	 */
-	PseudoSequence trimBeginingAndEnd(Position positionStart, Position positionEnd){
+    private PseudoSequence trimBeginingAndEnd(Position positionStart, Position positionEnd){
 		int itemsetStart = 0;
 		int itemStart =0;
 		int itemsetEnd=lastItemset;
@@ -656,10 +656,10 @@ class PseudoSequence {
 	 * If 0 <= i < n, it is the last appearance of ei in the first instance of Sp, and LFi must appear
 	 *   before LFi+1.
 	 * @param prefix : the prefix
-	 * @param i : the ième element of the prefix.
+	 * @param i : the iï¿½me element of the prefix.
 	 * @return the ith first-in-last appearance.
 	 */
-	Position getIthLastInFirstApearanceWithRespectToPrefix(Sequence prefix, int i, boolean withTimestamps){
+    private Position getIthLastInFirstApearanceWithRespectToPrefix(Sequence prefix, int i, boolean withTimestamps){
 		// First, we get the first instance.
 		// The first instance is a PseudoSequencePair object.
 		// It consists of 
@@ -668,7 +668,7 @@ class PseudoSequence {
 		PseudoSequencePair firstInstancePair = getFirstInstanceOfPrefixSequence(prefix, prefix.getItemOccurencesTotalCount());
 		
 		// IF WE DON'T USE TIMESTAMP THE "ITH LAST IN LAST" IS A LITTLE BIT COMPLICATED TO GET : 
-		if(withTimestamps == false){
+		if(!withTimestamps){
 			// ith item of prefix id is :
 			int iditem = prefix.getIthItem(i).getId();
 			

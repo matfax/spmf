@@ -30,7 +30,7 @@ import java.util.List;
  * @see MISTree
  * @author Azadeh Soltani
  */
-public class MISNode {
+class MISNode {
 	int itemID = -1;  // item represented by this node
 	int counter = 1;  // frequency counter
 	

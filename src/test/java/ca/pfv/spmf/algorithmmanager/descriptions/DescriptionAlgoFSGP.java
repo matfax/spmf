@@ -55,12 +55,12 @@ public class DescriptionAlgoFSGP extends DescriptionOfAlgorithm {
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 		
 		AlgoFSGP algo = new AlgoFSGP();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
 		}
 		
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			outputSeqIdentifiers = getParamAsBoolean(parameters[2]);
 		}
 

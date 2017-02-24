@@ -39,19 +39,19 @@ import java.util.List;
 public class AlgoClusterReader {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 	
 	/** The number of time series in the last file that was read */
-	int clusterCount = 0;
+    private int clusterCount = 0;
 	
 	/** The number of dimensions used to describe each instance */
-	int dimensionCount = 0;
+    private int dimensionCount = 0;
 	
 	/** The names of the attributes **/
 	private List<String> attributeNames = null;
@@ -99,7 +99,7 @@ public class AlgoClusterReader {
 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (thisLine.isEmpty() == true ||
+			if (thisLine.isEmpty() ||
 					thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'){
 				continue;
 			}

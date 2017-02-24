@@ -89,7 +89,7 @@ public class AlgoDim{
 	
 	// the largest Item id  that was used when converting from a mdpattern
 	// to an itemset
-	int lastUniqueItemIdGiven=0;
+    private int lastUniqueItemIdGiven=0;
 
 	/**
 	 * @param findClosedPatterns Indicates if this class has to find respectively frequent itemsets

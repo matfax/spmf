@@ -82,8 +82,7 @@ public class DistanceCorrelation extends DistanceFunction {
 	
 	/**
 	 * This method calculate the mean of a list of doubles
-	 * @param list the list of doubles
-	 * @return the mean 
+	 * @return the mean
 	 */
 	private static double calculateMean(DoubleArray vector) {
 		double sum = 0;
@@ -97,8 +96,6 @@ public class DistanceCorrelation extends DistanceFunction {
 	 * This method calculate the standard deviation of a list of double.
 	 * Note that it divides by n-1 instead of n, assuming that it is
 	 * the standard deviation of a sample rather than a population.
-	 * @param list the list of doubles
-	 * @param the man of the list of double values
 	 * @return the standard deviation
 	 */
 	private static double calculateStdDeviation(DoubleArray vector, double mean) {

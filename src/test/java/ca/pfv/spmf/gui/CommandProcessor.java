@@ -39,7 +39,7 @@ import ca.pfv.spmf.tools.resultConverter.ResultConverter;
  * 
  * @author Philippe Fournier-Viger
  */
-public class CommandProcessor {
+class CommandProcessor {
 
 	/**
 	 * This method run an algorithm. It is called from the GUI interface or when
@@ -102,7 +102,7 @@ public class CommandProcessor {
 			}
 			
 			File input = new File(inputFile);
-			if(input.exists() == false){
+			if(!input.exists()){
 				throw new IllegalArgumentException(System.lineSeparator()+ System.lineSeparator() +" The input file '" + inputFile + "' does not exist.");
 			}
 		}
@@ -125,7 +125,7 @@ public class CommandProcessor {
 			// If it is the command line interface and the user has not provided the parameter i
 			if(i == parameters.length){
 				// and if the parameter is not optional
-				if(parameterI.isOptional == false){
+				if(!parameterI.isOptional){
 					// we throw an exception
 					throw new IllegalArgumentException(System.lineSeparator()+ System.lineSeparator() +" The " + ordinal + " parameter of this algorithm '" + parameterI.name + "' is mandatory. Please provide a value of type: " + parameterI.parameterType.getSimpleName() + ".");
 				}
@@ -137,7 +137,7 @@ public class CommandProcessor {
 				// If the parameter is null but it is not optional, then we need to inform the user
 				// that this parameter is not optional
 				if("".equals(valueI)){
-					if(parameterI.isOptional == false){
+					if(!parameterI.isOptional){
 						throw new IllegalArgumentException(System.lineSeparator()+ System.lineSeparator() +" The " + ordinal + " parameter of this algorithm '" + parameterI.name + "' is mandatory. Please provide a value of type: " + parameterI.parameterType.getSimpleName() + ".");
 					}
 				}
@@ -146,7 +146,7 @@ public class CommandProcessor {
 					boolean isCorrectType = algorithm.isParameterOfCorrectType(parameters[i], i);
 					
 					// if not of the correct type, we throw an exception
-					if(isCorrectType == false){		
+					if(!isCorrectType){
 						
 						throw new IllegalArgumentException(System.lineSeparator()+ System.lineSeparator() + " The " + ordinal + " parameter value of this algorithm '" + parameterI.name + "' is of an incorrect type. The provided value is '" + parameters[i] + "' but it should be of type: " + parameterI.parameterType.getSimpleName() + ".");
 					}
@@ -156,7 +156,7 @@ public class CommandProcessor {
 		
 		
 
-		if(algorithmName.startsWith("Convert") == false && inputFile != null) {
+		if(!algorithmName.startsWith("Convert") && inputFile != null) {
 			
 			// ***********  PRE-PROCESSING IF THE FILE WAS A PREVIOUSLY CONVERTED FILE  **********
 			// Check if the file was already converted.
@@ -260,7 +260,7 @@ public class CommandProcessor {
 			File file = new File(outputFile);
 			file.delete();
 			// System.out.println("Delete : " + inputFile);
-			if(inputFile.equals(originalInputFile) == false){
+			if(!inputFile.equals(originalInputFile)){
 				File file2 = new File(inputFile);
 				file2.delete();
 			}
@@ -275,7 +275,7 @@ public class CommandProcessor {
 	 * @param i the number
 	 * @return its ordinal as a String
 	 */
-	public static String ordinal(int i) {
+	private static String ordinal(int i) {
 		// Code from : http://stackoverflow.com/questions/6810336/is-there-a-library-or-utility-in-java-to-convert-an-integer-to-its-ordinal
 	    String[] sufixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 	    switch (i % 100) {

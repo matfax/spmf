@@ -85,7 +85,7 @@ public class AlgoDEclat extends AlgoEclat{
 		// for each tid containing j
 		for(Integer tid : tidsetI) {
 			// if the transaction does not contain i, add it to the diffset
-			if(tidsetJ.contains(tid) == false) {
+			if(!tidsetJ.contains(tid)) {
 				// add it to the intersection
 				diffsetIJ.add(tid);
 			}			
@@ -109,7 +109,7 @@ public class AlgoDEclat extends AlgoEclat{
 		// for each tid containing j
 		for(Integer tid : tidsetJ) {
 			// if the transaction does not contain i, add it to the diffset
-			if(tidsetI.contains(tid) == false) {
+			if(!tidsetI.contains(tid)) {
 				// add it to the intersection
 				diffsetIJ.add(tid);
 			}			
@@ -123,7 +123,6 @@ public class AlgoDEclat extends AlgoEclat{
 	 * to calculate the support
 	 * @param lengthOfX  the length of the itemset X - 1 (used by dEclat)
 	 * @param supportPrefix the support of the prefix (not used by Eclat, but used by dEclat).
-	 * @param tidsetI the tidset of X
 	 * @return the support
 	 */
 	int calculateSupport(int lengthOfX, int supportPrefix,  Set<Integer> tidsetX) {

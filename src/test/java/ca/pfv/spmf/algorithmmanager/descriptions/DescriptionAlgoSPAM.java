@@ -55,17 +55,17 @@ public class DescriptionAlgoSPAM extends DescriptionOfAlgorithm {
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 
 		AlgoSPAM algo = new AlgoSPAM();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMinimumPatternLength(getParamAsInteger(parameters[1]));
 		}
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[2]));
 		}
-		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+		if (parameters.length >=4 && !"".equals(parameters[3])) {
 			algo.setMaxGap(getParamAsInteger(parameters[3]));
 		}
 		
-		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+		if (parameters.length >=5 && !"".equals(parameters[4])) {
 			boolean outputSeqIdentifiers = getParamAsBoolean(parameters[4]);
 			algo.showSequenceIdentifiersInOutput(outputSeqIdentifiers);
 		}

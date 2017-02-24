@@ -33,7 +33,7 @@ public class MarkovFirstOrderPredictor extends Predictor {
 	private HashMap<Integer, MarkovState> mDictionary;
 	
 
-	public Paramable parameters;
+	private Paramable parameters;
 	
 	public MarkovFirstOrderPredictor() {
 		TAG = "Mark1";
@@ -51,7 +51,7 @@ public class MarkovFirstOrderPredictor extends Predictor {
 	}
 
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		mDictionary = new HashMap<Integer, MarkovState>();
 		
 		//for each sequence in the training set
@@ -76,8 +76,7 @@ public class MarkovFirstOrderPredictor extends Predictor {
 			
 		}
 
-		return true;
-	}
+    }
 
 	@Override
 	public Sequence Predict(Sequence target) {

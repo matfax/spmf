@@ -27,10 +27,10 @@ package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
 
 public class NodeList {
 	/** an item */
-	int item;
+    private int item;
 
 	/** a pointer to the next node */
-	NodeList next;
+    private NodeList next;
 	
 	/** 
 	 * Constructor

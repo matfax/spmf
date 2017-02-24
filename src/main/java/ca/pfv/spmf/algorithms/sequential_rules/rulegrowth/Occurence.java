@@ -28,7 +28,7 @@ import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
  * @see SequenceDatabase
  * @author Philippe Fournier-Viger
  */
-public class Occurence {
+class Occurence {
 	/** the first occurence <br/>
 	//  e.g.   1 means that the occurence starts at the second itemset of the sequence <br/>
 	//         2 means that the occurence starts at the third itemset of the sequence */

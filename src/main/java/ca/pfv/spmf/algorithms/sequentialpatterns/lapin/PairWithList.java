@@ -31,12 +31,12 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class PairWithList implements Comparable<PairWithList> {
+class PairWithList implements Comparable<PairWithList> {
 
 	/** the first item */
-	protected int item1;
+    int item1;
 	/** the second item */
-	protected int item2;
+    int item2;
 	/**  the list of positions where this pair appears */
 	List<Short> listPositions;
 	/**

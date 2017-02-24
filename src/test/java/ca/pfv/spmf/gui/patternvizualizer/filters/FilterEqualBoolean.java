@@ -24,7 +24,7 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public class FilterEqualBoolean extends AbstractFilter{
 	/** the required value*/
-	boolean value;
+    private boolean value;
 	
 	/**
 	 * Constructor

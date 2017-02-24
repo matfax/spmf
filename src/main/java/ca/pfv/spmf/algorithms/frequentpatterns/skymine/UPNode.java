@@ -28,7 +28,7 @@ import java.util.List;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class UPNode {
+class UPNode {
 	// String itemName;
 	int itemID = -1;
 	int count = 1;

@@ -17,8 +17,6 @@ package ca.pfv.spmf.tools.other_dataset_tools;
 */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,7 +54,7 @@ public class FixTransactionDatabaseTool {
 		String thisLine;
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is empty we skip it
-			if (thisLine.isEmpty() == true) {
+			if (thisLine.isEmpty()) {
 				continue;
 			// if the line is some kind of metadata we just write the line as it is
 			}else if(thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
@@ -78,14 +76,14 @@ public class FixTransactionDatabaseTool {
 			Set<Integer> alreadySeen = new HashSet<Integer>();
 			for(int i=0; i <split.length; i++){
 				// if that position is not empty (an extra space) or the value NaN
-				if(split[i].isEmpty() == false && "NaN".equals(split[i]) == false){
+				if(!split[i].isEmpty() && !"NaN".equals(split[i])){
 
 					// convert item to integer
 					Integer item = Integer.parseInt(split[i]);
 					
 					// if the item is appearing for the first time in the transaction
 					// we add the item to the transaction
-					if(alreadySeen.contains(item) == false) {
+					if(!alreadySeen.contains(item)) {
 						// we add the item
 						transaction.add(item);
 						// we remember that we have seen this item

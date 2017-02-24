@@ -14,7 +14,7 @@ import java.util.Map.Entry;
  * You may obtain a copy of the License at
  * https://opensource.org/licenses/MIT 
  */
-public class MarkovState {
+class MarkovState {
 
 	/**
 	 * Number of transitions for this state

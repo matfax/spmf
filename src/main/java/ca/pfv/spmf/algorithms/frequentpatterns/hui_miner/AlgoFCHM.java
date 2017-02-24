@@ -60,42 +60,42 @@ public class AlgoFCHM  implements Serializable{
 	private static final long serialVersionUID = 1513172536452900775L;
 
 	/** the time at which the algorithm started */
-	public long startTimestamp = 0;  
+    private long startTimestamp = 0;
 	
 	/** the time at which the algorithm ended */
-	public long endTimestamp = 0; 
+    private long endTimestamp = 0;
 	
 	/** the number of high-utility itemsets generated */
-	public int huiCount =0; 
+    private int huiCount =0;
 	
 	/** the number of candidate high-utility itemsets */
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Long> mapItemToTWU;
+    private Map<Integer, Long> mapItemToTWU;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** The eucs structure:  key: item   key: another item   value: twu&support */
-	Map<Integer, Map<Integer, TwuSupportPair>> mapSMAP;  
+    private Map<Integer, Map<Integer, TwuSupportPair>> mapSMAP;
 	
 	/** variable for debug mode */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 
 	/** minimum bond threshold**/
 	private double minBond;  
 	
 	/** enable LA-prune strategy  */
-	boolean ENABLE_LA_PRUNE = true;
+    private boolean ENABLE_LA_PRUNE = true;
 	
 	/** enable SLA-prune strategy  */
-	boolean ENABLE_SLA_PRUNE = true;
+    private boolean ENABLE_SLA_PRUNE = true;
 	
 	/** number of candidates eliminated by la prune */
 	private long candidateEliminatedByLAPrune =0;
@@ -176,7 +176,7 @@ public class AlgoFCHM  implements Serializable{
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -249,7 +249,7 @@ public class AlgoFCHM  implements Serializable{
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -567,8 +567,6 @@ public class AlgoFCHM  implements Serializable{
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param bond the bond of this itemset
 	 * @param prefixLength the prefix length
@@ -604,8 +602,8 @@ public class AlgoFCHM  implements Serializable{
 	 * @param tidsetJ the second tidset
 	 * @return the resulting tidset and its support
 	 */
-	 BitSetSupport performOR(BitSetSupport tidsetI,
-			BitSetSupport tidsetJ) {
+    private BitSetSupport performOR(BitSetSupport tidsetI,
+                                    BitSetSupport tidsetJ) {
 		// Create the new tidset and perform the logical AND to intersect the tidset
 		BitSetSupport bitsetSupportIJ = new BitSetSupport();
 		bitsetSupportIJ.bitset = (BitSet)tidsetI.bitset.clone();

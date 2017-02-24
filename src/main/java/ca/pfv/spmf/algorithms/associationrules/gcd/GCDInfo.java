@@ -18,7 +18,7 @@
 
 package ca.pfv.spmf.algorithms.associationrules.gcd;
 
-public class GCDInfo {
+class GCDInfo {
 	private MyBigInteger gcd;
 	private int frequency;
 

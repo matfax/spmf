@@ -68,7 +68,7 @@ public class TDAGPredictor extends Predictor {
 	}
 
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		//reset
 		root = new TDAGNode(0, new ArrayList<Integer>());
@@ -114,9 +114,8 @@ public class TDAGPredictor extends Predictor {
 		
 		//Free memory since this is only used in the training process
 		state.clear();
-		
-		return true;
-	}
+
+    }
 
 	@Override
 	public Sequence Predict(Sequence target) {

@@ -31,7 +31,7 @@ import java.util.List;
  * @author Philippe Fournier-Viger
  */
 
-public class Transaction{
+class Transaction{
 	// a transaction is an ordered list of items
 	private final List<Integer> items; 
 	

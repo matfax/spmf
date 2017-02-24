@@ -31,7 +31,7 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
  */
 public class FIFPrefixSpan implements FIF {
 
-	public List<List<Item>> results;
+	private List<List<Item>> results;
 	
 	
 	@Override
@@ -194,7 +194,7 @@ public class FIFPrefixSpan implements FIF {
 		/**
 		 * Finds the prefix in the sequence and returns the next item right after the prefix in the sequence
 		 */
-		protected Item getSuffix(Sequence seq, List<Item> prefix) {
+		Item getSuffix(Sequence seq, List<Item> prefix) {
 			
 			//if the prefix is empty, then return the first item from the sequence
 			if(prefix.size() == 0) {
@@ -207,7 +207,7 @@ public class FIFPrefixSpan implements FIF {
 			for(int offsetSeq = 0; offsetSeq < seq.size(); offsetSeq++) {
 				
 				//comparing the current item from the sequence with the current item from the prefix
-				if(seq.get(offsetSeq).equals(prefix.get(offsetPrefix)) == true) {
+				if(seq.get(offsetSeq).equals(prefix.get(offsetPrefix))) {
 					offsetPrefix++;
 					
 					if(offsetPrefix >= prefix.size()) {

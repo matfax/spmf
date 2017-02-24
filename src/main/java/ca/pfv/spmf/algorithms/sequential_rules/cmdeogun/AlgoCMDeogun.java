@@ -63,42 +63,42 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoCMDeogun {
 	
 	// statistics
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
+    private long timeStart = 0;  // start time of latest execution
+	private long timeEnd = 0;  // end time of latest execution
 
-	long timeStart11 = 0; // start time for generating rules of size 1*1
-	long timeEnd11 = 0;  // start time for generating rules of size 1*1
-	public long timeEndPreprocessing = 0;  // the end time for preprocessing phase
+	private long timeStart11 = 0; // start time for generating rules of size 1*1
+	private long timeEnd11 = 0;  // start time for generating rules of size 1*1
+	private long timeEndPreprocessing = 0;  // the end time for preprocessing phase
 		
 	// the parameters set by the user
-	double minConfidence;  // minconf threshold
-	int minsuppRelative;   // minsup threshold
+    private double minConfidence;  // minconf threshold
+	private int minsuppRelative;   // minsup threshold
 	
-	int maxItemId=0;  // the largest item ID in this database
+	private int maxItemId=0;  // the largest item ID in this database
 	
 	// A map indicating the tidset (value) of each item (key)
-	Map<Integer, Set<Integer>> mapItemCount;
+    private Map<Integer, Set<Integer>> mapItemCount;
 	
 	// the list of frequent items
-	List<Integer> listFrequents = new ArrayList<Integer>();
+    private List<Integer> listFrequents = new ArrayList<Integer>();
 	
 	// the sequence database
-	SequenceDatabase database;
+    private SequenceDatabase database;
 	
 	// Special parameter to set the size of rules to be discovered
-	int minLeftSize = 0;  // min size of left part of the rule
-	int maxLeftSize = 500; // max size of left part of the rule
-	int minRightSize = 0; // min  size of right part of the rule
-	int maxRightSize = 500; // max size of right part of the rule
+    private int minLeftSize = 0;  // min size of left part of the rule
+	private int maxLeftSize = 500; // max size of left part of the rule
+	private int minRightSize = 0; // min  size of right part of the rule
+	private int maxRightSize = 500; // max size of right part of the rule
 	
 	// an object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	// the number of sequential rules found
 	private int ruleCount;
 
 	// the number of transactions this is based on
-	protected int transactionCount;
+    private int transactionCount;
 
 	/**
 	 * Default constructor.
@@ -137,7 +137,7 @@ public class AlgoCMDeogun {
 	 * @param minConfidence  the minimum confidence threshold
 	 * @throws IOException exception if error while writing the output file.
 	 */
-	public void runAlgorithm(String input, String output, int relativeSupport, double minConfidence) throws IOException {
+    private void runAlgorithm(String input, String output, int relativeSupport, double minConfidence) throws IOException {
 		// remember the confidence
 		this.minConfidence = minConfidence;
 		// reset the utility for recording memory usage

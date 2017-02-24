@@ -93,7 +93,7 @@ public class Abstraction_Qualitative extends Abstraction_Generic {
         return -1;
     }
 
-    public boolean hasEqualRelation() {
+    private boolean hasEqualRelation() {
         return equalRelation;
     }
 

@@ -43,7 +43,7 @@ public class SaverIntoMemory implements Saver{
     /**
      * if true, sequences ids will be output for each pattern
      */
-    boolean outputSequenceIdentifiers;
+    private boolean outputSequenceIdentifiers;
     
     /**
      * Constructor

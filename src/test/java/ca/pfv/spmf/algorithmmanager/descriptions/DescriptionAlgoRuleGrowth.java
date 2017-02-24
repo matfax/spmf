@@ -57,10 +57,10 @@ public class DescriptionAlgoRuleGrowth extends DescriptionOfAlgorithm {
 		double minsup = getParamAsDouble(parameters[0]);
 		double minconf = getParamAsDouble(parameters[1]);
 		AlgoRULEGROWTH algo = new AlgoRULEGROWTH();
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setMaxAntecedentSize(getParamAsInteger(parameters[2]));
 		}
-		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+		if (parameters.length >=4 && !"".equals(parameters[3])) {
 			algo.setMaxConsequentSize(getParamAsInteger(parameters[3]));
 		}
 		algo.runAlgorithm(minsup, minconf, inputFile, outputFile);

@@ -46,13 +46,13 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoCloSpan {
 
-    protected double minSupRelative;
-    protected double minSupAbsolute;
+    private double minSupRelative;
+    private double minSupAbsolute;
     /**
      * original sequential data set to be used for sequential patterns
      * extraction
      */
-    protected SequenceDatabase originalDataset;
+    private SequenceDatabase originalDataset;
     /**
      * all generated frequent sequences, i.e. sequential patterns
      */
@@ -60,22 +60,25 @@ public class AlgoCloSpan {
      * Saver variable to decide where the user want to save the results, if it
      * the case
      */
-    Saver saver = null;
+    private Saver saver = null;
     /**
      * Start and End points in order to calculate the overall time taken by the 
      * algorithm
      */
-    protected long overallStart, overallEnd;
+    private long overallStart;
+    private long overallEnd;
     /**
      * Start and End points in order to calculate the time taken by the main 
      * part of CloSpan algorithm
      */
-    protected long mainMethodStart, mainMethodEnd;
+    private long mainMethodStart;
+    private long mainMethodEnd;
     /**
      * Start and End points in order to calculate the time taken by the 
      * post-processing method of CloSpan algorithm
      */
-    protected long postProcessingStart, postProcessingEnd;
+    private long postProcessingStart;
+    private long postProcessingEnd;
     /**
      * The abstraction creator
      */
@@ -160,7 +163,7 @@ public class AlgoCloSpan {
      * @param outputSequenceIdentifiers  if true, sequence identifiers will be output for each pattern
      * @throws IOException 
      */
-    protected void cloSpan(SequenceDatabase database, boolean keepPatterns, boolean verbose, boolean findClosedPatterns, boolean executePruningMethods, String outputFilePath, boolean outputSequenceIdentifiers) throws IOException {
+    private void cloSpan(SequenceDatabase database, boolean keepPatterns, boolean verbose, boolean findClosedPatterns, boolean executePruningMethods, String outputFilePath, boolean outputSequenceIdentifiers) throws IOException {
         //If we do no have any file path
         if (outputFilePath == null) {
             //The user wants to save the results in memory
@@ -261,7 +264,7 @@ public class AlgoCloSpan {
      * It gets the total time spent by the algoritm in its execution.
      * @return the time
      */
-    public long getRunningTime() {
+    private long getRunningTime() {
         return (overallEnd - overallStart);
     }
 

@@ -29,7 +29,7 @@ import java.util.List;
  * @see AlgoFPGrowth_Strings
  * @author Philippe Fournier-Viger
  */
-public class FPNode_Strings {
+class FPNode_Strings {
 	 // item id
 	String itemID = null; 
 	// support of that node

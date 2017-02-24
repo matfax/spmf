@@ -25,7 +25,7 @@ package ca.pfv.spmf.algorithms.classifiers.decisiontree.id3;
  * @see ClassNode
  * @author Philippe Fournier-Viger
  */
-public class DecisionNode extends Node {
+class DecisionNode extends Node {
 	/** the id of the attribute that this node represents */
 	public int attribute;
 	/** a list of child node */

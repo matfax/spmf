@@ -63,7 +63,6 @@ public class TDAGNode {
 	
 	/**
 	 * Create and Add a new child to this node.
-	 * @param item Item to use to create the child node.
 	 * @return Returns the new child.
 	 */
 	public TDAGNode addChild(Integer symbol) {

@@ -25,7 +25,7 @@ import java.util.Random;
  * Please refer to that book for details about the algorithms and proofs that
  * they are correct.
  */
-public class Select {
+class Select {
 	private static Random random = new Random(System.currentTimeMillis());
 	 
 	/**

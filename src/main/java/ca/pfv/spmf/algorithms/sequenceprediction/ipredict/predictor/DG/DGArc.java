@@ -13,7 +13,7 @@ package ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.DG;
 /**
  * Represents an arc in a DG
  */
-public class DGArc {
+class DGArc {
 
 	public int dest; //Destination of this arc
 	public int support; //Support for this arc

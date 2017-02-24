@@ -123,10 +123,10 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
 
                     //So we make C3
                     Pattern newCandidate_equalRelation = null;
-                    if (pattern1.compareTo(pattern2) < 0 && doNotExploreXY == false) {
+                    if (pattern1.compareTo(pattern2) < 0 && !doNotExploreXY) {
                         newCandidate_equalRelation = pattern1.clonePattern();
                         newCandidate_equalRelation.add(pairCreator.getItemAbstractionPair(lastPairOfPattern2.getItem(), qualitativeCreator.createAbstraction(true)));
-                    } else if (doNotExploreYX == false) {
+                    } else if (!doNotExploreYX) {
                         newCandidate_equalRelation = pattern2.clonePattern();
                         newCandidate_equalRelation.add(pairCreator.getItemAbstractionPair(lastPairOfPattern1.getItem(), qualitativeCreator.createAbstraction(true)));
                     }
@@ -135,14 +135,14 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
                     }
 
                     //And we make C2
-                    if (doNotExploreY_X == false) {
+                    if (!doNotExploreY_X) {
                         Pattern newCandidate_BeforeRelationWithChangedItems = pattern2.clonePattern();
                         newCandidate_BeforeRelationWithChangedItems.add(lastPairOfPattern1);
                         candidates.add(newCandidate_BeforeRelationWithChangedItems);
                     }
                 }
                 //And we make C1
-                if (doNotExploreX_Y == false) {
+                if (!doNotExploreX_Y) {
                     Pattern newCandidate_BeforeRelation = pattern1.clonePattern();
                     newCandidate_BeforeRelation.add(lastPairOfPattern2);
 
@@ -163,11 +163,11 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
                  */
 
                 Pattern newCandidate_equalRelation;
-                if (pattern1.compareTo(pattern2) < 0 && doNotExploreXY == false) {
+                if (pattern1.compareTo(pattern2) < 0 && !doNotExploreXY) {
                     newCandidate_equalRelation = pattern1.clonePattern();
                     newCandidate_equalRelation.add(pairCreator.getItemAbstractionPair(lastPairOfPattern2.getItem(), qualitativeCreator.createAbstraction(true)));
                     candidates.add(newCandidate_equalRelation);
-                } else if (pattern1.compareTo(pattern2) > 0 && doNotExploreYX == false) {
+                } else if (pattern1.compareTo(pattern2) > 0 && !doNotExploreYX) {
                     newCandidate_equalRelation = pattern2.clonePattern();
                     newCandidate_equalRelation.add(pairCreator.getItemAbstractionPair(lastPairOfPattern1.getItem(), qualitativeCreator.createAbstraction(true)));
                     candidates.add(newCandidate_equalRelation);
@@ -192,10 +192,10 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
                  * C1 = (P y < x), with x appearing after y
                  */
                 Pattern newCandidate_BeforeRelation = null;
-                if (abstractionOfLastPairOfPattern1.hasEqualRelation() && doNotExploreX_Y == false) {
+                if (abstractionOfLastPairOfPattern1.hasEqualRelation() && !doNotExploreX_Y) {
                     newCandidate_BeforeRelation = pattern1.clonePattern();
                     newCandidate_BeforeRelation.add(lastPairOfPattern2);
-                } else if (doNotExploreY_X == false) {
+                } else if (!doNotExploreY_X) {
                     newCandidate_BeforeRelation = pattern2.clonePattern();
                     newCandidate_BeforeRelation.add(lastPairOfPattern1);
                 }

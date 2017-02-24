@@ -55,14 +55,14 @@ public class DescriptionAlgoCMSPAM extends DescriptionOfAlgorithm {
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 
 		AlgoCMSPAM algo = new AlgoCMSPAM();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMinimumPatternLength(getParamAsInteger(parameters[1]));
 		}
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[2]));
 		}
 		// get the required items if any (optional)
-		if (parameters.length >=4 && parameters[3] != null && parameters[3].isEmpty() != true) {
+		if (parameters.length >=4 && parameters[3] != null && !parameters[3].isEmpty()) {
 			String[] itemsString = parameters[3].split(",");
 			int[] requiredItems = new int[itemsString.length];
 			for (int i = 0; i < itemsString.length; i++) {
@@ -70,11 +70,11 @@ public class DescriptionAlgoCMSPAM extends DescriptionOfAlgorithm {
 			}
 			algo.setMustAppearItems(requiredItems);
 		}
-		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+		if (parameters.length >=5 && !"".equals(parameters[4])) {
 			algo.setMaxGap(getParamAsInteger(parameters[4]));
 		}
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=6 && "".equals(parameters[5]) == false) {
+		if (parameters.length >=6 && !"".equals(parameters[5])) {
 			outputSeqIdentifiers = getParamAsBoolean(parameters[5]);
 		}
 		

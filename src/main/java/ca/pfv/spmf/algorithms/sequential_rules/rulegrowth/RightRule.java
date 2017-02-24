@@ -29,7 +29,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * @see Itemset
  * @author Philippe Fournier-Viger
  */
-public class RightRule {
+class RightRule {
 	
 	int []itemsetJ; 
 	Set<Integer> tidsJ;

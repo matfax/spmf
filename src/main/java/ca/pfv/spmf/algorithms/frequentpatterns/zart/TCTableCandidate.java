@@ -29,7 +29,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 * @see AlgoZart
 * @author Philippe Fournier-Viger
 */
-public class TCTableCandidate {
+class TCTableCandidate {
 
 	/** This structure stores the candidate itemsets by size
 	 Position i contains the list of candidate itemsets of size i */
@@ -51,7 +51,7 @@ public class TCTableCandidate {
 		// for each itemset of size i
 		for(Itemset c : levels.get(i)){
 			// if key set to true, then return yes
-			if(mapKey.get(c) == true){
+			if(mapKey.get(c)){
 				return true;
 			}
 		}

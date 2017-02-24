@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clasp_AGP.dataStructures.Item;
  * 
  * @author agomariz
  */
-public class ItemFactory<T extends Comparable> {
+class ItemFactory<T extends Comparable> {
 
     public ItemFactory() {
     }

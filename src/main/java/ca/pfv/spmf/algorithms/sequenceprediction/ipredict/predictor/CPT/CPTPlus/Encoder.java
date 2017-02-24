@@ -25,8 +25,8 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
 public class Encoder {
 
 	
-	protected List<List<Item>> Dict;
-	protected HashMap<List<Item>, Integer> InvDict;
+	private List<List<Item>> Dict;
+	private HashMap<List<Item>, Integer> InvDict;
 	
 	public Encoder() {
 		Dict = new ArrayList<List<Item>>();
@@ -61,7 +61,7 @@ public class Encoder {
 	 * Return the id of the given itemset
 	 * @return the id or null if the itemset is not found
 	 */
-	public Integer getId(List<Item> entry) {
+    private Integer getId(List<Item> entry) {
 		Integer id = InvDict.get(entry);
 		return id;
 	}

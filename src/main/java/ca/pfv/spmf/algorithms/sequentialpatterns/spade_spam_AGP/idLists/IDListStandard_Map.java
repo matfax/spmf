@@ -46,12 +46,12 @@ public class IDListStandard_Map implements IDList {
      * integer we stand for a sequence id, whereas a list of itemsets correspond
      * to all the itemset timestamps where the pattern occurs
      */
-    Map<Integer, List<Integer>> itemsetSequenceEntries;
+    private Map<Integer, List<Integer>> itemsetSequenceEntries;
     /**
      * A bitset to keep just the sequences where a pattern appears. Is the
      * bitset representation of the keyset of the map sequence_ItemsetEntries
      */
-    BitSet sequences;
+    private BitSet sequences;
 
     /**
      * The standard constructor. It creates an empty IdList.
@@ -130,7 +130,7 @@ public class IDListStandard_Map implements IDList {
      *
      * @return the map
      */
-    public Map<Integer, List<Integer>> getSequenceItemsetEntries() {
+    private Map<Integer, List<Integer>> getSequenceItemsetEntries() {
         return itemsetSequenceEntries;
     }
 

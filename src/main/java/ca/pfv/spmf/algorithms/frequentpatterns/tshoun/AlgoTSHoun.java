@@ -42,32 +42,32 @@ public class AlgoTSHoun {
 	// the set of high utility itemsets found by the algorithm
 //	private HashTable highUtilityItemsets = null;
 	// the database
-	protected DatabaseWithPeriods database;
+    private DatabaseWithPeriods database;
 	
 	// the min utility threshold
-	double minUtilityRatio;
+    private double minUtilityRatio;
 
 	// for statistics
-	long startTimestamp = 0;  // start time
-	long endTimestamp = 0; // end time
+    private long startTimestamp = 0;  // start time
+	private long endTimestamp = 0; // end time
 	private int candidatesCount; // the number of candidates generated
 	
 	
 	//  Information common to all periods
-	Map<Integer, BitSet> mapItemPeriod = null; 
-	List<Integer> periodUtilities = null;
+    private Map<Integer, BitSet> mapItemPeriod = null;
+	private List<Integer> periodUtilities = null;
 	
-	Map<Integer, Pair> mapItemExactEstUtility = null; 
-	Set<Integer> negativeItems = null;
-	HashTable hashtable = null;
-	List<Integer> candidate1 = null;
+	private Map<Integer, Pair> mapItemExactEstUtility = null;
+	private Set<Integer> negativeItems = null;
+	private HashTable hashtable = null;
+	private List<Integer> candidate1 = null;
 	
-	int resultCount = 0;
+	private int resultCount = 0;
 	
 	// writer to write the output file 
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
-	boolean DEBUG = false ;
+	private boolean DEBUG = false ;
 	
 	/**
 	 * Default constructor
@@ -125,7 +125,7 @@ public class AlgoTSHoun {
 			for (int i = periodsOfItem.nextSetBit(0); i >= 0; 
 					i = periodsOfItem.nextSetBit(i+1)) {
 			    int periodUtility = periodUtilities.get(i);
-				if(isPromisingInAtLeastOnePeriod == false) {
+				if(!isPromisingInAtLeastOnePeriod) {
 					if(calculateRelativeUtility(periodUtility, pair.estimatedUtility[i]) >= minUtilityRatio) {
 						isPromisingInAtLeastOnePeriod = true;
 					}
@@ -135,7 +135,7 @@ public class AlgoTSHoun {
 			// IF THE ITEM IS A HIGH ON-SHELF UTILITY ITEM
 
 //			// IF IT IS NOT A CANDIDATE THEN WE WILL NOT CONSIDER THIS ITEM ANYMORE
-			if(isPromisingInAtLeastOnePeriod == false) {
+			if(!isPromisingInAtLeastOnePeriod) {
 				database.getAllItems().remove(item);
 			}else{
 				double relativeUtility = calculateRelativeUtility(sumPeriodUtility, pair.exactUtility);
@@ -168,7 +168,7 @@ public class AlgoTSHoun {
 			Iterator<ItemUtility> iter = trans.getItems().iterator();
 			while (iter.hasNext()) {
 				ItemUtility itemUtility = iter.next();
-				if(database.getAllItems().contains(itemUtility.item) == false) {
+				if(!database.getAllItems().contains(itemUtility.item)) {
 					int utility = itemUtility.utility;
 					if(utility >0) {
 						trans.transactionUtility -= utility;
@@ -263,7 +263,7 @@ public class AlgoTSHoun {
 				int itemI = transact.get(i).item;
 				
 				// if it is not a candidate of size 1, skip it
-				if(candidate1.contains(itemI) == false){
+				if(!candidate1.contains(itemI)){
 					continue;
 				}
 				
@@ -280,7 +280,7 @@ public class AlgoTSHoun {
 					int itemJ = transact.get(j).item;
 					
 					// if it is not a candidate of size 1, skip it
-					if(candidate1.contains(itemJ) == false){
+					if(!candidate1.contains(itemJ)){
 						continue;
 					}
 					
@@ -333,7 +333,7 @@ public class AlgoTSHoun {
 					// if {i,j} appears in the i-th period
 					if(estimatedUtilityIJ[i] != null) {
 						int twuIJ =0;
-						if(isPromisingInAtLeastOnePeriod == false) {
+						if(!isPromisingInAtLeastOnePeriod) {
 							if(calculateRelativeUtility(periodUtilities.get(i), estimatedUtilityIJ[i]) >= minUtilityRatio) {
 								isPromisingInAtLeastOnePeriod = true;
 							}
@@ -343,7 +343,7 @@ public class AlgoTSHoun {
 				}
 				
 				// if {I,J} is not a candidate remove it
-				if(isPromisingInAtLeastOnePeriod == false) {
+				if(!isPromisingInAtLeastOnePeriod) {
 					iter.remove();
 				}else {
 					int[] array = new int[]{itemI, itemJ};
@@ -523,7 +523,6 @@ public class AlgoTSHoun {
 
 	/**
 	 * Write an itemset containing a single item to the output file
-	 * @param prefix the itemset
 	 * @param exactUtility the utility
 	 * @param relativeUtility the relative utility
 	 * @throws IOException exception if error writing to file
@@ -544,7 +543,7 @@ public class AlgoTSHoun {
 	 * @param list a list of transactions
 	 * @return
 	 */
-    public static int binarySearch(int keyPeriod, List<TransactionWithPeriod> list, int startIndex) {
+    private static int binarySearch(int keyPeriod, List<TransactionWithPeriod> list, int startIndex) {
         int lo = startIndex;
         int hi = list.size() - 1;
         while (lo <= hi) {
@@ -590,8 +589,8 @@ public class AlgoTSHoun {
 	 * @param candidates2 the candidates of size 2 that should be used for starting the mining
 	 * @param period  the id of the period
 	 */
-	public void performMiningOnPeriod(List<TransactionWithPeriod> database, 
-			int periodUtility, List<ItemsetTP> candidates2, short period) {
+    private void performMiningOnPeriod(List<TransactionWithPeriod> database,
+                                       int periodUtility, List<ItemsetTP> candidates2, short period) {
 
 
 		MemoryLogger.getInstance().checkMemory();
@@ -727,7 +726,7 @@ public class AlgoTSHoun {
 	 * @param items the itemset
 	 * @return >0 if the first itemset contains the  itemset
 	 */
-	public static int containsOrEquals(List<ItemUtility> list, int[] items){
+	private static int containsOrEquals(List<ItemUtility> list, int[] items){
 			int utility = 0;
 			// for each item in the first itemset
 loop1:		for(int i =0; i < items.length; i++){
@@ -756,10 +755,9 @@ loop1:		for(int i =0; i < items.length; i++){
 	/**
 	 * Generate candidate HWTUI of size K by using HWTUIs of size k-1
 	 * @param levelK_1   HWTUIs of size k-1
-	 * @param candidatesHTWUI  structure to store the HWTUIs
 	 * @return  candidates of size K
 	 */
-	protected List<int[]> generateCandidateSizeK(List<int[]> levelK_1) {
+    private List<int[]> generateCandidateSizeK(List<int[]> levelK_1) {
 		
 		List<int[]> candidatesK = new ArrayList<int[]>();
 		

@@ -28,7 +28,7 @@ import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class SequentialPattern implements Comparable<SequentialPattern>{
+class SequentialPattern implements Comparable<SequentialPattern>{
 	
 	// the list of itemsets
 	private final List<Itemset> itemsets;
@@ -38,8 +38,7 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 	
 	/**
 	 * Set the set of IDs of sequence containing this prefix
-	 * @param a set of integer containing sequence IDs
-	 */
+     */
 	public void setSequenceIDs(List<Integer> sequencesIds) {
 		this.sequencesIds = sequencesIds;
 	}

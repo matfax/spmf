@@ -115,7 +115,7 @@ public class Pair implements Comparable<Pair> {
             if (this.postfix == arg.postfix) {
                 return 0;
             } else {
-                if (this.postfix == true) {
+                if (this.postfix) {
                     return -1;
                 } else {
                     return 1;

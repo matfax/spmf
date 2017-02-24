@@ -30,23 +30,23 @@ import java.util.Map;
  * @author Prashant Barhate
  */
 
-public class UPTree {
+class UPTree {
 
 	// List of items in the header table
 	List<Integer> headerList = null;
 
 	// flag that indicate if the tree has more than one path
-	boolean hasMoreThanOnePath = false;
+    private boolean hasMoreThanOnePath = false;
 
 	// List of pairs (item, Utility) of the header table
 	Map<Integer, UPNode> mapItemNodes = new HashMap<Integer, UPNode>();
 
 	// root of the tree
-	UPNode root = new UPNode(); // null node
+    private UPNode root = new UPNode(); // null node
 
 	// Map that indicates the last node for each item using the node links
 	// key: item value: an fp tree node (added by Philippe)
-	Map<Integer, UPNode> mapItemLastNode = new HashMap<Integer, UPNode>();
+    private Map<Integer, UPNode> mapItemLastNode = new HashMap<Integer, UPNode>();
 
 	public UPTree() {
 
@@ -129,8 +129,8 @@ public class UPTree {
 			UPNode child = currentlocalNode.getChildWithID(item);
 
 			if (child == null) {
-				int nodeUtility = (pathUtility - RemainingUtility); ;
-				// Nodeutility=  previous + (RTU - utility of
+				int nodeUtility = (pathUtility - RemainingUtility);
+                // Nodeutility=  previous + (RTU - utility of
 				// descendent items)
 				RemainingUtility = 0; // reset RU for next item
 				
@@ -233,7 +233,7 @@ public class UPTree {
 		return output + toString("", root);
 	}
 
-	public String toString(String indent, UPNode node) {
+	private String toString(String indent, UPNode node) {
 		String output = indent + node.toString() + "\n";
 		String childsOutput = "";
 		for (UPNode child : node.childs) {

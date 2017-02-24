@@ -36,17 +36,17 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 public class MFITree {
 	
 	// List of pairs (item, frequency) of the header table
-	Map<Integer, MFINode> mapItemNodes = new HashMap<Integer, MFINode>();
+    private Map<Integer, MFINode> mapItemNodes = new HashMap<Integer, MFINode>();
 	
 	// Map that indicates the last node for each item using the node links
 	// key: item   value: an fp tree node
-	Map<Integer, MFINode> mapItemLastNode = new HashMap<Integer, MFINode>();
+    private Map<Integer, MFINode> mapItemLastNode = new HashMap<Integer, MFINode>();
 	
 	// root of the tree
-	MFINode root = new MFINode(); // null node
+    private MFINode root = new MFINode(); // null node
 
 	// last added itemset
-	MFINode lastAddedItemsetNode = null;
+    private MFINode lastAddedItemsetNode = null;
 	
 	/**
 	 * Constructor

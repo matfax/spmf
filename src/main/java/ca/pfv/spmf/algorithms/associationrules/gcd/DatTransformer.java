@@ -18,19 +18,10 @@
 
 package ca.pfv.spmf.algorithms.associationrules.gcd;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
 
-public class DatTransformer {
+class DatTransformer {
 
 	private Integer[] transRules;
 	private List<Integer[]> inputFile = new ArrayList<Integer[]>();
@@ -47,7 +38,7 @@ public class DatTransformer {
 		transactionSets.clear();
 	}
 
-	public DatTransformer(List<String> inputLines, double freqThreshold) throws IOException, ClassNotFoundException {
+	public DatTransformer(List<String> inputLines, double freqThreshold) {
 		this.freqThreshold = freqThreshold;
 		read(inputLines);
 		transform();
@@ -73,7 +64,7 @@ public class DatTransformer {
 		return translated;
 	}
 
-	private void transform() throws IOException, ClassNotFoundException {
+	private void transform() {
 		for (Integer[] primeNumbers : inputFile) {
 			for (int i = 0; i < primeNumbers.length; ++i)
 				primeNumbers[i] = transRules[primeNumbers[i]];
@@ -131,7 +122,7 @@ public class DatTransformer {
 	 * Performs the first pass on the original file to get the frequency of
 	 * occurrence of each item
 	 */
-	private void read(List<String> inputLines) throws IOException {
+	private void read(List<String> inputLines) {
 		Map<Integer, Integer> freqs = new HashMap<Integer, Integer>();
 		int cols = 0;
 		for (String line : inputLines) {

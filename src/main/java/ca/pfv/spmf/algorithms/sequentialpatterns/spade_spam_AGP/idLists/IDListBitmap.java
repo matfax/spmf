@@ -42,19 +42,19 @@ public class IDListBitmap implements IDList {
     /**
      * the default number of bit that we use for each sequence
      */
-    final int BIT_PER_SECTION = 8;  
+    private final int BIT_PER_SECTION = 8;
     /**
      * the map where we keep the appearances of a pattern in a sequence. 
      * With an integer we stand for a sequence id, whereas a bitset is a 
      * representation of an itemset.
      */
-    Map<Integer, BitSet> sequence_ItemsetEntries;
+    private Map<Integer, BitSet> sequence_ItemsetEntries;
     
     /**
      * A bitset to keep just the sequences where a pattern appears. Is the bitset
      * representation of the keyset of the map sequence_ItemsetEntries
      */
-    BitSet sequences;
+    private BitSet sequences;
 
     /**
      * Standard Constructor. It creates an empty IdList
@@ -95,7 +95,7 @@ public class IDListBitmap implements IDList {
      * @param sid The sequence identifier wher the pattern appears
      * @param tids The set of itemset timestamps where the pattern appears
      */
-    public void registerNBits(int sid, List<Integer> tids) {
+    private void registerNBits(int sid, List<Integer> tids) {
         BitSet bitmap = sequence_ItemsetEntries.get(sid);
         if (bitmap == null) {
             bitmap = new BitSet(BIT_PER_SECTION);
@@ -267,7 +267,7 @@ public class IDListBitmap implements IDList {
      * Getter method for the map of entries
      * @return the map of entries <integer, bitset>
      */
-    public Map<Integer, BitSet> getSecuenceItemsetEntries() {
+    private Map<Integer, BitSet> getSecuenceItemsetEntries() {
         return sequence_ItemsetEntries;
     }
 

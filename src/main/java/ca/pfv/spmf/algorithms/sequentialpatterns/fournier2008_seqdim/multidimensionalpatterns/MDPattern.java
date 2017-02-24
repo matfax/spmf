@@ -42,7 +42,7 @@ public class MDPattern {
 	private int id; 
 	
 	/**a list of the IDs of all the patterns that contain this one. */
-	protected Set<Integer> patternsID = null;
+    private Set<Integer> patternsID = null;
 	
 	/**
 	 * Constructor.
@@ -73,7 +73,7 @@ public class MDPattern {
 	 * @param index  the position i.
 	 * @return the value.
 	 */
-	public int getValue(int index){
+    private int getValue(int index){
 		return values.get(index);
 	}
 	

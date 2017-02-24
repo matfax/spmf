@@ -128,7 +128,7 @@ public class Pattern implements Comparable<Pattern> {
         return result.toString();
     }
     
-    public int getSupport(){
+    private int getSupport(){
         return appearingIn.cardinality();
     }
 

@@ -37,16 +37,16 @@ import java.util.List;
 public class AlgoTimeSeriesReader {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 	
 	/** The number of time series in the last file that was read */
-	int timeSeriesCount = 0;
+    private int timeSeriesCount = 0;
 		
 	/**
 	 * Default constructor
@@ -93,7 +93,7 @@ public class AlgoTimeSeriesReader {
 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (thisLine.isEmpty() == true ||
+			if (thisLine.isEmpty() ||
 					thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'){
 				continue;
 			}

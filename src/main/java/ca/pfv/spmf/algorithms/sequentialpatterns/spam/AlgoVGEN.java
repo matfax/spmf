@@ -56,40 +56,40 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoVGEN {
 
 	/** for statistics */
-    public long startTime;
-    public long endTime;
-    public int patternCount;
+    private long startTime;
+    private long endTime;
+    private int patternCount;
     
     /**  minsup */
     private int minsup = 0;
     
     /** object to write to a file */
-    BufferedWriter writer = null;
+    private BufferedWriter writer = null;
     
     /** Vertical database */
-    Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
     
     /** List indicating the number of bits per sequence */
-    List<Integer> sequencesSize = null;
+    private List<Integer> sequencesSize = null;
     
     /** the last bit position that is used in bitmaps */
-    int lastBitIndex = 0;  
+    private int lastBitIndex = 0;
     
     /** maximum pattern length in terms of item count */
     private int maximumPatternLength = Integer.MAX_VALUE;
     
     /** Map: key: item   value:  another item that followed the first item + support
     * (could be replaced with a triangular matrix...) */
-    Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
-    Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
     
     /** Map indicating for each item, the smallest tid containing this item in a sequence. */
-    boolean useCMAPPruning = true;
+    private boolean useCMAPPruning = true;
     
     //  =========  VARIABLES THAT ARE SPECIFIC TO VGEN ===================
     /** GENERATOR PATTERNS -  The list contains patterns of size k at position k in the list.
     * A map has the sum of sids as key and lists of patterns as value. */
-    List<Map<Integer, List<PatternVGEN>>> generatorPatterns = null; 
+    private List<Map<Integer, List<PatternVGEN>>> generatorPatterns = null;
     
     /** activate the backward checking strategy */
 	private boolean useImmediateBackwardChecking = true;
@@ -98,10 +98,10 @@ public class AlgoVGEN {
 	private boolean useBackwardPruning = false;
 	
 	/** if enabled, the result will be verified to see if some patterns found are not generators. */
-	boolean DEBUG_MODE = false;  	
+    private boolean DEBUG_MODE = false;
 	
     /** the number of transaction in the database (to calculate the support of the empty set) */
-    int transactionCount = 0;
+    private int transactionCount = 0;
     
     //=========  END OF VARIABLES THAT ARE SPECIFIC TO VGEN ===================
     
@@ -199,7 +199,6 @@ public class AlgoVGEN {
     /**
      * This is the main method for the VGEN algorithm
      *
-     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -230,7 +229,7 @@ public class AlgoVGEN {
             while ((thisLine = reader.readLine()) != null) {
                 // if the line is  a comment, is  empty or is a
                 // kind of metadata
-                if (thisLine.isEmpty() == true
+                if (thisLine.isEmpty()
                         || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
                         || thisLine.charAt(0) == '@') {
                     continue;
@@ -283,7 +282,7 @@ public class AlgoVGEN {
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -506,7 +505,7 @@ public class AlgoVGEN {
      * file
      * @return TRUE IF A FREQUENT PATTERN WAS CREATED USING THE PREFIX.
      */
-    void dfsPruning(PrefixVGEN prefix, Bitmap prefixBitmap, List<Integer> sn, List<Integer> in, int hasToBeGreaterThanForIStep, int m, Integer lastAppendedItem) throws IOException {
+    private void dfsPruning(PrefixVGEN prefix, Bitmap prefixBitmap, List<Integer> sn, List<Integer> in, int hasToBeGreaterThanForIStep, int m, Integer lastAppendedItem) {
     	//		System.out.println(prefix.toString());
 
         //  ======  S-STEPS ======
@@ -518,7 +517,6 @@ public class AlgoVGEN {
         Map<Integer, Integer> mapSupportItemsAfter = coocMapAfter.get(lastAppendedItem);
 
         // for each item in sn
-        loopi:
         for (Integer i : sn) {
 
             // LAST POSITION PRUNING
@@ -531,12 +529,12 @@ public class AlgoVGEN {
             // we only check with the last appended item
             if (useCMAPPruning) {
                 if (mapSupportItemsAfter == null) {
-                    continue loopi;
+                    continue;
                 }
                 Integer support = mapSupportItemsAfter.get(i);
                 if (support == null || support < minsup) {
 //							System.out.println("PRUNE");
-                    continue loopi;
+                    continue;
                 }
             }
 
@@ -582,7 +580,7 @@ public class AlgoVGEN {
 	            	
 	                boolean hasBackWardExtension = savePatternMultipleItems(prefixSStep, newBitmap, m);
 	                // NEW 2014: IF BACKWARD EXTENSION, THEN WE DON'T CONTINUE...
-	                if(hasBackWardExtension == false) {
+	                if(!hasBackWardExtension) {
 	                	dfsPruning(prefixSStep, newBitmap, sTemp, sTemp, item, m + 1, item);
 	                }
 	            }
@@ -596,7 +594,6 @@ public class AlgoVGEN {
         List<Bitmap> iTempBitmaps = new ArrayList<Bitmap>();
 
         // for each item in in
-        loop2:
         for (Integer i : in) {
 
 
@@ -612,11 +609,11 @@ public class AlgoVGEN {
                 // CMAP PRUNING
                 if (useCMAPPruning) {
                     if (mapSupportItemsEquals == null) {
-                        continue loop2;
+                        continue;
                     }
                     Integer support = mapSupportItemsEquals.get(i);
                     if (support == null || support < minsup) {
-                        continue loop2;
+                        continue;
                     }
                 }
 
@@ -658,7 +655,7 @@ public class AlgoVGEN {
             if (maximumPatternLength > m  && hasNoImmediateBackwardExtension) {
             	boolean hasBackWardExtension = savePatternMultipleItems(prefixIStep, newBitmap, m);
                 // NEW 2014: IF NO BACKWARD EXTENSION, THEN WE TRY TO EXTEND THAT PATTERN
-                if(hasBackWardExtension == false) {
+                if(!hasBackWardExtension) {
                 	dfsPruning(prefixIStep, newBitmap, sTemp, iTemp, item, m + 1, item);
                 }
             }
@@ -676,7 +673,7 @@ public class AlgoVGEN {
      * @throws IOException exception if error while writing to the file
      * @return true IF THE PATTERN HAS A BACKWARD EXTENSION WITH THE SAME PROJECTED DATABASE
      */
-    private boolean savePatternMultipleItems(PrefixVGEN prefix, Bitmap bitmap, int length) throws IOException {
+    private boolean savePatternMultipleItems(PrefixVGEN prefix, Bitmap bitmap, int length) {
 //    	System.out.println("prefix :" + prefix);
     	int sidsum = bitmap.sidsum;
     	
@@ -725,7 +722,7 @@ public class AlgoVGEN {
    			}
            }
     	
-       	if(mayBeAGenerator == false) {
+       	if(!mayBeAGenerator) {
        		return false;
        	}
     	
@@ -772,7 +769,6 @@ public class AlgoVGEN {
     /**
      * Check if there is a backward extension by comparing the bitmap of two patterns
      * P1 and P2, such that P1 is a superset of P2
-     * @param bitmap  bitmap of P1
      * @param bitmap2 bitmap of P2
      * @return true if there is a backward extension
      */
@@ -805,7 +801,7 @@ public class AlgoVGEN {
      * @param pattern2 another sequential pattern
 	 * @return true if the pattern1 contains pattern2.
 	 */
-	boolean strictlyContains(PrefixVGEN pattern1, PrefixVGEN pattern2) {
+    private boolean strictlyContains(PrefixVGEN pattern1, PrefixVGEN pattern2) {
 //		// if pattern2 is larger or equal in size, then it cannot be contained in pattern1
 //		if(pattern1.size() <= pattern2.size()){
 //			return false;
@@ -894,7 +890,7 @@ public class AlgoVGEN {
 	 * @param path the output file path
 	 * @throws IOException exception if an error occur when writing the file.
 	 */
-	public void writeResultTofile(String path) throws IOException {
+    private void writeResultTofile(String path) throws IOException {
 		// for each level (pattern having a same size)
 		for(Map<Integer, List<PatternVGEN>> level : generatorPatterns) {
 			// for each list of patterns having the same hash value

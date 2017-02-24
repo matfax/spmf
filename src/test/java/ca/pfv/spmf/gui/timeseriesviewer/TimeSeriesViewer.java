@@ -34,13 +34,13 @@ import java.util.List;
 public class TimeSeriesViewer extends JFrame implements TimeSeriesViewerPanelListener{
 	
 	/** Title of this panel */
-	String title = "SPMF Time Series Viewer 2.08";
+	private String title = "SPMF Time Series Viewer 2.08";
 	
 	/** Serial ID */
 	private static final long serialVersionUID = 1L;
 	
 	/** This panel is used to draw the time series	 */
-	TimeSeriesViewerPanel panelChart = null;
+	private TimeSeriesViewerPanel panelChart = null;
 
 	private JLabel labelX;
 
@@ -214,7 +214,7 @@ public class TimeSeriesViewer extends JFrame implements TimeSeriesViewerPanelLis
 		
 		// display the time series name
 		labelName.setText("Name = "  + timeSeriesUnderMouse);
-		if("".equals(timeSeriesUnderMouse) == false){
+		if(!"".equals(timeSeriesUnderMouse)){
 			labelName.setForeground(colorUnderMouse);
 		}else{
 			labelName.setForeground(Color.black);

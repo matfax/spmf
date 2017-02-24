@@ -67,21 +67,21 @@ public class AlgoCORI {
 	private double minBond;  
 	
 	/** the transaction database **/
-	protected TransactionDatabase database; 
+    private TransactionDatabase database;
 
 	/**  start time of the last execution */
-	protected long startTimestamp;
+    private long startTimestamp;
 	/** end  time of the last execution */
-	protected long endTime; 
+    private long endTime;
 	
 	/** 
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
-	protected ItemsetsCORI frequentItemsets;
+    private ItemsetsCORI frequentItemsets;
 	/** object to write the output file */
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	/** the number of patterns found */
-	protected int itemsetCount; 
+    private int itemsetCount;
 	
 	/** For optimization with a triangular matrix for counting 
 	/ itemsets of size 2.  */
@@ -89,13 +89,13 @@ public class AlgoCORI {
 	
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
 
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -236,54 +236,54 @@ public class AlgoCORI {
 			
 			// For each item itemJ that is larger than i according to the total order of
 			// increasing support.
-loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
-				int itemJ = singleItems.get(j);
-				
-				// if the triangular matrix optimization is activated we obtain
-				// the support of itemset "ij" in the matrix. This allows to determine
-				// directly without performing a join if "ij" is frequent.
-				int supportIJ = -1;
-				if(useTriangularMatrixOptimization) {
-					// check the support of {i,j} according to the triangular matrix
-					supportIJ = matrix.getSupportForItems(itemI, itemJ);
-				}
-				
-				// Obtain the tidset of item J and its support.
-				BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
-				
-				// Calculate the tidset of itemset "IJ" by performing the intersection of 
-				// the tidsets of I and the tidset of J.
-				BitSetSupport bitsetSupportIJ = null;
-				if(useTriangularMatrixOptimization) {
-					// If the triangular matrix optimization is used, then
-					// we perform the intersection but do not need to calculate the support
-					// since it is already known
-					bitsetSupportIJ = performANDFirstTime(tidsetI, tidsetJ, supportIJ);
-				}else {
-					// Otherwise, we perform the intersection and calculate the support
-					// by calculating the cardinality of the resulting tidset.
-					bitsetSupportIJ = performAND(tidsetI, tidsetJ);
-				}
-				
-				BitSetSupport conjunctiveSupportIJ = null;
-				// After that, we add the itemJ to the equivalence class of 2-itemsets
-				// starting with the prefix "i". Note that although we only add "j" to the
-				// equivalence class, the item "j" 
-				// actually represents the itemset "ij" since we keep the prefix "i" for the
-				// whole equivalence class.
+            for (int j = i + 1; j < singleItems.size(); j++) {
+                int itemJ = singleItems.get(j);
 
-				// if the itemset�{I,J} has a support of at least 1, we need to keep it.
-				if(bitsetSupportIJ.support >= 1) {
-					// calculate conjunctive support
-					conjunctiveSupportIJ = performOR(tidsetI, tidsetJ);
-					
-				    equivalenceClassIitems.add(itemJ);
-				     // We also keep the tidset of "ij".
-				    equivalenceClassItidsets.add(bitsetSupportIJ);
-				    // we keep the conjunctive support
-				    equivalenceClassConjunctiveItidsets.add(conjunctiveSupportIJ);
-				}
-			}
+                // if the triangular matrix optimization is activated we obtain
+                // the support of itemset "ij" in the matrix. This allows to determine
+                // directly without performing a join if "ij" is frequent.
+                int supportIJ = -1;
+                if (useTriangularMatrixOptimization) {
+                    // check the support of {i,j} according to the triangular matrix
+                    supportIJ = matrix.getSupportForItems(itemI, itemJ);
+                }
+
+                // Obtain the tidset of item J and its support.
+                BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
+
+                // Calculate the tidset of itemset "IJ" by performing the intersection of
+                // the tidsets of I and the tidset of J.
+                BitSetSupport bitsetSupportIJ = null;
+                if (useTriangularMatrixOptimization) {
+                    // If the triangular matrix optimization is used, then
+                    // we perform the intersection but do not need to calculate the support
+                    // since it is already known
+                    bitsetSupportIJ = performANDFirstTime(tidsetI, tidsetJ, supportIJ);
+                } else {
+                    // Otherwise, we perform the intersection and calculate the support
+                    // by calculating the cardinality of the resulting tidset.
+                    bitsetSupportIJ = performAND(tidsetI, tidsetJ);
+                }
+
+                BitSetSupport conjunctiveSupportIJ = null;
+                // After that, we add the itemJ to the equivalence class of 2-itemsets
+                // starting with the prefix "i". Note that although we only add "j" to the
+                // equivalence class, the item "j"
+                // actually represents the itemset "ij" since we keep the prefix "i" for the
+                // whole equivalence class.
+
+                // if the itemset�{I,J} has a support of at least 1, we need to keep it.
+                if (bitsetSupportIJ.support >= 1) {
+                    // calculate conjunctive support
+                    conjunctiveSupportIJ = performOR(tidsetI, tidsetJ);
+
+                    equivalenceClassIitems.add(itemJ);
+                    // We also keep the tidset of "ij".
+                    equivalenceClassItidsets.add(bitsetSupportIJ);
+                    // we keep the conjunctive support
+                    equivalenceClassConjunctiveItidsets.add(conjunctiveSupportIJ);
+                }
+            }
 			// Process all itemsets from the equivalence class of 2-itemsets starting with prefix I 
 			// to find larger itemsets if that class has more than 0 itemsets.
 			if(equivalenceClassIitems.size()>0) {
@@ -316,8 +316,8 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 	 * @param mapItemTIDS  a map to store the tidset corresponding to each item
 	 * @return the maximum item id appearing in this database
 	 */
-	int calculateSupportSingleItems(TransactionDatabase database,
-			final Map<Integer, BitSetSupport> mapItemTIDS) {
+    private int calculateSupportSingleItems(TransactionDatabase database,
+                                            final Map<Integer, BitSetSupport> mapItemTIDS) {
 		
 		int maxItemId = 0;
 		// for each transaction
@@ -353,8 +353,8 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 	 * @param tidsetJ the second tidset
 	 * @return the resulting tidset and its support
 	 */
-	 BitSetSupport performAND(BitSetSupport tidsetI,
-			BitSetSupport tidsetJ) {
+    private BitSetSupport performAND(BitSetSupport tidsetI,
+                                     BitSetSupport tidsetJ) {
 		// Create the new tidset and perform the logical AND to intersect the tidset
 		BitSetSupport bitsetSupportIJ = new BitSetSupport();
 		bitsetSupportIJ.bitset = (BitSet)tidsetI.bitset.clone();
@@ -372,8 +372,8 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 	 * @param tidsetJ the second tidset
 	 * @return the resulting tidset and its support
 	 */
-	 BitSetSupport performOR(BitSetSupport tidsetI,
-			BitSetSupport tidsetJ) {
+    private BitSetSupport performOR(BitSetSupport tidsetI,
+                                    BitSetSupport tidsetJ) {
 		// Create the new tidset and perform the logical AND to intersect the tidset
 		BitSetSupport bitsetSupportIJ = new BitSetSupport();
 		bitsetSupportIJ.bitset = (BitSet)tidsetI.bitset.clone();
@@ -392,8 +392,8 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 	 *                  be calculated again
 	 * @return  the resulting tidset and its support
 	 */
-	BitSetSupport performANDFirstTime(BitSetSupport tidsetI,
-			BitSetSupport tidsetJ, int supportIJ) {
+    private BitSetSupport performANDFirstTime(BitSetSupport tidsetI,
+                                              BitSetSupport tidsetJ, int supportIJ) {
 		// Create the new tidset and perform the logical AND to intersect the tidset
 		BitSetSupport bitsetSupportIJ = new BitSetSupport();
 		bitsetSupportIJ.bitset = (BitSet)tidsetI.bitset.clone();

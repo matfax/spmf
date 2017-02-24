@@ -26,7 +26,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
  * @see UtilityListFHMPlus
  * @author Philippe Fournier-Viger, 2016
  */
-public class ElementFHMPlus  extends Element{
+class ElementFHMPlus  extends Element{
 
 	/** The remaining array (see the paper)
 	 * It will have a size "maxpattern -1" */

@@ -215,7 +215,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
         textFieldParam1.setColumns(10);
         
         {String buffer = new String(new byte[]{83,80,77,70});
-        if(getTitle().startsWith(buffer) != true){setTitle(buffer);}}
+        if(!getTitle().startsWith(buffer)){setTitle(buffer);}}
 
         buttonInput = new JButton("...");
         buttonInput.addActionListener(new ActionListener() {
@@ -497,7 +497,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
     		}else {
                 // This is for the command line version
                 // If the name of the algorithm is not recognized:
-                if (isVisible() == false) {
+                if (!isVisible()) {
                     System.out.println("There is no algorithm with this name. "
                             + " To fix this problem, you may check the command syntax in the SPMF documentation"
                             + " and/or verify if there is a new version of SPMF on the SPMF website.");
@@ -737,7 +737,7 @@ public class MainWindow extends JFrame implements ThreadCompleteListener, Uncaug
 		
 
         {String buffer = new String(new byte[]{83,80,77,70});
-        if(getTitle().startsWith(buffer) != true){setTitle(buffer);}}
+        if(!getTitle().startsWith(buffer)){setTitle(buffer);}}
 	}
 	
 	

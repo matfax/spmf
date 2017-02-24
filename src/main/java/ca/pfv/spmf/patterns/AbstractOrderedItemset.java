@@ -27,7 +27,7 @@ package ca.pfv.spmf.patterns;
  */
 public abstract class AbstractOrderedItemset extends AbstractItemset{
 
-	public AbstractOrderedItemset() {
+	protected AbstractOrderedItemset() {
 		super();
 	}
 	
@@ -48,7 +48,7 @@ public abstract class AbstractOrderedItemset extends AbstractItemset{
 	 * @param position the position of the item to be returned
 	 * @return the item
 	 */
-	public abstract Integer get(int position);
+	protected abstract Integer get(int position);
 
 	/**
 	 * Get the last item.
@@ -130,7 +130,7 @@ public abstract class AbstractOrderedItemset extends AbstractItemset{
 			boolean found = false; // flag to remember if we have find the item at position j
 			
 			// we search in this itemset starting from the current position i
-			while(found == false && i< size()){
+			while(!found && i< size()){
 				// if we found the current item from itemset2, we stop searching
 				if(get(i).equals(itemset2.get(j))){
 					found = true;
@@ -176,7 +176,6 @@ public abstract class AbstractOrderedItemset extends AbstractItemset{
 	/**
 	 * This method compare this itemset with another itemset to see if they are
 	 * equal. The method assume that the two itemsets are lexically ordered.
-	 * @param an itemset
 	 * @return true or false
 	 */
 	public boolean isEqualTo(int[] itemset) {

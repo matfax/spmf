@@ -41,18 +41,18 @@ import java.util.Map;
 
 public class AlgoHUIM_BPSO_tree {
 	// variable for statistics
-	double maxMemory = 0; // the maximum memory usage
-	long startTimestamp = 0; // the time the algorithm started
-	long endTimestamp = 0; // the time the algorithm terminated
-	final int pop_size = 5;// the size of populations
-	final int iterations = 20;// the iterations of algorithms
+    private double maxMemory = 0; // the maximum memory usage
+	private long startTimestamp = 0; // the time the algorithm started
+	private long endTimestamp = 0; // the time the algorithm terminated
+	private final int pop_size = 5;// the size of populations
+	private final int iterations = 20;// the iterations of algorithms
 	final int c1 = 2, c2 = 2;// the parameter used in BPSO algorithm
 	final double w = 0.9;// the parameter used in BPSO algorithm
 
-	Map<Integer, Integer> mapItemToTWU;
-	List<Integer> twuPattern;// the items which has twu value more than minUtil
+	private Map<Integer, Integer> mapItemToTWU;
+	private List<Integer> twuPattern;// the items which has twu value more than minUtil
 
-	BufferedWriter writer = null; // writer to write the output file
+	private BufferedWriter writer = null; // writer to write the output file
 
 	// this class represent an item and its utility in a transaction
 	class Pair {
@@ -89,19 +89,19 @@ public class AlgoHUIM_BPSO_tree {
 
 	}
 
-	Particle gBest = new Particle();// the gBest particle in populations
-	List<Particle> pBest = new ArrayList<Particle>();// each pBest particle in
+	private Particle gBest = new Particle();// the gBest particle in populations
+	private List<Particle> pBest = new ArrayList<Particle>();// each pBest particle in
 														// populations,
-	List<Particle> population = new ArrayList<Particle>();// populations
-	List<HUI> huiSets = new ArrayList<HUI>();// the set of HUIs
-	List<List<Double>> V = new ArrayList<List<Double>>();// the velocity of each
+                                                        private List<Particle> population = new ArrayList<Particle>();// populations
+	private List<HUI> huiSets = new ArrayList<HUI>();// the set of HUIs
+	private List<List<Double>> V = new ArrayList<List<Double>>();// the velocity of each
 															// particle
 	// Create a list to store database
-	List<List<Pair>> database = new ArrayList<List<Pair>>();
+                                                            private List<List<Pair>> database = new ArrayList<List<Pair>>();
 	// Create a list to store maximal pattern
-	List<List<Integer>> maximalPatterns = new ArrayList<List<Integer>>();
+    private List<List<Integer>> maximalPatterns = new ArrayList<List<Integer>>();
 
-	treeNode orNorTree;// the root of OR/NOR-tree
+	private treeNode orNorTree;// the root of OR/NOR-tree
 
 	/**
 	 * Default constructor
@@ -144,7 +144,7 @@ public class AlgoHUIM_BPSO_tree {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -192,7 +192,7 @@ public class AlgoHUIM_BPSO_tree {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;

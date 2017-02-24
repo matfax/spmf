@@ -16,9 +16,9 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
  * You may obtain a copy of the License at
  * https://opensource.org/licenses/MIT 
  */
-public interface FIF {
+interface FIF {
 
-	public HashMap<Item, Integer> getItemFrequencies(List<Sequence> seqs);
+	HashMap<Item, Integer> getItemFrequencies(List<Sequence> seqs);
 	
-	public List<List<Item>> findFrequentItemsets(List<Sequence> seqs, int minLength, int maxlength, int minSup);
+	List<List<Item>> findFrequentItemsets(List<Sequence> seqs, int minLength, int maxlength, int minSup);
 }

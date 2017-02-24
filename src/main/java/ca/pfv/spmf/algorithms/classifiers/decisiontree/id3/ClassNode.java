@@ -26,7 +26,7 @@ package ca.pfv.spmf.algorithms.classifiers.decisiontree.id3;
  * @see DecisionNode
  * @author Philippe Fournier-Viger
  */
-public class ClassNode extends Node{
+class ClassNode extends Node{
 	/** A class node only indicates a class name. */
 	public String className;
 }

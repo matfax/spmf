@@ -38,7 +38,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
  */
 public class CandidateInSequenceFinder {
 
-    AbstractionCreator creator;
+    private AbstractionCreator creator;
     /**
      * flag to indicate if a candidate is present in the sequence
      */

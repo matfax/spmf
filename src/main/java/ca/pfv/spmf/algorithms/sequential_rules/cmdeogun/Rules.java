@@ -29,7 +29,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * @see Rule
  * @author Philippe Fournier-Viger
  */
-public class Rules {
+class Rules {
 	// A list for storing sequential rules.
 	private final List<Rule> rules = new ArrayList<Rule>();  
 	

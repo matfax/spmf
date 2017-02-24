@@ -81,7 +81,7 @@ public class ClustersEvaluation {
 	 * @param cluster a non-empty cluster 
 	 * @return a vector representing the mean
 	 */
-	public static DoubleArray calculateClusterMeans(Cluster cluster) {
+	private static DoubleArray calculateClusterMeans(Cluster cluster) {
 		int dimensionCount = cluster.getVectors().get(0).data.length;
 		double mean [] = new double[dimensionCount];
 		// for each vector

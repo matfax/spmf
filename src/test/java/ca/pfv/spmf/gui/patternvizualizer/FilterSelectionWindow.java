@@ -52,22 +52,22 @@ import ca.pfv.spmf.gui.patternvizualizer.filters.FilterStringNotContains;
  * 
  * @author Philippe Fournier-Viger
  */
-public class FilterSelectionWindow extends JDialog {
+class FilterSelectionWindow extends JDialog {
 
 	/** The text field for entering a value for the current filter */
 	private JTextField textField;
 
 	/** List of table column names */
-	Vector<String> columnNames = null;
+	private Vector<String> columnNames = null;
 
 	/** List of table column classes (Integer, Double, String) */
-	Vector<Class> columnClasses = null;
+	private Vector<Class> columnClasses = null;
 
 	/** List of current filters **/
-	PatternTableRowFilters rowfilters;
+	private PatternTableRowFilters rowfilters;
 
 	/** The list of available filters for showing in the combo box */
-	List<Class> listComboBoxFilters = new ArrayList<Class>();
+	private List<Class> listComboBoxFilters = new ArrayList<Class>();
 
 	/** the combo box to let the user choose a filter*/
 	private JComboBox comboBoxFilters;
@@ -181,7 +181,7 @@ public class FilterSelectionWindow extends JDialog {
 			private void printIt(DocumentEvent documentEvent) {
 				// When the user type in the jtext field, if the text is not empty
 				// we will show the button "add filter" as enabled.
-				if (textField.getText().isEmpty() == false) {
+				if (!textField.getText().isEmpty()) {
 					btnAddFilter.setEnabled(true);
 				} else {
 					// otherwise, the button is disabled

@@ -101,7 +101,7 @@ public class Trie implements Comparable<Trie> {
      * @param index Child index in which we are interested
      * @return the ith trie child.
      */
-    public Trie getChild(int index) {
+    private Trie getChild(int index) {
         return nodes.get(index).getChild();
     }
 
@@ -176,7 +176,7 @@ public class Trie implements Comparable<Trie> {
      * It returns the number of children that a Trie has
      * @return  the number of children
      */
-    public int levelSize() {
+    private int levelSize() {
         if (nodes == null) {
             return 0;
         }
@@ -229,7 +229,7 @@ public class Trie implements Comparable<Trie> {
      * the Trie appears
      * @return  the list of sequence ids
      */
-    public BitSet getAppearingIn() {
+    private BitSet getAppearingIn() {
         return this.appearingIn;
     }
 
@@ -363,7 +363,7 @@ public class Trie implements Comparable<Trie> {
      * @param model TreeModel when we want to insert the Trie nodes
      * @param p TreeNode for the TreeModel
      */
-    public void display(DefaultTreeModel model, MutableTreeNode p) {
+    private void display(DefaultTreeModel model, MutableTreeNode p) {
 
         if (nodes != null) {
             //For each node

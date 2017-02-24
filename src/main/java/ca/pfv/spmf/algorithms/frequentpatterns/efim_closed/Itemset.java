@@ -26,10 +26,10 @@ import java.util.List;
  */
 public class Itemset {
 	/** the array of items **/
-	public int[] itemset; 
+    private int[] itemset;
 
 	/**  the utility of this itemset */
-	public double utility = 0; 
+    private double utility = 0;
 	
 	/**
 	 * Get the items as array
@@ -58,13 +58,12 @@ public class Itemset {
 	 * Constructor 
 	 * @param items an array of items that should be added to the new itemset
 	 */
-	public Itemset(int [] items){
+    private Itemset(int[] items){
 		this.itemset = items;
 	}
 	
 	/**
 	 * Constructor 
-	 * @param items a list of Integer representing items in the itemset
 	 * @param utility the utility of the itemset
 	 */
 	public Itemset(List<Integer> itemset, double utility){
@@ -96,14 +95,14 @@ public class Itemset {
 	/**
 	 * Get the size of this itemset 
 	 */
-	public int size() {
+    private int size() {
 		return itemset.length;
 	}
 
 	/**
 	 * Get the item at a given position in this itemset
 	 */
-	public Integer get(int position) {
+    private Integer get(int position) {
 		return itemset[position];
 	}
 

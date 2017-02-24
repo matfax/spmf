@@ -68,16 +68,16 @@ public class AlgoSPAM{
 	private int minsup = 0;
 
     /** object to write to a file */
-    BufferedWriter writer = null;
+    private BufferedWriter writer = null;
     
     /** Vertical database */
-    Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
     
     /** List indicating the number of bits per sequence */
-    List<Integer> sequencesSize = null;
+    private List<Integer> sequencesSize = null;
     
     /** the last bit position that is used in bitmaps */
-    int lastBitIndex = 0;  
+    private int lastBitIndex = 0;
     
 	/** maximum pattern length in terms of item count */
 	private int minimumPatternLength = 0;
@@ -123,7 +123,6 @@ public class AlgoSPAM{
 	
 	/**
 	 * This is the main method for the SPAM algorithm
-	 * @param an input file
 	 * @param minsupRel the minimum support as a relative value
 	 * @throws IOException 
 	 */
@@ -146,7 +145,7 @@ public class AlgoSPAM{
 			while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -190,7 +189,7 @@ public class AlgoSPAM{
 			while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;

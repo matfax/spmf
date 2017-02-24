@@ -16,7 +16,7 @@ import java.util.List;
 public class MemoryLogger {
 
 	
-	public static List<Integer> mMemoryUsage = new ArrayList<Integer>(); //used for memory usage
+	private static List<Integer> mMemoryUsage = new ArrayList<Integer>(); //used for memory usage
 	
 	
 	
@@ -32,7 +32,7 @@ public class MemoryLogger {
 		mMemoryUsage.add(getUsedMemory());
 	}
 	
-	public static int getUsedMemory() {
+	private static int getUsedMemory() {
 	
 		int mb = 1024*1024; // 1mb  = 1024 * 1024 bytes
         Runtime runtime = Runtime.getRuntime();

@@ -1,7 +1,6 @@
 package ca.pfv.spmf.algorithms.clustering.dbscan;
 
 import ca.pfv.spmf.patterns.cluster.Cluster;
-import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 
 /* This file is copyright (c) 2008-2015 Philippe Fournier-Viger
@@ -26,7 +25,7 @@ import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 * 
  * @author Philippe Fournier-Viger
  */
-public class DoubleArrayDBS extends DoubleArrayInstance{
+class DoubleArrayDBS extends DoubleArrayInstance{
 	
 	boolean visited = false;
 	Cluster cluster = null;
@@ -34,8 +33,7 @@ public class DoubleArrayDBS extends DoubleArrayInstance{
 	/**
 	 * Constructor
 	 * @param data an array of double values
-	 * @param String the name of this array
-	 */
+     */
 	public DoubleArrayDBS(double[] data, String name) {
 		super(data, name);
 	}

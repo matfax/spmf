@@ -16,7 +16,7 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.profile.Prof
  */
 public class Paramable {
 
-	HashMap<String, String> parameters;
+	private HashMap<String, String> parameters;
 	
 	public Paramable() {
 		parameters = new HashMap<String, String>();
@@ -66,7 +66,7 @@ public class Paramable {
 		return (param != null) ? param : defaultValue;
 	}
 	
-	public Float paramFloat(String name) {
+	private Float paramFloat(String name) {
 		Object value = parameters.get(name);
 		
 		if(value != null) {
@@ -82,7 +82,7 @@ public class Paramable {
 		return (param != null) ? param : defaultValue;
 	}
 	
-	public Boolean paramBool(String name) {
+	private Boolean paramBool(String name) {
 		Object value = parameters.get(name);
 		
 		if(value != null) {

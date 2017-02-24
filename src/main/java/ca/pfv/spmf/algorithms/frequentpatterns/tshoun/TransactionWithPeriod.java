@@ -18,11 +18,11 @@ import ca.pfv.spmf.algorithms.frequentpatterns.two_phase.UtilityTransactionDatab
  * 
  * @author Philippe Fournier-Viger
  */
-public class TransactionWithPeriod{
+class TransactionWithPeriod{
 	// a transaction is an ordered list of items
-	protected final List<ItemUtility> itemsUtilities; 
+	private final List<ItemUtility> itemsUtilities;
 	// the total transaction utility (TU)
-	protected int transactionUtility;
+    int transactionUtility;
 	// the period in which the transaction occurred
 	private int period;
 	
@@ -39,8 +39,7 @@ public class TransactionWithPeriod{
 	 * @param itemsUtilities list of items
 	 * @param itemsUtilities list of corresponding utility values
 	 * @param transactionUtility  the transaction utility
-	 * @param the transaction period (an integer >= 0 )
-	 */
+     */
 	public TransactionWithPeriod(List<ItemUtility> itemsUtilities, int transactionUtility, int period){
 		this.itemsUtilities =  itemsUtilities;
 		this.transactionUtility = transactionUtility;

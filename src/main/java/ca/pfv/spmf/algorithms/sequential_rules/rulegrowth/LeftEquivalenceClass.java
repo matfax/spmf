@@ -31,7 +31,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * @see Itemset
  * @author Philippe Fournier-Viger
  */
-public class LeftEquivalenceClass {
+class LeftEquivalenceClass {
 	
 	int[] itemsetJ; 
 	Set<Integer> tidsJ;

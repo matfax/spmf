@@ -24,7 +24,7 @@ public abstract class Predictor {
 	 */
 	protected String TAG;
 	
-	public Predictor(){
+	protected Predictor(){
 	}
 	
 	public Predictor(String tag) {
@@ -36,12 +36,11 @@ public abstract class Predictor {
 	 * Trains this predictor with the provided training data
 	 * @return true on success
 	 */
-	public abstract Boolean Train(List<Sequence> trainingSequences);
+	public abstract void Train(List<Sequence> trainingSequences);
 	
 	/**
 	 * Predict the next element in the given sequence
-	 * @param sequence to predict
-	 */
+     */
 	public abstract Sequence Predict(Sequence target);
 	
 	/**

@@ -33,16 +33,15 @@ import java.util.Set;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class SEPositionList {
+class SEPositionList {
 	/** The list of items  */
-	int[] listItems = null;
+    private int[] listItems = null;
 	/** the list of positions corresponding to the items*/
-	List<Short> [] listPositions = null;
+    private List<Short> [] listPositions = null;
 
 	/**
 	 * Constructor (perform some intialization
-	 * @param a set of integers that will be inserted into this list
-	 */
+     */
 	@SuppressWarnings("unchecked")
 	public  SEPositionList(Set<Integer> itemsAlreadySeen) {
 		// Get the number of items that will be inserted to initialized the lists

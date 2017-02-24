@@ -69,7 +69,7 @@ public class DescriptionAlgoCORI extends DescriptionOfAlgorithm {
 
 		AlgoCORI algo = new AlgoCORI();
 		
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[2]));
 		}
 		

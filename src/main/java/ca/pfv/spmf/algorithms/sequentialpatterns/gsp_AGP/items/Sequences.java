@@ -40,11 +40,11 @@ public class Sequences {
      * List of lists, where each list contains the frequent patterns of a concrete
      * length
      */
-    public List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
+    private List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
     /**
      * Number of frequent sequences
      */
-    public int numberOfFrequentSequences = 0;
+    private int numberOfFrequentSequences = 0;
     /**
      * String header that can be add with informative purposes
      */
@@ -106,7 +106,7 @@ public class Sequences {
      * @param sequence a sequence to add
      * @param levelIndex the level where the sequence must be
      */
-    public void addSequence(Pattern sequence, int levelIndex) {
+    private void addSequence(Pattern sequence, int levelIndex) {
         //while our maximum level is less than the given one, we keep adding new levels
         while (levels.size() <= levelIndex) {
             levels.add(new ArrayList<Pattern>());

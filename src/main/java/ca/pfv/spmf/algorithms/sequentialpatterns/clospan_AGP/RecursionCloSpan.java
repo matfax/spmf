@@ -194,8 +194,7 @@ class RecursionCloSpan {
      * It projects the database given as parameter
      * @param item The item from which we make the projection
      * @param database The database where we make the projection
-     * @param abstraction Abstraction associated with the item to project
-     * @param firstTime Flag that points out if it the first time that 
+     * @param firstTime Flag that points out if it the first time that
      * @return The new projected database
      */
     private PseudoSequenceDatabase makePseudoProjections(Item item, PseudoSequenceDatabase database, Abstraction_Generic abstraccion, boolean firstTime) {
@@ -346,8 +345,6 @@ class RecursionCloSpan {
      * items as its children
      * @param k size of patterns that are going to be generated
      * @param context prefix-projected databases
-     * @param keepPatterns flag indicating if we want to keep the output or we 
-     * are interesting in just the number of frequent patterns
      * @param verbose flag for debuggin purposes
      */
     private void cloSpanLoop(Pattern prefix, TrieNode prefixNode, int k, PseudoSequenceDatabase context, boolean verbose) {

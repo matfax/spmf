@@ -37,20 +37,20 @@ import java.util.Set;
 public class AlgoUApriori {
 
 	// this is the database
-	protected UncertainTransactionDatabase database;
+    private UncertainTransactionDatabase database;
 	// variable indicating the current level for the Apriori generation
 	// (itemsets of size k)
-	protected int k; 
+    private int k;
 
 	// stats
-	protected int totalCandidateCount = 0;  // number of candidates generated
-	protected int databaseScanCount = 0;  // number of database scan
-	protected long startTimestamp;  // start time of latest execution
-	protected long endTimestamp; // end time of latest execution
+    private int totalCandidateCount = 0;  // number of candidates generated
+	private int databaseScanCount = 0;  // number of database scan
+	private long startTimestamp;  // start time of latest execution
+	private long endTimestamp; // end time of latest execution
 	private int itemsetCount; // the number of itemsets found
 	
 	// write to file
-	BufferedWriter writer = null;	
+    private BufferedWriter writer = null;
 	
 	/**
 	 * Constructor
@@ -141,7 +141,7 @@ public class AlgoUApriori {
 	 * @return  the set of frequent itemsets of size k 
 	 * @throws IOException exception if error writing output file
 	 */
-	protected Set<ItemsetUApriori> createLevelWithFrequentCandidates(double minsupp,Set<ItemsetUApriori> candidatesK) throws IOException {
+    private Set<ItemsetUApriori> createLevelWithFrequentCandidates(double minsupp, Set<ItemsetUApriori> candidatesK) throws IOException {
 		Set<ItemsetUApriori> levelK = new HashSet<ItemsetUApriori>();
 		// for each itemset
 		for (ItemsetUApriori candidate : candidatesK) { 
@@ -161,8 +161,8 @@ public class AlgoUApriori {
 	 * Calculate the support of a set of candidates by scanning the database.
 	 * @param candidatesK  a set of candidates of size k
 	 */
-	protected void calculateSupportForEachCandidate(
-			Set<ItemsetUApriori> candidatesK) {
+    private void calculateSupportForEachCandidate(
+            Set<ItemsetUApriori> candidatesK) {
 		// increase database scan count
 		databaseScanCount++;
 		// for each transaction
@@ -203,7 +203,7 @@ public class AlgoUApriori {
 					}	
 					// if the last item that we searched was not found
 					// then the full itemset is not here, so we stop
-					if(found == false){
+					if(!found){
 						continue candidateLoop;
 					}
 				}
@@ -219,7 +219,7 @@ public class AlgoUApriori {
 	 * Generate candidate itemsets containing a single item.
 	 * @return a set of candidate itemsets
 	 */
-	protected Set<ItemsetUApriori> generateCandidateSize1() {
+    private Set<ItemsetUApriori> generateCandidateSize1() {
 		// create the set of candidates as empty
 		Set<ItemsetUApriori> candidates = new HashSet<ItemsetUApriori>(); 
 		// for each item
@@ -237,7 +237,7 @@ public class AlgoUApriori {
 	 * @param levelK_1   itemsets of size k-1
 	 * @return  candidates of size K
 	 */
-	protected Set<ItemsetUApriori> generateCandidateSizeK(Set<ItemsetUApriori> levelK_1) {
+    private Set<ItemsetUApriori> generateCandidateSizeK(Set<ItemsetUApriori> levelK_1) {
 		// a set to store candidates
 		Set<ItemsetUApriori> candidates = new HashSet<ItemsetUApriori>();
 
@@ -278,7 +278,7 @@ public class AlgoUApriori {
 	 * @param levelK_1  frequent itemsets of size k-1
 	 * @return true if all subsets are frequent, otherwise false
 	 */
-	protected boolean allSubsetsOfSizeK_1AreFrequent(ItemsetUApriori candidate, Set<ItemsetUApriori> levelK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(ItemsetUApriori candidate, Set<ItemsetUApriori> levelK_1) {
 		// To generate all the set of size K-1, we will proceed
 		// by removing each item, one by one.
 		
@@ -301,7 +301,7 @@ public class AlgoUApriori {
 				}
 			}
 			// if the subset was not found, then we return false
-			if(found == false){
+			if(!found){
 				return false;
 			}
 		}

@@ -34,7 +34,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoAprioriHT
  * @author Philippe Fournier-Viger
  */
-public class ItemsetHashTree {
+class ItemsetHashTree {
 
 	// this constant indicates how many child nodes a node should have
 	private int branch_count = 30;
@@ -46,7 +46,7 @@ public class ItemsetHashTree {
 	 int candidateCount;
 	
 	// the root node of the tree
-	InnerNode root;
+    private InnerNode root;
 	
 	// the last leaf node that was added to the tree
 	LeafNode lastInsertedNode = null; 

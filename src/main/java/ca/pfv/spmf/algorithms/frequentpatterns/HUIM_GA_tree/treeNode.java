@@ -4,8 +4,8 @@ package ca.pfv.spmf.algorithms.frequentpatterns.HUIM_GA_tree;
  * 
  * @author Jerry Chun-Wei Lin, Lu Yang, Philippe Fournier-Viger
  */
-public class treeNode {
-	int item;//item of each node
+class treeNode {
+	private int item;//item of each node
 	treeNode OR;
 	treeNode NOR;
 	

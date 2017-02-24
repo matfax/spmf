@@ -23,10 +23,10 @@ import java.util.List;
  *
  * @author Alan Souza <apsouza@inf.ufrgs.br>
  */
-public class Transaction {
-	public static Integer[] temp = new Integer[500];
+class Transaction {
+	private static Integer[] temp = new Integer[500];
 
-	Transaction originalTransaction;
+	private Transaction originalTransaction;
 	int offset;
 	
     private Integer[] items;

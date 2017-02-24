@@ -41,12 +41,12 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoPiecewiseAggregateApproximation {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 		
 	/**
 	 * Default constructor
@@ -61,7 +61,7 @@ public class AlgoPiecewiseAggregateApproximation {
 	 * @return the PAA representation of the time series (an array of double)
 	 * @throws IOException exception if error while writing the file
 	 */
-	public TimeSeries runAlgorithm(TimeSeries timeSeries, int numberOfSegments) throws IOException {
+	public TimeSeries runAlgorithm(TimeSeries timeSeries, int numberOfSegments) {
 		// check some error for parameters
 		if(timeSeries.data.length < numberOfSegments){
 			throw new IllegalArgumentException(" The number of segments should be less than or equal to the number of data points in the time series");
@@ -125,7 +125,7 @@ public class AlgoPiecewiseAggregateApproximation {
 		}
 		
 		// Then if the last data point is partial
-		if(isExactlyDivisible == false){
+		if(!isExactlyDivisible){
 			// we calculate the weight of that point
 			double weight = segmentSize - Math.floor(segmentSize);
 		
@@ -148,7 +148,7 @@ public class AlgoPiecewiseAggregateApproximation {
 			boolean currenPointIsExactlyDivisible = currentPoint == (int) currentPoint;
 			
 			// If the first data point is not divisible
-			if(currenPointIsExactlyDivisible == false){
+			if(!currenPointIsExactlyDivisible){
 				// we calculate the weight of that point
 				double weight = Math.ceil(currentPoint) - currentPoint;
 			

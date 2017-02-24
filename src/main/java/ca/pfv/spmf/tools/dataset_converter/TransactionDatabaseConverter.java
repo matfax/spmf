@@ -28,9 +28,9 @@ import java.util.*;
 */
 public class TransactionDatabaseConverter {
 	
-	String input;  // the path of the input file
-	String output; // the path of the file to be written to disk in SPMF format
-	int lineCount =0; // the number of sequences in the input file
+	private String input;  // the path of the input file
+	private String output; // the path of the file to be written to disk in SPMF format
+	private int lineCount =0; // the number of sequences in the input file
 
 	/**
 	 * This method converts a transaction database from a given format to the SPMF format.
@@ -150,7 +150,7 @@ public class TransactionDatabaseConverter {
 					if(relationName.contains("'")){
 						relationName = relationName.split("'")[1];
 					}
-					if(returnMapItemIDValue == false){
+					if(!returnMapItemIDValue){
 						writer.write("@CONVERTED_FROM_ARFF");
 						writer.newLine();
 						writer.write("@RELATION_NAME=");
@@ -173,7 +173,7 @@ public class TransactionDatabaseConverter {
 					// increase the number of attributes
 					attributeCount++;
 					
-					if(returnMapItemIDValue == false){
+					if(!returnMapItemIDValue){
 						writer.write("@ATTRIBUTE=");
 					}
 					
@@ -197,7 +197,7 @@ public class TransactionDatabaseConverter {
 						int quotePosition = thisLine.indexOf('\'');
 						// write attribute name
 						String attributeName = thisLine.substring(0, quotePosition);
-						if(returnMapItemIDValue == false){
+						if(!returnMapItemIDValue){
 							writer.write(attributeName + "=");
 						}
 						listAttributeNames.add(attributeName);
@@ -208,7 +208,7 @@ public class TransactionDatabaseConverter {
 						int spacePosition = thisLine.indexOf(' ');
 						// write attribute name
 						String attributeName = thisLine.substring(0, spacePosition);
-						if(returnMapItemIDValue == false){
+						if(!returnMapItemIDValue){
 							writer.write(attributeName + "=");
 						}
 						listAttributeNames.add(attributeName);
@@ -225,7 +225,7 @@ public class TransactionDatabaseConverter {
 					// WRITE TYPE
 					String type = thisLine;
 					if(type.startsWith("{")){
-						if(returnMapItemIDValue == false){
+						if(!returnMapItemIDValue){
 							writer.write("ENUMERATION=");
 						}
 						// Remove the brackets {}
@@ -237,18 +237,18 @@ public class TransactionDatabaseConverter {
 							// remove spaces i they are some
 							token = token.trim();
 							// write the enumeration value
-							if(returnMapItemIDValue == false){
+							if(!returnMapItemIDValue){
 								writer.write(token + "=");
 							}
 						}
 					}else{
 						// this is not an enumeration so we don't need
 						// to write enumeration values.
-						if(returnMapItemIDValue == false){
+						if(!returnMapItemIDValue){
 							writer.write(type + "=");
 						}
 					}
-					if(returnMapItemIDValue == false){
+					if(!returnMapItemIDValue){
 						writer.newLine();
 					}
 					continue;
@@ -347,7 +347,7 @@ public class TransactionDatabaseConverter {
 					// seen.
 					for(int i=0; i< attributeCount; i++){
 						// if the attriute i has not been processed yet
-						if(positionProcessed.contains(i) == false){
+						if(!positionProcessed.contains(i)){
 							String val = "0";
 							// if the user want to ignore missing values,
 							// we skip the value
@@ -567,7 +567,7 @@ public class TransactionDatabaseConverter {
 			if(thisLine.charAt(0) == '@'){
 				// if it is  the first line in the file
 				// we do nothing
-				if(isFirstLineWritten == true){
+				if(isFirstLineWritten){
 					isFirstLineWritten = false;
 				}else{
 					// otherwise we change line
@@ -581,14 +581,14 @@ public class TransactionDatabaseConverter {
 			// if the line is not a comment, is or   other 
 			// kind of metadata, it is a sequence, so we will
 			// convert it to a transaction
-			else if (thisLine.isEmpty() == false && 	thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%') {
+			else if (!thisLine.isEmpty() && 	thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%') {
 				// split this line according to spaces and process the line
 				String[] sequence = thisLine.split(" ");
 				
 				
 				// if it is  the first line in the file
 				// we do nothing
-				if(isFirstLineWritten == true){
+				if(isFirstLineWritten){
 					isFirstLineWritten = false;
 				}else{
 					// otherwise we change line
@@ -602,7 +602,7 @@ public class TransactionDatabaseConverter {
 					Integer itemInt = new Integer(item);
 					
 					// if the item is not a separator and we have not seen it yet
-					if(itemInt >=0 && alreadySeen.contains(item) == false){
+					if(itemInt >=0 && !alreadySeen.contains(item)){
 						// remember that we have seen it
 						alreadySeen.add(itemInt);
 					}

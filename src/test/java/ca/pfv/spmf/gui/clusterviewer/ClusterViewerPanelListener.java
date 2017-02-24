@@ -26,7 +26,7 @@ import java.awt.Color;
  * 
  * @author Philippe Fournier-Viger 2016
  */
-public interface ClusterViewerPanelListener {
+interface ClusterViewerPanelListener {
 	/** 
 	 * Notify listeners of the new chart position
 	 * @param x the x coordinate

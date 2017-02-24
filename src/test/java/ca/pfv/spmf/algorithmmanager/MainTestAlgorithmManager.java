@@ -27,7 +27,7 @@ import java.util.Arrays;
  * @author Philippe Fournier-Viger 2016
  */
 
-public class MainTestAlgorithmManager {
+class MainTestAlgorithmManager {
 
 	public static void main(String[] args) throws Exception {
 		// / Initialize the algorith manager
@@ -65,7 +65,7 @@ public class MainTestAlgorithmManager {
 		descriptionOfAlgorithm.runAlgorithm(parameters, inputFile, outputFile);
 	}
 	
-	public static String fileToPath(String filename) throws UnsupportedEncodingException{
+	private static String fileToPath(String filename) throws UnsupportedEncodingException{
 		URL url = MainTestAlgorithmManager.class.getResource(filename);
 		 return java.net.URLDecoder.decode(url.getPath(),"UTF-8");
 	}

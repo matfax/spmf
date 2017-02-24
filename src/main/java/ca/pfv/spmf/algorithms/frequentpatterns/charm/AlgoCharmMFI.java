@@ -16,17 +16,17 @@ package ca.pfv.spmf.algorithms.frequentpatterns.charm;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import ca.pfv.spmf.datastructures.triangularmatrix.TriangularMatrix;
+import ca.pfv.spmf.input.transaction_database_list_integers.TransactionDatabase;
+import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemset;
+import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemsets;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
-
-import ca.pfv.spmf.datastructures.triangularmatrix.TriangularMatrix;
-import ca.pfv.spmf.input.transaction_database_list_integers.TransactionDatabase;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemset;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemsets;
 
 /**
  * This is an implementation of the CHARM-MFI algorithm (thesis of L. Szathmary, 2006) 
@@ -62,13 +62,13 @@ public class AlgoCharmMFI {
 	/** 
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
-	protected Itemsets maximalItemsets;
+    private Itemsets maximalItemsets;
 	
 	/** object to write the output file */
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 	
 	/**
 	 * Default constructor

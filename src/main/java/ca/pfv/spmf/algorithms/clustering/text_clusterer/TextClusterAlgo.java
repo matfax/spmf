@@ -55,7 +55,6 @@ private boolean stemFlag;		//stemming to be done or not
 private boolean stopWordFlag;	//stop words to be removed or not
 private PorterStemmer stemmer;
 /**
- * @param path
  * @param stemFlag
  * @param stopWordFlag
  */
@@ -67,9 +66,8 @@ public void runAlgorithm(String inputPath,String outputPath, boolean stemFlag, b
 }
 
 /**
- * @param path
  */
-public void runAlgorithm(String inputPath,String outputPath)
+private void runAlgorithm(String inputPath, String outputPath)
 {
 	startTimestamp=System.currentTimeMillis();
 	stemmer=new PorterStemmer();
@@ -215,7 +213,7 @@ private  ArrayList<Record> loadInput(BufferedReader inputReader, boolean stemFla
 			record.setRecordId(recordId);
 			String attribute=line[1].toLowerCase();
 			attribute=attribute.replaceAll("[^a-zA-Z0-9]+"," ");
-			if(stopWordFlag==true)
+			if(stopWordFlag)
 			{
 				StopWordAnalyzer analyzer=new StopWordAnalyzer();
 				attribute=analyzer.removeStopWords(attribute);
@@ -226,7 +224,7 @@ private  ArrayList<Record> loadInput(BufferedReader inputReader, boolean stemFla
 			attribute="";
 			for(String word:words)
 			{
-				if(stemFlag==true)	
+				if(stemFlag)
 				{
 					word=stemmer.stem(word);
 				}

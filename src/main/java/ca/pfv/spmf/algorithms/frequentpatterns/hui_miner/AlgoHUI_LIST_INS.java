@@ -50,50 +50,50 @@ import java.util.Map;
 public class AlgoHUI_LIST_INS {
 
 	// variable for statistics
-	public double maxMemory = 0;     // the maximum memory usage
-	public long startTimestamp = 0;  // the time the algorithm started
-	public long endTimestamp = 0;   // the time the algorithm terminated
+    private double maxMemory = 0;     // the maximum memory usage
+	private long startTimestamp = 0;  // the time the algorithm started
+	private long endTimestamp = 0;   // the time the algorithm terminated
 	public int huiCount =0;  // the number of HUI generated
 	
 	/** Store the total times for all runs of this algorithm */
-	public long totalTimeForAllRuns = 0;
-	public int totalCandidateCountForAllRuns = 0;
+    private long totalTimeForAllRuns = 0;
+	private int totalCandidateCountForAllRuns = 0;
 	
-	public int candidateCount =0;
+	private int candidateCount =0;
 	
 	// Map to remember the TWU of each item
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	//  During first database, the item are sorted by TWU.... Then we keep this ordering
 	// in the following map because if the ordering change in an updated database,
 	// then the result may be incorrect.
-	Map<Integer, Integer> mapItemToRank;
+    private Map<Integer, Integer> mapItemToRank;
 	
 	// writer to write the output file 
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	// NEW OPTIMIZATION - EUCS  (FAST)
-	Map<Integer, Map<Integer, Integer>> mapEUCS;  // PAIR OF ITEMS , item --> item, twu
+    private Map<Integer, Map<Integer, Integer>> mapEUCS;  // PAIR OF ITEMS , item --> item, twu
 	// END NEW OPTIMIZATION
 	
 	// variable for debug mode
 	boolean debug = false;
 	private Map<Integer, UtilityList> mapItemToUtilityList;
 	
-	List<UtilityList> listOfUtilityLists;
+	private List<UtilityList> listOfUtilityLists;
 	
-	int totalDBUtility = 0;
+	private int totalDBUtility = 0;
 	
-	int minUtility;
+	private int minUtility;
 	
 	// buffer for storing the current itemset that is mined when performing mining
 	// the idea is to always reuse the same buffer to reduce memory usage.
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	
 	// This variable stores the current TID for using
-	int currentTidForUtilityList = 0;
+    private int currentTidForUtilityList = 0;
 
 	// this class represent an item and its utility in a transaction
 	class Pair{
@@ -116,9 +116,6 @@ public class AlgoHUI_LIST_INS {
 	 * Run the algorithm
 	 * @param input the input file path
 	 * @param output the output file path
-	 * @param minUtility the minimum utility threshold
-	 * @param firstline the first line to be read
-	 * @param lastline the last line to be read
 	 * @throws IOException exception if error while writing the file
 	 */
 	public void runAlgorithm(String input, String output, Integer minUtil, int firstLine, int lastLine) throws IOException {
@@ -166,7 +163,7 @@ public class AlgoHUI_LIST_INS {
 				if(tid >= firstLine){
 					// if the line is  a comment, is  empty or is a
 					// kind of metadata
-					if (thisLine.isEmpty() == true ||
+					if (thisLine.isEmpty() ||
 							thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 						continue;
 					}
@@ -237,7 +234,7 @@ public class AlgoHUI_LIST_INS {
 			while ((thisLine = myInput.readLine()) != null && tid < lastLine) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -518,8 +515,6 @@ public class AlgoHUI_LIST_INS {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param sumIutils the utility of the prefix concatenated with the item
 	 * @param prefixLength The current prefix length
 	 */
@@ -564,7 +559,7 @@ public class AlgoHUI_LIST_INS {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 		System.out.println("=============  HUI-LIST_INS ALGORITHM - STATS =============");
 		System.out.println(" Transaction processed count : " + currentTidForUtilityList);
 		System.out.println(" Execution time ~ "                  + (endTimestamp - startTimestamp) + " ms");

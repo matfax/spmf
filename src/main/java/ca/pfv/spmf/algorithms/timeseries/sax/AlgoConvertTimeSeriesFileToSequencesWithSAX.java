@@ -40,22 +40,22 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoConvertTimeSeriesFileToSequencesWithSAX {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** writer to write the output file **/
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 	
 	/** The number of time series in the last file that was read */
-	int timeSeriesCount = 0;
+    private int timeSeriesCount = 0;
 	
 	/** The symbols created for the last converted time series */
-	SAXSymbol[] symbols;
+    private SAXSymbol[] symbols;
 		
 	/**
 	 * Default constructor

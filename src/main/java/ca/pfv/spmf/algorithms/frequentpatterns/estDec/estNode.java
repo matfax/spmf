@@ -34,7 +34,7 @@ import java.util.List;
 public class estNode {
 	Integer itemID; // item id
 	double counter; // frequency counter
-	int tid; // last tid
+	private int tid; // last tid
 
 	List<estNode> children; // children nodes
 

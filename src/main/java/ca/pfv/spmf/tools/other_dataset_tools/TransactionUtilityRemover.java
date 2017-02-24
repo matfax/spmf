@@ -17,8 +17,6 @@ package ca.pfv.spmf.tools.other_dataset_tools;
 */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,7 +49,7 @@ public class TransactionUtilityRemover {
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (thisLine.isEmpty() == true ||
+			if (thisLine.isEmpty() ||
 					thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 							|| thisLine.charAt(0) == '@') {
 				continue;

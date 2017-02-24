@@ -24,13 +24,13 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class PseudoSequence {
+class PseudoSequence {
 
 	// the corresponding sequence in the original database
-	protected int sequenceID;
+    int sequenceID;
 
 	// the first itemset of this pseudo-sequence in the original sequence
-	protected int indexFirstItem;
+    int indexFirstItem;
 	
 	/**
 	 * Get the original sequence corresponding to this projected sequence.
@@ -42,10 +42,9 @@ public class PseudoSequence {
 	
 	/**
 	 * Create a pseudo-sequence from a sequence that is an original sequence.
-	 * @param sequence the original sequence.
 	 * @param indexFirstItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected  PseudoSequence(int sequenceID, int indexFirstItem){
+    PseudoSequence(int sequenceID, int indexFirstItem){
 		// remember the original sequence
 		this.sequenceID = sequenceID;
 		// remember the starting position of this pseudo-sequence in terms

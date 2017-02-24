@@ -169,7 +169,7 @@ public class Sequence {
 		return equals(other);
 	}
 	
-	public boolean equals(Sequence other) {
+	private boolean equals(Sequence other) {
 		
 		if(id != other.id || items.size() != other.items.size()) {
 			return false;
@@ -177,7 +177,7 @@ public class Sequence {
 		
 		for(int i = 0; i < items.size(); i++) {
 			
-			if(items.get(i).equals(other.items.get(i)) == false) {
+			if(!items.get(i).equals(other.items.get(i))) {
 				return false;
 			}
 		}

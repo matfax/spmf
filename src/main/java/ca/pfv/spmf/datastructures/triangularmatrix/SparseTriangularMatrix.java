@@ -44,8 +44,7 @@ public class SparseTriangularMatrix implements AbstractTriangularMatrix {
 
 	/**
 	 * Constructor of a new triangular matrix.
-	 * @param elementCount the desired number of lines in the matrix.
-	 */
+     */
 	public SparseTriangularMatrix(){
 
 	}

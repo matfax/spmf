@@ -150,7 +150,7 @@ public class Pattern implements Comparable<Pattern>{
      * It obtains the elements of the pattern
      * @return the list of elements
      */
-    public List<ItemAbstractionPair> getElements() {
+    private List<ItemAbstractionPair> getElements() {
         return elements;
     }
 
@@ -300,7 +300,7 @@ public class Pattern implements Comparable<Pattern>{
      * Method to set the support of this pattern
      * @param support as an integer value
      */
-    public void setSupport(int support) {
+    private void setSupport(int support) {
         this.support = support;
     }
 

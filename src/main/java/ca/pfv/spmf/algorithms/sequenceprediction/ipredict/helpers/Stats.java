@@ -15,7 +15,7 @@ import java.util.Map;
  * You may obtain a copy of the License at
  * https://opensource.org/licenses/MIT 
  */
-public class Stats {
+class Stats {
 
 	private String name;
 	private Map<String, Map<String, String>> data;
@@ -30,7 +30,7 @@ public class Stats {
 		}
 	}
 	
-	public HashMap<String, String> prepareRow() {
+	private HashMap<String, String> prepareRow() {
 		HashMap<String, String> row = new HashMap<String, String>();
 		/*
 		for(String column : columns) {
@@ -80,7 +80,7 @@ public class Stats {
 			
 			Iterator<?> columns = data.get(row).entrySet().iterator();
 			
-			if(columnDisplayed == false) {
+			if(!columnDisplayed) {
 				
 				output += "\t";
 				while(columns.hasNext()) {

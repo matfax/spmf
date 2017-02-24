@@ -33,7 +33,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  *  @see Itemset
  *  @author Philippe Fournier-Viger
  */
-public class Rule {
+class Rule {
 	/** antecedent itemset */
 	private Itemset itemset1;  
 	/** consequent  itemset*/

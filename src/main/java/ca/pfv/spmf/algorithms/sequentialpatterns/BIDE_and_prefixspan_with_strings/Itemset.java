@@ -38,7 +38,7 @@ public class Itemset{
 		addItem(item);
 	}
 	
-	public Itemset(){
+	private Itemset(){
 	}
 
 	public void addItem(String value){

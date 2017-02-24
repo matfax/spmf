@@ -48,36 +48,37 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoSPADE {
 
-    public long joinCount; // PFV 2013
+    private long joinCount; // PFV 2013
     
     /**
      * the minimum support threshold
      */
-    protected double minSup;
+    private double minSup;
     /**
      * The minimum support relative threshold, i.e. the minimum number of
      * sequences where the patterns have to be
      */
-    protected double minSupRelative;
+    private double minSupRelative;
     /**
      * Flag indicating if we want a depth-first search when true. Otherwise we
      * say that we want a breadth-first search
      */
-    protected boolean dfs;
+    private boolean dfs;
     /**
      * Saver variable to decide where the user want to save the results, if it
      * the case
      */
-    Saver saver = null;
+    private Saver saver = null;
     /**
      * Start and end points in order to calculate the overall time taken by the
      * algorithm
      */
-    public long start, end;
+    private long start;
+    private long end;
     /**
      * Equivalence class whose class identifier is a frequent item
      */
-    protected List<EquivalenceClass> frequentItems;
+    private List<EquivalenceClass> frequentItems;
     /**
      * Abstraction creator
      */
@@ -207,7 +208,7 @@ public class AlgoSPADE {
      * output of the algorithm
      * @param verbose Flag for debugging purposes
      */
-    protected void runSPADE(SequenceDatabase database, CandidateGenerator candidateGenerator, long minSupportCount, boolean dfs, boolean keepPatterns, boolean verbose) {
+    private void runSPADE(SequenceDatabase database, CandidateGenerator candidateGenerator, long minSupportCount, boolean dfs, boolean keepPatterns, boolean verbose) {
         //We get the equivalence classes formed by the frequent 1-patterns
         frequentItems = database.frequentItems();
         //We extract their patterns
@@ -248,7 +249,7 @@ public class AlgoSPADE {
         // check the memory usage for statistics
         MemoryLogger.getInstance().checkMemory();
 
-		joinCount = frequentPatternEnumeration.INTERSECTION_COUNTER;
+		joinCount = FrequentPatternEnumeration.INTERSECTION_COUNTER;
     }
 
     /**
@@ -349,7 +350,7 @@ public class AlgoSPADE {
      * It gets the time spent by the algoritm in its execution.
      * @return 
      */
-    public long getRunningTime() {
+    private long getRunningTime() {
         return (end - start);
     }
 
@@ -469,7 +470,7 @@ public class AlgoSPADE {
      * output of the algorithm
      * @param verbose Flag for debugging purposes
      */
-    protected void runSPADEFromSize2PatternsParallelized2(SequenceDatabase database, CandidateGenerator candidateGenerator, long minSupportCount, boolean dfs, boolean keepPatterns, boolean verbose) {
+    private void runSPADEFromSize2PatternsParallelized2(SequenceDatabase database, CandidateGenerator candidateGenerator, long minSupportCount, boolean dfs, boolean keepPatterns, boolean verbose) {
         frequentItems = database.frequentItems();
         Collection<Pattern> size1Sequences = getPatterns(frequentItems);
         saver.savePatterns(size1Sequences);

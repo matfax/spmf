@@ -28,7 +28,7 @@ import java.util.Set;
  * @see AlgoTwoPhase
  * @author Philippe Fournier-Viger
  */
-public class ItemsetTP{
+class ItemsetTP{
 	/** an itemset is an ordered list of items */
 	private final List<Integer> items = new ArrayList<Integer>(); 
 	/** we also indicate the utility of the itemset */

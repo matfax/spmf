@@ -55,39 +55,39 @@ public class AlgoMinFHM {
 
 	// variable for statistics 
 	/** the time the algorithm started */
-	public long startTimestamp = 0;   
-	/** the time the algorithm terminated*/ 
-	public long endTimestamp = 0;    
+    private long startTimestamp = 0;
+	/** the time the algorithm terminated*/
+    private long endTimestamp = 0;
 	/** the number of HUI generated */
-	public int huiCount =0;  
+    private int huiCount =0;
 	
 	/** the number of candidates **/
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item **/
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** the EUCP structure */
-	Map<Integer, Map<Integer, Integer>> mapFMAP;  // PAIR OF ITEMS , item --> item, twu
+    private Map<Integer, Map<Integer, Integer>> mapFMAP;  // PAIR OF ITEMS , item --> item, twu
 	
 	/** variable to activate the debug mode */
-	boolean debug = false;
+    private boolean debug = false;
 	
 	/** if true, enable the LA-PRUNE optimization*/
-	boolean ENABLE_LA_PRUNE = true;
+    private boolean ENABLE_LA_PRUNE = true;
 	
 	/** The structure called the "itemset store" in the paper */
-	List<List<Itemset>> listItemsetsBySize = null;
+    private List<List<Itemset>> listItemsetsBySize = null;
 
 	/**
 	 * Check if there exists an itemset smaller than a given itemset in the MinHUI-Store
 	 * @param itemset the given itemset
 	 * @return true if there is a smaller itemset
 	 */
-	public boolean isSubsumingAFoundItemset(int [] itemset) {
+    private boolean isSubsumingAFoundItemset(int[] itemset) {
 		// THIS IS AN OPTIMIZATION.... SINCE ITEMSETS OF SIZE 1 ARE NOT IN THE MINHUI-STORE,
 		// WE DON'T NEED TO CHECK FOR ITEMSETS OF SIZE 2
 		if(itemset.length == 2) {
@@ -120,7 +120,7 @@ public class AlgoMinFHM {
 	 * @param utility its utility
 	 * @param support its support
 	 */
-	public void registerItemsetAndRemoveLarger(int [] itemset, long utility, int support) {
+    private void registerItemsetAndRemoveLarger(int[] itemset, long utility, int support) {
 //		// OPTIMIZATION: if it is an itemset of size 2, we set the pair to ZERO in the EUCS ===========
 		if(itemset.length == 2) {
 			mapFMAP.get(itemset[0]).put(itemset[1], 0);
@@ -224,7 +224,7 @@ public class AlgoMinFHM {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -312,7 +312,7 @@ public class AlgoMinFHM {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -466,8 +466,7 @@ public class AlgoMinFHM {
 	 * @param minUtility The minUtility threshold.
 	 * @throws IOException
 	 */
-	private void minfhm(int [] prefix, UtilityList pUL, List<UtilityList> ULs, int minUtility)
-			throws IOException {
+	private void minfhm(int [] prefix, UtilityList pUL, List<UtilityList> ULs, int minUtility) {
 		
 		// For each extension X of prefix P
 		for(int i=0; i< ULs.size(); i++){
@@ -508,7 +507,7 @@ public class AlgoMinFHM {
 						// we save the itemset:  pX 
 						int[] itemset = ArraysAlgos.appendIntegerToArray(newPrefix, Y.item);
 						
-						if(pXY.sumIutils >= minUtility && isSubsumingAFoundItemset(itemset) == false){
+						if(pXY.sumIutils >= minUtility && !isSubsumingAFoundItemset(itemset)){
 							registerItemsetAndRemoveLarger(itemset, pXY.sumIutils,  pXY.elements.size());
 						}else if (isSubsumingAFoundItemset(itemset)){
 							exULs.add(pXY);
@@ -611,10 +610,7 @@ public class AlgoMinFHM {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
-	 * @param utility the utility of the prefix concatenated with the item
-	 */
+     */
 	private void writeOut(Itemset itemset) throws IOException {
 		huiCount++; // increase the number of high utility itemsets found
 		
@@ -641,8 +637,6 @@ public class AlgoMinFHM {
 	
 	/**
 	 * Method to write a high utility itemset to the output file, that contains a single item.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 */
 	private void writeOutItemsetSize1(int item, int utility) throws IOException {

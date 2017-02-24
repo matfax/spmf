@@ -136,7 +136,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * @param tid Transaction timestamp
      * @param idListCreator IdlistCreator
      */
-    public void updateIdList(Map<Pattern, EquivalenceClass> totalMap, ItemAbstractionPair pair1, ItemAbstractionPair pair2, int sid, int tid, IdListCreator idListCreator) {
+    private void updateIdList(Map<Pattern, EquivalenceClass> totalMap, ItemAbstractionPair pair1, ItemAbstractionPair pair2, int sid, int tid, IdListCreator idListCreator) {
         PatternCreator patternCreator = PatternCreator.getInstance();
         List<ItemAbstractionPair> size2PatternElements = new ArrayList<ItemAbstractionPair>(2);
         size2PatternElements.add(pair1);

@@ -119,7 +119,7 @@ public class Itemset extends AbstractOrderedItemset{
 		// for each item of this itemset
 		for(int j =0; j < itemset.length; j++){
 			// copy the item except if it is not an item that should be excluded
-			if(itemsetToNotKeep.contains(itemset[j]) == false){
+			if(!itemsetToNotKeep.contains(itemset[j])){
 				newItemset[i++] = itemset[j];
 			}
 		}

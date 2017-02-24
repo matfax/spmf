@@ -28,7 +28,7 @@ import java.util.List;
  * @see Element
  * @author Philippe Fournier-Viger
  */
-public class UtilityListEIHI {
+class UtilityListEIHI {
 
 	// the last item of the itemset represented by this utility list
 	public Integer item;
@@ -58,8 +58,7 @@ public class UtilityListEIHI {
 	/**
 	 * Method to add an element to this utility list and update the sums at the same time.
 	 * @param element the element to be added
-	 * @param firstTIDOfDP the tid of the first transaction of DP
-	 */
+     */
 	public void addElementD(Element element/*, int firstTIDOfDP*/){
 		sumIutilsD += element.iutils;
 		sumRutilsD += element.rutils;
@@ -69,8 +68,7 @@ public class UtilityListEIHI {
 	/**
 	 * Method to add an element to this utility list and update the sums at the same time.
 	 * @param element the element to be added
-	 * @param firstTIDOfDP the tid of the first transaction of DP
-	 */
+     */
 	public void addElementDP(Element element/*, int firstTIDOfDP*/){
 			sumIutilsDP += element.iutils;
 			sumRutilsDP += element.rutils;

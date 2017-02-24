@@ -72,7 +72,7 @@ public class Database {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -94,7 +94,7 @@ public class Database {
 	 * Read a transaction from the file and store it into memory
 	 * @param itemsString an array of items, where an item is an integer represented as a String.
 	 */
-	public void addTransaction(String itemsString[]){
+    private void addTransaction(String itemsString[]){
 		// we create an object Transaction to store the items
 		Transaction transaction = new Transaction(itemsString.length);
 		

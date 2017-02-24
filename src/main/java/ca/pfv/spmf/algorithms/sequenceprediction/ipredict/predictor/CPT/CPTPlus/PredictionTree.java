@@ -41,7 +41,7 @@ public class PredictionTree {
 	private List<PredictionTree> Children; //children list
 	
 	
-	public PredictionTree(Item itemValue) {
+	private PredictionTree(Item itemValue) {
 		Item = itemValue;
 		Children = new ArrayList<PredictionTree>();
 		Parent = null;
@@ -74,7 +74,7 @@ public class PredictionTree {
 	}
 	
 	public void removeChild(Item child) {
-		Children = Children.stream().filter(c -> c.Item.equals(child) == false).collect(Collectors.toList());
+		Children = Children.stream().filter(c -> !c.Item.equals(child)).collect(Collectors.toList());
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class PredictionTree {
 	public Boolean hasChild(Item target) {
 		
 		PredictionTree found = getChild(target);
-		return (found == null) ?  false : true;
+		return found != null;
 	}
 	
 	/**

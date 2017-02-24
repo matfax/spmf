@@ -51,7 +51,7 @@ public class AlgoRelim {
 	private int items[];
 
 	// object to write the result to a file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// the number of frequent itemsets found (for
 	// statistics)
@@ -94,7 +94,7 @@ public class AlgoRelim {
 		while (((line = reader.readLine()) != null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -174,7 +174,7 @@ public class AlgoRelim {
 		while (((line = reader.readLine()) != null)) { 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;

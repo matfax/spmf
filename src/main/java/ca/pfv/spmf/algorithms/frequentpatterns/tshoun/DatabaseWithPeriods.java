@@ -47,13 +47,13 @@ public class DatabaseWithPeriods {
 	private Map<Integer, BitSet> mapItemPeriods =  new HashMap<Integer, BitSet>(); 
 	
 	// map indicating the utility of each item
-	Map<Integer, Pair> mapItemUtility = new HashMap<Integer, Pair>();
+    private Map<Integer, Pair> mapItemUtility = new HashMap<Integer, Pair>();
 	
-	public int smallestID = Integer.MAX_VALUE;
-	public  int largestID = 0;
+	private int smallestID = Integer.MAX_VALUE;
+	private int largestID = 0;
 
 	// ==== FOR THE SCALABILITY EXPERIMENT
-	public int maxSEQUENCECOUNT = Integer.MAX_VALUE;
+    private int maxSEQUENCECOUNT = Integer.MAX_VALUE;
 	// ===================================
 	
 	public DatabaseWithPeriods(int periodCount) {
@@ -181,7 +181,7 @@ public class DatabaseWithPeriods {
 			while ((thisLine = myInput.readLine()) != null && tid < maxSEQUENCECOUNT) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;

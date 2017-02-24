@@ -41,13 +41,12 @@ public class SaverIntoFile implements Saver {
     /**
      * Idendicates if sequence ids should be output for each pattern
      */
-    boolean outputSequenceIdentifiers = false;
+    private boolean outputSequenceIdentifiers = false;
     
     /**
      * Constructor
      * @param outputFilePath the output file path
-    * @param outputSequenceIdentifiers if true, the sequential identifiers will be shown
-    */
+     */
     public SaverIntoFile(String outputFilePath, boolean outputSequenceIdentifier) throws IOException {
         path = outputFilePath;
         writer = new BufferedWriter(new FileWriter(outputFilePath));
@@ -58,7 +57,6 @@ public class SaverIntoFile implements Saver {
     /**
      * Save patterns to file
      * @param p a pattern
-     * @param outputSequenceIdentifiers if true, the sequential identifiers will be shown
      */ 
     @Override
     public void savePattern(Pattern p) {

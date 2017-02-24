@@ -70,9 +70,9 @@ public class AlgoDefMe {
 	/** 
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
-	protected Itemsets generators;
+    private Itemsets generators;
 	/** object to write the output file */
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	/** the number of patterns found */
 	private int itemsetCount;
 	
@@ -81,7 +81,7 @@ public class AlgoDefMe {
 	
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
 
@@ -274,7 +274,6 @@ public class AlgoDefMe {
 
 	/**
 	 * Save an itemset to disk or memory (depending on what the user chose).
-	 * @param itemsetN the itemset to be saved
 	 * @param prefixLength the prefix length
 	 * @param tidset the tidset and support of this itemset 
 	 * @param support the support of that itemset

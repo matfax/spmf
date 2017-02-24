@@ -50,12 +50,12 @@ import java.util.Map.Entry;
 public class AlgoAprioriRare {
 
 	// the current level k in the breadth-first search
-	protected int k; 
+    private int k;
 
 	// variables for statistics
-	protected int totalCandidateCount = 0; // number of candidate generated during last execution
-	protected long startTimestamp; // start time of last execution
-	protected long endTimestamp; // end time of last execution
+    private int totalCandidateCount = 0; // number of candidate generated during last execution
+	private long startTimestamp; // start time of last execution
+	private long endTimestamp; // end time of last execution
 	private int itemsetCount;  // itemset found during last execution
 	private int databaseSize;
 	
@@ -68,10 +68,10 @@ public class AlgoAprioriRare {
 	
 	// The  patterns that are found 
 	// (if the user want to keep them into memory)
-	protected Itemsets patterns = null;
+    private Itemsets patterns = null;
 
 	// object to write the output file (if the user wants to write to a file)
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 	/**
 	 * Default constructor
@@ -126,7 +126,7 @@ public class AlgoAprioriRare {
 		while (((line = reader.readLine()) != null)) { 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -271,7 +271,7 @@ public class AlgoAprioriRare {
 			}
 			// we will generate larger itemsets next.
 			k++;
-		}while(level.isEmpty() == false);
+		}while(!level.isEmpty());
 
 		// record end time
 		endTimestamp = System.currentTimeMillis();
@@ -321,7 +321,7 @@ public class AlgoAprioriRare {
 	 * @param levelK_1  frequent itemsets of size k-1
 	 * @return itemsets of size k
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
 		// create a variable to store candidates
 		List<Itemset> candidates = new ArrayList<Itemset>();
 
@@ -377,7 +377,7 @@ public class AlgoAprioriRare {
 	 * @param levelK_1  the frequent itemsets of size k-1
 	 * @return true if all the subsets are frequet
 	 */
-	protected boolean allSubsetsOfSizeK_1AreFrequent(int[] candidate, List<Itemset> levelK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(int[] candidate, List<Itemset> levelK_1) {
 		// generate all subsets by always each item from the candidate, one by one
 		for(int posRemoved=0; posRemoved< candidate.length; posRemoved++){
 
@@ -405,7 +405,7 @@ public class AlgoAprioriRare {
 	            }
 	        }
 
-			if(found == false){  // if we did not find it, that means that candidate is not a frequent itemset because
+			if(!found){  // if we did not find it, that means that candidate is not a frequent itemset because
 				// at least one of its subsets does not appear in level k-1.
 				return false;
 			}
@@ -419,7 +419,7 @@ public class AlgoAprioriRare {
 	 * @param itemset the itemset to be saved.
 	 * @throws IOException exception if error while writing the file
 	 */
-	void saveItemset(Itemset itemset) throws IOException {
+private void saveItemset(Itemset itemset) throws IOException {
 		// increase frequent itemset count
 		itemsetCount++; 
 		
@@ -440,7 +440,7 @@ public class AlgoAprioriRare {
 	 * @param support the support of the item
 	 * @throws IOException exception if error while writing the file
 	 */
-	void saveItemsetToFile(Integer item, Integer support) throws IOException {
+    private void saveItemsetToFile(Integer item, Integer support) throws IOException {
 		itemsetCount++; // increase frequent itemset count
 		
 		// if the result should be saved to a file

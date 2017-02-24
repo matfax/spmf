@@ -25,8 +25,8 @@ public class DatabaseHelper {
 	private String basePath;
 	
 	//Data sets
-	public static enum Format{BMS, KOSARAK, FIFA, MSNBC, SIGN, CANADARM1, CANADARM2, SNAKE, BIBLE_CHAR, BIBLE_WORD, KORAN_WORD, LEVIATHAN_WORD, CUSTOM}; 
-	
+	public enum Format{BMS, KOSARAK, FIFA, MSNBC, SIGN, CANADARM1, CANADARM2, SNAKE, BIBLE_CHAR, BIBLE_WORD, KORAN_WORD, LEVIATHAN_WORD, CUSTOM}
+
 	//Database
 	private SequenceDatabase database;
 
@@ -143,7 +143,7 @@ public class DatabaseHelper {
 	 * @param filename Name of the data set file
 	 * @throws UnsupportedEncodingException 
 	 */
-	public String fileToPath(String filename) throws UnsupportedEncodingException {
+    private String fileToPath(String filename) {
 		return basePath + File.separator + filename;
 	}
 	

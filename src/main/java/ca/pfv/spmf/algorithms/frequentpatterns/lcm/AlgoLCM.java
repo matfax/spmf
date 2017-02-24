@@ -51,16 +51,16 @@ public class AlgoLCM {
     private Itemsets closedFrequentItemsets;
     
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// the number of frequent itemsets found (for
 	// statistics)
 	private int frequentCount; 
 
 	// the start time and end time of the last algorithm execution
-	long startTimestamp;
-	long endTimestamp;
-	int minsupRelative;
+    private long startTimestamp;
+	private long endTimestamp;
+	private int minsupRelative;
 	
 	// Buckets for occurence delivery 
 	// Recall that each bucket correspond to an item
@@ -76,9 +76,7 @@ public class AlgoLCM {
      * @param minimumSupport  the minimum support threshold as percentage value between 0 and 1
      * @param dataset  the dataset
      * @param outputPath  the output file path to save the result or null if to be kept in memory
-     * @param mineAllFrequentItemsets mine all frequent itemsets
-     * @param mineAllMaximalItemsets mine only maximal itemsets
-         * @return the itemsets or null if the user choose to save to file
+     * @return the itemsets or null if the user choose to save to file
      * @throws IOException if exception while reading/writing to file
      */
     public Itemsets runAlgorithm(double minimumSupport, Dataset dataset, String outputPath) throws IOException {
@@ -225,7 +223,7 @@ public class AlgoLCM {
 	 * @param dataset
 	 */
 	@SuppressWarnings("unchecked")
-	public void performFirstOccurenceDelivery(Dataset dataset) {
+    private void performFirstOccurenceDelivery(Dataset dataset) {
 
 		buckets = new List[dataset.getMaxItem() + 1]; 
 
@@ -245,7 +243,6 @@ public class AlgoLCM {
     
     /**
      * Perform the anytime database reduction for an itemset P U {e}
-     * @param transactions the transactions
      * @param j the position of j in the list of frequent items
      * @param frequentItems 
      * @param itemset 
@@ -279,7 +276,7 @@ public class AlgoLCM {
      * @param item  the item
      * @return true if it appears. Otherwise, false.
      */
-	public boolean containsByBinarySearch(List<Integer> items, Integer item, int searchAfterPosition) {
+    private boolean containsByBinarySearch(List<Integer> items, Integer item, int searchAfterPosition) {
 		if(items.size() == 0 || item > items.get(items.size() -1)) {
 			return false;
 		}
@@ -301,7 +298,7 @@ public class AlgoLCM {
 		return false;
 	}
 	
-	public boolean containsByBinarySearch(List<Integer> items, Integer item) {
+	private boolean containsByBinarySearch(List<Integer> items, Integer item) {
 		if(items.size() == 0 || item > items.get(items.size() -1)) {
 			return false;
 		}
@@ -329,7 +326,7 @@ public class AlgoLCM {
      * @param e  the item "e"
      * @return the transactions containing P U "e"
      */
-    public List<Transaction> intersectTransactions(List<Transaction> transactionsOfP, Integer e) {
+    private List<Transaction> intersectTransactions(List<Transaction> transactionsOfP, Integer e) {
         List<Transaction> transactionsPe = new ArrayList<Transaction>();
 
         // transactions of P U e
@@ -351,7 +348,6 @@ public class AlgoLCM {
      * @param p the itemset p
      * @param e the item e
      * @param transactionsPe  the transactions containing P U e
-     * @param previouslyAddedItem 
      * @return true if it is a PPC extension
      */
     private boolean isPPCExtension(List<Integer> p, List<Transaction> transactionsPe, Integer e) {
@@ -381,7 +377,7 @@ public class AlgoLCM {
     private boolean isItemInAllTransactionsExceptFirst(List<Transaction> transactions, Integer item) {
 
     	for(int i=1; i < transactions.size(); i++) {
-            if(transactions.get(i).containsByBinarySearchOriginalTransaction(item) == false) {
+            if(!transactions.get(i).containsByBinarySearchOriginalTransaction(item)) {
                 return false;
             }
         }

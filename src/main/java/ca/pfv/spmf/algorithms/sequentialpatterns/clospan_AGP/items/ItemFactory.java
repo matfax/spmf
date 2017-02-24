@@ -25,7 +25,7 @@ import java.util.HashMap;
  * 
  * @author agomariz
  */
-public class ItemFactory<T extends Comparable> {
+class ItemFactory<T extends Comparable> {
 
     public ItemFactory(){
         

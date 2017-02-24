@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author Philippe Fournier-Viger, 2010
  */
-public class MainDatasetUtilityGenerator {
+class MainDatasetUtilityGenerator {
 
     public static void main(String[] arg) throws IOException, InterruptedException {
 
@@ -33,7 +33,7 @@ public class MainDatasetUtilityGenerator {
 
     private static void generateDataset(
             boolean includeItemsHavingNegativeProfit, int numberOfPeriods, String input,
-            String output) throws IOException, FileNotFoundException {
+            String output) throws IOException {
         // for stats
         Set<Integer> items = new HashSet<Integer>();
         long avglength = 0;
@@ -51,7 +51,7 @@ public class MainDatasetUtilityGenerator {
         while ((thisLine = myInput.readLine()) != null) {
             // if the line is  a comment, is  empty or is a
             // kind of metadata
-            if (thisLine.isEmpty() == true ||
+            if (thisLine.isEmpty() ||
                     thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
                     || thisLine.charAt(0) == '@') {
                 continue;
@@ -71,7 +71,7 @@ public class MainDatasetUtilityGenerator {
 
                 items.add(item);
 
-                if (externalUtilities.containsKey(item) == false) {
+                if (!externalUtilities.containsKey(item)) {
                     double rand = Math.abs(randomGenerator.nextGaussian()) / 3d * 10d;
                     int extUtility = (int) (rand) + 1;
                     if (includeItemsHavingNegativeProfit && randomGenerator.nextBoolean()) {
@@ -88,7 +88,7 @@ public class MainDatasetUtilityGenerator {
         while ((thisLine = myInput.readLine()) != null) {
             // if the line is  a comment, is  empty or is a
             // kind of metadata
-            if (thisLine.isEmpty() == true ||
+            if (thisLine.isEmpty() ||
                     thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
                     || thisLine.charAt(0) == '@') {
                 continue;

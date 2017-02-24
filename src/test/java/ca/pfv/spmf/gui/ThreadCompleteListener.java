@@ -13,6 +13,6 @@ package ca.pfv.spmf.gui;
  * 
  * @author Philippe Fournier-Viger
  */
-public interface ThreadCompleteListener {
+interface ThreadCompleteListener {
     void notifyOfThreadComplete(final Thread thread, boolean succeed);
 }

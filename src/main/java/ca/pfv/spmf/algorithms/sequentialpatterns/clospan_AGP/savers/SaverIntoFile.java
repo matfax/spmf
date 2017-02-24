@@ -38,7 +38,7 @@ public class SaverIntoFile implements Saver {
     private String path = null;
     
     /** if true, sequence ids will be saved for each pattern */
-    boolean outputSequenceIdentifiers;
+    private boolean outputSequenceIdentifiers;
 
     /**
      * Constructor

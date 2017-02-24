@@ -45,26 +45,27 @@ public class AlgoSPAM_AGP {
     /**
      * the minimum support threshold
      */
-    protected double minSupRelative;
+    private double minSupRelative;
     /**
      * The absolute minimum support threshold, i.e. the minimum number of
      * sequences where the patterns have to be
      */
-    protected double minSupAbsolute;
+    private double minSupAbsolute;
     /**
      * Saver variable to decide where the user want to save the results, if it
      * the case
      */
-    Saver saver = null;
+    private Saver saver = null;
     /**
      * Start and end points in order to calculate the overall time taken by the
      * algorithm
      */
-    protected long start, end;
+    private long start;
+    private long end;
     /**
      * Equivalence class whose class' identifier is a frequent item
      */
-    protected List<EquivalenceClass> frequentItems;
+    private List<EquivalenceClass> frequentItems;
     /**
      * Number of frequent patterns found by the algorithm
      */
@@ -129,7 +130,7 @@ public class AlgoSPAM_AGP {
      * output of the algorithm
      * @param verbose Flag for debugging purposes
      */
-    protected void runSPAM(SequenceDatabase database, long minSupportAbsolute, boolean keepPatterns, boolean verbose) {
+    private void runSPAM(SequenceDatabase database, long minSupportAbsolute, boolean keepPatterns, boolean verbose) {
 
         //We get the equivalence classes formed by the frequent 1-patterns
         frequentItems = database.frequentItems();
@@ -203,7 +204,7 @@ public class AlgoSPAM_AGP {
      * It gets the time spent by the algoritm in its execution.
      * @return the total time
      */
-    public long getRunningTime() {
+    private long getRunningTime() {
         return (end - start);
     }
 

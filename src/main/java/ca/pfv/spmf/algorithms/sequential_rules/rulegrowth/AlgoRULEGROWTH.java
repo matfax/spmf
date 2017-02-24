@@ -16,22 +16,15 @@ package ca.pfv.spmf.algorithms.sequential_rules.rulegrowth;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is the original implementation of the RULEGROWTH algorithm for mining sequential rules
@@ -51,34 +44,34 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoRULEGROWTH {
 	//*** for statistics ***/
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
-	int ruleCount; // number of rules generated
+	private long timeStart = 0;  // start time of latest execution
+	private long timeEnd = 0;  // end time of latest execution
+	private int ruleCount; // number of rules generated
 	
 	//*** parameters ***/
 	// minimum confidence
-	double minConfidence;
+	private double minConfidence;
 	// minimum support
-	int minsuppRelative;
+	private int minsuppRelative;
 	// this is the sequence database
-	SequenceDatabase database;
+	private SequenceDatabase database;
 	
 	//*** internal variables ***/
 	// This map contains for each item (key) a map of occurences (value).
 	// The map of occurences associates to sequence ID (key), an occurence of the item (value).
-	Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
+	private Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
 
 	// object to write the output file
-	BufferedWriter writer = null; 
+	private BufferedWriter writer = null;
 
 	// FOR DEBUG
-	static List<Rule> allRulesFoundForDEBUG = new ArrayList<Rule>();
-	boolean debug = false;
+	private static List<Rule> allRulesFoundForDEBUG = new ArrayList<Rule>();
+	private boolean debug = false;
 	
 	// the maximum size of the antecedent of rules (optional)
-	int maxAntecedentSize = Integer.MAX_VALUE;
+	private int maxAntecedentSize = Integer.MAX_VALUE;
 	// the maximum size of the consequent of rules (optional)
-	int maxConsequentSize = Integer.MAX_VALUE;
+	private int maxConsequentSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -357,7 +350,7 @@ public class AlgoRULEGROWTH {
 
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I U {c} --> J. The method makes sure that:
+	 * with any item c. This results in rules of the form I Uï¿½{c} --> J. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
@@ -474,7 +467,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
     
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I --> J U {c}. The method makes sure that:
+	 * with any item c. This results in rules of the form I --> J Uï¿½{c}. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ after the first occurence of I
 	 *   - c is lexically bigger than all items in J
@@ -508,38 +501,38 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 			for(int k=first.firstItemset+1; k < sequence.size(); k++){
 				List<Integer> itemset = sequence.get(k);
 				// for each item
-	itemLoop:	for(int m=0; m< itemset.size(); m++){
+				for (int m = 0; m < itemset.size(); m++) {
 					// for each item c in that itemset
 					Integer itemC = itemset.get(m);
-					
+
 					// We will consider if we could create a rule I --> J U{c}
 					// If lexical order is not respected or c is included in the rule already,
 					// then we cannot so the algorithm return.
-					if(containsLEX(itemsetI, itemC) ||  containsLEXPlus(itemsetJ, itemC)){
+					if (containsLEX(itemsetI, itemC) || containsLEXPlus(itemsetJ, itemC)) {
 						continue;
 					}
 					Set<Integer> tidsItemC = frequentItemsC.get(itemC);
-					
+
 					// if "c" was seen before but there is not enough sequences left to be scanned
 					// to allow IU --> J {c} to reach the minimum support threshold
-					if(tidsItemC == null){ 
-						if(left < minsuppRelative){
-							continue itemLoop;
-						}	
-					}else if(tidsItemC.size() + left < minsuppRelative){
+					if (tidsItemC == null) {
+						if (left < minsuppRelative) {
+							continue;
+						}
+					} else if (tidsItemC.size() + left < minsuppRelative) {
 						// if "c" was seen before but there is not enough sequences left to be scanned
 						// to allow I--> JU{c}  to reach the minimum support threshold,
 						// remove "c" and continue the loop of items
 						tidsItemC.remove(itemC);
-						continue itemLoop;
+						continue;
 					}
-					if(tidsItemC == null){
+					if (tidsItemC == null) {
 						// otherwise, if we did not see "c" yet, create a new tidset for "c"
 						tidsItemC = new HashSet<Integer>(tidsIJ.size());
 						frequentItemsC.put(itemC, tidsItemC);
 					}
 					// add the current tid to the tidset of "c"
-					tidsItemC.add(tid);					
+					tidsItemC.add(tid);
 				}
 			}
 			left--;  // decrease the number of sequences left to be scanned
@@ -611,7 +604,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 	/**
 	 * This method calculate the frequency of each item in one database pass.
 	 * Then it remove all items that are not frequent.
-	 * @param database : a sequence database 
+	 * @param database : a sequence database
 	 * @return A map such that key = item
 	 *                         value = a map  where a key = tid  and a value = Occurence
 	 * This map allows knowing the frequency of each item and their first and last occurence in each sequence.
@@ -688,7 +681,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 	 * @param item  the item
 	 * @return return true if the above conditions are met, otherwise false
 	 */
-	boolean containsLEXPlus(int[] itemset, int item) {
+	private boolean containsLEXPlus(int[] itemset, int item) {
 		// for each item in itemset
 		for(int i=0; i< itemset.length; i++){
 			// check if the current item is equal to the one that is searched
@@ -713,7 +706,7 @@ itemLoop:	for(int k=0; k < end.lastItemset; k++){
 	 * @param item  the item
 	 * @return return true if the item
 	 */
-	boolean containsLEX(int[] itemset, int item) {
+	private boolean containsLEX(int[] itemset, int item) {
 		// for each item in itemset
 		for(int i=0; i< itemset.length; i++){
 			// check if the current item is equal to the one that is searched

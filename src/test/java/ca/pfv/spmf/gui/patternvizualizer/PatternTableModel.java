@@ -31,11 +31,11 @@ import javax.swing.table.TableModel;
 class PatternTableModel implements TableModel {
 	
 	/** a list of rows stored in the table, where each row (pattern) is a list of Objects*/
-	List<List<Object>> data;
+    private List<List<Object>> data;
 	/** the column names for this table*/
-	List<String> columnNames;
+    private List<String> columnNames;
 	/** the column classes for this table*/
-	List<Class> columnClasses;
+    private List<Class> columnClasses;
 	/** A list of listener for this TableModel */
 	List<TableModelListener> listeners = new ArrayList<TableModelListener>();
 	

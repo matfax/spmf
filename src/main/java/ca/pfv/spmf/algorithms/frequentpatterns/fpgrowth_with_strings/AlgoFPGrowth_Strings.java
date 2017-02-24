@@ -46,10 +46,10 @@ public class AlgoFPGrowth_Strings {
 	private int itemsetCount; // number of freq. itemsets found
 	
 	// minimum support threshold
-	public int relativeMinsupp;
+    private int relativeMinsupp;
 	
 	// object to write the output file
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 
 	/**
@@ -66,7 +66,7 @@ public class AlgoFPGrowth_Strings {
 	 * @param minsupp minimum support threshold as a percentage (double)
 	 * @throws IOException exception if error while writing the file
 	 */
-	public void runAlgorithm(String input, String output, double minsupp) throws FileNotFoundException, IOException {
+	public void runAlgorithm(String input, String output, double minsupp) throws IOException {
 		// record the start time
 		startTimestamp = System.currentTimeMillis();
 		// reinitialize the number of itemsets found to 0
@@ -100,7 +100,7 @@ public class AlgoFPGrowth_Strings {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -170,7 +170,7 @@ public class AlgoFPGrowth_Strings {
 	 */
 	private void scanDatabaseToDetermineFrequencyOfSingleItems(String input,
 			final Map<String, Integer> mapSupport)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		//Create object for reading the input file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
@@ -178,7 +178,7 @@ public class AlgoFPGrowth_Strings {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -207,13 +207,12 @@ public class AlgoFPGrowth_Strings {
 	/**
 	 * This method mines pattern from a Prefix-Tree recursively
 	 * @param tree  The Prefix Tree
-	 * @param prefix  The current prefix "alpha"
 	 * @param mapSupport The frequency of each item in the prefix tree.
 	 * @throws IOException   exception if error writing the output file
 	 */
 	private void fpgrowth(FPTree_Strings tree, String[] prefixAlpha, int prefixSupport, Map<String, Integer> mapSupport) throws IOException {
 		// We need to check if there is a single path in the prefix tree or not.
-		if(tree.hasMoreThanOnePath == false){
+		if(!tree.hasMoreThanOnePath){
 			// That means that there is a single path, so we 
 			// add all combinations of this path, concatenated with the prefix "alpha", to the set of patterns found.
 			addAllCombinationsForPathAndPrefix(tree.root.childs.get(0), prefixAlpha); // CORRECT?
@@ -226,7 +225,6 @@ public class AlgoFPGrowth_Strings {
 	/**
 	 * Mine an FP-Tree having more than one path.
 	 * @param tree  the FP-tree
-	 * @param prefix  the current prefix, named "alpha"
 	 * @param mapSupport the frequency of items in the FP-Tree
 	 * @throws IOException   exception if error writing the output file
 	 */
@@ -320,10 +318,8 @@ public class AlgoFPGrowth_Strings {
 	/**
 	 * This method is for adding recursively all combinations of nodes in a path, concatenated with a given prefix,
 	 * to the set of patterns found.
-	 * @param nodeLink the first node of the path
 	 * @param prefix  the prefix
-	 * @param minsupportForNode the support of this path.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private void addAllCombinationsForPathAndPrefix(FPNode_Strings node, String[] prefix) throws IOException {
 		// Concatenate the node item to the current prefix

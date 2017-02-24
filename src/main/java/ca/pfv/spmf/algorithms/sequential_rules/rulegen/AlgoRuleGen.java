@@ -16,22 +16,21 @@ package ca.pfv.spmf.algorithms.sequential_rules.rulegen;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan.AlgoPrefixSpan;
-import ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan.SequenceDatabase;
 import ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan.SequentialPattern;
 import ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan.SequentialPatterns;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * This is an implementation of the RuleGen algorithm proposed by Zaki et al to generate sequential rules where
  * the antecedent and consequent are sequential patterns.  The RuleGen algorithm is described in: 
  * <br/><br/>
  * 
- *    M. J. Zaki, “SPADE: An Efficient Algorithm for Mining Frequent Se-quences,”Machine Learning, vol. 42, no.1-2, pp. 31-60, 2001.
+ *    M. J. Zaki, ï¿½SPADE: An Efficient Algorithm for Mining Frequent Se-quences,ï¿½Machine Learning, vol. 42, no.1-2, pp. 31-60, 2001.
  * <br/><br/>
  * 
  * However, note that instead of using the SPADE algorithm,  we use the PrefixSpan algorithm because at the time
@@ -54,7 +53,7 @@ public class AlgoRuleGen {
 	private int patternCount; // the numer of rules found
 	
 	// object to write the output file path
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * Default constructor.
@@ -124,7 +123,7 @@ public class AlgoRuleGen {
 	private void tryToGenerateRule(SequentialPattern pattern1, SequentialPattern pattern2, double minconf) throws IOException {
 		// if pattern1 is not contained in pattern2, we stop
 		// because we want that pattern1 is strictly included in pattern2
-		if(strictlyContains(pattern2, pattern1) == false){
+		if(!strictlyContains(pattern2, pattern1)){
 			return;
 		}
 		// calculate the confidence of:     pattern1 ==>  pattern2  / pattern1
@@ -167,7 +166,7 @@ public class AlgoRuleGen {
      * @param pattern2 another sequential pattern
 	 * @return true if the pattern1 contains pattern2.
 	 */
-	boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
+    private boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
 		// if pattern2 is larger or equal in size, then it cannot be contained in pattern1
 		if(pattern1.size() <= pattern2.size()){
 			return false;

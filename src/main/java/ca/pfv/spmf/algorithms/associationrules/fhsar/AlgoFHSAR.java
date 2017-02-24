@@ -31,9 +31,9 @@ import java.util.Map.Entry;
 public class AlgoFHSAR {
 
 	// variables for statistics
-	int tidcount = 0; // the number of transactions in the last database read
-	long startTimestamp = 0; // the start time of the last execution
-	long endTimeStamp = 0; // the end time of the last execution
+	private int tidcount = 0; // the number of transactions in the last database read
+	private long startTimestamp = 0; // the start time of the last execution
+	private long endTimeStamp = 0; // the end time of the last execution
 	
 	// the relative minimum suport (integer) chosen by the user
 	private int minSuppRelative;
@@ -74,7 +74,7 @@ public class AlgoFHSAR {
 		while( ((line = reader.readLine())!= null)){
 			// if the line is not a comment, is not empty or is not other
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 					|| line.charAt(0) == '@') {
 				continue;
@@ -105,30 +105,30 @@ public class AlgoFHSAR {
 				Set<Integer> matchRight = new HashSet<Integer>();
 				
 				// for each item in the current transaction
-loop:			for(int i=0; i<lineSplited.length; i++){
+				for (int i = 0; i < lineSplited.length; i++) {
 					// convert from string to int
 					int item = Integer.parseInt(lineSplited[i]);
-					
+
 					// if the left side of this sensitive rule matches with this transaction
-					if(matchLeft.size() != rule.leftSide.size() && rule.leftSide.contains(item)){
+					if (matchLeft.size() != rule.leftSide.size() && rule.leftSide.contains(item)) {
 						matchLeft.add(item);
 						// if the antecedent was completely found
-						if(matchLeft.size() == rule.leftSide.size()){
+						if (matchLeft.size() == rule.leftSide.size()) {
 							rule.leftSideCount++;
 						}
 					}  // else if the item appears in the right side of this transaction
 					// but we have not seen all items from the right side yet
-					else if(matchRight.size() != rule.rightSide.size() && rule.rightSide.contains(item)){
+					else if (matchRight.size() != rule.rightSide.size() && rule.rightSide.contains(item)) {
 						matchRight.add(item);
 					}
 					// if the rule completely matches with this transaction... (both left and right sides)
-					if(matchLeft.size() == rule.leftSide.size()  && matchRight.size() == rule.rightSide.size()){
+					if (matchLeft.size() == rule.leftSide.size() && matchRight.size() == rule.rightSide.size()) {
 						// increase the support of the rule
 						rule.count++;
 						// remember that this rule appears in this transaction
 						rulesContained.add(rule);
 						thereIsARuleSupportedByTransaction = true;
-						break loop;  // stop the loop because we know that this rule match already!
+						break;  // stop the loop because we know that this rule match already!
 					}
 				}
 			}
@@ -190,7 +190,7 @@ loop:			for(int i=0; i<lineSplited.length; i++){
 		// This part is not well-explained in the paper so it might not be exactly like
 		// what the authors did. But the main idea is the same.
 		// We will delete items until the sensitive association rules fell below the threshold.
-		while(sensitiveRules.isEmpty() == false){
+		while(!sensitiveRules.isEmpty()){
 			// We take the transaction that has the highest wi from PWT.
 			Transaction td = PWT.poll();
 			System.out.println(td.items);

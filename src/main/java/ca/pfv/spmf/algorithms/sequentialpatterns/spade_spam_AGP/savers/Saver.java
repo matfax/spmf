@@ -34,23 +34,23 @@ public interface Saver {
      * Save patterns to file
      * @param p a pattern
      */
-    public void savePattern(Pattern p);
+    void savePattern(Pattern p);
 
-    public void finish();
+    void finish();
 
-    public void clear();
+    void clear();
 
     /**
      * Print patterns
      * @return a string
      */
-    public String print();
+    String print();
 
     /**
      * Save patterns to file
      * @param patterns a list of patterns
      */
-    public void savePatterns(Collection<Pattern> patterns);
+    void savePatterns(Collection<Pattern> patterns);
 
 
 }

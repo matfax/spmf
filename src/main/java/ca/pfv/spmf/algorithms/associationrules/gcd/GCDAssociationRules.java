@@ -129,7 +129,7 @@ public class GCDAssociationRules {
 		return lines;
 	}
 
-	private List<String> extractInputFileLines() throws FileNotFoundException, IOException {
+	private List<String> extractInputFileLines() throws IOException {
 		List<String> inputLines = new ArrayList<String>();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(inputFilePath)));
 		String line;
@@ -158,7 +158,7 @@ public class GCDAssociationRules {
 	 * function is made to utilize the processing power of multiple cores by
 	 * maintaining a constant number of threads that equals the number of cores
 	 */
-	private void executeThreads(LinkedList<Thread> threads) throws InterruptedException {
+	private void executeThreads(LinkedList<Thread> threads) {
 		int threadsCount = threads.size();
 		if (threadsCount == 0)
 			return;

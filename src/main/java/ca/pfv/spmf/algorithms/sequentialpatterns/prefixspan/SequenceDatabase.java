@@ -33,14 +33,14 @@ import java.util.List;
 * @see Sequence
  * @author Philipe-Fournier-Viger
  */
-public class SequenceDatabase {
+class SequenceDatabase {
 
 	/** a matrix to store the sequences in this database */
-	List<int[]> sequences = new ArrayList<int[]>();
+    private List<int[]> sequences = new ArrayList<int[]>();
 
 	/** the total number of item occurrences in this database
 	 * (variable to be used for statistics) */
-	long itemOccurrenceCount = 0;
+    private long itemOccurrenceCount = 0;
 	
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.
@@ -61,7 +61,7 @@ public class SequenceDatabase {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
 				// kind of metadata
-				if (thisLine.isEmpty() == false &&
+				if (!thisLine.isEmpty() &&
 						thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%'
 						&& thisLine.charAt(0) != '@') {
 					
@@ -130,7 +130,7 @@ public class SequenceDatabase {
 				// if it is an item
 				if(token >=0){
 					// if this is a new itemset, we start with a parenthesis
-					if(startingANewItemset == true){
+					if(startingANewItemset){
 						startingANewItemset = false;
 						buffer.append("(");
 					}else{

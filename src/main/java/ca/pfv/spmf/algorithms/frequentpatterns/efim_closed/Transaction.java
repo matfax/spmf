@@ -23,12 +23,12 @@ package ca.pfv.spmf.algorithms.frequentpatterns.efim_closed;
 * 
  * @author Philippe Fournier-Viger
  */
-public class Transaction {
+class Transaction {
 	
 	/** a buffer to store items of an itemset*/
-	public static int[] tempItems = new int[2000];
+	private static int[] tempItems = new int[2000];
 	/** a buffer to store utilities of an itemset */
-	public static int[] tempUtilities = new int[2000];
+	private static int[] tempUtilities = new int[2000];
 
 	/** an offset pointer, used by projected transactions*/
 	int offset;
@@ -187,7 +187,7 @@ public class Transaction {
 	 * This has an average performance of O(n log n)
 	 * @param items array of integers
 	 */
-	public void insertionSort(int [] items,  int[] utitilies){
+    private void insertionSort(int[] items, int[] utitilies){
 		for(int j=1; j< items.length; j++){
 			int itemJ = items[j];
 			int utilityJ = utitilies[j];

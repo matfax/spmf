@@ -61,7 +61,7 @@ public class DescriptionAlgoHierarchicalClustering extends DescriptionOfAlgorith
 			= DistanceFunction.getDistanceFunctionByName(distanceFunctionName);
 		
 		String separator;
-		if (parameters.length > 2 && "".equals(parameters[2]) == false) {
+		if (parameters.length > 2 && !"".equals(parameters[2])) {
 			separator = getParamAsString(parameters[2]);
 		}else{
 			separator = " ";

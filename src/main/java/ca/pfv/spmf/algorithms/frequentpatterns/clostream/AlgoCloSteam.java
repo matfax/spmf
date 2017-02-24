@@ -41,10 +41,10 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 public class AlgoCloSteam {
 	
 	// a table to store the closed itemsets
-	List<Itemset> tableClosed = new ArrayList<Itemset>();
+    private List<Itemset> tableClosed = new ArrayList<Itemset>();
 	
 	//
-	Map<Integer, List<Integer>> cidListMap = new HashMap<Integer, List<Integer>>();
+    private Map<Integer, List<Integer>> cidListMap = new HashMap<Integer, List<Integer>>();
 
 	/**
 	 * Constructor that also initialize the algorithm
@@ -113,7 +113,7 @@ public class AlgoCloSteam {
 				}
 			}
 			// If the search was unsuccessful
-			if(found == false){ 
+			if(!found){
 				// add the instersection to the temporary table with "cid".
 				tableTemp.put(intersectionS, cid);
 			}

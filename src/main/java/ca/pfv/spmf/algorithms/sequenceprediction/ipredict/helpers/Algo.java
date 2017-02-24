@@ -17,7 +17,7 @@ import java.util.List;
  * An algo has a list of steps or only 1 step,
  * each step has a multiple stats and their associated value
  */
-public class Algo {
+class Algo {
 
 	/**
 	 * Name of the algorithm
@@ -27,11 +27,11 @@ public class Algo {
 	private boolean useSteps;
 	
 	//List of steps (results)
-	public List<Result> steps;
-	public int currentStep;
+    private List<Result> steps;
+	private int currentStep;
 	
 	//Main result
-	public Result result;
+    private Result result;
 	
 	
 	public Algo(String name, boolean useSteps){
@@ -46,7 +46,7 @@ public class Algo {
 		}
 	}
 	
-	public boolean useSteps() {
+	private boolean useSteps() {
 		return useSteps;
 	}
 	

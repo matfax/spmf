@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * Represents a node in a DG
  */
-public class DGNode {
+class DGNode {
 
-	public int value; //value of this node
+	private int value; //value of this node
 	public List<DGArc> arcs; //list of outgoing arcs from this node
 	public int totalSupport;
 
@@ -53,7 +53,7 @@ public class DGNode {
 		}
 		
 		//if no matching arc, creates one
-		if(isFound == false) {
+		if(!isFound) {
 			arcs.add(new DGArc(target));
 		}
 	}

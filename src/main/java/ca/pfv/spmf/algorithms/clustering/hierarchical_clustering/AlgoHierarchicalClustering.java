@@ -16,9 +16,7 @@ package ca.pfv.spmf.algorithms.clustering.hierarchical_clustering;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +27,6 @@ import ca.pfv.spmf.algorithms.clustering.instancereader.AlgoInstanceFileReader;
 import ca.pfv.spmf.patterns.cluster.ClusterWithMean;
 import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
-import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
@@ -55,7 +52,7 @@ public class AlgoHierarchicalClustering {
 	private double maxDistance =0;  // maximum distance allowed for merging two clusters
 	
 	// list of clusters
-	List<ClusterWithMean> clusters = null;
+    private List<ClusterWithMean> clusters = null;
 	
 	// for statistics
 	private long startTimestamp;  // start time of latest execution

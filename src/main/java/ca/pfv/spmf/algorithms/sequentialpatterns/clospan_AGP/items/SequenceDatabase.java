@@ -82,7 +82,7 @@ public class SequenceDatabase {
             for(Item removedItem:toRemove){
                 frequentItems.remove(removedItem);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             if (myInput != null) {
                 myInput.close();
@@ -95,7 +95,7 @@ public class SequenceDatabase {
      * @param integers
      * @param sequenceID 
      */
-    public void addSequence(String[] integers,int sequenceID) {
+    private void addSequence(String[] integers, int sequenceID) {
         long timestamp = -1;
         Sequence sequence = new Sequence(sequences.size());
         sequence.setID(sequenceID);

@@ -32,16 +32,16 @@ import java.util.Map;
 
 public class AlgoSFUPMinerUemax {
 	
-	double maxMemory = 0;     // the maximum memory usage
-	long startTimestamp = 0;  // the time the algorithm started
-	long endTimestamp = 0;   // the time the algorithm terminated
-	int psfupCount =0;  //the number of PSFUP
-	int sfupCount =0;  // the number of SFUP generated
-	int searchCount =0;  //the number of search patterns
+	private double maxMemory = 0;     // the maximum memory usage
+	private long startTimestamp = 0;  // the time the algorithm started
+	private long endTimestamp = 0;   // the time the algorithm terminated
+	private int psfupCount =0;  //the number of PSFUP
+	private int sfupCount =0;  // the number of SFUP generated
+	private int searchCount =0;  //the number of search patterns
 
-	Map<Integer, Integer> mapItemToTWU;
+	private Map<Integer, Integer> mapItemToTWU;
 	
-	BufferedWriter writer = null;  // writer to write the output file
+	private BufferedWriter writer = null;  // writer to write the output file
 	
 	// this class represent an item and its utility in a transaction
 	class Pair{
@@ -75,7 +75,7 @@ public class AlgoSFUPMinerUemax {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -144,7 +144,7 @@ public class AlgoSFUPMinerUemax {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -254,8 +254,7 @@ public class AlgoSFUPMinerUemax {
 	 * @param uEmax The array of max utility value of each frequency.Initially, it is zero.
 	 * @throws IOException
 	 */
-	private void SFUPMiner(int [] prefix, UtilityList pUL, List<UtilityList> ULs, SkylineList psfupList[], List<Skyline> skylineList, int [] uEmax)
-			throws IOException {
+	private void SFUPMiner(int [] prefix, UtilityList pUL, List<UtilityList> ULs, SkylineList psfupList[], List<Skyline> skylineList, int [] uEmax) {
 		
 		// For each extension X of prefix P
 		for(int i=0; i< ULs.size(); i++){
@@ -407,7 +406,7 @@ public class AlgoSFUPMinerUemax {
 	 * @param item This is the new item added after the prefix
 	 * @return  the itemset name
 	 */
-	private String itemSetString(int[] prefix, int item) throws IOException {
+	private String itemSetString(int[] prefix, int item) {
 	
 		//Create a string buffer
 		StringBuilder buffer = new StringBuilder();

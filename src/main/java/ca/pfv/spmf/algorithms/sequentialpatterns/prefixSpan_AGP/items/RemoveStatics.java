@@ -28,7 +28,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.prefixSpan_AGP.items.patterns.P
  * 
  * @author agomariz
  */
-public class RemoveStatics {
+class RemoveStatics {
 
     public static void clear() {
         ItemAbstractionPairCreator.sclear();

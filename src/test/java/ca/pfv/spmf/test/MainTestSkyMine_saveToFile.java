@@ -2,7 +2,6 @@ package ca.pfv.spmf.test;
 
 import ca.pfv.spmf.NoExceptionAssertion;
 import ca.pfv.spmf.algorithms.frequentpatterns.skymine.AlgoSkyMine;
-import ca.pfv.spmf.algorithms.frequentpatterns.skymine.UPTree;
 import org.junit.Test;
 
 /**
@@ -27,7 +26,6 @@ import org.junit.Test;
  *
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  * @see AlgoSkyMine
- * @see UPTree
  */
 public class MainTestSkyMine_saveToFile {
 

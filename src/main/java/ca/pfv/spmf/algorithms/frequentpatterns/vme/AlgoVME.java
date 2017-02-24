@@ -49,26 +49,26 @@ public class AlgoVME {
 	
 	// variables for counting support of items
 	// key: item    value:  tidset of the item as a set of integers
-	Map<Integer, Set<Integer>> mapItemTIDs = new HashMap<Integer, Set<Integer>>();
+    private Map<Integer, Set<Integer>> mapItemTIDs = new HashMap<Integer, Set<Integer>>();
 	
 	// variables for storing the profit of each transaction
 	// key: transaction id     value: transaction profit
-	Map<Integer, Integer> mapTransactionProfit = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> mapTransactionProfit = new HashMap<Integer, Integer>();
 
 	// for statistics
-	long startTimestamp = 0; //start time of latest execution
-	long endTimeStamp = 0; //end time of latest execution
+    private long startTimestamp = 0; //start time of latest execution
+	private long endTimeStamp = 0; //end time of latest execution
 	
 	// the maximum profit loss
-	double maxProfitLoss =0;
+    private double maxProfitLoss =0;
 	// the overall profit
-	double overallProfit = 0;
+    private double overallProfit = 0;
 	
 	// the number of erasable itemsets found by the latest execution
 	private int erasableItemsetCount = 0;
 
 	//object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	/**
 	 * Default constructor
@@ -103,7 +103,7 @@ public class AlgoVME {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -133,7 +133,7 @@ public class AlgoVME {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -216,7 +216,7 @@ public class AlgoVME {
 	 * @param levelK_1   itemsets of size k-1
 	 * @return  candidates of size K
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) throws IOException {
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) throws IOException {
 		// create list to store candidates of size k
 		List<Itemset> candidates = new ArrayList<Itemset>();
 

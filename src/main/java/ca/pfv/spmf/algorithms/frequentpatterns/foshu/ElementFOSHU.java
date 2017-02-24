@@ -26,7 +26,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.foshu;
  * @see UtilityListFOSHU
  * @author Philippe Fournier-Viger
  */
-public class ElementFOSHU {
+class ElementFOSHU {
 	/** tid  (transaction id)**/
 	public final int tid;
 	/** itemset utility */
@@ -39,7 +39,6 @@ public class ElementFOSHU {
 	/**
 	 * Constructor.
 	 * @param tid  the transaction id
-	 * @param iutils  the itemset utility
 	 * @param rutils  the remaining utility
 	 */
 	public ElementFOSHU(int tid, int iputils, int inutils, int rutils){

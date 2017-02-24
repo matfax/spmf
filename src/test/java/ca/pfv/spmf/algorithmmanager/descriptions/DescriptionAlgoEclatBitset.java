@@ -67,7 +67,7 @@ public class DescriptionAlgoEclatBitset extends DescriptionOfAlgorithm {
 
 		AlgoEclat_Bitset algo = new AlgoEclat_Bitset();
 		
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		

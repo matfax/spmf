@@ -28,7 +28,7 @@ import java.util.List;
  * @see ElementFHN
  * @author Philippe Fournier-Viger
  */
-public class UtilityListFHN extends UtilityList{
+class UtilityListFHN extends UtilityList{
 
 	// the sum of iutil values of negative items
 	long  sumINutils = 0;

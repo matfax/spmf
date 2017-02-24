@@ -36,14 +36,14 @@ import java.util.Stack;
  */
 public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 
-	static final boolean BLACK = true; // define black
-	static final boolean RED = false; //define red
+	private static final boolean BLACK = true; // define black
+	private static final boolean RED = false; //define red
 	final private  Node NULL =  new Node(); // the sentinel node
 	
 	private int size = 0; // number of elements currently in the tree
 	private Node root = NULL;  // the tree root
 	// allow the same element to appear in the tree multiple times or not
-	boolean allowSameElementMultipleTimes = true; 
+    private boolean allowSameElementMultipleTimes = true;
 
 	/**
 	 * Constructor
@@ -289,7 +289,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.left.color == BLACK && w.right.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A VÉRIFIER....
+					x = x.parent;   // A Vï¿½RIFIER....
 				}else{
 					if(w.right.color == BLACK){
 						w.left.color = BLACK;
@@ -314,7 +314,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.right.color == BLACK && w.left.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A VÉRIFIER....
+					x = x.parent;   // A Vï¿½RIFIER....
 				}else{
 					if(w.left.color == BLACK){
 						w.right.color = BLACK;
@@ -645,7 +645,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 		 * Is there a next element after this one?
 		 */
 		public boolean hasNext() {
-			return nodesToVisitNext.isEmpty() == false;
+			return !nodesToVisitNext.isEmpty();
 		}
 
 		@Override

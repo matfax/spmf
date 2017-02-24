@@ -48,25 +48,26 @@ public class AlgoPrefixSpan_AGP {
     /**
      * the minimum support threshold as a value in [0,1]
      */
-    protected double minSupRelative;
+    private double minSupRelative;
     /**
      * The minimum support relative threshold, i.e. the minimum number of sequences
      * where the patterns have to be
      */
-    protected double minSupAbsolute;
+    private double minSupAbsolute;
     /**
      * original sequential database to be used for sequential patterns
      * extraction
      */
-    protected SequenceDatabase originalDataset;
+    private SequenceDatabase originalDataset;
     /**
      * Saver variable to decide where the user want to save the results, if it the case
      */
-    Saver saver = null;
+    private Saver saver = null;
     /**
      * Start and end points in order to calculate the overall time taken by the algorithm
      */
-    protected long start, end;
+    private long start;
+    private long end;
     /**
      * The abstraction creator
      */
@@ -132,7 +133,7 @@ public class AlgoPrefixSpan_AGP {
      * @param outputSequenceIdentifiers if true, sequences ids will be output for each pattern
      * @throws IOException 
      */
-    protected void prefixSpan(SequenceDatabase database, boolean keepPatterns, boolean verbose, String outputFilePath, boolean outputSequenceIdentifiers) throws IOException {
+    private void prefixSpan(SequenceDatabase database, boolean keepPatterns, boolean verbose, String outputFilePath, boolean outputSequenceIdentifiers) throws IOException {
         //If we do no have any file path
         if (outputFilePath == null) {
             //The user wants to save the results in memory
@@ -191,7 +192,7 @@ public class AlgoPrefixSpan_AGP {
      * It gets the time spent by the algoritm in its execution.
      * @return the time spent (long).
      */
-    public long getRunningTime() {
+    private long getRunningTime() {
         return (end - start);
     }
 

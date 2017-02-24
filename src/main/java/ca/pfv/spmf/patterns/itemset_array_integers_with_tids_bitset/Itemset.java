@@ -51,9 +51,7 @@ public class Itemset extends AbstractOrderedItemset{
 	/**
 	 * Constructor of an empty itemset
 	 * @param itemset the itemset
-	 * @param the tidset of the itemset
-	 * @param the tidset cardinality (support)
-	 */
+     */
 	public Itemset(int[] itemset, BitSet bitset, int support){
 		this.transactionsIds = bitset;
 		this.itemset = itemset;

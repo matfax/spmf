@@ -78,7 +78,7 @@ public class DescriptionAlgoCharmMFI extends DescriptionOfAlgorithm {
 		// Run CHARM MFI
 		AlgoCharmMFI charmMFI = new AlgoCharmMFI();
 		
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			charmMFI.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		

@@ -38,7 +38,7 @@ public final class Itemset {
      */
     private List<Item> items = new ArrayList<Item>();
 
-    int beginning=0;
+    private int beginning=0;
     /**
      * Timestamp of the itemset.
      */

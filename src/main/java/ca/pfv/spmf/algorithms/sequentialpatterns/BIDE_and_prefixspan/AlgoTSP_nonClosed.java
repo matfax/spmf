@@ -1,23 +1,16 @@
 package ca.pfv.spmf.algorithms.sequentialpatterns.BIDE_and_prefixspan;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Set;
-
 import ca.pfv.spmf.datastructures.redblacktree.RedBlackTree;
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /*** 
@@ -62,12 +55,12 @@ public class AlgoTSP_nonClosed{
 	private int k = 0;
 
 	// the top k patterns found until now 
-	PriorityQueue<SequentialPattern> kPatterns;  	
+    private PriorityQueue<SequentialPattern> kPatterns;
 	// the candidates for expansion
-	RedBlackTree<Candidate> candidates;  
+    private RedBlackTree<Candidate> candidates;
 	
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+    private boolean showSequenceIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -78,10 +71,7 @@ public class AlgoTSP_nonClosed{
 	/**
 	 * Run the algorithm
 	 * @param database : a sequence database
-	 * @param minsupPercent  :  the minimum support as an integer
-	 * @param outputFilePath : the path of the output file to save the result
-	 *                         or null if you want the result to be saved into memory
-	 * @return return the result, if saved into memory, otherwise null 
+	 * @return return the result, if saved into memory, otherwise null
 	 * @throws IOException  exception if error while writing the file
 	 */
 	public PriorityQueue<SequentialPattern> runAlgorithm(SequenceDatabase database, int k) throws IOException {
@@ -115,12 +105,10 @@ public class AlgoTSP_nonClosed{
 	/**
 	 * This is the main method for the PrefixSpan algorithm, which is called
 	 * to start the mining process of the algorithm.
-	 * @param outputFilePath  an output file path if the result should be saved to a file
-	 *                        or null if the result should be saved to memory.
 	 * @param database a sequence database
 	 * @throws IOException exception if an error while writing the output file
 	 */
-	private void prefixSpan(SequenceDatabase database) throws IOException{
+	private void prefixSpan(SequenceDatabase database) {
 		
 		// We have to scan the database to find all frequent sequential patterns of size 1.
 		// We note the sequences in which the items appear.
@@ -372,7 +360,7 @@ public class AlgoTSP_nonClosed{
 		// for each sequence in the database received as parameter
 		for(PseudoSequence sequence : database){ 
 			
-			if(sidset.contains(sequence.getId()) == false){
+			if(!sidset.contains(sequence.getId())){
 				continue;
 			}
 			
@@ -419,10 +407,9 @@ public class AlgoTSP_nonClosed{
 	 * Method to recursively grow a given sequential pattern.
 	 * @param prefix  the current sequential pattern that we want to try to grow
 	 * @param database the current projected sequence database
-	 * @param k  the prefix length in terms of items
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
-	private void recursion(SequentialPattern prefix, List<PseudoSequence> database) throws IOException {	
+	private void recursion(SequentialPattern prefix, List<PseudoSequence> database) {
 		// find frequent items of size 1 in the current projected database.
 		Set<Pair> pairs = findAllFrequentPairs(database);
 	
@@ -469,7 +456,7 @@ public class AlgoTSP_nonClosed{
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
+    private Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPairs = new HashMap<Pair, Pair>();
 		// for each sequence

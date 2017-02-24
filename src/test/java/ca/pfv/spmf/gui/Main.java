@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithmmanager.DescriptionOfAlgorithm;
  * 
  * @author Philippe Fournier-Viger
  */
-public class Main {
+class Main {
 
     // variable for the current version of SPMF
     public static String SPMF_VERSION = "2.12";
@@ -65,7 +65,7 @@ public class Main {
      *
      * @param args command line arguments.
      */
-    public static void processCommandLineArguments(String[] args) {
+    private static void processCommandLineArguments(String[] args) {
         //java -Xmx1024m -jar spmfGUIv090b.jar run PrefixSpan /home/ph/Bureau/contextPrefixSpan.txt /home/ph/Bureau/test3.txt 60%
         //java -Xmx1024m -jar spmfGUIv090b.jar run PrefixSpan contextPrefixSpan.txt test3.txt 60%
 //		System.out.println(" \n\n-- SPMF version " + SPMF_VERSION + " --\n\n");

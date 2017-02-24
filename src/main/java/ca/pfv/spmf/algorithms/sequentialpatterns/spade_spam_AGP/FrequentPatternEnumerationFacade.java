@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.savers.Saver;
  *
  * @author agomariz
  */
-public class FrequentPatternEnumerationFacade implements Callable<Void> {
+class FrequentPatternEnumerationFacade implements Callable<Void> {
 
     /**
      * Link to a FrequentPatternEnumeration object

@@ -28,7 +28,7 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim;
 * @author Philippe Fournier-Viger
  *
  */
-public class TestPseudoSequence {
+class TestPseudoSequence {
 
 	
 	public static void main(String[] args) {

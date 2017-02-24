@@ -35,27 +35,27 @@ import java.util.List;
  * @see estNode
  * @author Azadeh Soltani
  */
-public class estTree {
+class estTree {
 
-	double N;  // |Dk|
-	double d; // decay rate
-	int k; // current tid
+	private double N;  // |Dk|
+	private double d; // decay rate
+	private int k; // current tid
 
 	// itemset count
 	int patternCount =0;
 
 	// Hashtable for storing frequent patterns into memory
-	Hashtable<int[], Double> patterns;
+    private Hashtable<int[], Double> patterns;
 
 	// writer used if result is saved to file
-	BufferedWriter writer;
+    private BufferedWriter writer;
 
-	double minsup;
-	double minsig;
+	private double minsup;
+	private double minsig;
 
 	estNode root; // tree root
 	
-	int[] itemsetBuffer = new int[500];
+	private int[] itemsetBuffer = new int[500];
 
 	/**
 	 * Constructor
@@ -102,7 +102,7 @@ public class estTree {
 	 * @param transaction the transaction for updating
 	 * @param ind depth of the branch ending at the current node
 	 ********************************************************************/
-	void updateNodes(estNode currentNode, int[] transaction, int ind) {
+    private void updateNodes(estNode currentNode, int[] transaction, int ind) {
 		// stop recursion
 		if (ind >= transaction.length)
 			return;
@@ -133,7 +133,7 @@ public class estTree {
 	 *
 	 * @param it  the item
 	 ********************************************************************/
-	void insertItem(Integer it) {
+    private void insertItem(Integer it) {
 		// create the node with a count of 0
 		double c = 0;// (getN(k-1)*minsig)*d+1;
 		root.children.add(new estNode(it, c, k));
@@ -179,9 +179,8 @@ public class estTree {
 	/********************************************************************
 	 * Method for calculating |D|k
 	 *
-	 * @param n
-	 ********************************************************************/
-	double getN(int k) {
+     ********************************************************************/
+    private double getN(int k) {
 		return (1 - Math.pow(d, k)) / (1 - d);
 	}
 
@@ -192,7 +191,7 @@ public class estTree {
 	 * @param itemset the itemset
 	 * @param pos the index of the item to be ignored in the itemset
 	 ********************************************************************/
-	double getCountOfItemsetWithoutItemAtPosition(int[] itemset,int length, int pos) {
+    private double getCountOfItemsetWithoutItemAtPosition(int[] itemset, int length, int pos) {
 		// stop recursion
 		estNode currentNode = root;
 		for (int i=0; i< length; i++) {
@@ -210,10 +209,8 @@ public class estTree {
 	/********************************************************************
 	 * Method for estimating the count of n-itemset from its n-1 subsets
 	 *
-	 * @param currentNode
-	 *            , transaction, index
-	 ********************************************************************/
-	double estimateCount(int[] itemset,int length) {
+     ********************************************************************/
+    private double estimateCount(int[] itemset, int length) {
 		double min = Double.MAX_VALUE;
 		for (int i = 0; i < length; ++i) {
 			double c = getCountOfItemsetWithoutItemAtPosition(itemset,length, i);
@@ -232,12 +229,11 @@ public class estTree {
 	 *
 	 * @param currentNode a tree node
 	 * @param transaction the transaction
-	 * @param the depth of the current node with respect to the root of the tree
 	 * @param itemset
 	 ********************************************************************/
 
-	public void insert_n_itemsets(estNode currentNode,
-			List<Integer> transaction, int ind, int[] itemset) {
+    private void insert_n_itemsets(estNode currentNode,
+                                   List<Integer> transaction, int ind, int[] itemset) {
 
 		// stop recursion
 		if (ind >= transaction.size())
@@ -281,12 +277,11 @@ public class estTree {
 	 *
 	 * @param currentNode a tree node
 	 * @param transaction the transaction
-	 * @param the depth of the current node with respect to the root of the tree
 	 * @param itemset
 	 ********************************************************************/
 
-	public void insert_n_itemsets2(estNode currentNode,
-			List<Integer> transaction, int ind, int[] itemset) {
+    private void insert_n_itemsets2(estNode currentNode,
+                                    List<Integer> transaction, int ind, int[] itemset) {
 
 		// stop recursion
 		if (ind >= transaction.size())
@@ -324,8 +319,8 @@ public class estTree {
 		}//for
 		}
 //********************************************************************
-	public void insert_n_itemsets3(estNode currentNode,
-			List<Integer> transaction, int ind, int[] itemset, int length) {
+private void insert_n_itemsets3(estNode currentNode,
+                                List<Integer> transaction, int ind, int[] itemset, int length) {
 
 		// stop recursion
 		if (ind >= transaction.size())
@@ -382,7 +377,7 @@ public class estTree {
 	 * @param pattern current pattern
 	 * @throws IOException
 	 ********************************************************************/
-	void patternMining(estNode root, int[] pattern, int patternLength) throws IOException {
+    private void patternMining(estNode root, int[] pattern, int patternLength) throws IOException {
 		// We increase the pattern length for extensions of "pattern" 
 		// by adding a single item
 		int newPatternLength = patternLength + 1;
@@ -419,8 +414,7 @@ public class estTree {
 
 	/********************************************************************
 	 * Method for finding frequent patterns and save them into memory
-	 * @param root root of the current subtree
-	 ********************************************************************/
+     ********************************************************************/
 	Hashtable<int[], Double> patternMining_saveToMemory() throws IOException {
 		// Initialize hashtable for storing frequent patterns into memory
 		patterns = new Hashtable<int[], Double>();
@@ -434,7 +428,6 @@ public class estTree {
 
 	/********************************************************************
 	 * Method for finding frequent patterns and save them into file
-	 * @param root the root of the curent subtree
 	 * @param outputPath the output file path
 	 * @throws IOException
 	 ********************************************************************/
@@ -454,7 +447,7 @@ public class estTree {
 	 * @param itemset the pattern to be saved
 	 * @param support a double value
 	 ********************************************************************/
-	void writeItemset(int[] itemset, int patternLength, double support) throws IOException {
+    private void writeItemset(int[] itemset, int patternLength, double support) throws IOException {
 		StringBuilder buffer = new StringBuilder();
 
 		// for each item

@@ -29,9 +29,9 @@ public class SequentialPatterns {
 	// A list of list is used to stored the sequential patterns.
 	// At position i, a list of sequential patterns contains
 	// all sequential patterns of size i.
-	public final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset class� par taille
+	private final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset class� par taille
 	// the total number of sequential patterns
-	public int sequenceCount=0;
+    private int sequenceCount=0;
 	
 	// a name that is given to this set of sequential patterns
 	private final String name;
@@ -62,7 +62,7 @@ public class SequentialPatterns {
 	 * @param showSequenceIdentifiers  if true, sequence identifiers will be output for each pattern
 	 * @return a string
 	 */
-	public String toString(int nbObject, boolean showSequenceIdentifiers){
+    private String toString(int nbObject, boolean showSequenceIdentifiers){
 		StringBuilder r = new StringBuilder(200);
 		r.append(" ----------");
 		r.append(name);

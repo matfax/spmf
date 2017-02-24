@@ -61,22 +61,22 @@ import java.util.List;
 public class AlgoDBSCAN {
 
 	// The list of clusters generated
-	protected List<Cluster> clusters = null;
+    private List<Cluster> clusters = null;
 
 	// For statistics
-	protected long startTimestamp; // the start time of the latest execution
-	protected long endTimestamp;  // the end time of the latest execution
-	long numberOfNoisePoints; // the number of iterations that was performed
+    private long startTimestamp; // the start time of the latest execution
+	private long endTimestamp;  // the end time of the latest execution
+	private long numberOfNoisePoints; // the number of iterations that was performed
 	
 	/* The distance function to be used for clustering */
-	DistanceFunction distanceFunction = new DistanceEuclidian(); 
+    private DistanceFunction distanceFunction = new DistanceEuclidian();
 	
 	/* This KD-Tree is used to index the data points for fast access to points in the epsilon radius*/
-	KDTree kdtree;
+    private KDTree kdtree;
 	
 	/* Buffers for storing points **/
-	List<DoubleArray> bufferNeighboors1 = null;
-	List<DoubleArray> bufferNeighboors2 = null;
+    private List<DoubleArray> bufferNeighboors1 = null;
+	private List<DoubleArray> bufferNeighboors2 = null;
 
 	/** The names of the attributes **/
 	private List<String> attributeNames = null;
@@ -93,8 +93,6 @@ public class AlgoDBSCAN {
 	 * @param inputFile an input file path containing a list of vectors of double values
 	 * @param minPts  the minimum number of points (see DBScan article)
 	 * @param epsilon  the epsilon distance (see DBScan article)
-	 * @param separator2 
-	 * @param seaparator  the string that is used to separate double values on each line of the input file (default: single space)
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException exception if an error while writing the file occurs
 	 */
@@ -122,7 +120,7 @@ public class AlgoDBSCAN {
 			
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%') {
 				continue;
 			}
@@ -189,7 +187,7 @@ public class AlgoDBSCAN {
 		for(DoubleArray point : points) {
 			// if the node has not been visited yet
 			DoubleArrayDBS pointDBS = (DoubleArrayDBS) point;
-			if(pointDBS.visited == false) {
+			if(!pointDBS.visited) {
 				
 				// mark the point as visited
 				pointDBS.visited = true;
@@ -233,7 +231,6 @@ public class AlgoDBSCAN {
 	 * The DBScan expandCluster() method
 	 * @param currentPoint the current point
 	 * @param neighboors the neighboors of the current point
-	 * @param cluster the current cluster
 	 * @param epsilon the epsilon parameter
 	 * @param minPts the minPts parameter
 	 */
@@ -255,7 +252,7 @@ public class AlgoDBSCAN {
 			DoubleArrayDBS newPointDBS = (DoubleArrayDBS) neighboors.get(i);
 			
 			// if this point has not been visited yet
-			if(newPointDBS.visited == false) {
+			if(!newPointDBS.visited) {
 					
 				// mark the point as visited
 				newPointDBS.visited = true;

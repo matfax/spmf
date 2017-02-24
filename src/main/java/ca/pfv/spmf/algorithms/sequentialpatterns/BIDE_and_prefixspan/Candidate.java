@@ -2,7 +2,7 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.BIDE_and_prefixspan;
 
 import java.util.List;
 
-public class Candidate implements Comparable<Candidate>{
+class Candidate implements Comparable<Candidate>{
 	
 	SequentialPattern prefix;
 	List<PseudoSequence> databaseBeforeProjection;

@@ -44,7 +44,7 @@ public class Item implements Comparable<Item> {
 	public boolean equals(Object obj) {
 		Item b = (Item) obj;
 		return val.equals(b.val);
-	};
+	}
 
 	@Override
 	public int compareTo(Item o) {

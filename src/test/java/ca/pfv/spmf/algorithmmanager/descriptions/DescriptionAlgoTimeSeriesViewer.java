@@ -42,7 +42,7 @@ public class DescriptionAlgoTimeSeriesViewer extends DescriptionOfAlgorithm {
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 
 		String separator;
-		if (parameters.length > 0 && "".equals(parameters[0]) == false) {
+		if (parameters.length > 0 && !"".equals(parameters[0])) {
 			separator = getParamAsString(parameters[0]);
 		}else{
 			separator = " ";

@@ -38,10 +38,10 @@ import java.util.jar.JarFile;
 public class AlgorithmManager {
 	
 	/** List of algorithms available in SPMF */
-	List<DescriptionOfAlgorithm> algorithms;
+	private List<DescriptionOfAlgorithm> algorithms;
 	
 	/** the only instance of this class (singleton) **/
-	static AlgorithmManager instance = null;
+	private static AlgorithmManager instance = null;
 	
 	/**
 	 * Default Constructor
@@ -59,7 +59,7 @@ public class AlgorithmManager {
 			@Override
 			public int compare(DescriptionOfAlgorithm description1, DescriptionOfAlgorithm description2) {
 				// if different category, we sort by categories,
-				if(description1.getAlgorithmCategory().equals(description2.getAlgorithmCategory()) == false){
+				if(!description1.getAlgorithmCategory().equals(description2.getAlgorithmCategory())){
 					return description1.getAlgorithmCategory().compareTo(description2.getAlgorithmCategory());
 				}
 				// otherwise we sort by name
@@ -96,7 +96,7 @@ public class AlgorithmManager {
 		// for each algorithm
 		for(DescriptionOfAlgorithm algorithm : algorithms){
 			// if this algorithm belong to a new category, we will add the category name to the list of algorithms
-			if(algorithm.getAlgorithmCategory().equals(previousCategory) == false){
+			if(!algorithm.getAlgorithmCategory().equals(previousCategory)){
 				listOfNames.add(" --- " + algorithm.getAlgorithmCategory() + " --- ");
 				// remember the category
 				previousCategory = algorithm.getAlgorithmCategory();
@@ -188,7 +188,6 @@ public class AlgorithmManager {
 
 	/**
 	 * Get the description of a specific algorithm
-	 * @param algorithm the name of the algorithm
 	 * @return the description of the algorithm (a DescriptionOfAlgorithm object), or null if not found
 	 */
 	public DescriptionOfAlgorithm getDescriptionOfAlgorithm(String nameOfAlgorithm) {

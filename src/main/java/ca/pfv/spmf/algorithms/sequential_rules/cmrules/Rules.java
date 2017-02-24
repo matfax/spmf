@@ -26,9 +26,9 @@ import java.util.List;
  * @see Rule
  * @author Philippe Fournier-Viger
  */
-public class Rules {
+class Rules {
 	//  the list of rules stored in this group
-	final List<Rule> rules = new ArrayList<Rule>();  
+	private final List<Rule> rules = new ArrayList<Rule>();
 	
 	// a name given to this group of rules
 	private final String name;

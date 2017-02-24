@@ -29,11 +29,11 @@ import java.util.List;
  * 
  * @author Philippe Fournier-Viger
  */
-public class TransactionTP{
+class TransactionTP{
 	// a transaction is an ordered list of items
-	protected final List<ItemUtility> itemsUtilities; 
+	private final List<ItemUtility> itemsUtilities;
 	// the total transaction utility (TU)
-	protected final int transactionUtility;
+	private final int transactionUtility;
 	
 	/**
 	 * Constructor

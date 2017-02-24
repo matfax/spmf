@@ -38,8 +38,8 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clasp_AGP.dataStructures.patter
  */
 public class Sequences {
 
-    public List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
-    public int numberOfFrequentSequences = 0;
+    private List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
+    private int numberOfFrequentSequences = 0;
     private String name;
 
     public Sequences(String name) {

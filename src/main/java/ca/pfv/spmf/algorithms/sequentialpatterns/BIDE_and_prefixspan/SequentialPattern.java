@@ -41,8 +41,7 @@ public class SequentialPattern implements Comparable<SequentialPattern>{
 	
 	/**
 	 * Set the set of IDs of sequence containing this prefix
-	 * @param a set of integer containing sequence IDs
-	 */
+     */
 	public void setSequenceIDs(Set<Integer> sequencesIds) {
 		this.sequencesIds = sequencesIds;
 	}

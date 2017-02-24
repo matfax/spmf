@@ -16,7 +16,7 @@ import java.io.LineNumberReader;
  */
 public class MainTestHUI_LIST_INS_Xupdates {
 
-    public static int countLines(String filepath) throws IOException {
+    private static int countLines(String filepath) throws IOException {
         LineNumberReader reader = new LineNumberReader(new InputStreamReader(MainTestHUI_LIST_INS_Xupdates.class.getClassLoader().getResourceAsStream(filepath)));
         while (reader.readLine() != null) {
         }

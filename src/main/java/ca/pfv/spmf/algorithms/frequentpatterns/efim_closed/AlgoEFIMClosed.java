@@ -45,22 +45,22 @@ public class AlgoEFIMClosed {
 	private Itemsets highUtilityItemsets;
 
 	/** object to write the output file */
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/** the number of high-utility itemsets found (for statistics) */
 	private int patternCount;
 
 	/** the start time and end time of the last algorithm execution */
-	long startTimestamp;
-	long endTimestamp;
+    private long startTimestamp;
+	private long endTimestamp;
 
 	/** the minutil threshold */
-	int minUtil;
+    private int minUtil;
 
 	/**
 	 * if this variable is set to true, some debugging information will be shown
 	 */
-	final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 
 	/**
 	 * The following variables are the utility-bins array // Recall that each
@@ -77,22 +77,22 @@ public class AlgoEFIMClosed {
 	private int[] temp = new int[500];
 
 	/** an array that map an old item name to its new name */
-	int[] oldNameToNewNames;
+    private int[] oldNameToNewNames;
 	/** an array that map a new item name to its old name */
-	int[] newNamesToOldNames;
+    private int[] newNamesToOldNames;
 	/** the number of new items */
-	int newItemCount;
+    private int newItemCount;
 
 	/** if true, transaction merging will be performed by the algorithm */
-	boolean activateTransactionMerging;
+    private boolean activateTransactionMerging;
 
 	/** A parameter for transaction merging */
-	final int MAXIMUM_SIZE_MERGING = 1000;
+	private final int MAXIMUM_SIZE_MERGING = 1000;
 
 	/** number of times a transaction was read */
-	long transactionReadingCount;
+    private long transactionReadingCount;
 	/** number of merges */
-	long mergeCount;
+    private long mergeCount;
 
 	/** number of itemsets from the search tree that were considered */
 	private long candidateCount;
@@ -422,8 +422,8 @@ public class AlgoEFIMClosed {
 	 * @param items
 	 *            list the utility-bin array indicating the TWU of each item.
 	 */
-	public static void insertionSort(List<Integer> items,
-			int[] utilityBinArrayTWU) {
+	private static void insertionSort(List<Integer> items,
+                                      int[] utilityBinArrayTWU) {
 		// the following lines are simply a modified an insertion sort
 
 		for (int j = 1; j < items.size(); j++) {
@@ -466,14 +466,10 @@ public class AlgoEFIMClosed {
 	/**
 	 * Recursive method to find all high-utility itemsets
 	 * 
-	 * @param the
-	 *            list of transactions containing the current prefix P
 	 * @param itemsToKeep
 	 *            the list of secondary items in the p-projected database
 	 * @param itemsToExplore
 	 *            the list of primary items in the p-projected database
-	 * @param the
-	 *            current prefixLength
 	 * @throws IOException
 	 *             if error writing to output file
 	 */
@@ -857,7 +853,7 @@ public class AlgoEFIMClosed {
 	 * @param item the item
 	 * @return true if the item appear in the itemset
 	 */
-	public boolean containsByBinarySearch(int[] items, int itemsLength, int item) {
+    private boolean containsByBinarySearch(int[] items, int itemsLength, int item) {
 		if (itemsLength == 0 || item > items[itemsLength - 1]) {
 			return false;
 		}
@@ -885,8 +881,6 @@ public class AlgoEFIMClosed {
 	 * Check if an item appears in all transactions after the first one in a
 	 * list of transactions
 	 * 
-	 * @param transactions
-	 *            a list of transactions
 	 * @param item
 	 *            an item
 	 * @return true if the item appears in all transactions after the first one
@@ -895,7 +889,7 @@ public class AlgoEFIMClosed {
 
 		for (Transaction mergedTransaction : transactionsPe) {
 			for (int[] trans : mergedTransaction.originalTransactions) {
-				if (containsByBinarySearch(trans, trans.length, item) == false) {
+				if (!containsByBinarySearch(trans, trans.length, item)) {
 					return false;
 				}
 			}
@@ -947,7 +941,7 @@ public class AlgoEFIMClosed {
 	 * @param dataset
 	 *            the transaction database
 	 */
-	public void useUtilityBinArrayToCalculateLocalUtilityFirstTime(Dataset dataset) {
+    private void useUtilityBinArrayToCalculateLocalUtilityFirstTime(Dataset dataset) {
 
 		// Initialize utility bins for all items
 		utilityBinArrayLU = new int[dataset.getMaxItem() + 1];
@@ -970,7 +964,7 @@ public class AlgoEFIMClosed {
 	 * @param dataset
 	 *            the transaction database
 	 */
-	public void useUtilityBinArrayToCalculateSubtreeUtilityFirstTime(Dataset dataset) {
+    private void useUtilityBinArrayToCalculateSubtreeUtilityFirstTime(Dataset dataset) {
 
 		int sumSU;
 		// Scan the database to fill the utility-bins of each item
@@ -1000,8 +994,6 @@ public class AlgoEFIMClosed {
 	 * Utilize the utility-bin arrays to calculate the sub-tree utility and
 	 * local utility of all items that can extend itemset P U {e}
 	 * 
-	 * @param transactions
-	 *            the projected database for P U {e}
 	 * @param j
 	 *            the position of j in the list of promising items
 	 * @param itemsToKeep
@@ -1101,8 +1093,6 @@ public class AlgoEFIMClosed {
 	 * Save a high-utility itemset to file or memory depending on what the user
 	 * chose.
 	 * 
-	 * @param itemset
-	 *            the itemset
 	 * @throws IOException
 	 *             if error while writting to output file
 	 */

@@ -38,8 +38,8 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.goKrimp;
  * @see AlgoGoKrimp
 *  @author  Hoang Thanh Lam (TU Eindhoven and IBM Research)
 */
-public class SignTest {
-    static final double alpha=0.01; //the significant level
+class SignTest {
+    private static final double alpha=0.01; //the significant level
     static final int N=25; // the minimum number of pairs must be at least  25  to ensure taht the sign test is correct
     int Npairs; // the number of pairs (X,Y)
     double Nplus; // the number of pairs (X,Y) such that X>Y
@@ -48,7 +48,7 @@ public class SignTest {
      * @param xx input value
      * @return cdf of standard normal distribution
      */
-    double standard_normal_cdf(double xx){
+    private double standard_normal_cdf(double xx){
 	double x=xx;
 	if (xx<0)
 		x=-x;		

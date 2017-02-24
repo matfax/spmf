@@ -50,28 +50,28 @@ import java.util.Map.Entry;
 public class AlgoAprioriTID {
 
 	/** the current level */
-	protected int k; 
+    private int k;
 
 	/** variables for counting support of items */
-	Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
+    private Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
 
 	/** the minimum support threshold */
-	int minSuppRelative;
+    private int minSuppRelative;
 
 	/** Special parameter to set the maximum size of itemsets to be discovered */
-	int maxItemsetSize = Integer.MAX_VALUE;
+    private int maxItemsetSize = Integer.MAX_VALUE;
 
 	/** start time of latest execution */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** end time of latest execution */
-	long endTimeStamp = 0; 
+    private long endTimeStamp = 0;
 	
 	/** object for writing to file if the user choose to write to a file */
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	/** variable to store the result if the user choose to save to memory instead of a file */
-	protected Itemsets patterns = null;
+    private Itemsets patterns = null;
 
 	/** the number of frequent itemsets found */
 	private int itemsetCount = 0;
@@ -87,7 +87,7 @@ public class AlgoAprioriTID {
 	private boolean emptySetIsRequired = false;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -174,7 +174,7 @@ public class AlgoAprioriTID {
 			while (((line = reader.readLine()) != null)) { // for each transaction
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (line.isEmpty() == true ||
+				if (line.isEmpty() ||
 						line.charAt(0) == '#' || line.charAt(0) == '%'
 								|| line.charAt(0) == '@') {
 					continue;
@@ -273,7 +273,7 @@ public class AlgoAprioriTID {
 	 * @param levelK_1  frequent itemsets of size k-1
 	 * @return itemsets of size k
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1)
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1)
 			throws IOException {
 		// create a variable to store candidates
 		List<Itemset> candidates = new ArrayList<Itemset>();
@@ -351,7 +351,7 @@ public class AlgoAprioriTID {
 	 * @param itemset the itemset
 	 * @throws IOException exception if error writing the output file.
 	 */
-	void saveItemset(Itemset itemset) throws IOException {
+    private void saveItemset(Itemset itemset) throws IOException {
 		itemsetCount++;
 		
 		// if the result should be saved to a file

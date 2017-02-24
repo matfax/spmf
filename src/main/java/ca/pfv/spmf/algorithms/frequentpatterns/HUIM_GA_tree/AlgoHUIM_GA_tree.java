@@ -41,16 +41,16 @@ import java.util.Map;
 
 public class AlgoHUIM_GA_tree {
 	// variable for statistics
-	double maxMemory = 0; // the maximum memory usage
-	long startTimestamp = 0; // the time the algorithm started
-	long endTimestamp = 0; // the time the algorithm terminated
-	final int pop_size = 20;// the size of populations
-	final int iterations = 10000;// the iterations of algorithms
+    private double maxMemory = 0; // the maximum memory usage
+	private long startTimestamp = 0; // the time the algorithm started
+	private long endTimestamp = 0; // the time the algorithm terminated
+	private final int pop_size = 20;// the size of populations
+	private final int iterations = 10000;// the iterations of algorithms
 
-	Map<Integer, Integer> mapItemToTWU;
-	List<Integer> twuPattern;// the items which has twu value more than minUtil
+	private Map<Integer, Integer> mapItemToTWU;
+	private List<Integer> twuPattern;// the items which has twu value more than minUtil
 
-	BufferedWriter writer = null; // writer to write the output file
+	private BufferedWriter writer = null; // writer to write the output file
 
 	// this class represent an item and its utility in a transaction
 	class Pair {
@@ -89,20 +89,20 @@ public class AlgoHUIM_GA_tree {
 	}
 
 	// populations,
-	List<ChroNode> population = new ArrayList<ChroNode>();// populations
-	List<ChroNode> subPopulation = new ArrayList<ChroNode>();// son of
+    private List<ChroNode> population = new ArrayList<ChroNode>();// populations
+	private List<ChroNode> subPopulation = new ArrayList<ChroNode>();// son of
 																// populations
-	List<HUI> huiSets = new ArrayList<HUI>();// the set of HUIs
+                                                                private List<HUI> huiSets = new ArrayList<HUI>();// the set of HUIs
 												// chromosome
 	// Create a list to store database
-	List<List<Pair>> database = new ArrayList<List<Pair>>();
+                                                private List<List<Pair>> database = new ArrayList<List<Pair>>();
 	// Create a list to store maximal pattern
-	List<List<Integer>> maximalPatterns = new ArrayList<List<Integer>>();
-	List<Double> percentage = new ArrayList<Double>();// the portation of twu
+    private List<List<Integer>> maximalPatterns = new ArrayList<List<Integer>>();
+	private List<Double> percentage = new ArrayList<Double>();// the portation of twu
 														// value of each
 														// 1-HTWUIs in sum of
 														// twu value
-	treeNode orNorTree;// the root of OR/NOR-tree
+                                                        private treeNode orNorTree;// the root of OR/NOR-tree
 
 	/**
 	 * Default constructor
@@ -145,7 +145,7 @@ public class AlgoHUIM_GA_tree {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -193,7 +193,7 @@ public class AlgoHUIM_GA_tree {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;

@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.pfv.spmf.datastructures.kdtree.KNNPoint;
-import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 
 /* This file is copyright (c) 2008-2015 Philippe Fournier-Viger
@@ -45,7 +44,6 @@ public class DoubleArrayOPTICS extends DoubleArrayInstance implements Comparable
 
 	/**
 	 * Set the core distance of this point
-	 * @param neighbors the neighbors of this point
 	 * @param epsilon the epsilon distance
 	 * @param minPts  the minPts parameter
 	 */

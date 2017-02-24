@@ -61,7 +61,7 @@ public class DescriptionAlgoTimeSeriesSplitByLength extends DescriptionOfAlgorit
 		int sizeOfSegment = getParamAsInteger(parameters[0]);
 
 		String separator;
-		if (parameters.length > 1 && "".equals(parameters[1]) == false) {
+		if (parameters.length > 1 && !"".equals(parameters[1])) {
 			separator = getParamAsString(parameters[1]);
 		}else{
 			separator = " ";

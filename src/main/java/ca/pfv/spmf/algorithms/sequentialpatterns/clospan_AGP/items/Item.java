@@ -44,7 +44,7 @@ public class Item<T extends Comparable> implements Comparable<Item> {
      * It gets the content of the item.
      * @return the content T
      */
-    public T getId() {
+    T getId() {
         return id;
     }
 

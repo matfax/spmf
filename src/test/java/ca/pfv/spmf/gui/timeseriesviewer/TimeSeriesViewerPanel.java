@@ -61,7 +61,7 @@ import ca.pfv.spmf.test.MainTestApriori_saveToFile;
  * @author Philippe Fournier-Viger, 2016
  *
  */
-public class TimeSeriesViewerPanel extends JPanel {
+class TimeSeriesViewerPanel extends JPanel {
 	
 	/**
 	 * static UID
@@ -69,22 +69,22 @@ public class TimeSeriesViewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** The object used to draw plots **/
-	Plot plot = null;
+	private Plot plot = null;
 	
 	/** This indicates the level of zoom */
-	double scaleLevel = 1.0;
+	private double scaleLevel = 1.0;
 	
 	/**  The height **/
-	int height;
+	private int height;
 	
 	/** The width **/
-	int width;
+	private int width;
 	
 	/** the heigth after scaling **/
-	int originalHeigth;
+	private int originalHeigth;
 	
 	/** the width after scaling **/
-	int originalWidth;
+	private int originalWidth;
 
 	/** The time series to be displayed **/
 	private List<TimeSeries> multipleTimeSeries;
@@ -93,15 +93,15 @@ public class TimeSeriesViewerPanel extends JPanel {
 	private Color multipleTimeSeriesColors[];
 	
 	/** min and max values on the X axis **/
-    double minX = 0;
-    double maxX = Double.MIN_VALUE;
+	private double minX = 0;
+    private double maxX = Double.MIN_VALUE;
 	
 	/** min and max values on the Y axis **/
-    double minY = Double.MAX_VALUE;
-    double maxY = Double.MIN_VALUE;
+	private double minY = Double.MAX_VALUE;
+    private double maxY = Double.MIN_VALUE;
     
     /**  If true, the grid will be drawn **/
-    boolean drawTheGrid = true;
+	private boolean drawTheGrid = true;
     
     /**  If true, the series lines will be drawn **/
 	private int seriesLineWidth = 1;
@@ -110,13 +110,13 @@ public class TimeSeriesViewerPanel extends JPanel {
 	private int markerSize = 5;
 
     /**  If true, the legend will be drawn **/
-    LegendFormat legendFormat = LegendFormat.BOTTOM;
+	private LegendFormat legendFormat = LegendFormat.BOTTOM;
     
 	/** The set of basic colors */
-	Color[] colors = new Color[]{Color.blue, Color.green, Color.red, Color.yellow, Color.magenta, Color.orange, Color.cyan, Color.pink,  Color.darkGray, Color.gray, Color.lightGray, };
+	private Color[] colors = new Color[]{Color.blue, Color.green, Color.red, Color.yellow, Color.magenta, Color.orange, Color.cyan, Color.pink,  Color.darkGray, Color.gray, Color.lightGray, };
     
     /** The listeners **/
-    List<TimeSeriesViewerPanelListener> listeners = new ArrayList<TimeSeriesViewerPanelListener>();
+	private List<TimeSeriesViewerPanelListener> listeners = new ArrayList<TimeSeriesViewerPanelListener>();
 
     
 	public TimeSeriesViewerPanel(List<TimeSeries> timeSeries){
@@ -219,10 +219,8 @@ public class TimeSeriesViewerPanel extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		width = this.width;
-		height = this.height;
-		
-        super.paintComponent(g);
+
+		super.paintComponent(g);
         
         Graphics2D g2 = ( Graphics2D ) g; // cast g to Graphics2D  
         
@@ -276,7 +274,7 @@ public class TimeSeriesViewerPanel extends JPanel {
 
             int count = 0;
         	TimeSeries singleTimeSeries = multipleTimeSeries.get(i);
-        	Data data = plot.data();
+        	Data data = Plot.data();
         	
         	// For each data point
         	for(int j = 0; j < singleTimeSeries.size(); j++){
@@ -402,7 +400,7 @@ public class TimeSeriesViewerPanel extends JPanel {
 	 * This method is called when the user click on the button to export the current plot to a file
 	 * @throws IOException if an error occurs
 	 */
-	protected void export() {
+	void export() {
 		
 		// ask the user to choose the filename and path
 		String outputFilePath = null;
@@ -456,7 +454,7 @@ public class TimeSeriesViewerPanel extends JPanel {
 		try{
 			
 			// add the .png extension
-			if(outputFilePath.endsWith("png") == false){
+			if(!outputFilePath.endsWith("png")){
 				outputFilePath = outputFilePath + ".png";
 			}
 			File outputFile = new File(outputFilePath);
@@ -495,7 +493,7 @@ public class TimeSeriesViewerPanel extends JPanel {
 		        return Printable.PAGE_EXISTS;
 			}
 		}); 
-		if (pj.printDialog() == false)
+		if (!pj.printDialog())
 			return;
 
 		try {
@@ -543,8 +541,7 @@ public class TimeSeriesViewerPanel extends JPanel {
 	/**
 	 * 
 	 * Set the line width for the chart
-	 * @param the line width
-	 */
+     */
 	public void setSeriesLineWidth(int width) {
 		this.seriesLineWidth = width;
 		

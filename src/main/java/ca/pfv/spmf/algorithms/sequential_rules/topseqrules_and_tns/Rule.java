@@ -40,7 +40,7 @@ public class Rule implements Comparable<Rule>{
 	/** consequent */
 	private int[] itemset2; 
 	/** absolute support */
-	int transactioncount; 
+    private int transactioncount;
 	/** the transaction IDs of the antecedent */
 	Set<Integer> tidsI;  
 	/** the transaction IDs of the consequent */

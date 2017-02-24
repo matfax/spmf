@@ -14,14 +14,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class JTableSearchAndHighlight extends JFrame {
+class JTableSearchAndHighlight extends JFrame {
 
 	   private JTextField searchField;
 	   private JTable table;
 	   private JPanel panel;
 	   private JScrollPane scroll;
 
-	   public JTableSearchAndHighlight() {
+	   private JTableSearchAndHighlight() {
 
 	     initializeInventory();
 	   }

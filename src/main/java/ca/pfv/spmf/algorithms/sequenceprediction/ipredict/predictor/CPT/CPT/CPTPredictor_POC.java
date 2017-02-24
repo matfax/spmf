@@ -41,9 +41,9 @@ public class CPTPredictor_POC extends Predictor {
 	
 	private long nodeNumber; //number of node in the Compact tree
 	
-	public Paramable parameters;
+	private Paramable parameters;
 	
-	public CPTPredictor_POC() {
+	private CPTPredictor_POC() {
 		nodeNumber = 0;
 		Root = new PredictionTree();
 		LT = new HashMap<Integer, PredictionTree>();
@@ -51,7 +51,7 @@ public class CPTPredictor_POC extends Predictor {
 		parameters = new Paramable();
 	}
 
-	public CPTPredictor_POC(String tag) {
+	private CPTPredictor_POC(String tag) {
 		this();
 		TAG = tag;
 	}
@@ -142,7 +142,7 @@ public class CPTPredictor_POC extends Predictor {
 			int i = 0;
 			for(i = 0 ; i < branch.size() && hashTargetTMP.size() > 0; i++ ) {
 				
-				if(hashTargetTMP.contains(branch.get(i).val)== true) {
+				if(hashTargetTMP.contains(branch.get(i).val)) {
 					hashTargetTMP.remove(branch.get(i).val);
 				}	
 			}
@@ -240,8 +240,7 @@ public class CPTPredictor_POC extends Predictor {
 	
 	/**
 	 * Predict the next element in the given sequence
-	 * @param sequence to predict
-	 */
+     */
 	public Sequence Predict(Sequence target) {
 
 		//remove items that were never seen before from the Target sequence before LLCT try to make a prediction
@@ -302,7 +301,7 @@ public class CPTPredictor_POC extends Predictor {
 	 * @return true on success
 	 */
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		nodeNumber = 0;
 		int seqId = 0; //current sequence from database
@@ -337,7 +336,7 @@ public class CPTPredictor_POC extends Predictor {
 			for(Item it : curSeq.getItems()) {
 				
 				//if item is not in Inverted Index then we add it
-				if(II.containsKey(it.val) == false) {
+				if(!II.containsKey(it.val)) {
 					BitSet tmpBitset = new BitSet();
 					II.put(it.val, tmpBitset);
 				}
@@ -346,7 +345,7 @@ public class CPTPredictor_POC extends Predictor {
 				II.get(it.val).set(seqId);
 				
 				//if item is not in compact tree then we add it
-				if(curNode.hasChild(it) == false) {
+				if(!curNode.hasChild(it)) {
 					curNode.addChild(it);
 					nodeNumber++;
 				}
@@ -380,9 +379,8 @@ public class CPTPredictor_POC extends Predictor {
 		
 		//Logging memory usage
 		MemoryLogger.addUpdate();
-		
-		return true;
-	}
+
+    }
 	
 	/**
 	 * Return the number of node in the compact tree

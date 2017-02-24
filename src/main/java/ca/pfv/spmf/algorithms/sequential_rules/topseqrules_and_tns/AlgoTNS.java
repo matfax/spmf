@@ -49,31 +49,31 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoTNS {
 	// last execution start time and end time for stats
-	long timeStart = 0; // start time of latest execution
-	long timeEnd = 0; // end time of latest execution
+	private long timeStart = 0; // start time of latest execution
+	private long timeEnd = 0; // end time of latest execution
 	
 	// parameters
-	double minConfidence;   // minimum confidence
-	double delta;   // the delta parameter
-	double initialK;  // the k parameter
-	SequenceDatabase database;  // the sequence database
+	private double minConfidence;   // minimum confidence
+	private double delta;   // the delta parameter
+	private double initialK;  // the k parameter
+	private SequenceDatabase database;  // the sequence database
 	
 	// internal variables
-	int minsuppRelative;  // minimum support which will be raised dynamically
+	private int minsuppRelative;  // minimum support which will be raised dynamically
 	
-	int k=0; // the calculated value of k   :  k + delta
+	private int k=0; // the calculated value of k   :  k + delta
 	
-	RedBlackTree<Rule> kRules;  // the top k rules found until now 
-	RedBlackTree<Rule> candidates;  // the candidates for expansion
+	private RedBlackTree<Rule> kRules;  // the top k rules found until now
+	private RedBlackTree<Rule> candidates;  // the candidates for expansion
 	
 	// the max number of candidates at the same time during the last execution
-	int maxCandidateCount = 0;
+	private int maxCandidateCount = 0;
 	
 	//Arrays where the ith position contains
 	// the map of last or first occurrences for the item i
 	// The key of the maps is a sequence ID and the value is an occurence.
-	Map<Integer, Short>  arrayMapItemCountFirst[];  // item, <tid, occurence>
-	Map<Integer, Short>  arrayMapItemCountLast[];  // item, <tid, occurence>
+	private Map<Integer, Short>[]  arrayMapItemCountFirst;  // item, <tid, occurence>
+	private Map<Integer, Short>[]  arrayMapItemCountLast;  // item, <tid, occurence>
 	
 	// for statistics
 	private int totalremovedCount;  // rules removed by Strategy 2 
@@ -159,42 +159,43 @@ public class AlgoTNS {
 		// frequent items.
 		
 		// For each pair of frequent items i  and j such that i != j
-main1:	for(int itemI=database.minItem; itemI<= database.maxItem; itemI++){
+		for (int itemI = database.minItem; itemI <= database.maxItem; itemI++) {
 			// Get the map of occurences of item I
 			Map<Integer, Short> occurencesIfirst = arrayMapItemCountFirst[itemI];
-			
+
 			// if none continue
-			if(occurencesIfirst == null){
-				continue main1;
+			if (occurencesIfirst == null) {
+				continue;
 			}
 			// get  the set of sequence IDs containing I
 			Set<Integer> tidsI = occurencesIfirst.keySet();
 			// if the support of I (cardinality of the tids) is lower
 			// than minsup, than it is not frequent, so we skip this item
-			if(tidsI.size() < minsuppRelative){
-				continue main1;
+			if (tidsI.size() < minsuppRelative) {
+				continue;
 			}
-			
-main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
+
+			main2:
+			for (int itemJ = itemI + 1; itemJ <= database.maxItem; itemJ++) {
 				// Get the map of occurences of item J
 				Map<Integer, Short> occurencesJfirst = (Map<Integer, Short>) arrayMapItemCountFirst[itemJ];
-				
+
 				// if none continue
-				if(occurencesJfirst == null){
-					continue main2;
+				if (occurencesJfirst == null) {
+					continue;
 				}
-				
+
 				// get  the set of sequence IDs containing J
 				Set<Integer> tidsJ = occurencesJfirst.keySet();
 				// if the support of J (cardinality of the tids) is lower
 				// than minsup, than it is not frequent, so we skip this item
-				if(tidsJ.size() < minsuppRelative){
-					continue main2;
+				if (tidsJ.size() < minsuppRelative) {
+					continue;
 				}
-				
+
 				// (1) Build list of common  tids  and count occurences 
 				// of i ==> j  and  j ==> i.
-				
+
 				// These two hashsets will store the tids of: 
 				Set<Integer> tidsIJ = new HashSet<Integer>();  //  i ==> j 
 				Set<Integer> tidsJI = new HashSet<Integer>();  //  j ==> i.
@@ -207,98 +208,98 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 
 				// if there is less tids in J, then
 				// we will loop over J instead of I to calculate the tidsets
-				if(tidsI.size() > tidsJ.size()){ 
-					
+				if (tidsI.size() > tidsJ.size()) {
+
 					// this repsents the number of itemsets left to be scanned
 					int left = tidsJ.size();
-					
+
 					// for each tid where J eappears
-					for(Integer tid : occurencesJfirst.keySet()){
+					for (Integer tid : occurencesJfirst.keySet()) {
 						// get the first occurence of I
 						Short occIFirst = occurencesIfirst.get(tid);
 						// if there is one
-						if(occIFirst !=  null){
+						if (occIFirst != null) {
 							// get the first and last occurences of J
 							Short occJFirst = occurencesJfirst.get(tid);
 							Short occJLast = occurencesJlast.get(tid);
 							// If the first of I appears before the last of J
-							if(occIFirst < occJLast){
+							if (occIFirst < occJLast) {
 								// current tid to the tidset of  i ==> j 
 								tidsIJ.add(tid);
 							}
 							Short occILast = occurencesIlast.get(tid);
 							// If the first of J appears before the last of I
-							if(occJFirst < occILast){
+							if (occJFirst < occILast) {
 								// current tid to the tidset of  j ==> i
 								tidsJI.add(tid);
 							}
 						}
 						left--; // go to next itemset (in backward direction)
-						
+
 						// if there is not enough itemset left so that i--> j
 						// or j==> i could be frequent, then we can stop
-						if(((left + tidsIJ.size()) < minsuppRelative) && 
-								((left + tidsJI.size()) < minsuppRelative)){
+						if (((left + tidsIJ.size()) < minsuppRelative) &&
+								((left + tidsJI.size()) < minsuppRelative)) {
 							continue main2;
 						}
 					}
-				}else{
+				} else {
 					// otherwise
 					// we will loop over I instead of J to calculate the tidsets
-					
+
 					// this repsents the number of itemsets left to be scanned
 					int left = tidsI.size();
-					
-					for(Integer tid : occurencesIfirst.keySet()){
+
+					for (Integer tid : occurencesIfirst.keySet()) {
 						// get the first occurence of J
 						Short occJFirst = occurencesJfirst.get(tid);
 						// if there is one
-						if(occJFirst !=  null){
+						if (occJFirst != null) {
 							// get the first and last occurences of I
 							Short occIFirst = occurencesIfirst.get(tid);
 							Short occILast = occurencesIlast.get(tid);
 							// If the first of I appears before the last of J
-							if(occJFirst < occILast){
+							if (occJFirst < occILast) {
 								// current tid to the tidset of  j ==> i
 								tidsJI.add(tid);
 							}
 							Short occJLast = occurencesJlast.get(tid);
 							// If the first of I appears before the last of J
-							if(occIFirst < occJLast){
+							if (occIFirst < occJLast) {
 								// current tid to the tidset of  i ==> j 
 								tidsIJ.add(tid);
 							}
 						}
 						left--; // go to next itemset (in backward direction)
-						
+
 						// if there is not enough itemset left so that i--> j
 						// or j==> i could be frequent, then we can stop
-						if(((left + tidsIJ.size()) < minsuppRelative) && 
-								((left + tidsJI.size()) < minsuppRelative)){
+						if (((left + tidsIJ.size()) < minsuppRelative) &&
+								((left + tidsJI.size()) < minsuppRelative)) {
 							continue main2;
 						}
 					}
 				}
-				
+
 				// (2) check if the two itemsets have enough common tids
 				// if not, we don't need to generate a rule for them.
 				// create rule IJ
 				int supIJ = tidsIJ.size();
 				// if the rule I ==> J  is frequent
-				if(supIJ >= minsuppRelative){
+				if (supIJ >= minsuppRelative) {
 					// create the rule
-					double confIJ = ((double)tidsIJ.size()) / occurencesIfirst.size();
+					double confIJ = ((double) tidsIJ.size()) / occurencesIfirst.size();
 					int[] itemsetI = new int[1];
-					itemsetI[0]= itemI;
+					itemsetI[0] = itemI;
 					int[] itemsetJ = new int[1];
-					itemsetJ[0]= itemJ;
-					
+					itemsetJ[0] = itemJ;
+
 					Rule ruleIJ = new Rule(itemsetI, itemsetJ, confIJ, supIJ, tidsI, tidsJ, tidsIJ, occurencesIfirst, occurencesJlast);
-					
+
 					// if the rule is valid
-					if(confIJ >= minConfidence){
+					if (confIJ >= minConfidence) {
 						// save the rule to current top-k list
-						save(ruleIJ, supIJ); 
+						save(ruleIJ, supIJ);
 					}
 					// register the rule as candidate for future left and right expansions
 					registerAsCandidate(true, ruleIJ);
@@ -306,17 +307,17 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 
 				int supJI = tidsJI.size();
 				// if the rule J ==> I  is frequent
-				if(supJI >= minsuppRelative){
+				if (supJI >= minsuppRelative) {
 					// create the rule
 					int[] itemsetI = new int[1];
-					itemsetI[0]= itemI;
+					itemsetI[0] = itemI;
 					int[] itemsetJ = new int[1];
-					itemsetJ[0]= itemJ;
-					double confJI = ((double)tidsJI.size()) / occurencesJfirst.size();
+					itemsetJ[0] = itemJ;
+					double confJI = ((double) tidsJI.size()) / occurencesJfirst.size();
 					Rule ruleJI = new Rule(itemsetJ, itemsetI, confJI, supJI, tidsJ, tidsI, tidsJI, occurencesJfirst, occurencesIlast);
-					
+
 					// if the rule is valid
-					if(confJI >= minConfidence){
+					if (confJI >= minConfidence) {
 						// save the rule to current top-k list
 						save(ruleJI, supJI);
 					}
@@ -448,7 +449,7 @@ main2:		for(int itemJ=itemI+1; itemJ <= database.maxItem; itemJ++){
 	 * @param array2 another array
 	 * @return true if array1 contains array2
 	 */
-	boolean containsOrEquals(int array1 [], int array2 []){
+	private boolean containsOrEquals(int array1[], int array2[]){
 		// for each item in the first itemset
 loop1:		for(int i =0; i < array2.length; i++){
 				// for each item in the second itemset
@@ -624,38 +625,38 @@ itemLoop:	for(int k=0; k < end; k++){
 			for(int k=first+1; k < sequence.size(); k++){
 				Integer[] itemset = sequence.get(k);
 				// for each item
-	itemLoop:	for(int m=0; m< itemset.length; m++){
+				for (int m = 0; m < itemset.length; m++) {
 					// for each item c in that itemset
 					Integer itemC = itemset[m];
-					
+
 					// We will consider if we could create a rule I --> J U{c}
 					// If lexical order is not respected or c is included in the rule already,
 					// then we cannot so the algorithm return.
-					if(ArraysAlgos.containsLEX(rule.getItemset1(), itemC) ||  ArraysAlgos.containsLEXPlus(rule.getItemset2(), itemC)){
+					if (ArraysAlgos.containsLEX(rule.getItemset1(), itemC) || ArraysAlgos.containsLEXPlus(rule.getItemset2(), itemC)) {
 						continue;
 					}
-					
+
 					Set<Integer> tidsItemC = frequentItemsC.get(itemC);
 					// if "c" was seen before but there is not enough sequences left to be scanned
 					// to allow IU --> J {c} to reach the minimum support threshold
-					if(tidsItemC == null){ 
-						if(left < minsuppRelative){
-							continue itemLoop;
-						}	
-					}else if(tidsItemC.size() + left < minsuppRelative){
+					if (tidsItemC == null) {
+						if (left < minsuppRelative) {
+							continue;
+						}
+					} else if (tidsItemC.size() + left < minsuppRelative) {
 						// if "c" was seen before but there is not enough sequences left to be scanned
 						// to allow I--> JU{c}  to reach the minimum support threshold,
 						// remove "c" and continue the loop of items
 						tidsItemC.remove(itemC);
-						continue itemLoop;
+						continue;
 					}
-					if(tidsItemC == null){
+					if (tidsItemC == null) {
 						// otherwise, if we did not see "c" yet, create a new tidset for "c"
 						tidsItemC = new HashSet<Integer>(rule.tidsIJ.size());
 						frequentItemsC.put(itemC, tidsItemC);
 					}
 					// add the current tid to the tidset of "c"
-					tidsItemC.add(tid);		
+					tidsItemC.add(tid);
 				}
 			}
 			left--;// decrease the number of sequences left to be scanned

@@ -25,7 +25,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.upgrowth_ihup;
  * 
  */
 
-public class Item {
+class Item {
 
 	public int name = 0; // item
 	public int utility = 0; // utility of item

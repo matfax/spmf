@@ -40,7 +40,7 @@ public class CPTPredictor extends Predictor {
 	
 	private long nodeNumber; //number of node in the prediction tree
 	
-	public Paramable parameters;
+	private Paramable parameters;
 	
 	public CPTPredictor() {
 		nodeNumber = 0;
@@ -50,7 +50,7 @@ public class CPTPredictor extends Predictor {
 		parameters = new Paramable();
 	}
 
-	public CPTPredictor(String tag) {
+	private CPTPredictor(String tag) {
 		this();
 		TAG = tag;
 	}
@@ -258,8 +258,7 @@ public class CPTPredictor extends Predictor {
 	
 	/**
 	 * Predict the next element in the given sequence
-	 * @param sequence to predict
-	 */
+     */
 	public Sequence Predict(Sequence target) {
 		
 		//remove items that were never seen before from the Target sequence before LLCT try to make a prediction
@@ -311,7 +310,7 @@ public class CPTPredictor extends Predictor {
 	 * @param countTable 
 	 * @param hashSidVisited 
 	 */
-	public void RecursiveDivider(Item[] targetArray, int minSize, Map<Integer, Float> countTable, HashSet<Integer> hashSidVisited , int initialTargetArraySize) {
+    private void RecursiveDivider(Item[] targetArray, int minSize, Map<Integer, Float> countTable, HashSet<Integer> hashSidVisited, int initialTargetArraySize) {
 		
 		int size = targetArray.length;
 		
@@ -356,7 +355,7 @@ public class CPTPredictor extends Predictor {
 	 * @return true on success
 	 */
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		nodeNumber = 0;
 		int seqId = 0; //current sequence from database
@@ -391,7 +390,7 @@ public class CPTPredictor extends Predictor {
 			for(Item it : curSeq.getItems()) {
 				
 				//if item is not in Inverted Index then we add it
-				if(II.containsKey(it.val) == false) {
+				if(!II.containsKey(it.val)) {
 					Bitvector tmpBitset = new Bitvector();
 					II.put(it.val, tmpBitset);
 				}
@@ -400,7 +399,7 @@ public class CPTPredictor extends Predictor {
 				II.get(it.val).setBitAndIncrementCardinality(seqId); 
 				
 				//if item is not in prediction tree then we add it
-				if(curNode.hasChild(it) == false) {
+				if(!curNode.hasChild(it)) {
 					curNode.addChild(it);
 					nodeNumber++;
 				}
@@ -431,9 +430,8 @@ public class CPTPredictor extends Predictor {
 		
 		//Logging memory usage
 		MemoryLogger.addUpdate();
-		
-		return true;
-	}
+
+    }
 	
 	/**
 	 * Return the number of node in the prediction tree

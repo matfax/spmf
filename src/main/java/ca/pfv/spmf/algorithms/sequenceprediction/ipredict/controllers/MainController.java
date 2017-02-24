@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Main controller to compare all the predictors
  */
-public class MainController {
+class MainController {
 
 	public static void main(String[] args) throws IOException {
 		

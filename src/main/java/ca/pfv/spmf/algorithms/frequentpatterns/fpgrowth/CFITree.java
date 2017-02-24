@@ -35,17 +35,17 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 public class CFITree {
 	
 	// List of pairs (item, frequency) of the header table
-	Map<Integer, CFINode> mapItemNodes = new HashMap<Integer, CFINode>();
+    private Map<Integer, CFINode> mapItemNodes = new HashMap<Integer, CFINode>();
 	
 	// Map that indicates the last node for each item using the node links
 	// key: item   value: an fp tree node
-	Map<Integer, CFINode> mapItemLastNode = new HashMap<Integer, CFINode>();
+    private Map<Integer, CFINode> mapItemLastNode = new HashMap<Integer, CFINode>();
 	
 	// root of the tree
-	CFINode root = new CFINode(); // null node
+    private CFINode root = new CFINode(); // null node
 
 	// last added itemset
-	CFINode lastAddedItemsetNode = null;
+    private CFINode lastAddedItemsetNode = null;
 	
 	/**
 	 * Constructor
@@ -130,7 +130,6 @@ public class CFITree {
 	 * found CFI with the same support
 	 * @param headWithP the itemset to be tested
 	 * @param headWithPLength the last position to be considered in headWithP
-	 * @param the support of the itemset headwithP
 	 * @return true if the itemset is not a subset of an already found CFI.
 	 */
 	public boolean passSubsetChecking(int[] headWithP, int headWithPLength, int headWithPSupport) { 
@@ -180,7 +179,6 @@ public class CFITree {
 	 * @param headWithP the itemset headwithP
 	 * @param headWithPLength the last position to be considered in headWithP
 	 * @param node  the node
-	 * @param the support of the itemset headwithP 
 	 * @return true if "headwithP" is contained in the path ending at "node" in the CFI-Tree and has the same support.
 	 * Otherwise, false.
 	 */

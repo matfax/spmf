@@ -16,15 +16,15 @@ package ca.pfv.spmf.algorithms.clustering.kmeans;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
 import ca.pfv.spmf.patterns.cluster.ClusterWithMean;
 import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An implementation of the Bisecting K-means algorithm (Steinbach et al, 2000). 
@@ -54,7 +54,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoBisectingKMeans extends AlgoKMeans{
 	
 	/** the number times a split should be repeated to choose the best one */
-	int iter = -1;
+    private int iter = -1;
 
 	/**
 	 * Default constructor
@@ -73,8 +73,8 @@ public class AlgoBisectingKMeans extends AlgoKMeans{
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException exception if an error while writing the file occurs
 	 */
-	public List<ClusterWithMean> runAlgorithm(String inputFile, int k, 
-			DistanceFunction distanceFunction, int iter, String separator) throws NumberFormatException, IOException {
+	public List<ClusterWithMean> runAlgorithm(String inputFile, int k,
+											  DistanceFunction distanceFunction, int iter, String separator) throws NumberFormatException, IOException {
 		this.iter = iter;
 		
 		return runAlgorithm(inputFile, k, distanceFunction, separator);

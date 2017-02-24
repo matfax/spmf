@@ -17,8 +17,6 @@ package ca.pfv.spmf.input.transaction_database_list_integers;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -63,7 +61,7 @@ public class TransactionDatabase {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
 				// kind of metadata
-				if (thisLine.isEmpty() == false &&
+				if (!thisLine.isEmpty() &&
 						thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%'
 						&& thisLine.charAt(0) != '@') {
 					// split the line according to spaces and then
@@ -82,8 +80,7 @@ public class TransactionDatabase {
 
 	/**
 	 * This method process a line from a file that is read.
-	 * @param tokens the items contained in this line
-	 */
+     */
 	private void addTransaction(String itemsString[]) {
 		// create an empty transaction
 		List<Integer> itemset = new ArrayList<Integer>();

@@ -25,14 +25,14 @@ package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class Item {
+class Item {
 
 	/** the item */
 	int itemName = 0; 
 	/** the utility of the item */
 	long utility = 0; 
 	/** the quantity of the item */
-	short quantity = 0;
+    private short quantity = 0;
 
 	/**
 	 * Constructor with item name as parameter
@@ -56,7 +56,6 @@ public class Item {
 
 	/**
 	 * Constructor with item name as parameter
-	 * @param itemName the name of the item
 	 * @param utility the utility of the item
 	 */
 	public Item(int name, long utility) {

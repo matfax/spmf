@@ -16,23 +16,18 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimen
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.AbstractAlgoPrefixSpan;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.AlgoBIDEPlus;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.AlgoFournierViger08;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.AlgoPrefixSpanMDSPM;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.Sequence;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.Sequences;
+import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.*;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.AlgoDim;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPattern;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPatterns;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPatternsDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of the SeqDim algorithm for multi-dimensional
@@ -55,13 +50,13 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoSeqDim {
 	// The set of frequent MDSequences found by the algorithm
-	protected MDSequences sequences = new MDSequences("FREQUENT MD-SEQUENCES");
+    private MDSequences sequences = new MDSequences("FREQUENT MD-SEQUENCES");
 	private long startTime;  // the start time of the algorithm
 	private long endTime;    // the end time of the algorithm
 	private boolean mineClosedPatterns = false; // if true, only closed patterns are found
 	
 	// object to write the output to a file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	// the number of frequent mdsequences found 
 	private int patternCount; 
 	
@@ -79,8 +74,8 @@ public class AlgoSeqDim {
 	 * @throws IOException exception if error writing to file
 	 */
 	public MDSequences runAlgorithm(MDSequenceDatabase database,
-			AbstractAlgoPrefixSpan algoPrefixSpan, AlgoDim algoDim,
-			boolean mineClosedPatterns, String output) throws IOException {
+									AbstractAlgoPrefixSpan algoPrefixSpan, AlgoDim algoDim,
+									boolean mineClosedPatterns, String output) throws IOException {
 
 		// reset the utility for memory usage logging
 		MemoryLogger.getInstance().reset();
@@ -102,7 +97,7 @@ public class AlgoSeqDim {
 		Sequences sequencesFound = algoPrefixSpan.runAlgorithm(database
 				.getSequenceDatabase());
 
-		// (2) For each frequent sequential pattern found, ç
+		// (2) For each frequent sequential pattern found, ï¿½
 		// form projected MD-Database
 		// and then find MD-patterns within projected databases
 		
@@ -201,7 +196,7 @@ public class AlgoSeqDim {
 	 */
 	private void savePattern(Sequence sequence, MDSequence mdsequence) throws IOException {
 		// if the user wants only closed patterns
-		if(mineClosedPatterns == false){
+		if(!mineClosedPatterns){
 			// write to file
 			writeToFile(mdsequence);
 		}else{

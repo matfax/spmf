@@ -24,7 +24,7 @@ import java.util.HashSet;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ItemsetTreeNode implements Serializable{
+class ItemsetTreeNode implements Serializable{
 	
 	// the itemset
 	int[] itemset;

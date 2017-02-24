@@ -21,10 +21,10 @@ import java.util.BitSet;
  *  - When we do a AND operation, the cardinality is recalculated.
  *  - When we set a it  during the "preload" phase, we do cardinality ++;.
  */
-public class Bitvector {
+class Bitvector {
 
-	BitSet bitset = new BitSet(); // the bitset
-	int cardinality;  // the cardinality
+	private BitSet bitset = new BitSet(); // the bitset
+	private int cardinality;  // the cardinality
 
 	/**
 	 * Public constructor

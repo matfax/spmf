@@ -50,34 +50,34 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoD2HUP {
 
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	/** the number of HUI generated */
-	int huiCount =0;  
+    private int huiCount =0;
 	/** the number of times case 1 is applied (for statistics)*/
-	int case1count = 0;
+    private int case1count = 0;
 	/** the number of times case 2 is applied (for statistics)*/
-	int case2count = 0;
+    private int case2count = 0;
 	
 	/** writer to write the output file **/
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	/** if true, debugging information will be shown in the console */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** This represent the cells in transactions in the CAUL structure 
 	 * It is an array, where each  transaction appears followed by "null". 
 	 * This is the most efficient way that I have found to implement CAUL.**/
-	Cell cells[];
+    private Cell[] cells;
 	
 	/** the minUtility threshold **/
-	int minUtility = 0;
+    private int minUtility = 0;
 	
 	/** temporary structure used to match an item to its row in a CAUL structure.
 	 * It is used for building each CAUL. Key= item Value= the corresponding row */
@@ -85,7 +85,7 @@ public class AlgoD2HUP {
 	
 	/** a class to convert old item name to new item names according to
 	 * the total oder for optimization **/
-	ItemNameConverter nameConverter;
+    private ItemNameConverter nameConverter;
 	
 	/**
 	 * Default constructor
@@ -138,7 +138,7 @@ public class AlgoD2HUP {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -240,7 +240,7 @@ public class AlgoD2HUP {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -580,8 +580,6 @@ public class AlgoD2HUP {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */
@@ -607,7 +605,6 @@ public class AlgoD2HUP {
 	
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */

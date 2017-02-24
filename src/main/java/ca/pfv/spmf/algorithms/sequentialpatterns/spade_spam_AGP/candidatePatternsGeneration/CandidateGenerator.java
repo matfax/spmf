@@ -42,7 +42,7 @@ public interface CandidateGenerator {
      * @param doNotExploreXY 
      * @return A list of candidate patterns created from pattern1 and pattern2
      */
-    public List<Pattern> generateCandidates(Pattern pattern1, Pattern pattern2, int minSupport, boolean doNotExploreXY, boolean doNotExploreYX,boolean doNotExploreX_Y, boolean doNotExploreY_X);
+    List<Pattern> generateCandidates(Pattern pattern1, Pattern pattern2, int minSupport, boolean doNotExploreXY, boolean doNotExploreYX, boolean doNotExploreX_Y, boolean doNotExploreY_X);
 
     /**
      * It executes the join operation over the Idlists  of the equivalence 
@@ -58,9 +58,7 @@ public interface CandidateGenerator {
      * @param equivalenceClass_j Equivalence class from the pattern2 that allowed
      * creating the candidate extension
      * @param minSupport Minimum relative support
-     * @param notExploreYX 
-     * @param notExploreXY 
      * @return The IdList associated with the pattern extension previously created.
      */
-    public IDList join(Pattern extension, EquivalenceClass equivalenceClass_i, EquivalenceClass equivalenceClass_j,int minSupport);
+    IDList join(Pattern extension, EquivalenceClass equivalenceClass_i, EquivalenceClass equivalenceClass_j, int minSupport);
 }

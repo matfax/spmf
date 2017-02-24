@@ -31,11 +31,11 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class IEPositionList {
+class IEPositionList {
 	/** A list of pairs contained in this position list 
 	 * Note that each Pair stored in this list, contains the corresponding list of positions for that pair.
 	 */
-	List<PairWithList> listPairs = null;
+    private List<PairWithList> listPairs = null;
 
 	/**
 	 * Constructor

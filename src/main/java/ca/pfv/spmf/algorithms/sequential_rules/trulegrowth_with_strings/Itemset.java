@@ -27,7 +27,7 @@ import java.util.List;
  *
  *@author Philippe Fournier-Viger
  */
-public class Itemset{
+class Itemset{
 	private final List<String> items = new ArrayList<String>(); // ordered
 //	Set<Integer> transactionsIds = new HashSet<Integer>();
 	
@@ -46,7 +46,7 @@ public class Itemset{
 			items.add(value);
 	}
 
-	public List<String> getItems(){
+	private List<String> getItems(){
 		return items;
 	}
 	

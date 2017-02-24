@@ -41,7 +41,7 @@ class ParentNode{
 		pInd=q;
 	}
 	
-	boolean equal(ParentNode m){
+	private boolean equal(ParentNode m){
 		return (m.pNode == pNode && m.pInd == pInd);
 	}
 	
@@ -62,9 +62,8 @@ public class CPTreeNode {
 	/**
 	 * constructor
 	 * @param item  the item
-	 * @param count the count 
-	 * @param k  the last transaction id
-	 */
+	 * @param count the count
+     */
 	CPTreeNode(Integer item, CPTreeNode parent, short parentInd, double count) {
 		itemIDList = new ArrayList<Integer>();
 		itemIDList.add(item);
@@ -171,8 +170,6 @@ public class CPTreeNode {
 	/**
 	 * Update the count of a node
 	 * 
-	 * @param k the current transaction id
-	 * @param value the value to be added to the count
 	 * @param d  the decay rate
 	 */
 	
@@ -216,7 +213,6 @@ public class CPTreeNode {
 	/**
 	 * Method for getting a string representation of this tree 
 	 * (to be used for debugging purposes).
-	 * @param an indentation
 	 * @return a string
 	 */
 	public String toString(String indent) {

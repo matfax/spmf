@@ -62,7 +62,7 @@ public class DescriptionAlgoMaxSP extends DescriptionOfAlgorithm {
 				.size()); // we use a minimum support of 2 sequences.
 		
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			outputSeqIdentifiers = getParamAsBoolean(parameters[1]);
 		}
 		

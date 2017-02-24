@@ -28,7 +28,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * @see Itemset
  * @author Philippe Fournier-Viger
  */
-public class LeftRule {
+class LeftRule {
 	
 	int[] itemsetI;
 	Set<Integer> tidsI;

@@ -24,7 +24,7 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public class FilterStringContains extends AbstractFilter{
 	/** the given value*/
-	String value;
+    private String value;
 	
 	/**
 	 * Constructor

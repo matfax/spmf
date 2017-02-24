@@ -42,25 +42,25 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemsets;
  * 
  * @author Philippe Fournier-Viger
  */
-public class AlgoAprioriTID_forCMRules {
+class AlgoAprioriTID_forCMRules {
 
 	// frequent itemsets found by the algorithm
-	protected Itemsets frequentItemsets = new Itemsets("FREQUENT ITEMSETS");
+    private Itemsets frequentItemsets = new Itemsets("FREQUENT ITEMSETS");
 	// transaction database
-	protected TransactionDatabase database;
+    private TransactionDatabase database;
 
 	// the current level
-	protected int k; 
+    private int k;
 
 //	 a triangular matrix for efficiently counting the support of pairs of items
 	// (received as parameter and optional)
-	TriangularMatrix matrix;
+private TriangularMatrix matrix;
 
 	// the minimum support threshold
-	int minSuppRelative;
+    private int minSuppRelative;
 	
 	// Special parameter to set the maximum size of itemsets to be discovered
-	int maxItemsetSize = Integer.MAX_VALUE;
+    private int maxItemsetSize = Integer.MAX_VALUE;
 
 	/**
 	 * Constructor
@@ -96,8 +96,8 @@ public class AlgoAprioriTID_forCMRules {
 		while (!level.isEmpty()  && k <= maxItemsetSize) {
 			// We build the level k+1 with all the candidates that have
 			// a support higher than the minsup threshold.
-			level = generateCandidateSizeK(level);; 
-			k++;
+			level = generateCandidateSizeK(level);
+            k++;
 		}
 		// return frequent itemsets
 		return frequentItemsets; // Return all frequent itemsets found!
@@ -110,7 +110,7 @@ public class AlgoAprioriTID_forCMRules {
 	 * @param mapItemCount a map indicating the tidset (value) of each item (key)
 	 * @return the itemsets of size1
 	 */
-	protected List<Itemset> createLevelWithFrequentItemsetsSize1(List<Integer> listFrequentsSize1, Map<Integer, Set<Integer>> mapItemCount) {
+    private List<Itemset> createLevelWithFrequentItemsetsSize1(List<Integer> listFrequentsSize1, Map<Integer, Set<Integer>> mapItemCount) {
 		// create the structure to store itemsets of size 1
 		List<Itemset> levelK = new ArrayList<Itemset>();
 
@@ -134,7 +134,7 @@ public class AlgoAprioriTID_forCMRules {
 	 * @param levelK_1   itemsets of size k-1
 	 * @return  candidates of size K
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
 		// a set to store candidates of size K
 		List<Itemset> candidates = new ArrayList<Itemset>();
 

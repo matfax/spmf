@@ -19,8 +19,6 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.uspan;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,34 +50,34 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoUSpan {
 
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	/** the number of HUI generated */
-	int patternCount = 0;  
+    private int patternCount = 0;
 	
 	/** writer to write the output file **/
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** buffer for storing the current pattern that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	private int[] patternBuffer = null;
 	
 	/** if true, debugging information will be shown in the console */
-	final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 	
 	/** if true, save result to file in a format that is easier to read by humans **/
-	final boolean SAVE_RESULT_EASIER_TO_READ_FORMAT = false;
+	private final boolean SAVE_RESULT_EASIER_TO_READ_FORMAT = false;
 
 	/** the minUtility threshold **/
-	int minUtility = 0;
+    private int minUtility = 0;
 	
 	/** max pattern length **/
-	int maxPatternLength = Integer.MAX_VALUE;
+    private int maxPatternLength = Integer.MAX_VALUE;
 	
 	/** the input file path **/
-	String input;
+    private String input;
 
 	/**
 	 * Default constructor
@@ -129,7 +127,7 @@ public class AlgoUSpan {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is  empty or is a kind of metadata, skip it
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -211,7 +209,7 @@ public class AlgoUSpan {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -578,7 +576,6 @@ public class AlgoUSpan {
 	 * greater than 1. 
 	 * @param prefix  This is the buffer for storing the current prefix.
 	 * @param prefixLength The current prefix length. 
-	 * @param database This is a projected sequence database (a set of projected QMatrixes)
 	 * @param itemCount the number of items in the prefix
 	 * @throws IOException If an error occurs while reading/writting to file.
 	 */
@@ -925,7 +922,6 @@ public class AlgoUSpan {
 	
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be written o the output file
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */
@@ -936,7 +932,7 @@ public class AlgoUSpan {
 		StringBuilder buffer = new StringBuilder();
 		
 		// If the user wants to save in SPMF format
-		if(SAVE_RESULT_EASIER_TO_READ_FORMAT == false) {
+		if(!SAVE_RESULT_EASIER_TO_READ_FORMAT) {
 			// append each item of the pattern
 			for (int i = 0; i < prefixLength; i++) {
 				buffer.append(prefix[i]);
@@ -1001,7 +997,7 @@ public class AlgoUSpan {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
 				

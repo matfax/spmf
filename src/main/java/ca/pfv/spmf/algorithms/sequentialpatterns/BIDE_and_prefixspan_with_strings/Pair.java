@@ -35,10 +35,10 @@ import java.util.Set;
  */
 class Pair{
 	/** the item */
-	protected final String item;
+	final String item;
 	/** indicate if this represents the item appearing 
 	 in an itemset that is cut at the left or not */
-	protected final boolean postfix; 
+	final boolean postfix;
 	
 	/** List of the sequence IDs that contains this item. */
 	private Set<Integer> sequencesID = new HashSet<Integer>();

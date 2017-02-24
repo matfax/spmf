@@ -118,7 +118,7 @@ public class SequenceDatabase {
      *
      * @param integers
      */
-    public void addSequence(String[] integers) {
+    private void addSequence(String[] integers) {
         ItemAbstractionPairCreator pairCreator = ItemAbstractionPairCreator.getInstance();
         long timestamp = -1;
         Sequence sequence = new Sequence(sequences.size());

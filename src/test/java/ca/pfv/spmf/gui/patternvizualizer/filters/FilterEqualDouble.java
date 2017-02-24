@@ -24,7 +24,7 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public class FilterEqualDouble extends AbstractFilter{
 	/** the given value*/
-	double value;
+    private double value;
 	
 	/**
 	 * Constructor

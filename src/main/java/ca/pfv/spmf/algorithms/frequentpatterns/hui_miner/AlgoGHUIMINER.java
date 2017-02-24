@@ -54,33 +54,33 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoGHUIMINER {
   
 	/** start time of the algorithm */
-	public long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** end time of the algorithm */
-	public long endTimestamp = 0;   
+    private long endTimestamp = 0;
 	/** number of GHUIs found */
-	public long ghuiCount =0;  
+    private long ghuiCount =0;
 	/** number of candidates considered by the algorithm */
-	public long candidateCount =0;
+    private long candidateCount =0;
 	/** number of candidates avoided by FHM (EUCP) pruning */
-	public long candidateAvoidedbyFHM =0;
+    private long candidateAvoidedbyFHM =0;
 	/** number of closure retrieval */
-	public long closureRetrievals = 0;
+    private long closureRetrievals = 0;
 	
 	/** number of times that an itemset was checked if it was a generator */
-	public long generatorChecks = 0;
+    private long generatorChecks = 0;
 	/** number of times that the generator check was stoped early due to optimizations */
-	public long partiallyAvoidedOrAvoidedGeneratorChecks = 0;
+    private long partiallyAvoidedOrAvoidedGeneratorChecks = 0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** NEW OPTIMIZATION - Structure used by the EUCP strategy
 	 Key: for an item x, 
 	 Value: a map of item where key is an item y and value is the TWU of {x,y} */
-	Map<Integer, Map<Integer, Integer>> mapFMAP;  
+    private Map<Integer, Map<Integer, Integer>> mapFMAP;
 	
 	/** number of transaction in the database */
 	private int transactionCount = 0;
@@ -96,18 +96,18 @@ public class AlgoGHUIMINER {
 	private List<UtilityListWithCriticalObjects> listOfUtilityLists;
 	
 	/** a boolean indicating if the empty set is a GHUI */
-	boolean emptySetIsGHUIs = false;
+    private boolean emptySetIsGHUIs = false;
 	
 	/** the minutil threshold */
-	int minUtility = 0;
+    private int minUtility = 0;
 	
 	// buffer for storing the current itemset that is mined when performing mining
 	// the idea is to always reuse the same buffer to reduce memory usage.
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	// enable LA-prune pruning strategy
-	boolean enableLAPrune = true;
+    private boolean enableLAPrune = true;
 	
 	// ======================================================
 	// ================ STRUCTURE TO STORE CLOSED ITEMSETS (CHUIs) ======================
@@ -116,16 +116,15 @@ public class AlgoGHUIMINER {
 	 * and then by their size.  It is implemented as a list of list.
 	 * In the first list, the i-th position contains the list of itemsets
 	 * containing i items ordered by their support. */
-	List<List<Itemset>> closedItemsetsBySize = null;
+    private List<List<Itemset>> closedItemsetsBySize = null;
 
 	/**
 	 * Retrieve the closure of an itemset
-	 * @param itemset  the itemset
 	 * @param support the itemset support
 	 * @param prefixLength  the length of the itemset
 	 * @return the closure of the itemset or null if none was found
 	 */
-	public Itemset getClosure(int [] itemsetX, int prefixLength, int support) {
+    private Itemset getClosure(int[] itemsetX, int prefixLength, int support) {
 		// increase the number of closure retrieval for statistics
 		closureRetrievals++;
 		
@@ -160,13 +159,12 @@ public class AlgoGHUIMINER {
 	
 	/**
 	 * This method checks if a given itemset is a subset or a strict subset of a CHUI.
-	 * @param itemset the itemset
 	 * @param support the itemset support
 	 * @param prefixLength the prefix length
 	 * @param strictSubsetCheck  if true, this method check for "strict subset of". Otherwise, it checks for "subset of"
 	 * @return true if the itemset is a subset (strict subset) of a CHUI. Otherwise false.
 	 */
-	public boolean isSubsetOfACHUI(int [] itemsetX, int prefixLength, int support, boolean strictSubsetCheck) {
+    private boolean isSubsetOfACHUI(int[] itemsetX, int prefixLength, int support, boolean strictSubsetCheck) {
 		// if strict subset, we will start searching for itemset having a greater
 		// length than that of the itemset.
 		int minSize = strictSubsetCheck ? prefixLength+1 : prefixLength; 
@@ -237,7 +235,7 @@ public class AlgoGHUIMINER {
 	 * This has an average performance of O(n log n)
 	 * @param a array of integers
 	 */
-	public void insertionSort(int [] a){
+    private void insertionSort(int[] a){
 		for(int j=1; j< a.length; j++){
 			int key = a[j];
 			int i = j - 1;
@@ -306,7 +304,7 @@ public class AlgoGHUIMINER {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' 		|| thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' 		|| thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -322,7 +320,7 @@ public class AlgoGHUIMINER {
 					Integer item = Integer.parseInt(items[i]);
 					
 					// NEW
-					if(itemsInClosedItemsets.contains(item) == false) {
+					if(!itemsInClosedItemsets.contains(item)) {
 						continue;
 					}
 					// END NEW
@@ -384,7 +382,7 @@ public class AlgoGHUIMINER {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() || 	thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -504,7 +502,7 @@ public class AlgoGHUIMINER {
 				writeOut(emptySet, 0, ul.item, ul.sumIutils, ul.elements.size());
 				// If the item is not a subset of a CHUI, then its supersets are not GHUIs and
 				// we can remove it
-				if(isSubsetOfACHUI(itemset, 1, support, true) == false) {
+				if(!isSubsetOfACHUI(itemset, 1, support, true)) {
 					iter.remove();
 				}
 			}else if(getClosure(itemset, 1, support) != null) {
@@ -615,7 +613,7 @@ public class AlgoGHUIMINER {
 					// We create new prefix pXY
 					itemsetBuffer[prefixLength+1] = pY_UL.item;
 //					int[] append = ArraysAlgos.appendIntegerToArray(newPrefix, pY_UL.item);
-					if(isSubsetOfACHUI(itemsetBuffer, prefixLength+2, pXYUL.elements.size(), false) == false) {
+					if(!isSubsetOfACHUI(itemsetBuffer, prefixLength + 2, pXYUL.elements.size(), false)) {
 						continue; 
 					}
 					
@@ -786,8 +784,6 @@ public class AlgoGHUIMINER {
 	/**
 	 * This method constructs the utility list of itemset {x,y} using the utility lists of
 	 * itemsets {x} and {y} (done as in HUI-Miner).
-	 * @param x_UL the utility list of {x}
-	 * @param y_UL the utility list of {y}
 	 * @param minUtility the minimum utility threshold
 	 * @return the utility list of {x,y}
 	 */
@@ -903,7 +899,7 @@ public class AlgoGHUIMINER {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 		System.out.println("=============  GHUI-MINER - SPMF 0.97e - STATS =============");
 		System.out.println("   Candidate count : "             + candidateCount  + "     (avoided by FHM : " + candidateAvoidedbyFHM 
 				+ ")\n"

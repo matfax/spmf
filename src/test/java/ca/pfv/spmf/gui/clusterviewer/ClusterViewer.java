@@ -36,13 +36,13 @@ import java.util.List;
 public class ClusterViewer extends JFrame implements ClusterViewerPanelListener{
 	
 	/** Title of this panel */
-	String title = "SPMF Cluster Viewer 2.09";
+    private String title = "SPMF Cluster Viewer 2.09";
 	
 	/** Serial ID */
 	private static final long serialVersionUID = 1L;
 	
 	/** This panel is used to draw the clusters	 */
-	ClusterViewerPanel panelChart = null;
+    private ClusterViewerPanel panelChart = null;
 
 	private JLabel labelX;
 
@@ -52,7 +52,7 @@ public class ClusterViewer extends JFrame implements ClusterViewerPanelListener{
 
 
 	/** The list of attribute names */
-	String[] attributeNamesArray = null;
+    private String[] attributeNamesArray = null;
 
 	/** The combo box for selecting the attribute on the X axis */
 	private JComboBox comboBoxX;
@@ -266,7 +266,7 @@ public class ClusterViewer extends JFrame implements ClusterViewerPanelListener{
 		
 		// display the selection name
 		labelName.setText("Name = "  + objectUnderMouse);
-		if("".equals(objectUnderMouse) == false){
+		if(!"".equals(objectUnderMouse)){
 			labelName.setForeground(colorUnderMouse);
 		}else{
 			labelName.setForeground(Color.black);

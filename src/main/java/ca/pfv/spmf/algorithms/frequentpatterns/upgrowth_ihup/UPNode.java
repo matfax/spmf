@@ -30,7 +30,7 @@ import java.util.List;
  * 
  */
 
-public class UPNode {
+class UPNode {
 	// String itemName;
 	int itemID = -1;
 	int count = 1;

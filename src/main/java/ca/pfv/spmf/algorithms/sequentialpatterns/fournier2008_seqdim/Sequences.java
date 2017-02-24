@@ -33,7 +33,7 @@ public class Sequences {
 	/** Sequences are organized into levels.
 	 In the following list,  the position i (level i) is the
 	 list of sequential containing i items. **/
-	final List<List<Sequence>> levels = new ArrayList<List<Sequence>>();  // itemset classé par taille
+	private final List<List<Sequence>> levels = new ArrayList<List<Sequence>>();  // itemset classï¿½ par taille
 	/** the number of sequential patterns */
 	int sequenceCount=0;
 	

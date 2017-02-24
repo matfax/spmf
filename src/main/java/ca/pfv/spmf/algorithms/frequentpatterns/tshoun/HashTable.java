@@ -61,7 +61,7 @@ class HashTable {
 	}
 
 
-	public static boolean same(int[]  itemset1, int[]  itemset2) {
+	private static boolean same(int[] itemset1, int[] itemset2) {
 		if(itemset1.length != itemset2.length) {
 			return false;
 		}
@@ -96,7 +96,6 @@ class HashTable {
 	/**
 	 * Calculate the hashcode of an itemset as the sum of the tids of its tidset,
 	 * modulo the internal array length.
-	 * @param tidset the tidset of the itemset
 	 * @return the hashcode (an integer)
 	 */
 	public int hashCode(int[] itemset) {

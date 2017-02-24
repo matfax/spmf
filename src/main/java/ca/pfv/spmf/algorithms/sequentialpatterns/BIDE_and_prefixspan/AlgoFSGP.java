@@ -1,21 +1,15 @@
 package ca.pfv.spmf.algorithms.sequentialpatterns.BIDE_and_prefixspan;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /*** 
@@ -44,32 +38,32 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoFSGP{
 		
 	// for statistics
-	long startTime;
-	long endTime;
+    private long startTime;
+	private long endTime;
 
 	
 	// relative minimum support
-	public int minsuppRelative;
+    private int minsuppRelative;
 	
 	// The set of all sequential patterns that are found 
 	private SequentialPatterns patterns = null;
-	List<SequentialPattern> generators =  null;  // NOTE : DOES NOT INCLUDE EMPTY SEQUENCE
+	private List<SequentialPattern> generators =  null;  // NOTE : DOES NOT INCLUDE EMPTY SEQUENCE
 	
 	// maximum pattern length in terms of item count
 	private int maximumPatternLength = Integer.MAX_VALUE;
 	
 	//number of prefix pruned
-	public int prefixPrunedCount = 0;
+    private int prefixPrunedCount = 0;
 	
 	// indicate if the pruning will be activated or not
 	private boolean performPruning = true;  // Note: set by runAlgorithm(..)
 	
 	// if enabled, the result will be verified to see if some patterns found are not generators.
-	boolean DEBUG_MODE = false; 
+    private boolean DEBUG_MODE = false;
 	
 	
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+    private boolean showSequenceIdentifiers = false;
 	
 	/**
 	 * Default constructor
@@ -145,13 +139,10 @@ public class AlgoFSGP{
 	/**
 	 * Run the algorithm
 	 * @param database : a sequence database
-	 * @param minsupPercent  :  the minimum support as an integer
-	 * @param outputFilePath : the path of the output file to save the result
-	 *                         or null if you want the result to be saved into memory
-	 * @return return the result, if saved into memory, otherwise null 
+	 * @return return the result, if saved into memory, otherwise null
 	 * @throws IOException  exception if error while writing the file
 	 */
-	public List<SequentialPattern> runAlgorithm(SequenceDatabase database,int minsup, boolean performPruning) throws IOException {
+	public List<SequentialPattern> runAlgorithm(SequenceDatabase database, int minsup, boolean performPruning) throws IOException {
     	if(DEBUG_MODE){
     		System.out.println(" %%%%%%%%%%  DEBUG MODE %%%%%%%%%%");
     	}
@@ -180,7 +171,7 @@ public class AlgoFSGP{
 	
 	/**
 	 * This method remove all the patterns that are not generators from the set of patterns found.
-	 * @param database 
+	 * @param database
 	 */
 	private List<SequentialPattern> filterNonGenerator(SequenceDatabase database) {
 		int emptySequenceSupport = database.size();
@@ -208,7 +199,7 @@ public class AlgoFSGP{
 					//if the pattern has size 0, if the pattern has the same support
 					// as the empty sequence, it is not a generator, so we remove it.
 					if(pattern.getAbsoluteSupport() == emptySequenceSupport) {
-						continue patLoop;
+						continue;
 					}else {
 						// if there is such a sub-pattern of the current pattern with size < i with the same support
 						// then the current pattern is not a generator
@@ -240,7 +231,7 @@ public class AlgoFSGP{
 					//if the pattern has size 0, if the pattern has the same support
 					// as the empty sequence, it is not a generator, so we remove it.
 					if(pattern.getAbsoluteSupport() == emptySequenceSupport) {
-						continue patLoop;
+						continue;
 					}else {
 						// if there is such a sub-pattern ofthe current pattern with size i-1 with the same support
 						// then the current pattern is not a generator
@@ -269,7 +260,7 @@ public class AlgoFSGP{
 	}
 	
 
-	public long getPatternCount() {
+	private long getPatternCount() {
 		return generators.size();  // for the empty sequence
 	}
 
@@ -292,7 +283,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 				// we need to compare the projected databases
 				for(PseudoSequence pseudoSeq : projectedDatabase) {
 					Sequence originalSequence = pseudoSeq.getOriginalSequence();
-					if(sameProjection(originalSequence, pattern, pattern2) == false){
+					if(!sameProjection(originalSequence, pattern, pattern2)){
 						continue loop;
 					}
 				}
@@ -357,7 +348,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
      * @param pattern2 another sequential pattern
 	 * @return true if the pattern1 contains pattern2.
 	 */
-	boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
+    private boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
 //		// if pattern2 is larger or equal in size, then it cannot be contained in pattern1
 //		if(pattern1.size() <= pattern2.size()){
 //			return false;
@@ -405,8 +396,6 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	/**
 	 * This is the main method for the PrefixSpan algorithm that is called
 	 * to start the algorithm
-	 * @param outputFilePath  an output file path if the result should be saved to a file
-	 *                        or null if the result should be saved to memory.
 	 * @param database a sequence database
 	 * @throws IOException exception if an error while writing the output file
 	 */
@@ -469,7 +458,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	 * @param prefix the pattern to be saved.
 	 * @throws IOException exception if error while writing the output file.
 	 */
-	private void savePattern(SequentialPattern prefix, int itemCount) throws IOException {
+	private void savePattern(SequentialPattern prefix, int itemCount) {
 		// increase the number of pattern found for statistics purposes
 		patterns.addSequence(prefix, itemCount);
 
@@ -576,7 +565,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 		// for each sequence in the database received as parameter
 		for(PseudoSequence sequence : database){ 
 			
-			if(sidset.contains(sequence.getId()) == false){
+			if(!sidset.contains(sequence.getId())){
 				continue;
 			}
 			
@@ -626,7 +615,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	 * @param k  the prefix length in terms of items
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
-	private void recursion(SequentialPattern prefix, List<PseudoSequence> database, int k) throws IOException {	
+	private void recursion(SequentialPattern prefix, List<PseudoSequence> database, int k) {
 		// find frequent items of size 1 in the current projected database.
 		Set<Pair> pairs = findAllFrequentPairs(database);
 	
@@ -677,7 +666,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
+    private Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPairs = new HashMap<Pair, Pair>();
 		// for each sequence

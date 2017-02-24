@@ -67,24 +67,24 @@ public class AlgoLAPIN_LCI{
 	// minsup
 	private int minsup = 0;
 
-	BufferedWriter writer = null;
+	private BufferedWriter writer = null;
 	
 	// Item-is-exist-table (one for each sequence)
-	Table [] tables = null;
+    private Table [] tables = null;
 	
 	// The set of Position Lists (one for each sequence)
-	SEPositionList[] sePositionList;  // SE position lists
-	IEPositionList[] iePositionList;  // 2-itemsets IE position lists
+    private SEPositionList[] sePositionList;  // SE position lists
+	private IEPositionList[] iePositionList;  // 2-itemsets IE position lists
 	
 	// To activate "debug" mode
-	final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 	SequenceDatabase seqDB = null; // for DEBUGGINGs
 	
 	// Used to count the support of 2-itemsets
 	private AbstractTriangularMatrix matrixPairCount;
 	
 	// input file path
-	String input;
+    private String input;
 		
 	/**
 	 * Default constructor
@@ -164,7 +164,7 @@ public class AlgoLAPIN_LCI{
 						// otherwise, it is an item
 						Integer item = Integer.valueOf(integer);
 						// if this item was not seen already in that sequence
-						if(itemsAlreadySeen.contains(item) == false) {
+						if(!itemsAlreadySeen.contains(item)) {
 							// Get the list of positions of that item
 							List<Position> list = mapItemFirstOccurrences.get(item);
 							// if that list is null, create a new list
@@ -191,9 +191,9 @@ public class AlgoLAPIN_LCI{
 			reader.close();
 		}catch (Exception e) {
 			e.printStackTrace();
-		};
+		}
 
-		// Initialize the list of tables
+        // Initialize the list of tables
 		tables = new Table[sequenceCount];
 		
 		// Calculate absolute minimum support  as a number of sequences
@@ -338,7 +338,7 @@ public class AlgoLAPIN_LCI{
 						Integer item = Integer.valueOf(token);
 						if(mapItemFirstOccurrences.get(item).size() >= minsup) { // only for frequent items
 							// if first time that we see this item
-							if(itemsAlreadySeen.contains(item) == false) {
+							if(!itemsAlreadySeen.contains(item)) {
 								// remember that we have seen a new item
 								seenNewItem = true;
 								// remember that we have seen this item
@@ -764,7 +764,7 @@ loop:			for(short pos : listPositions) {
 						// if the prefix has two items in its last itemset,
 						// then we also need to check that the full last itemset of prefix is at the current position
 						// This will not be done very optimally but it is it difficult to do a better solution.
-						if(willAddSecondItem == false) {
+						if(!willAddSecondItem) {
 							// We take the SE position list of the current sequence
 							SEPositionList plists = sePositionList[sid];
 							// For each item of the last itemset of the prefix

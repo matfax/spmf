@@ -48,17 +48,17 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoMaxSP {
 	
 	// for statistics
-	long startTime;
-	long endTime;
+	private long startTime;
+	private long endTime;
 	
 	// the number of patterns found
-	int patternCount = 0;
+	private int patternCount = 0;
 		
 	// absolute minimum support
 	private int minsuppAbsolute;
 	
 	// object to write the file
-	BufferedWriter writer = null;
+	private BufferedWriter writer = null;
 	
 	// we have to keep a pointer to the original database
 	private Map<Integer, PseudoSequenceBIDE> initialDatabase = null;  // sid, sequence
@@ -68,7 +68,7 @@ public class AlgoMaxSP {
 	private SequentialPatterns patterns = null;
 
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+	private boolean showSequenceIdentifiers = false;
 	
 	//	
 //
@@ -156,53 +156,53 @@ public class AlgoMaxSP {
 			
 		
 		// For each frequent item
-loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
+		for (Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()) {
 			// if the item is frequent
-			if(entry.getValue().size() >= minsuppAbsolute){ 
-	
+			if (entry.getValue().size() >= minsuppAbsolute) {
+
 				// build the projected database with this item
 				Integer item = entry.getKey();
-				List<PseudoSequenceBIDE> projectedContext = buildProjectedContextSingleItem(item, initialDatabase,  false, entry.getValue());
+				List<PseudoSequenceBIDE> projectedContext = buildProjectedContextSingleItem(item, initialDatabase, false, entry.getValue());
 
 				// Create the prefix with this item
-				SequentialPattern prefix = new SequentialPattern();  
+				SequentialPattern prefix = new SequentialPattern();
 				prefix.addItemset(new Itemset(item));
 				// set the sequence IDS of this prefix
 				prefix.setSequenceIDs(entry.getValue());
-				
+
 				// variable to store the largest support of patterns
 				// that will be found starting with this prefix
-				if(projectedContext.size() >= minsuppAbsolute) {
+				if (projectedContext.size() >= minsuppAbsolute) {
 					int successorSupport = 0;
-					
+
 //					if(!checkBackScanPruning(prefix, entry.getValue())) {
-						successorSupport =  recursion(prefix, projectedContext); // r�cursion;
+					successorSupport = recursion(prefix, projectedContext); // r�cursion;
 //					}
 //					else
 //					{
 //						System.out.println("back scan pruned " + prefix);
 //					}
-					
+
 					// Finally, because this prefix has support > minsup
 					// and passed the backscan pruning,
 					// we check if it has no sucessor with support >= minsup
 					// (a forward extension)
 					// IF no forward extension
-					if(successorSupport < minsuppAbsolute){    // ######### MODIFICATION ####
+					if (successorSupport < minsuppAbsolute) {    // ######### MODIFICATION ####
 						// IF there is also no backward extension
-						if(!checkBackwardExtension(prefix, entry.getValue())){ 
+						if (!checkBackwardExtension(prefix, entry.getValue())) {
 							// the pattern is closed and we save it
-							savePattern(prefix);  
+							savePattern(prefix);
 						}
 					}
-				}else {
-					if(!checkBackwardExtension(prefix, entry.getValue())){ 
+				} else {
+					if (!checkBackwardExtension(prefix, entry.getValue())) {
 						// the pattern is closed and we save it
-						savePattern(prefix);  
+						savePattern(prefix);
 					}
 				}
 
-				
+
 			}
 		}		
 		// check the memory usage for statistics
@@ -347,12 +347,11 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 	 * Method to update the support count of item in a maximum period
 	 * @param prefix the current prefix
 	 * @param mapPaires 
-	 * @param maximum periods  a maximum period
 	 * @return a set of pairs indicating the support of items (note that a pair distinguish
 	 *         between items in a postfix, prefix...).
 	 */
-	protected boolean findAllFrequentPairsForBackwardExtensionCheck(int seqProcessedCount,
-			SequentialPattern prefix, PseudoSequenceBIDE maximumPeriod, int iPeriod, Map<PairBIDE, PairBIDE> mapPaires, Integer itemI, Integer itemIm1) {
+	private boolean findAllFrequentPairsForBackwardExtensionCheck(int seqProcessedCount,
+																  SequentialPattern prefix, PseudoSequenceBIDE maximumPeriod, int iPeriod, Map<PairBIDE, PairBIDE> mapPaires, Integer itemI, Integer itemIm1) {
 
 		int maxPeriodSize = maximumPeriod.size();
 		
@@ -459,8 +458,7 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 			// otherwise we use the old one
 			oldPaire.getSequenceIDs().add(seqID);
 		}
-		return;
-	} 
+	}
 	
 	private boolean addPair(Map<PairBIDE, PairBIDE> mapPaires, Integer seqID, PairBIDE pair) {
 //		long start = System.currentTimeMillis();
@@ -523,7 +521,6 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -532,30 +529,30 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 		List<PseudoSequenceBIDE> sequenceDatabase = new ArrayList<PseudoSequenceBIDE>();
 
 		// for each sequence 
-	loop1:for(int sid: sidset){ 
+		for (int sid : sidset) {
 			PseudoSequenceBIDE sequence = initialDatabase2.get(sid);
-			
+
 			// for each itemset of the sequence
-			for(int i =0; i< sequence.size(); i++){  
-				
+			for (int i = 0; i < sequence.size(); i++) {
+
 				int sizeOfItemsetAti = sequence.getSizeOfItemsetAt(i);
-				
+
 				// find the position of the item used for the projection in this itemset if it appears
 				int index = sequence.indexOf(sizeOfItemsetAti, i, item);
 				// if it does appear and it is in a postfix/suffix if the item is in a postfix/suffix
-				if(index != -1 && sequence.isPostfix(i) == inSuffix){
+				if (index != -1 && sequence.isPostfix(i) == inSuffix) {
 					// if this is not the last item of the itemset
-					if(index != sizeOfItemsetAti-1){ 
+					if (index != sizeOfItemsetAti - 1) {
 						// create a new pseudo sequence
-						sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i, index+1));
+						sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i, index + 1));
 //						continue loop1;
-					}else if (i != sequence.size()-1){// if this is not the last itemset of the sequence			 
+					} else if (i != sequence.size() - 1) {// if this is not the last itemset of the sequence
 						// create a new pseudo sequence
 						// if the size of this pseudo sequence is greater than 0
 						// add it to the projected database.
-						sequenceDatabase.add(new PseudoSequenceBIDE( sequence, i+1, 0));
+						sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i + 1, 0));
 //						continue loop1;
-					}	
+					}
 				}
 			}
 		}
@@ -565,7 +562,6 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -574,34 +570,34 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 		List<PseudoSequenceBIDE> sequenceDatabase = new ArrayList<PseudoSequenceBIDE>();
 
 		// for each sequence 
-loop1:	for(PseudoSequenceBIDE sequence : database){ 
-	
-			if(sidset.contains(sequence.getId()) == false){
+		for (PseudoSequenceBIDE sequence : database) {
+
+			if (!sidset.contains(sequence.getId())) {
 				continue;
 			}
-	
+
 			// for each item of the sequence
-			for(int i =0; i< sequence.size(); i++){  	
-				
+			for (int i = 0; i < sequence.size(); i++) {
+
 				int sizeOfItemsetAti = sequence.getSizeOfItemsetAt(i);
-				
+
 				// check if the itemset contains the item that we use for the projection
-				int index = sequence.indexOf(sizeOfItemsetAti, i , item);
+				int index = sequence.indexOf(sizeOfItemsetAti, i, item);
 				// if it does not, and the current item is part of a suffix if inSuffix is true
 				//   and vice-versa
-				if(index != -1 && sequence.isPostfix(i) == inSuffix){
-					if(index != sizeOfItemsetAti - 1){ // if this is not the last item of the itemset
-						// create a new pseudo sequence
-							// add it to the projected database.
-							sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i, index+1));
-//							continue loop1;
-//						} 
-					}else if ((i != sequence.size()-1)){// if this is not the last itemset of the sequence			 
+				if (index != -1 && sequence.isPostfix(i) == inSuffix) {
+					if (index != sizeOfItemsetAti - 1) { // if this is not the last item of the itemset
 						// create a new pseudo sequence
 						// add it to the projected database.
-						sequenceDatabase.add(new PseudoSequenceBIDE( sequence, i+1, 0));
+						sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i, index + 1));
+//							continue loop1;
+//						} 
+					} else if ((i != sequence.size() - 1)) {// if this is not the last itemset of the sequence
+						// create a new pseudo sequence
+						// add it to the projected database.
+						sequenceDatabase.add(new PseudoSequenceBIDE(sequence, i + 1, 0));
 //						continue loop1;
-					}	
+					}
 				}
 			}
 		}
@@ -611,7 +607,6 @@ loop1:	for(PseudoSequenceBIDE sequence : database){
 	/**
 	 * Method to recursively grow a given sequential pattern.
 	 * @param prefix  the current sequential pattern that we want to try to grow
-	 * @param database the current projected sequence database
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
 	private int recursion(SequentialPattern prefix, List<PseudoSequenceBIDE> contexte) throws IOException {	
@@ -690,7 +685,7 @@ loop1:	for(PseudoSequenceBIDE sequence : database){
 	 *         is in an itemset that is "cut" at left or right (prefix or postfix)
 	 *         and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<PairBIDE> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequenceBIDE> sequences){
+	private Set<PairBIDE> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequenceBIDE> sequences){
 		// We use a Map the store the pairs.
 		Map<PairBIDE, PairBIDE> mapPairs = new HashMap<PairBIDE, PairBIDE>();
 		

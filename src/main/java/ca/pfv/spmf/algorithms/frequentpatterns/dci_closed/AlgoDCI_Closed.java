@@ -50,22 +50,22 @@ import java.util.*;
 public class AlgoDCI_Closed {
 	
 	// number of closed itemsets found
-	int closedCount =0;
+    private int closedCount =0;
 	// the number of transaction in the transaction database
-	int tidCount =0;
+    private int tidCount =0;
 	// the largest item in the transaction database
-	int maxItemId =1;  
+    private int maxItemId =1;
 	
 	
 	// relative minimum support set by the user
 	private int minSuppRelative;
 	
 	// object to write the output file
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 	// Map to store the database as a verticabl database
 	// Key: item   value :  Set of Ids of transactions containing the item
-	Map<Integer, Set<Integer>> database = null;
+    private Map<Integer, Set<Integer>> database = null;
 	
 	/**
 	 * Default constructor
@@ -148,7 +148,6 @@ public class AlgoDCI_Closed {
 	
 	/**
 	 * The method "DCI_CLOSED" as described in the paper.
-	 * @param firstime true if this method is called for the first time
 	 * @param closedset the closed set (see paper).
 	 * @param closedsetTIDs the tids set of the closed set
 	 * @param postset  the postset (see paper for full details)
@@ -181,7 +180,7 @@ public class AlgoDCI_Closed {
 				newgen.add(i);
 				
 				// L5:  if newgen is not a duplicate
-				if(is_dup(newgenTIDs, preset) == false){
+				if(!is_dup(newgenTIDs, preset)){
 					// L6: ClosedsetNew = newGen
 					List<Integer> closedsetNew = new ArrayList<Integer>();
 					closedsetNew.addAll(newgen);
@@ -211,7 +210,7 @@ public class AlgoDCI_Closed {
 								Iterator<Integer> iter = closedsetNewTIDs.iterator();
 								while(iter.hasNext()){
 									Integer tid = iter.next();
-									if(jTIDs.contains(tid) == false){
+									if(!jTIDs.contains(tid)){
 										iter.remove();
 									}
 								}
@@ -251,7 +250,7 @@ public class AlgoDCI_Closed {
 		// if the support is the same
 		if(size1 == size2){
 			// use the lexical order
-			return (i < j) ? true : false;
+			return (i < j);
 		}
 		// otherwise use the support
 		return size2 - size1 >0;
@@ -358,7 +357,7 @@ public class AlgoDCI_Closed {
 		while( ((line = reader.readLine())!= null)){
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;

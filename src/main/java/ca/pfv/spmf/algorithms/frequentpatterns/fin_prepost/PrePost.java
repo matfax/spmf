@@ -38,43 +38,43 @@ import java.util.Map.Entry;
 public class PrePost {
 
 	// the start time and end time of the last algorithm execution
-	long startTimestamp;
-	long endTimestamp;
+    private long startTimestamp;
+	private long endTimestamp;
 
 	// number of itemsets found
-	int outputCount;
+    private int outputCount;
 
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
-	public int[][] bf;
-	public int bf_cursor;
-	public int bf_size;
-	public int bf_col;
-	public int bf_currentSize;
+	private int[][] bf;
+	private int bf_cursor;
+	private int bf_size;
+	private int bf_col;
+	private int bf_currentSize;
 
-	public int numOfFItem; // Number of items
-	public int minSupport; // minimum support
-	public Item[] item; // list of items sorted by support
+	private int numOfFItem; // Number of items
+	private int minSupport; // minimum support
+	private Item[] item; // list of items sorted by support
 
 	// public FILE out;
-	public int[] result; // the current itemset
-	public int resultLen; // the size of the current itemset
-	public int resultCount;
-	public int nlLenSum; // node list length of the current itemset
+    private int[] result; // the current itemset
+	private int resultLen; // the size of the current itemset
+	private int resultCount;
+	private int nlLenSum; // node list length of the current itemset
 
 	// Tree stuff
-	public PPCTreeNode ppcRoot;
-	public NodeListTreeNode nlRoot;
-	public PPCTreeNode[] headTable;
-	public int[] headTableLen;
-	public int[] itemsetCount;
-	public int[] sameItems;
-	public int nlNodeCount;
+    private PPCTreeNode ppcRoot;
+	private NodeListTreeNode nlRoot;
+	private PPCTreeNode[] headTable;
+	private int[] headTableLen;
+	private int[] itemsetCount;
+	private int[] sameItems;
+	private int nlNodeCount;
 	
 	// if this parameter is set to true, the PrePost+ algorithm is run instead of PrePost
 	// (both are implemented in this file, because they have similarities)
-	public boolean usePrePostPlus = false;
+    private boolean usePrePostPlus = false;
 
 	/**
 	 * Use this method to indicate that you want to use the PrePost+ algorithm
@@ -88,7 +88,7 @@ public class PrePost {
 	/**
 	 * Comparator to sort items by decreasing order of frequency
 	 */
-	static Comparator<Item> comp = new Comparator<Item>() {
+	private static Comparator<Item> comp = new Comparator<Item>() {
 		public int compare(Item a, Item b) {
 			return ((Item) b).num - ((Item) a).num;
 		}
@@ -187,7 +187,7 @@ public class PrePost {
 	 * @throws IOException
 	 *             if an exception while reading/writting to file
 	 */
-	void buildTree(String filename) throws IOException {
+    private void buildTree(String filename) throws IOException {
 
 		ppcRoot.label = -1;
 
@@ -202,7 +202,7 @@ public class PrePost {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}
@@ -341,7 +341,7 @@ public class PrePost {
 	/**
 	 * Initialize the tree
 	 */
-	void initializeTree() {
+    private void initializeTree() {
 
 		NodeListTreeNode lastChild = null;
 		for (int t = numOfFItem - 1; t >= 0; t--) {
@@ -384,10 +384,9 @@ public class PrePost {
 	 * 
 	 * @param filename
 	 *            input file name
-	 * @param minSupport
 	 * @throws IOException
 	 */
-	void getData(String filename, double support) throws IOException {
+    private void getData(String filename, double support) throws IOException {
 		numOfTrans = 0;
 
 		// (1) Scan the database and count the support of each item.
@@ -401,7 +400,7 @@ public class PrePost {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}
@@ -449,8 +448,8 @@ public class PrePost {
 		Arrays.sort(item, comp);
 	}
 
-	NodeListTreeNode iskItemSetFreq(NodeListTreeNode ni, NodeListTreeNode nj,
-			int level, NodeListTreeNode lastChild, IntegerByRef sameCountRef) {
+	private NodeListTreeNode iskItemSetFreq(NodeListTreeNode ni, NodeListTreeNode nj,
+                                            int level, NodeListTreeNode lastChild, IntegerByRef sameCountRef) {
 
 		// System.out.println("====\n" + "isk_itemSetFreq() samecount = " +
 		// sameCountRef.count);
@@ -531,8 +530,8 @@ public class PrePost {
 	 * @param sameCount
 	 * @throws IOException  if error while writing itemsets to file
 	 */
-	public void traverse(NodeListTreeNode curNode, NodeListTreeNode curRoot,
-			int level, int sameCount) throws IOException {
+    private void traverse(NodeListTreeNode curNode, NodeListTreeNode curRoot,
+                          int level, int sameCount) throws IOException {
 
 		MemoryLogger.getInstance().checkMemory();
 

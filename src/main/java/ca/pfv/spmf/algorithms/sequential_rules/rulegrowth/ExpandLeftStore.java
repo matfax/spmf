@@ -28,10 +28,10 @@ import java.util.Set;
  * @see AlgoERMiner
  * @author Philippe Fournier-Viger
  */
-public class ExpandLeftStore {
+class ExpandLeftStore {
 	
 	// SIZE,  HASH on LEFT ITEMSET,  LIST OF RULES
-	Map<Integer, Map<Integer, List<LeftEquivalenceClass>>> store = new HashMap<Integer, Map<Integer, List<LeftEquivalenceClass>>>();
+    private Map<Integer, Map<Integer, List<LeftEquivalenceClass>>> store = new HashMap<Integer, Map<Integer, List<LeftEquivalenceClass>>>();
 
 	public ExpandLeftStore() {
 		

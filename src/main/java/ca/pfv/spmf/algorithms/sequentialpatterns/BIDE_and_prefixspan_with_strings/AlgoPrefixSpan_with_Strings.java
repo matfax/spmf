@@ -16,20 +16,15 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.BIDE_and_prefixspan_with_strin
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.input.sequence_database_list_strings.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_strings.SequenceDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /*** 
  * This is an implementation of the PrefixSpan algorithm by Pei et al. 2001 modfied to take
@@ -67,7 +62,7 @@ public class AlgoPrefixSpan_with_Strings{
 	private int minsuppAbsolute;
 	
 	// writer to write output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// The sequential patterns that are found 
 	// (if the user want to keep them into memory)
@@ -83,10 +78,10 @@ public class AlgoPrefixSpan_with_Strings{
 	/**
 	 * Run the algorithm
 	 * @param database : a sequence database
-	 * @param minsup  :  the minimum support as an integer
 	 * @param outputFilePath : the path of the output file to save the result
 	 *                         or null if you want the result to be saved into memory
-	 * @return return the result, if saved into memory, otherwise null 
+	 * @param minsup  :  the minimum support as an integer
+	 * @return return the result, if saved into memory, otherwise null
 	 * @throws IOException  exception if error while writing the file
 	 */
 	public SequentialPatterns runAlgorithm(SequenceDatabase database, String outputFilePath, int minsup) throws IOException {
@@ -217,13 +212,12 @@ public class AlgoPrefixSpan_with_Strings{
 
 	/**
 	 * For each item, calculate the sequence id of sequences containing that item
-	 * @param database the current sequence database
 	 * @return Map of items to sequence IDs that contains each item
 	 */
 	private Map<String, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
+		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
 		// for each sequence in the current database
 		for(Sequence sequence : contexte.getSequences()){
 			// for each itemset in this sequence
@@ -251,7 +245,6 @@ public class AlgoPrefixSpan_with_Strings{
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -336,7 +329,7 @@ public class AlgoPrefixSpan_with_Strings{
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<Pair> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequence> sequences){
+    private Set<Pair> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequence> sequences){
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPairs = new HashMap<Pair, Pair>();
 		// for each sequence

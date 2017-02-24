@@ -34,8 +34,7 @@ class UtilityListFCHM  extends UtilityList{
 	/**
 	 * Constructor.
 	 * @param item the item that is used for this utility list
-	 * @param bitset representing the disjunctive set of transaction ids
-	 */
+     */
 	public UtilityListFCHM(int item, BitSetSupport bitsetDisjunctiveTIDs){
 		super(item);
 		this.bitsetDisjunctiveTIDs = bitsetDisjunctiveTIDs;

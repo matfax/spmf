@@ -16,17 +16,6 @@ package ca.pfv.spmf.algorithms.sequential_rules.cmrules;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import ca.pfv.spmf.datastructures.triangularmatrix.TriangularMatrix;
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
@@ -34,6 +23,11 @@ import ca.pfv.spmf.input.transaction_database_list_integers.TransactionDatabase;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * The CMRules algorithm for mining sequential rules common to several sequences.
@@ -67,37 +61,37 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoCMRules {
 
 	//*** statistics about the latest execution ***
-	int associationRulesCount = 0 ; // number of association rules
-	int ruleCount;  // the number of sequential rules generated
-	long timeStart = 0; // start time
-	long timeEnd = 0; // end time
-	long timeEndConvert = 0;  // end time for conversion to transaction database
-	long timeEndApriori = 0; // end time for calculating frequent itemsets
+    private int associationRulesCount = 0 ; // number of association rules
+	private int ruleCount;  // the number of sequential rules generated
+	private long timeStart = 0; // start time
+	private long timeEnd = 0; // end time
+	private long timeEndConvert = 0;  // end time for conversion to transaction database
+	private long timeEndApriori = 0; // end time for calculating frequent itemsets
 	long timeEndSequentialMeasures = 0; // end time for calculating measures for sequential rules
 	long timeBeginCalculateSequentialMeasures = 0;  // start time for calculating measures for sequential rules
-	long timeEndPreprocessing = 0;  // end time for pre-processing
+	private long timeEndPreprocessing = 0;  // end time for pre-processing
 	
 	// *** parameters  ***
-	public int minCSupRelative = 0;  // min. seq. support
-	public double minSeqConfidence; // min seq. confidence
-	SequenceDatabase sequences; // the sequence database
+    private int minCSupRelative = 0;  // min. seq. support
+	private double minSeqConfidence; // min seq. confidence
+	private SequenceDatabase sequences; // the sequence database
 	
 	// Special parameters to set the size of rules to be discovered
-	int minLeftSize = 0;  // min size of left part of the rule
-	int maxLeftSize = 500; // max size of left part of the rule
-	int minRightSize = 0; // min  size of right part of the rule
-	int maxRightSize = 500; // max size of right part of the rule
+    private int minLeftSize = 0;  // min size of left part of the rule
+	private int maxLeftSize = 500; // max size of left part of the rule
+	private int minRightSize = 0; // min  size of right part of the rule
+	private int maxRightSize = 500; // max size of right part of the rule
 	
 	// *** internal variables  ***
 	
 	// this is the largest item ID in the database
-	int maxItemId = 0;
+    private int maxItemId = 0;
 	
 	// this map indicate the tidset (value) for each item (key)
-	Map<Integer, Set<Integer>> mapItemCount = new HashMap<Integer, Set<Integer>>();
+    private Map<Integer, Set<Integer>> mapItemCount = new HashMap<Integer, Set<Integer>>();
 	
 	// list of frequent items
-	List<Integer> listFrequentsSize1 = new ArrayList<Integer>();
+    private List<Integer> listFrequentsSize1 = new ArrayList<Integer>();
 	
 	// the set of frequent itemsets found by Apriori TID
 	private Itemsets patterns;
@@ -106,7 +100,7 @@ public class AlgoCMRules {
 	private TriangularMatrix matrix;
 	
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * Default constructor.
@@ -142,7 +136,7 @@ public class AlgoCMRules {
 	 * @param minConfidence  the minimum confidence threshold
 	 * @throws IOException exception if error while writing the output file.
 	 */
-	public void runAlgorithm(int relativeSupport, double minConfidence, String input, String output) throws IOException {
+    private void runAlgorithm(int relativeSupport, double minConfidence, String input, String output) throws IOException {
 		// reset the utility for recording memory usage
 		MemoryLogger.getInstance().reset();
 
@@ -426,7 +420,7 @@ public class AlgoCMRules {
 	 * @param rule an association rule that may be a valid sequential rule
 	 * @throws IOException exception if error writing the output file.
 	 */
-	void checkRule(Rule rule) throws IOException{
+    private void checkRule(Rule rule) throws IOException{
 		// increase the number of association rules
 		associationRulesCount++;
 		
@@ -450,7 +444,7 @@ public class AlgoCMRules {
 	 * @param patterns  a set of frequent itemsets
 	 * @throws IOException exception if error writing to the output file
 	 */
-	void generateRules(Itemsets patterns) throws IOException {
+    private void generateRules(Itemsets patterns) throws IOException {
 		
 		//For each frequent itemset of size >=2
 		for(int k=2; k< patterns.getLevels().size(); k++){
@@ -514,10 +508,6 @@ public class AlgoCMRules {
 	
 	/**
 	 * Save a rule to the output file
-	 * @param support  the support of the rule
-	 * @param confIJ  the confidence of the rule
-	 * @param itemsetI  the left itemset
-	 * @param itemsetJ  the right itemset
 	 * @throws IOException exception if error writing the file
 	 */
 	private void saveRule(Rule rule) throws IOException {
@@ -636,7 +626,7 @@ public class AlgoCMRules {
 	 * @param levelK_1  a set of itemsets of size k-1
 	 * @return a set of candidates
 	 */
-	protected Set<Itemset> generateCandidateSizeK(Set<Itemset> levelK_1) {
+    private Set<Itemset> generateCandidateSizeK(Set<Itemset> levelK_1) {
 		// Initialize the set of candidates
 		Set<Itemset> candidates = new HashSet<Itemset>();
 
@@ -676,7 +666,7 @@ public class AlgoCMRules {
 	 *            The frequent itemsets of size "k-1".
 	 * @return true is all susets are frequent
 	 */
-	protected boolean allSubsetsOfSizeK_1AreFrequent(Itemset candidate, Set<Itemset> levelK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(Itemset candidate, Set<Itemset> levelK_1) {
 		// To generate all the set of size K-1, we will proceed
 		// by removing each item, one by one.
 		if(candidate.size() == 1){
@@ -697,7 +687,7 @@ public class AlgoCMRules {
 				}
 			}
 			// if not found return false
-			if(found == false){
+			if(!found){
 				return false;
 			}
 		}

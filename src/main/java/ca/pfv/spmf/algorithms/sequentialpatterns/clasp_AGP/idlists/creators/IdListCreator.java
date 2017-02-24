@@ -37,19 +37,19 @@ public interface IdListCreator {
      * It creates an empty IdList.
      * @return the idlist
      */
-    public IDList create();
+    IDList create();
 
     /**
      * Add an appearance <sid,tid> to an Idlist. 
      */
-    public void addAppearance(IDList idlist, Integer sequence, Integer timestamp, Integer item);
+    void addAppearance(IDList idlist, Integer sequence, Integer timestamp, Integer item);
 
     /**
      * Add several appearances in a same sequence <sid, {tid_1,tid_2,...,tid_n}> to an Idlist 
      */
-    public void addAppearancesInSequence(IDList idlist, Integer sequence, List<Position> itemsets);
+    void addAppearancesInSequence(IDList idlist, Integer sequence, List<Position> itemsets);
 
-    public void initializeMaps(Map<Item, TrieNode> frequentItems, Map<Item, Map<Integer, List<Integer>>> projectingDistanceMap, Map<Integer, Integer> sequenceSize, Map<Integer, List<Integer>> itemsetSequenceSize);
+    void initializeMaps(Map<Item, TrieNode> frequentItems, Map<Item, Map<Integer, List<Integer>>> projectingDistanceMap, Map<Integer, Integer> sequenceSize, Map<Integer, List<Integer>> itemsetSequenceSize);
 
-    public void updateProjectionDistance(Map<Item, Map<Integer, List<Integer>>> projectingDistanceMap, Item item, int id, int size, int i);
+    void updateProjectionDistance(Map<Item, Map<Integer, List<Integer>>> projectingDistanceMap, Item item, int id, int size, int i);
 }

@@ -95,7 +95,7 @@ class MainTestConvertSequenceDatabaseTEXTtoSPMF {
 		converter.convert(inputFile, outputFile, inputFileformat, sequenceCount, Charset.defaultCharset());
 	}
 
-	public static String fileToPath(String filename)
+	private static String fileToPath(String filename)
 			throws UnsupportedEncodingException {
 		URL url = MainTestConvertSequenceDatabaseTEXTtoSPMF.class
 				.getResource(filename);

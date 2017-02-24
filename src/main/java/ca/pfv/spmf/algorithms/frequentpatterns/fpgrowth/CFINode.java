@@ -31,7 +31,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoFPClose
  * @author Philippe Fournier-Viger, 2015
  */
-public class CFINode {
+class CFINode {
 	int itemID = -1;  // item id
 	int counter = 1;  // frequency counter  (a.k.a. support)
 	int level;  // at which level in the CFI tree this node appears
@@ -70,7 +70,6 @@ public class CFINode {
 	/**
 	 * Method for getting a string representation of this tree 
 	 * (to be used for debugging purposes).
-	 * @param an indentation
 	 * @return a string
 	 */
 	public String toString(String indent) {

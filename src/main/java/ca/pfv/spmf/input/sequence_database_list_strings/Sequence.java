@@ -141,7 +141,7 @@ public class Sequence{
 	 * @param relativeMinsup the minimum support threshold chosen by the user.
 	 * @return a copy of this itemset except that item(s) with a support lower than minsup have been excluded.
 	 */
-	public List<String> cloneItemsetMinusItems(List<String> itemset,Map<String, Set<Integer>> mapSequenceID, double relativeMinsup) {
+    private List<String> cloneItemsetMinusItems(List<String> itemset, Map<String, Set<Integer>> mapSequenceID, double relativeMinsup) {
 		// create a new itemset
 		List<String> newItemset = new ArrayList<String>();
 		// for each item of the original itemset

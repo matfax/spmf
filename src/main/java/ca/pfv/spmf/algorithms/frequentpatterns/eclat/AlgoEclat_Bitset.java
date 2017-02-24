@@ -62,21 +62,21 @@ public class AlgoEclat_Bitset {
 	/** relative minimum support **/
 	private int minsupRelative;  
 	/** the transaction database **/
-	protected TransactionDatabase database; 
+	TransactionDatabase database;
 
 	/**  start time of the last execution */
-	protected long startTimestamp;
+	long startTimestamp;
 	/** end  time of the last execution */
-	protected long endTime; 
+	long endTime;
 	
 	/** 
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
-	protected Itemsets frequentItemsets;
+	private Itemsets frequentItemsets;
 	/** object to write the output file */
-	BufferedWriter writer = null; 
+	private BufferedWriter writer = null;
 	/** the number of patterns found */
-	protected int itemsetCount; 
+	int itemsetCount;
 	
 	/** For optimization with a triangular matrix for counting 
 	/ itemsets of size 2.  */
@@ -84,12 +84,12 @@ public class AlgoEclat_Bitset {
 	
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+	private boolean showTransactionIdentifiers = false;
 
 
 	/**
@@ -218,49 +218,49 @@ public class AlgoEclat_Bitset {
 			
 			// For each item itemJ that is larger than i according to the total order of
 			// increasing support.
-loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
+			for (int j = i + 1; j < frequentItems.size(); j++) {
 				int itemJ = frequentItems.get(j);
-				
+
 				// if the triangular matrix optimization is activated we obtain
 				// the support of itemset "ij" in the matrix. This allows to determine
 				// directly without performing a join if "ij" is frequent.
 				int supportIJ = -1;
-				if(useTriangularMatrixOptimization) {
+				if (useTriangularMatrixOptimization) {
 					// check the support of {i,j} according to the triangular matrix
 					supportIJ = matrix.getSupportForItems(itemI, itemJ);
 					// if not frequent
 					if (supportIJ < minsupRelative) {
 						// we don't need to consider the itemset "ij" anymore
-						continue loopJ;
+						continue;
 					}
 				}
-				
+
 				// Obtain the tidset of item J and its support.
 				BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
-				
+
 				// Calculate the tidset of itemset "IJ" by performing the intersection of 
 				// the tidsets of I and the tidset of J.
 				BitSetSupport bitsetSupportIJ;
-				if(useTriangularMatrixOptimization) {
+				if (useTriangularMatrixOptimization) {
 					// If the triangular matrix optimization is used, then
 					// we perform the intersection but do not need to calculate the support
 					// since it is already known
 					bitsetSupportIJ = performANDFirstTime(tidsetI, tidsetJ, supportIJ);
-				}else {
+				} else {
 					// Otherwise, we perform the intersection and calculate the support
 					// by calculating the cardinality of the resulting tidset.
 					bitsetSupportIJ = performAND(tidsetI, tidsetJ);
 				}
-				
+
 				// After that, we add the itemJ to the equivalence class of 2-itemsets
 				// starting with the prefix "i". Note that although we only add "j" to the
 				// equivalence class, the item "j" 
 				// actually represents the itemset "ij" since we keep the prefix "i" for the
 				// whole equilvalence class.
-				if(useTriangularMatrixOptimization || bitsetSupportIJ.support >= minsupRelative){
-				    equivalenceClassIitems.add(itemJ);
-				     // We also keep the tidset of "ij".
-				    equivalenceClassItidsets.add(bitsetSupportIJ);
+				if (useTriangularMatrixOptimization || bitsetSupportIJ.support >= minsupRelative) {
+					equivalenceClassIitems.add(itemJ);
+					// We also keep the tidset of "ij".
+					equivalenceClassItidsets.add(bitsetSupportIJ);
 				}
 			}
 			// Process all itemsets from the equivalence class of 2-itemsets starting with prefix I 

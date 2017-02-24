@@ -35,7 +35,6 @@ class Pointer {
 
 	/**
 	 * Constructor.
-	 * @param item the item 
 	 * @param pos  a position
 	 */
 	public Pointer(int prefixUtility, int pos){

@@ -18,7 +18,7 @@ public class Skyline {
 
 class SkylineList{
 	//skylinelist store different itemsets that have same frequency and same utility.
-	List<Skyline> skylinelist= new ArrayList<Skyline>();
+    private List<Skyline> skylinelist= new ArrayList<Skyline>();
 
 	public Skyline get(int index) {
 		return skylinelist.get(index);

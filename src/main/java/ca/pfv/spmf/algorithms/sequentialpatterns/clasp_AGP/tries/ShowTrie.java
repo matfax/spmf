@@ -33,9 +33,9 @@ import javax.swing.tree.MutableTreeNode;
  *
  * @author agomariz
  */
-public class ShowTrie {
+class ShowTrie {
 
-	static int j=0;
+	private static int j=0;
 
     /**
      * Method to show the tree in a graphical way

@@ -48,7 +48,7 @@ public class CountTable {
 	 * @param fullSeqLength Size of the sequence before calling recursive divider
 	 * @param numberOfSeqSameLength Number of similar sequence
 	 */
-	public void push(Integer key, int curSeqLength, int fullSeqLength, int numberOfSeqSameLength, int dist) {
+	private void push(Integer key, int curSeqLength, int fullSeqLength, int numberOfSeqSameLength, int dist) {
 				
 		//Declare the various weights
 		float weightLevel = 1f /numberOfSeqSameLength; //from [1.0,0[  -> higher is better
@@ -75,7 +75,6 @@ public class CountTable {
 	/**
 	 * Update this CountTable with a sequence S, it finds the similar sequence SS of S
 	 * All the selected items from SS are used to update the CountTable
-	 * @param predictor Predictor used to access its data structures
 	 * @param sequence Sequence to use to update the CountTable
 	 * @param initialSequenceSize The initial size of the sequence to predict (used for weighting)
 	 */
@@ -137,7 +136,6 @@ public class CountTable {
 	 * Return a sequence containing the highest scored items from
 	 * the counts table
 	 * @param count Number of items to put in the sequence
-	 * @param II The inverted index corresponding
 	 * @return The sequence containing the |count| best items sorted from the CountTable
 	 */
 	public Sequence getBestSequence(int count) {

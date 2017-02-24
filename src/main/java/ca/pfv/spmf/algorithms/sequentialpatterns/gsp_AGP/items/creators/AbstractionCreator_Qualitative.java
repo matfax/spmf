@@ -85,7 +85,7 @@ public class AbstractionCreator_Qualitative implements AbstractionCreator {
      * @param appearingInTheSameItemset the abstraction value
      * @return the abstraction
      */
-    public Abstraction_Generic createAbstraction(boolean appearingInTheSameItemset) {
+    private Abstraction_Generic createAbstraction(boolean appearingInTheSameItemset) {
         return Abstraction_Qualitative.create(appearingInTheSameItemset);
     }
 
@@ -126,7 +126,7 @@ public class AbstractionCreator_Qualitative implements AbstractionCreator {
         return output;
     }
 
-    public void updateAppeareanceSet(Map<Pattern, Pattern> totalMap, ItemAbstractionPair pair1, ItemAbstractionPair pair2, int seqId) {
+    private void updateAppeareanceSet(Map<Pattern, Pattern> totalMap, ItemAbstractionPair pair1, ItemAbstractionPair pair2, int seqId) {
         PatternCreator patternCreator = PatternCreator.getInstance();
         List<ItemAbstractionPair> elementsPatternSize2 = new ArrayList<ItemAbstractionPair>(2);
         elementsPatternSize2.add(pair1);

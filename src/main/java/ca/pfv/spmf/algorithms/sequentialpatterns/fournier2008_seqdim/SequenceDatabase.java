@@ -64,7 +64,7 @@ public class SequenceDatabase{
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -87,7 +87,7 @@ public class SequenceDatabase{
 	 * Process a line from the input file, splitted into tokens.
 	 * @param tokens  a list of tokens (String).
 	 */
-	void processSequence(String[] tokens) {	//
+	private void processSequence(String[] tokens) {	//
 		// create a new Sequence
 		Sequence sequence = new Sequence(sequences.size());
 		// Create an itemset that will be used to store items

@@ -86,7 +86,6 @@ public class FrequentPatternEnumeration {
      * @param keepPatterns Flag to indicate if we want to keep the patterns
      * found.
      * @param verbose Flag for debugging purposes
-     * @param coocMapBefore
      */
     public void execute(EquivalenceClass eq, boolean dfs, boolean keepPatterns, boolean verbose, Map<Integer, Map<Integer, Integer>> coocMapAfter, Map<Integer, Map<Integer, Integer>> coocMapEquals) {
         /*eq.setIdList(null);

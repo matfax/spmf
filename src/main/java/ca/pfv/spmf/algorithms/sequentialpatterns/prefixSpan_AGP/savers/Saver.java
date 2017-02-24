@@ -33,11 +33,11 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.prefixSpan_AGP.items.patterns.P
  */
 public interface Saver {
 
-    public void savePattern(Pattern p);
+    void savePattern(Pattern p);
 
-    public void finish();
+    void finish();
 
-    public void clear();
+    void clear();
 
-    public String print();
+    String print();
 }

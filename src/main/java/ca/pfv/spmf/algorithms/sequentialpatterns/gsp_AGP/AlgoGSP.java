@@ -17,22 +17,17 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP;
  * You should have received a copy of the GNU General Public License along with
  * SPMF. If not, see <http://www.gnu.org/licenses/>.
  */
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.Item;
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.SequenceDatabase;
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.Sequences;
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.creators.AbstractionCreator;
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This is an implementation of the GSP algorithm. GSP was proposed by Srikant
@@ -49,35 +44,36 @@ public class AlgoGSP {
     /**
      * minimum support threshold. Range: from 0 up to 1
      */
-    protected double minSupRelative;
-    protected double minGap;
-    protected double maxGap;
-    protected double windowSize;
+    private double minSupRelative;
+    private double minGap;
+    private double maxGap;
+    private double windowSize;
     /**
      * Absolute minimum support threshold. It indicates the minimum number of
      * sequences that we need to find.
      */
-    protected double minSupAbsolute;
+    private double minSupAbsolute;
     /**
      * Set of frequent patterns. Whether the user chooses a to save in a file or
      * in the memory we use it to keep the different k-levels of frequent
      * sequences
      */
-    protected Sequences patterns;
+    private Sequences patterns;
     //Two variables to measure how long the algorithm takes
-    protected long start, end;
+    private long start;
+    private long end;
     //List with the frequent 1-sequences, i.e. the frequent items.
-    protected List<Pattern> frequentItems;
+    private List<Pattern> frequentItems;
     private AbstractionCreator abstractionCreator;
     //Flag indicanting if the output is sorted or not
     private boolean isSorted;
     //counter for the frequent patterns already found
     private int numberOfFrequentPatterns;
     // writer to write output file
-    BufferedWriter writer = null;
+    private BufferedWriter writer = null;
     
     // save sequence identifiers to file
-    boolean outputSequenceIdentifiers = false;
+    private boolean outputSequenceIdentifiers = false;
 
     /**
      * Constructor for GSP algorithm. It initializes most of the class'
@@ -152,7 +148,7 @@ public class AlgoGSP {
      * @param verbose flat activated for debugging purposes
      * @throws IOException
      */
-    protected void runGsp(SequenceDatabase database, CandidateGeneration candidateGenerator, SupportCounting supportCounter, boolean keepPatterns, boolean verbose) throws IOException {
+    private void runGsp(SequenceDatabase database, CandidateGeneration candidateGenerator, SupportCounting supportCounter, boolean keepPatterns, boolean verbose) throws IOException {
         //we get the frequent items found in the original database
         frequentItems = database.frequentItems();
         /* And we add the sequences as the 1-level of patterns. NOTE: we need them
@@ -326,7 +322,7 @@ public class AlgoGSP {
      * Time that GSP takes completing the execution
      * @return the runtime as a long
      */
-    public long runningTime() {
+    private long runningTime() {
         return (end - start);
     }
 

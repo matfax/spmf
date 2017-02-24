@@ -61,11 +61,11 @@ public class DescriptionAlgoPrefixSpan extends DescriptionOfAlgorithm {
 		AlgoPrefixSpan algo = new AlgoPrefixSpan();
 
 		// Get the optional parameter to show sequence ids
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
 		}
 		
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setShowSequenceIdentifiers(getParamAsBoolean(parameters[2]));
 		}
 		

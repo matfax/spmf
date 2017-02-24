@@ -67,7 +67,7 @@ public class ItemsetTree extends AbstractItemsetTree implements Serializable{
 		while (((line = reader.readLine()) != null)) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;

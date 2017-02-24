@@ -29,7 +29,7 @@ import ca.pfv.spmf.algorithms.clustering.dbscan.AlgoDBSCAN;
  */
 public class Cluster {
 
-	protected List<DoubleArray> vectors = new ArrayList<DoubleArray>();
+	List<DoubleArray> vectors = new ArrayList<DoubleArray>();
 
 	public Cluster() {
 		super();
@@ -71,7 +71,7 @@ public class Cluster {
 	 * the internal sum of vectors at the same time.
 	 * @param vector  the vector to be removed
 	 */
-	public void remove(DoubleArray vector) {
+    void remove(DoubleArray vector) {
 		vectors.remove(vector);		
 	}
 

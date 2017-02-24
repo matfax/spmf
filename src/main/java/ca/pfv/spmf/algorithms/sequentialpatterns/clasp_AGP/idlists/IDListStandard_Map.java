@@ -53,7 +53,7 @@ public class IDListStandard_Map implements IDList {
      * A bitset to keep just the sequences where a pattern appears. Is the
      * bitset representation of the keyset of the map sequence_ItemsetEntries
      */
-    BitSet sequences;
+    private BitSet sequences;
     //Map with the original size of all sequences
     private static Map<Integer, Integer> originalSizeOfSequences = new HashMap<Integer, Integer>();
     /*
@@ -148,7 +148,7 @@ Map<Integer, List<Position>> intersection = new HashMap<Integer, List<Position>>
      *
      * @return the map
      */
-    public Map<Integer, List<Position>> getSequencePositionsEntries() {
+    private Map<Integer, List<Position>> getSequencePositionsEntries() {
         return sequencePositionsEntries;
     }
 
@@ -207,8 +207,6 @@ Map<Integer, List<Position>> intersection = new HashMap<Integer, List<Position>>
      * It executes a join operation under the equal relation for a two sets of
      * appearances that correspond to a same sequence in two different patterns
      *
-     * @param sid Sequence identifier of the sequence where we want to check if
-     * it exists the pattern
      * @param positionItemsAppearancesInSequence Position items of the
      * parameter Idlist
      * @param dif Place where we store the difference between the original size 

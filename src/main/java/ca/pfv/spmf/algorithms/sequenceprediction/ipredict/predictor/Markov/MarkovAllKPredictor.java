@@ -36,14 +36,14 @@ public class MarkovAllKPredictor extends Predictor {
 	 */
 	private HashMap<String, MarkovState> mDictionary;
 	
-	public Paramable parameters;
+	private Paramable parameters;
 	
 	public MarkovAllKPredictor() {
 		TAG = "AKOM";
 		parameters = new Paramable();
 	}
 	
-	public MarkovAllKPredictor(String tag) {
+	private MarkovAllKPredictor(String tag) {
 		TAG = tag;
 		parameters = new Paramable();
 	}
@@ -54,7 +54,7 @@ public class MarkovAllKPredictor extends Predictor {
 	}
 
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		mDictionary = new HashMap<String, MarkovState>();
 		
@@ -94,8 +94,7 @@ public class MarkovAllKPredictor extends Predictor {
 			}
 			
 		}
-		
-		return true;
+
 	}
 
 	@Override

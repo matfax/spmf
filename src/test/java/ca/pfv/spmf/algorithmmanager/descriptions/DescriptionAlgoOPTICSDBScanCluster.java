@@ -60,7 +60,7 @@ public class DescriptionAlgoOPTICSDBScanCluster extends DescriptionOfAlgorithm {
 		
 		//The separator
 		String separator;
-		if (parameters.length > 3 && "".equals(parameters[3]) == false) {
+		if (parameters.length > 3 && !"".equals(parameters[3])) {
 			separator = getParamAsString(parameters[3]);
 		}else{
 			separator = " ";

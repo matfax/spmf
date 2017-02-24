@@ -52,20 +52,20 @@ public class AlgoLCMFreq {
     private Itemsets frequentItemsets;
     
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// the number of frequent itemsets found (for
 	// statistics)
 	private int frequentCount; 
 
 	// the start time and end time of the last algorithm execution
-	long startTimestamp;
-	long endTimestamp;
-	int minsupRelative;
+    private long startTimestamp;
+	private long endTimestamp;
+	private int minsupRelative;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 1000;
+	private final int BUFFERS_SIZE = 1000;
 	private int[] itemsetBuffer = null;
 	
 	/** This buffer is used to store an itemset that will be written to file
@@ -183,7 +183,6 @@ public class AlgoLCMFreq {
      * @param pLength the prefix length
      * @param transactionsOfP the transations containing P
 	 * @param frequentItems the list of frequent items in the p-projected database
-     * @param tailPosInP the tail item position in itemset P
      * @throws IOException if error writing to output file
      */
     private void backtrackingLCMFreq(int[] p, int pLength, List<Transaction> transactionsOfP,
@@ -233,7 +232,7 @@ public class AlgoLCMFreq {
 	 * containing all items
 	 * @param dataset
 	 */
-	public void performFirstOccurenceDelivery(Dataset dataset) {
+    private void performFirstOccurenceDelivery(Dataset dataset) {
 
 		buckets = new List[dataset.getMaxItem() + 1]; 
 
@@ -252,7 +251,6 @@ public class AlgoLCMFreq {
 
     /**
      * Perform the anytime database reduction for an itemset P U {e}
-     * @param transactions the transactions
      * @param j the position of j in the list of frequent items
      * @param frequentItems 
      * @param itemset 
@@ -355,7 +353,7 @@ public class AlgoLCMFreq {
      * @param e  the item "e"
      * @return the transactions containing P U "e"
      */
-    public List<Transaction> intersectTransactions(List<Transaction> transactionsOfP, Integer e) {
+    private List<Transaction> intersectTransactions(List<Transaction> transactionsOfP, Integer e) {
         List<Transaction> transactionsPe = new ArrayList<Transaction>();
 
         // transactions of P U e

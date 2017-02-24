@@ -29,7 +29,7 @@ import java.util.List;
  * @see ElementFOSHU
  * @author Philippe Fournier-Viger
  */
-public class UtilityListFOSHU {
+class UtilityListFOSHU {
 
 	// the last item of the itemset represented by this utility list
 	public Integer item;
@@ -47,7 +47,6 @@ public class UtilityListFOSHU {
 	/**
 	 * Constructor
 	 * @param item the last item of the itemset represented by this utility list
-	 * @param the number of periods
 	 */
 	public UtilityListFOSHU(Integer item, int periodCount) {
 		super();
@@ -117,12 +116,10 @@ public class UtilityListFOSHU {
 	/**
 	 * This method constructs the utility list of pXY
 	 * @param pElements :  the utility list of prefix P.
-	 * @param x : the utility list of pX
-	 * @param periodsElements4 : the utility list of pY
 	 * @return the utility list of pXY
 	 */
-	private void construct(int period, List<ElementFOSHU> pElements, List<ElementFOSHU> pXElements, List<ElementFOSHU> pYElements) {;
-		// create an empy utility list for pXY
+	private void construct(int period, List<ElementFOSHU> pElements, List<ElementFOSHU> pXElements, List<ElementFOSHU> pYElements) {
+        // create an empy utility list for pXY
 		periodsElements[period] = new ArrayList<ElementFOSHU>();
 		
 		// for each element in the utility list of pX
@@ -149,12 +146,10 @@ public class UtilityListFOSHU {
 	
 	/**
 	 * This method constructs the utility list of {x,y}
-	 * @param x : the utility list of item {x}
-	 * @param y : the utility list of item {y}
 	 * @return the utility list of {x,y}
 	 */
-	private void construct(int period, List<ElementFOSHU> pXElements, List<ElementFOSHU> pYElements) {;
-	// create an empy utility list for pXY
+	private void construct(int period, List<ElementFOSHU> pXElements, List<ElementFOSHU> pYElements) {
+        // create an empy utility list for pXY
 	periodsElements[period] = new ArrayList<ElementFOSHU>();
 	
 	// for each element in the utility list of pX
@@ -176,7 +171,6 @@ public class UtilityListFOSHU {
 	
 	/**
 	 * Do a binary search to find the element with a given tid in a utility list
-	 * @param pYElements the utility list
 	 * @param tid  the tid
 	 * @return  the element or null if none has the tid.
 	 */

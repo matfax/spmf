@@ -74,7 +74,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * relation with the previous item in the pattern
      * @return the created relation
      */
-    public Abstraction_Generic createAbstraction(boolean equalRelation) {
+    private Abstraction_Generic createAbstraction(boolean equalRelation) {
         return Abstraction_Qualitative.create(equalRelation);
     }
 

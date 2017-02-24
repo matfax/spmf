@@ -30,7 +30,7 @@ package ca.pfv.spmf.datastructures.binarytree;
  *
  * @author Philippe Fournier-Viger
  */
-public class BinaryTree<T extends Comparable<T>> {
+class BinaryTree<T extends Comparable<T>> {
 
 	// number of elements currently in the tree
 	private int size = 0; 
@@ -39,7 +39,7 @@ public class BinaryTree<T extends Comparable<T>> {
 	
 	// allow the same element to appear multiple times in the tree
 	// or not.
-	boolean allowSameElementMultipleTimes = true;
+    private boolean allowSameElementMultipleTimes = true;
 
 	/**
 	 * Constructor

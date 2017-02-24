@@ -40,7 +40,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.savers.Saver;
  *
  * @author agomariz
  */
-public class FrequentPatternEnumeration_SPAM{
+class FrequentPatternEnumeration_SPAM{
     /**
      * The absolute minimum support threshold, i.e. the minimum number of
      * sequences where the patterns have to be

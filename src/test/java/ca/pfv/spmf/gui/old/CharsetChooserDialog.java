@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
-public class CharsetChooserDialog {
+class CharsetChooserDialog {
 
 	  public static void main(String[] a) {
 		  

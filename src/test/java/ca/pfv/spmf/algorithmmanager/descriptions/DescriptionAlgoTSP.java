@@ -57,7 +57,7 @@ public class DescriptionAlgoTSP extends DescriptionOfAlgorithm {
 		int k = getParamAsInteger(parameters[0]);
 		
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			outputSeqIdentifiers = getParamAsBoolean(parameters[1]);
 		}
 

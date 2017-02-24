@@ -28,7 +28,7 @@ import java.util.List;
 * @see SequenceDatabaseWithUtility
  * @author Philipe-Fournier-Viger
  */
-public class SequenceWithUtility {
+class SequenceWithUtility {
 	
 	// this is the list of itemsets contained in this sequence
 	// (each itemset is a list of Integers)

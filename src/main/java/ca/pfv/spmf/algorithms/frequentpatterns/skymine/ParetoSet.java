@@ -1,7 +1,6 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * This is a Pareto Set as used by the SkyMine algorithm.
@@ -27,7 +26,7 @@ import java.util.Iterator;
  * 
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
-public class ParetoSet {
+class ParetoSet {
 	
 	/** A list of UtilityInterval objects */
 	ArrayList<UtilityInterval> utilities = null;
@@ -43,7 +42,6 @@ public class ParetoSet {
 	/**
 	 * Insert an itemset in this Pareto set 
 	 * @param itemSet an itemset to be inserted
-	 * @param utility the utility value of the itemSet
 	 * @param support the support of the itemset
 	 */
 	public void insert(int[] itemSet, long utilityL, long utilityH,
@@ -66,8 +64,7 @@ public class ParetoSet {
 		utilities.get(support).insertUtilityInt(utilityL, utilityH, itemSet);
 		updateLowSupportUtilities(support, utilityL, utilityH);
 
-		return ;
-	}
+    }
 
 	private void updateLowSupportUtilities(int supp, long uL, long uH) {
 		for (int i = supp - 1; i > 0; i--) {

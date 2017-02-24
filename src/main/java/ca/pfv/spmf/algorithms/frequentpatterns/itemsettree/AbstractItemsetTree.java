@@ -47,7 +47,7 @@ abstract class AbstractItemsetTree {
 	 * @param itemset2  the second itemset
 	 * @return a new itemset which is the largest common ancestor or null if it is the empty set
 	 */
-	protected int[] getLargestCommonAncestor(int[] itemset1, int[] itemset2) {
+    int[] getLargestCommonAncestor(int[] itemset1, int[] itemset2) {
 		// if one of the itemsets is null,
 		// return null.
 		if(itemset2 == null || itemset1 == null){
@@ -96,7 +96,7 @@ abstract class AbstractItemsetTree {
 	 * @param itemset2 the second itemset
 	 * @return true, if yes, otherwise, false.
 	 */
-	protected boolean ancestorOf(int[] itemset1, int[] itemset2) {
+    boolean ancestorOf(int[] itemset1, int[] itemset2) {
 		// if the second itemset is null (empty set), return false
 		if(itemset2 == null){
 			return false;
@@ -127,10 +127,9 @@ abstract class AbstractItemsetTree {
 	 * Method to check if two itemsets are equals
 	 * @param itemset1 the first itemset
 	 * @param itemset2 the second itemset
-	 * @param prefix 
 	 * @return true if they are the same or false otherwise
 	 */
-	protected boolean same(int[] itemset1, int[] itemset2) {
+    boolean same(int[] itemset1, int[] itemset2) {
 		// if one is null, then returns false
 		if(itemset2 == null || itemset1 == null){
 			return false;
@@ -271,6 +270,6 @@ abstract class AbstractItemsetTree {
 	 * @param s the itemset
 	 * @return the support as an integer.
 	 */
-	public abstract int getSupportOfItemset(int[] s);
+	protected abstract int getSupportOfItemset(int[] s);
 
 }

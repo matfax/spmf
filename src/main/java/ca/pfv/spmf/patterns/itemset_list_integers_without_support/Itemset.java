@@ -137,7 +137,7 @@ public class Itemset{
 			boolean found = false; // flag to remember if we have find the item
 			
 			// we search in this itemset starting from the current position i
-			while(found == false && i < size()){
+			while(!found && i < size()){
 				// if we found the current item from itemset2, we stop searching
 				if(get(i).equals(item)){
 					found = true;

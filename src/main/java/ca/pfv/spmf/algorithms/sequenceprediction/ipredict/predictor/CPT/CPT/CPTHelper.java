@@ -16,7 +16,7 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
  * You may obtain a copy of the License at
  * https://opensource.org/licenses/MIT 
  */
-public class CPTHelper {
+class CPTHelper {
 	
 	
 	/**

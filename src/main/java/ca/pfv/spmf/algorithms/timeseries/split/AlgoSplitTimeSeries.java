@@ -30,12 +30,12 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoSplitTimeSeries {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 	
 	/** The number of time-series created during the last execution of this algorithm */
 	private int  numberOfSeries;

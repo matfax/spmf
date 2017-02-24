@@ -24,11 +24,11 @@ import java.util.Map;
  * @see AlgoERMiner
  * @author Philippe Fournier-Viger
  */
-public class SparseMatrix {
+class SparseMatrix {
 	
 
 	// item i, item j ,  count of i,j appearing together
-	Map<Integer, Map<Integer, Integer>> matrix = new HashMap<Integer, Map<Integer, Integer>>();
+    private Map<Integer, Map<Integer, Integer>> matrix = new HashMap<Integer, Map<Integer, Integer>>();
 	
 	public SparseMatrix() {
 		

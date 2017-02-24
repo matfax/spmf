@@ -39,10 +39,10 @@ import java.util.Map;
 */
 public class SequenceDatabaseConverter {
 	
-	String input;  // the path of the input file
-	String output; // the path of the file to be written to disk in SPMF format
-	int lineCount =0; // the number of sequences in the input file
-	BufferedWriter writer; // to write the output file
+	private String input;  // the path of the input file
+	private String output; // the path of the file to be written to disk in SPMF format
+	private int lineCount =0; // the number of sequences in the input file
+	private BufferedWriter writer; // to write the output file
 
 	/**
 	 * This method converts a sequence database from a given format to the SPMF format.
@@ -352,7 +352,7 @@ public class SequenceDatabaseConverter {
 				// if it is "-2", the end of a sequence
 				else if (value == -2) { 
 					// check if the last "-1" was not written
-					if (lastMinus1 == false) {
+					if (!lastMinus1) {
 						writer.write("-1 "); // write "-1"
 					}
 					writer.write("-2 "); // write end of line
@@ -384,7 +384,7 @@ public class SequenceDatabaseConverter {
 	 * @param i  an integer in little indian
 	 * @return  the integer converted to big indian
 	 */
-	int INT_little_endian_TO_big_endian(int i) {
+	private int INT_little_endian_TO_big_endian(int i) {
 		return ((i & 0xff) << 24) + ((i & 0xff00) << 8) + ((i & 0xff0000) >> 8)
 				+ ((i >> 24) & 0xff);
 	}
@@ -436,12 +436,12 @@ public class SequenceDatabaseConverter {
 		// An entry in the map is :
 		//   key  =  a word
 		//   value = Integer (item id)
-		Map<String, Integer> mapWordsToItemIDs = new HashMap<String,Integer>();;
-		
-		// object for writing the output file
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output),charset));; 
-		
-		// This is the first line in the output file
+		Map<String, Integer> mapWordsToItemIDs = new HashMap<String,Integer>();
+
+        // object for writing the output file
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output),charset));
+
+        // This is the first line in the output file
 		writer.write("@CONVERTED_FROM_TEXT");
 		writer.newLine();
 
@@ -520,7 +520,7 @@ public class SequenceDatabaseConverter {
 					}
 					
 					// If this is the last word of a sentence
-					if(isFirstWordOfSentence == false && isEndOfSentence){
+					if(!isFirstWordOfSentence && isEndOfSentence){
 						// We write the end of sequence and create a new line
 						currentSentence.append(" -2");
 						// We reset the variables and increase the sequence count

@@ -55,7 +55,7 @@ public class DescriptionAlgoFEAT extends DescriptionOfAlgorithm {
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 
 		AlgoFEAT algo = new AlgoFEAT();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
 		}
 		ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase sequenceDatabase = new ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase();
@@ -64,7 +64,7 @@ public class DescriptionAlgoFEAT extends DescriptionOfAlgorithm {
 				.size()); // we use a minimum support of 2 sequences.
 		
 		boolean outputSeqIdentifiers = false;
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			outputSeqIdentifiers = getParamAsBoolean(parameters[1]);
 		}
 

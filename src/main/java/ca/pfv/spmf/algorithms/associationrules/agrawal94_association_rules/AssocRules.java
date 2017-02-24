@@ -37,7 +37,7 @@ import java.util.List;
 
 public class AssocRules {
 	// a list of association rules
-	public final List<AssocRule> rules = new ArrayList<AssocRule>();  // rules
+	private final List<AssocRule> rules = new ArrayList<AssocRule>();  // rules
 	
 	// a name that an algorithm can give to this list of association rules
 	private final String name;

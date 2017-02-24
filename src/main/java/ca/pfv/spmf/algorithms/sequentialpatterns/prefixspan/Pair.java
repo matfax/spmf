@@ -33,15 +33,13 @@ import java.util.List;
  */
 class Pair{
 	// the item
-	protected final int item;
+	final int item;
 	
 	// List of the pseudosequences of the projection with this item .
 	private List<PseudoSequence> pseudoSequences = new ArrayList<PseudoSequence>();
 
 	/**
 	 * Constructor
-	 * @param postfix indicate if this is the case of an item appearing
-	 *  in an itemset that is cut at the left because of a projection
 	 * @param item the item
 	 */
 	Pair(Integer item){

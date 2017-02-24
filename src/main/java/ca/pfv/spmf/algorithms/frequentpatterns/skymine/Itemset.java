@@ -25,12 +25,12 @@ package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class Itemset {
+class Itemset {
 
 	/** the itemset */
 	int[] itemset;
 	/** the itemset utility */
-	long utility = 0;
+    private long utility = 0;
 	/** the itemset support */
 	int support = 0;
 

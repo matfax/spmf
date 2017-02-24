@@ -54,7 +54,7 @@ public class DescriptionAlgoUSpan extends DescriptionOfAlgorithm {
 	@Override
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 		AlgoUSpan algo = new AlgoUSpan();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMaxPatternLength(getParamAsInteger(parameters[1]));
 		}
 

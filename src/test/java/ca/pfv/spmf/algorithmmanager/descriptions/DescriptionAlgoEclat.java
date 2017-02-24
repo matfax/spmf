@@ -67,7 +67,7 @@ public class DescriptionAlgoEclat extends DescriptionOfAlgorithm {
 
 		AlgoEclat algo = new AlgoEclat();
 		
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		

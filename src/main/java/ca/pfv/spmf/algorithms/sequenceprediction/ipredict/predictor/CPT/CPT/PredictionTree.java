@@ -17,13 +17,13 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Item;
 
 public class PredictionTree {
 
-	public int Support; //support count
+	private int Support; //support count
 	public Item Item; //actual item
 	public PredictionTree Parent; //parent's node
 	
 	private List<PredictionTree> Children; //children list
 	
-	public PredictionTree(Item itemValue) {
+	private PredictionTree(Item itemValue) {
 		Support = 0; //default support
 		Item = itemValue;
 		Children = new ArrayList<PredictionTree>();

@@ -34,16 +34,16 @@ import ca.pfv.spmf.input.sequence_database_list_strings.Sequence;
 class PseudoSequence {
 
 	/** the corresponding sequence in the original database */
-	protected Sequence sequence;
+    Sequence sequence;
 	/** the first itemset of this pseudo-sequence  in the original sequence */
-	protected int firstItemset; 
+    int firstItemset;
 	/** the first item of this pseudo-sequence in the original sequence */
-	protected int firstItem;
+    int firstItem;
 	
 	/**
 	 * Default constructor
 	 */
-	protected PseudoSequence(){
+    PseudoSequence(){
 		
 	}
 
@@ -53,7 +53,7 @@ class PseudoSequence {
 	 * @param indexItemset the itemset where the pseudo-sequence should start in terms of the original sequence.
 	 * @param indexItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected PseudoSequence(PseudoSequence sequence, int indexItemset, int indexItem){
+    PseudoSequence(PseudoSequence sequence, int indexItemset, int indexItem){
 		// remember the original sequence
 		this.sequence = sequence.sequence;
 		// record the position of where the pseudo-sequence starts
@@ -72,7 +72,7 @@ class PseudoSequence {
 	 * @param indexItemset the itemset where the pseudo-sequence should start in terms of the original sequence.
 	 * @param indexItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected  PseudoSequence(Sequence sequence, int indexItemset, int indexItem){
+    PseudoSequence(Sequence sequence, int indexItemset, int indexItem){
 		// remember the original sequence
 		this.sequence = sequence;
 		// remember the starting position of this pseudo-sequence in terms
@@ -85,7 +85,7 @@ class PseudoSequence {
 	 * Return the size of this pseudo-sequence in terms of itemsets.
 	 * @return the size.
 	 */
-	protected int size() {
+    int size() {
 		// the size is the size of the original sequence minus
 		// the itemset where this pseudo-sequence start
 		int size = sequence.size() - firstItemset;
@@ -103,7 +103,7 @@ class PseudoSequence {
 	 * @param index the position of the itemset
 	 * @return the number of items in that itemset
 	 */
-	protected int getSizeOfItemsetAt(int index) {
+    int getSizeOfItemsetAt(int index) {
 		// We obtain the size of the itemset by looking at the original
 		// sequence. To obtain the position of the itemset we do
 		//   index + firstItemset.
@@ -121,7 +121,7 @@ class PseudoSequence {
 	 * @param indexItemset the position of the given itemset.
 	 * @return true if it is cut at left.
 	 */
-	protected boolean isPostfix(int indexItemset) {
+    boolean isPostfix(int indexItemset) {
 		// if it is the first itemset of the pseudo-sequence
 		// and it is cut at left, we return true.
 		return indexItemset == 0  && firstItem !=0;
@@ -132,7 +132,7 @@ class PseudoSequence {
 	 * @param index  the position of an itemset
 	 * @return true if it is the first one.
 	 */
-	protected boolean isFirstItemset(int index) {
+    boolean isFirstItemset(int index) {
 		return index == 0;
 	}
 	
@@ -141,7 +141,7 @@ class PseudoSequence {
 	 * @param index  the position of an itemset
 	 * @return true if it is the last one.
 	 */
-	protected boolean isLastItemset(int index) {
+    boolean isLastItemset(int index) {
 		return (index + firstItemset) == sequence.getItemsets().size() -1;
 	}
 
@@ -151,7 +151,7 @@ class PseudoSequence {
 	 * @param indexItemset the position of the itemset
 	 * @return the item.
 	 */
-	protected String getItemAtInItemsetAt(int indexItem, int indexItemset) {
+    String getItemAtInItemsetAt(int indexItem, int indexItemset) {
 		// if it is in the first itemset
 		if(isFirstItemset(indexItemset)){
 			// we need to consider if the itemset was cut at the left
@@ -167,7 +167,7 @@ class PseudoSequence {
 	 * @param index the position of the itemset
 	 * @return the itemset
 	 */
-	protected List<String> getItemset(int index) {
+    List<String> getItemset(int index) {
 		return sequence.get(index+firstItemset);
 	}
 
@@ -175,7 +175,7 @@ class PseudoSequence {
 	 * Get the sequence ID of this sequence.
 	 * @return a sequence ID (integer)
 	 */
-	protected int getId() {
+    int getId() {
 		return sequence.getId();
 	}
 
@@ -218,7 +218,7 @@ class PseudoSequence {
 	 * @param idItem the item that we want to search.
 	 * @return the position of the item or -1 if it is not found
 	 */
-	protected int indexOf(int indexItemset, String idItem) {
+    int indexOf(int indexItemset, String idItem) {
 		// for each item in that itemset
 		for(int i=0; i < getSizeOfItemsetAt(indexItemset); i++){
 			// check if equals to the item that we search

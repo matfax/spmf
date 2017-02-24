@@ -52,8 +52,8 @@ public class Sequences {
         }
     }
 
-    public List<List<Pattern>> levels = new ArrayList<List<Pattern>>();  // itemset class� par taille
-    public int nbSequeencesFrequentes = 0;
+    private List<List<Pattern>> levels = new ArrayList<List<Pattern>>();  // itemset class� par taille
+    private int nbSequeencesFrequentes = 0;
     private final String name;
 
     public Sequences(String name) {

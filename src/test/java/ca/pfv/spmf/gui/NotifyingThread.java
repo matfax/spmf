@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * 
  * @author Philippe Fournier-Viger
  */
-public abstract class NotifyingThread extends Thread {
+abstract class NotifyingThread extends Thread {
 	/** The listeners **/
 	private final Set<ThreadCompleteListener> listeners = new CopyOnWriteArraySet<ThreadCompleteListener>();
 
@@ -38,7 +38,7 @@ public abstract class NotifyingThread extends Thread {
 	/**
 	 * Method to notify the listeners that this thread has completed its task
 	 */
-	private final void notifyListeners(boolean succeed) {
+	private void notifyListeners(boolean succeed) {
 		// for each listener
 		for (ThreadCompleteListener listener : listeners) {
 			// notify the listener that this thread has terminated

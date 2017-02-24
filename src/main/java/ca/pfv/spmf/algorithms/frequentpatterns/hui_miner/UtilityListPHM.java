@@ -28,7 +28,7 @@ import java.util.List;
  * @see Element
  * @author Philippe Fournier-Viger
  */
-public class UtilityListPHM {
+class UtilityListPHM {
 	Integer item;  // the item
 	long sumIutils = 0;  // the sum of item utilities
 	long sumRutils = 0;  // the sum of remaining utilities

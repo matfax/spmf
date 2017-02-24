@@ -53,7 +53,7 @@ public class SequenceDatabase {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
 				// kind of metadata
-				if (thisLine.isEmpty() == false &&
+				if (!thisLine.isEmpty() &&
 						thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%'
 						&& thisLine.charAt(0) != '@') {
 					// split this line according to spaces and process the line
@@ -74,7 +74,7 @@ public class SequenceDatabase {
 	 * Method to process a line from the input file
 	 * @param tokens A list of tokens from the line (which were separated by spaces in the original file).
 	 */
-	void addSequence(String[] tokens) {
+	private void addSequence(String[] tokens) {
 		// create a new Sequence to store the sequence
 		Sequence sequence = new Sequence(sequences.size());
 		// create a list of strings for the first itemset.

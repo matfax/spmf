@@ -23,8 +23,8 @@ import java.util.BitSet;
  */
 public class Bitvector {
 
-	BitSet bitset = new BitSet(); // the bitset
-	int cardinality;  // the cardinality
+	private BitSet bitset = new BitSet(); // the bitset
+	private int cardinality;  // the cardinality
 
 	/**
 	 * Public constructor
@@ -84,7 +84,7 @@ public class Bitvector {
 	}
 
 	public void setBit(int i) {
-		if(bitset.get(i) == false) {
+		if(!bitset.get(i)) {
 			bitset.set(i);
 			cardinality++;
 		}

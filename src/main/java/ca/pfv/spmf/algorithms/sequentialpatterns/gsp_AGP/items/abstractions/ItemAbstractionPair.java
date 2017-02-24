@@ -34,11 +34,11 @@ public class ItemAbstractionPair implements Comparable<ItemAbstractionPair> {
     /**
      * Item of the pair
      */
-    Item item;
+    private Item item;
     /**
      * Abstraction of the pair
      */
-    Abstraction_Generic abstraction;
+    private Abstraction_Generic abstraction;
 
     /**
      * Standard constructor

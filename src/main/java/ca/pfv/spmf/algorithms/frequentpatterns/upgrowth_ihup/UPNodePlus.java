@@ -31,7 +31,7 @@ import java.util.List;
  *
  */
 
-public class UPNodePlus {
+class UPNodePlus {
 	// String itemName;
 	int itemID = -1;
 	int count = 1;

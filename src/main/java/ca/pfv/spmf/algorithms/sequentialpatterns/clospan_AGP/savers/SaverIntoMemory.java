@@ -35,7 +35,7 @@ public class SaverIntoMemory implements Saver{
     private Sequences patterns=null;
     
     /** indicates if sequence identifiers should be saved */
-    boolean outputSequenceIdentifiers;
+    private boolean outputSequenceIdentifiers;
     
     public SaverIntoMemory(boolean outputSequenceIdentifiers){
         patterns = new Sequences("FREQUENT SEQUENTIAL PATTERNS");

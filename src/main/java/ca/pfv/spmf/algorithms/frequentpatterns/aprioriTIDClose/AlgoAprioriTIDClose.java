@@ -61,37 +61,37 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoAprioriTIDClose {
 
 	/** object for writing to file if the user choose to write to a file */
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	/** variable to store the result if the user choose to save to memory instead of a file */
-	protected Itemsets patterns = null;
+    private Itemsets patterns = null;
 
 	/** the number of transactions */
 	private int databaseSize = 0;
 	
 	/** the current level */
-	protected int k; 
+    private int k;
 
 	/** variables for counting support of items */
-	Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
+    private Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
 
 	/** the minimum support threshold */
-	int minSuppRelative;
+    private int minSuppRelative;
 
 	/** Special parameter to set the maximum size of itemsets to be discovered */
-	int maxItemsetSize = Integer.MAX_VALUE;
+    private int maxItemsetSize = Integer.MAX_VALUE;
 
 	/** start time of latest execution */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** end time of latest execution */
-	long endTimestamp = 0; 
+    private long endTimestamp = 0;
 	
 	/**  number of closed itemset found */
-	int itemsetCount = 0; 
+    private int itemsetCount = 0;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -297,7 +297,7 @@ public class AlgoAprioriTIDClose {
 	 * @param itemset the itemset
 	 * @throws IOException exception if error writing the output file.
 	 */
-	void saveItemset(Itemset itemset) throws IOException {
+    private void saveItemset(Itemset itemset) throws IOException {
 		itemsetCount++;
 		
 		// if the result should be saved to a file
@@ -322,7 +322,7 @@ public class AlgoAprioriTIDClose {
 	 * @param levelK_1  frequent itemsets of size k-1
 	 * @return itemsets of size k
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
 		// create a variable to store candidates
 		List<Itemset> candidates = new ArrayList<Itemset>();
 

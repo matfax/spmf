@@ -22,7 +22,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.upgrowth_ihup;
  * 
  * @see AlgoUPGrowth
  */
-public class Itemset {
+class Itemset {
 
 	private int[] itemset;
 	private int utility =0;

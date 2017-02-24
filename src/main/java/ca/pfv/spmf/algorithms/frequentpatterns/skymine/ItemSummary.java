@@ -25,13 +25,13 @@ package ca.pfv.spmf.algorithms.frequentpatterns.skymine;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class ItemSummary {
+class ItemSummary {
 	/** the name of the item */
-	int itemName;
+    private int itemName;
 	
 	short minFrequency;
 	short maxFrequency;
-	long TWU;
+	private long TWU;
 	int totalFrequency;
 	int support;
 

@@ -36,7 +36,7 @@ import java.util.Set;
 * @see SequenceWithUtility
  * @author Philipe-Fournier-Viger
  */
-public class SequenceDatabaseWithUtility {
+class SequenceDatabaseWithUtility {
 
 	// variable that contains the sequences of this database
 	private List<SequenceWithUtility> sequences = new ArrayList<SequenceWithUtility>();
@@ -58,7 +58,7 @@ public class SequenceDatabaseWithUtility {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
 				// kind of metadata
-				if (thisLine.isEmpty() == false &&
+				if (!thisLine.isEmpty() &&
 						thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%'
 						&& thisLine.charAt(0) != '@') {
 					// split this line according to spaces and process the line
@@ -85,7 +85,7 @@ public class SequenceDatabaseWithUtility {
 	 * Method to process a line from the input file
 	 * @param tokens A list of tokens from the line (which were separated by spaces in the original file).
 	 */
-	void addSequence(String[] tokens) { 
+	private void addSequence(String[] tokens) {
 		
 		// This set is used to remember items that we have seen already
 		Set<Integer> alreadySeenItems = new HashSet<Integer>();
@@ -153,7 +153,7 @@ public class SequenceDatabaseWithUtility {
 				//***************************************************************
 				//***************************************************************
 				//***************************************************************
-				if(alreadySeenItems.contains(itemInt) == false){
+				if(!alreadySeenItems.contains(itemInt)){
 					
 					// if this is the first time that we see that item
 					String profit = strings[1];

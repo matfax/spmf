@@ -28,7 +28,7 @@ import java.util.List;
  * @see ItemUApriori
  * @author Philippe Fournier-Viger
  */
-public class ItemsetUApriori{
+class ItemsetUApriori{
 	// an itemset is an ordered list of items
 	private List<ItemUApriori> items = new ArrayList<ItemUApriori>(); 
 	// the expected support
@@ -90,7 +90,7 @@ public class ItemsetUApriori{
 	 * @param index the position
 	 * @return the item (Integer)
 	 */
-	public ItemUApriori get(int index){
+    private ItemUApriori get(int index){
 		return items.get(index);
 	}
 	
@@ -130,7 +130,7 @@ public class ItemsetUApriori{
 	 * @param item the item
 	 * @return true, if yes, otherwise false.
 	 */
-	public boolean contains(ItemUApriori item) {
+    private boolean contains(ItemUApriori item) {
 		return items.contains(item);
 	}
 

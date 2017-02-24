@@ -40,8 +40,8 @@ import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
 public class PseudoSequenceBIDE extends PseudoSequence {
 
 	// variable to indicate if the pseudo sequence is cut at right (a prefix)
-	int lastItemset; // the position where the cut was done in terms of itemset in the original sequence
-	int lastItem;   //  the position where the cut was done in terms of item in the original sequence
+    private int lastItemset; // the position where the cut was done in terms of itemset in the original sequence
+	private int lastItem;   //  the position where the cut was done in terms of item in the original sequence
 	
 	/**
 	 * Constructor of a pseudo-sequence based on a pseudo-sequence (overloaded)
@@ -49,7 +49,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * @param indexItemset the position of the itemset where the pseudo sequence starts (if it is cut at left)
 	 * @param indexItem the position of the item  where the pseudo sequence starts (if it is cut at left)
 	 */
-	protected PseudoSequenceBIDE(PseudoSequenceBIDE sequence, int indexItemset, int indexItem){
+    PseudoSequenceBIDE(PseudoSequenceBIDE sequence, int indexItemset, int indexItem){
 		// record the original sequence
 		this.sequence = sequence.sequence;
 		// record the position where the sequence starts if it is cut at left
@@ -72,7 +72,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * @param lastItemset the position of the itemset where this pseudo sequence ends
 	 * @param lastItem the position of the item where this pseudo sequence ends
 	 */
-	protected PseudoSequenceBIDE(PseudoSequenceBIDE sequence, int indexItemset, int indexItem, int lastItemset, int lastItem){
+    private PseudoSequenceBIDE(PseudoSequenceBIDE sequence, int indexItemset, int indexItem, int lastItemset, int lastItem){
 		// record the original sequence
 		this.sequence = sequence.sequence;
 		// record the position where the sequence starts if it is cut at left
@@ -200,10 +200,9 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	
 	/**
 	 * Return true if this itemset is cut at right (a prefix).
-	 * @param indexItemset the position of the given itemset.
 	 * @return true if it is cut at right.
 	 */
-	protected boolean isCutAtRight(int index) {
+    boolean isCutAtRight(int index) {
 		if(!isLastItemset(index)){
 			return false;
 		}
@@ -356,7 +355,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * @param lastInstancePair 
 	 * @return
 	 */
-	protected Position getIthLastInLastApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair lastInstancePair){ 
+    private Position getIthLastInLastApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair lastInstancePair){
 
 		// ith item of prefix id is :
 		int iditem = getIthItem(prefix, i);
@@ -411,7 +410,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 *   	the 1th semi-period of Sp in S is AB
 	 *      the 2th semi-period of Sp in S is B
 	 */
-	protected PseudoSequenceBIDE getIthMaximumPeriodOfAPrefix(List<Itemset> prefix, int i){
+    PseudoSequenceBIDE getIthMaximumPeriodOfAPrefix(List<Itemset> prefix, int i){
 		
 		// we obtain the last instance:
 		// The last instance is a PseudoSequencePair object.
@@ -450,7 +449,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * For example, the last instance of AB in ABBCA is  ABB.
 	 * Additionnal difficulty : this sequence must respect timestamps!
 	 */
-	protected  PseudoSequencePair getLastInstanceOfPrefixSequenceNEW(List<Itemset> prefix, int i){
+    private PseudoSequencePair getLastInstanceOfPrefixSequenceNEW(List<Itemset> prefix, int i){
 		
 		int remainingToMatchFromPrefix = i;
 		
@@ -499,7 +498,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * Exemple: first instance of AB in the sequence CAABC = CAAB.
 	 * Additionnal difficulty : this sequence must respect timestamps!
 	 */
-	protected  PseudoSequencePair getFirstInstanceOfPrefixSequenceNEW(List<Itemset> prefix, int i){
+    private PseudoSequencePair getFirstInstanceOfPrefixSequenceNEW(List<Itemset> prefix, int i){
 		
 		int remainingToMatchFromPrefix = i;
 		
@@ -554,7 +553,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * 
 	 * @return null If the result is an empty sequence.!
 	 */
-	protected PseudoSequenceBIDE trimBeginingAndEnd(Position positionStart, Position positionEnd){
+    private PseudoSequenceBIDE trimBeginingAndEnd(Position positionStart, Position positionEnd){
 		int itemsetStart = 0;
 		int itemStart =0;
 		int itemsetEnd=lastItemset;
@@ -640,7 +639,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * Return the sum of the size of all itemsets of this sequence.
 	 * Note: used by the BIDE algorithm
 	 */
-	protected int getItemOccurencesTotalCount(List<Itemset> itemsets){
+    private int getItemOccurencesTotalCount(List<Itemset> itemsets){
 		int count =0;
 		for(Itemset itemset : itemsets){
 			count += itemset.size();
@@ -654,7 +653,7 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * @param i  the position of an item
 	 * @return the item.
 	 */
-	protected Integer getIthItem(List<Itemset> itemsets, int i) { 
+    private Integer getIthItem(List<Itemset> itemsets, int i) {
 		for(int j=0; j< itemsets.size(); j++){
 			if(i < itemsets.get(j).size()){
 				return itemsets.get(j).get(i);
@@ -674,10 +673,9 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 *   before LFi+1.
 	 * @param prefix : the prefix
 	 * @param i : the i�me element of the prefix.
-	 * @param firstInstancePair2 
 	 * @return
 	 */
-	protected Position getIthLastInFirstApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair firstInstancePair){
+    private Position getIthLastInFirstApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair firstInstancePair){
 		
 			// ith item of prefix id is :
 			Integer iditem = getIthItem(prefix,i);

@@ -30,7 +30,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class Table {
+class Table {
 	
 	/** The list of vectors in this item-is-exist table */
 	List<PositionVector> positionVectors;

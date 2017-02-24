@@ -58,19 +58,19 @@ public class AlgoCFPGrowth {
 	private int itemsetCount; // number of freq. itemsets found
 	
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// The  patterns that are found 
 	// (if the user want to keep them into memory)
-	protected Itemsets patterns = null;
+    private Itemsets patterns = null;
 
 	// the comparator that is used to compare the item ordering
-	final Comparator<Integer> itemComparator;
+	private final Comparator<Integer> itemComparator;
 	
 	// array indicating the minimum support for each item
-	int MIS[];
+    private int[] MIS;
 	// the minimum MIS
-	int minMIS;
+    private int minMIS;
 	
 	/** Object to check the maximum memory usage */
 	private MemoryLogger memoryLogger = null;
@@ -104,7 +104,7 @@ public class AlgoCFPGrowth {
 	 * @throws IOException if error reading/writing files
 	 */
 	public Itemsets runAlgorithm(String input, String output, String MISIn)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		// record start time
 		startTimestamp = System.currentTimeMillis();
 		
@@ -147,7 +147,7 @@ public class AlgoCFPGrowth {
 		while (((line = reader.readLine()) != null)) { 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -208,7 +208,7 @@ public class AlgoCFPGrowth {
 		}// for		
 			
 		// merge child node with the same item id
-		if (sw == true) {
+		if (sw) {
 			tree.MISMerge(tree.root);
 		}
 		// tree.print(tree.root);
@@ -239,8 +239,8 @@ public class AlgoCFPGrowth {
 	 * @param input path to the file containing the MIS values
 	 * @throws IOException if error occurs while reading the file or the file does not exist
 	 */
-	private void initMISfromFile(String input) throws FileNotFoundException,
-			IOException {
+	private void initMISfromFile(String input) throws
+            IOException {
 		// create object to read the file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
@@ -255,7 +255,7 @@ public class AlgoCFPGrowth {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -351,7 +351,6 @@ public class AlgoCFPGrowth {
 	 * This method mines pattern from a Prefix-Tree recursively
 	 * 
 	 * @param tree    The Prefix Tree
-	 * @param prefix  The current prefix "alpha"
 	 * @param mapSupport    The frequency of each item in the prefix tree.
 	 * @throws IOException exception if error writing the output file.
 	 */
@@ -392,7 +391,6 @@ public class AlgoCFPGrowth {
 	 * Mine an FP-Tree having more than one path.
 	 * 
 	 * @param tree        the FP-tree
-	 * @param prefix      the current prefix, named "alpha"
 	 * @param mapSupport  the frequency of items in the FP-Tree
 	 * @throws IOException  exception if error writing the file
 	 */

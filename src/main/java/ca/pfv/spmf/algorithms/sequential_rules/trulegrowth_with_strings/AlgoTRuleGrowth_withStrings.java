@@ -16,26 +16,17 @@ package ca.pfv.spmf.algorithms.sequential_rules.trulegrowth_with_strings;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.algorithms.sequential_rules.trulegrowth.AlgoTRuleGrowth;
 import ca.pfv.spmf.algorithms.sequential_rules.trulegrowth.Occurence;
 import ca.pfv.spmf.input.sequence_database_list_strings.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_strings.SequenceDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is a modified implementation of the TRULEGROWTH algorithm for mining sequential rules from
@@ -60,31 +51,31 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoTRuleGrowth_withStrings {
 	
 	// statistics
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;    // end time of latest execution
+    private long timeStart = 0;  // start time of latest execution
+	private long timeEnd = 0;    // end time of latest execution
 	
 	// A map to record the occurences of each item in each sequence
 	// KEY: an item
 	// VALUE:  a map of  key: sequence ID  value: occurences of the item in that sequence.
 	// (note: an occurence is an itemset position)
-	Map<String,  Map<Integer, Occurence>> mapItemCount;
+    private Map<String,  Map<Integer, Occurence>> mapItemCount;
 	
 	// PARAMETERS OF THE ALGORITHM
-	SequenceDatabase database; // a sequence database
-	double minconf;   // minimum confidence
-	int minsuppRelative; // minimum support
-	int windowSize =0;  // window size
+    private SequenceDatabase database; // a sequence database
+	private double minconf;   // minimum confidence
+	private int minsuppRelative; // minimum support
+	private int windowSize =0;  // window size
 
 	// The number of patterns found
-	int ruleCount;
+    private int ruleCount;
 	
 	// object to write the output file
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 
 	// the maximum size of the antecedent of rules (optional)
-	int maxAntecedentSize = Integer.MAX_VALUE;
+    private int maxAntecedentSize = Integer.MAX_VALUE;
 	// the maximum size of the consequent of rules (optional)
-	int maxConsequentSize = Integer.MAX_VALUE;
+    private int maxConsequentSize = Integer.MAX_VALUE;
 
 	/**
 	 * Default constructor
@@ -124,8 +115,8 @@ public class AlgoTRuleGrowth_withStrings {
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
 	 */
-	public void runAlgorithm(String input, String output, int relativeMinSupport, double minConfidence, int windowSize 
-			) throws IOException{
+    private void runAlgorithm(String input, String output, int relativeMinSupport, double minConfidence, int windowSize
+    ) throws IOException{
 		this.minconf = minConfidence;
 		
 		// read the database into memory
@@ -185,44 +176,45 @@ public class AlgoTRuleGrowth_withStrings {
 				Set<Integer> tidsJI= new HashSet<Integer>();
 
 				// for each occurence of I
-	looptid:	for(Occurence occI : occurencesI.values()){
-					// add the sequenceID to tidsI
-					tidsI.add(occI.sequenceID);
-					
-					// if J does not appear in that sequence continue loop
-					Occurence occJ = occurencesJ.get(occI.sequenceID);
-					if(occJ == null){
-						continue looptid;
-					}
-					
-					// make a big loop to compare if I appears before
-					// J in that sequence and
-					// if J appears before I
-					boolean addedIJ= false;
-					boolean addedJI= false;
-					// for each occurence of I in that sequence
-			loopIJ:	for(Short posI : occI.occurences){
-						// for each occurence of J in that sequence
-						for(Short posJ : occJ.occurences){
-							if(!posI.equals(posJ) && Math.abs(posI - posJ) <= windowSize){
-								if(posI <= posJ){
-									// if I is before J
-									tidsIJ.add(occI.sequenceID);
-									addedIJ = true;
-								}else{
-									// if J is before I
-									tidsJI.add(occI.sequenceID);
-									addedJI = true;
-								}
-								// if we have found that I is before J and J is before I
-								// we don't need to continue.
-								if(addedIJ && addedJI){
-									break loopIJ;
-								}
-							}
-						}
-					}
-				}
+                for (Occurence occI : occurencesI.values()) {
+                    // add the sequenceID to tidsI
+                    tidsI.add(occI.sequenceID);
+
+                    // if J does not appear in that sequence continue loop
+                    Occurence occJ = occurencesJ.get(occI.sequenceID);
+                    if (occJ == null) {
+                        continue;
+                    }
+
+                    // make a big loop to compare if I appears before
+                    // J in that sequence and
+                    // if J appears before I
+                    boolean addedIJ = false;
+                    boolean addedJI = false;
+                    // for each occurence of I in that sequence
+                    loopIJ:
+                    for (Short posI : occI.occurences) {
+                        // for each occurence of J in that sequence
+                        for (Short posJ : occJ.occurences) {
+                            if (!posI.equals(posJ) && Math.abs(posI - posJ) <= windowSize) {
+                                if (posI <= posJ) {
+                                    // if I is before J
+                                    tidsIJ.add(occI.sequenceID);
+                                    addedIJ = true;
+                                } else {
+                                    // if J is before I
+                                    tidsJI.add(occI.sequenceID);
+                                    addedJI = true;
+                                }
+                                // if we have found that I is before J and J is before I
+                                // we don't need to continue.
+                                if (addedIJ && addedJI) {
+                                    break loopIJ;
+                                }
+                            }
+                        }
+                    }
+                }
 				// END
 				
 				// (2) check if the two itemsets have enough common tids
@@ -297,14 +289,12 @@ public class AlgoTRuleGrowth_withStrings {
 
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I U {c} --> J. The method makes sure that:
+	 * with any item c. This results in rules of the form I Uï¿½{c} --> J. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
 	 * @param itemsetI the left side of a rule (see paper)
-	 * @param itemestJ the right side of a rule (see paper)
 	 * @param tidsI the tids set of I
-	 * @param tidsJ the tids set of J
 	 * @throws IOException  exception if error while writing output file
 	 */
     private void expandLeft(String[] itemsetI, String[] itemsetJ,
@@ -508,7 +498,6 @@ public class AlgoTRuleGrowth_withStrings {
 	 * This method removes elements out of the current window from a  hashmap containing
 	 * the position of items at the left of an itemset.
 	 *  key: item   value : a itemset position
-	 * @param mapMostLeftFromItemset  the map
 	 * @param lastElementOfWindow  the last itemset of the window in terms of itemset position
 	 *                             in the sequence.
 	 */
@@ -532,10 +521,7 @@ public class AlgoTRuleGrowth_withStrings {
 	 * This method removes elements out of the current window from a  hashmap containing
 	 * the position of items at the right of an itemset.
 	 *  key: item   value : a itemset position
-	 * @param mapMostLeftFromItemset  the map
-	 * @param lastElementOfWindow  the last itemset of the window in terms of itemset position
-	 *                             in the sequence.
-	 */
+     */
 	private void removeElementOutsideWindowER(
 			LinkedHashMap<String, Integer> mapMostRightfromI,
 			final int firstElementOfWindow) {
@@ -555,12 +541,11 @@ public class AlgoTRuleGrowth_withStrings {
     
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I --> J U {c}. The method makes sure that:
+	 * with any item c. This results in rules of the form I --> J Uï¿½{c}. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ after the first occurence of I
 	 *   - c is lexically bigger than all items in J
-	 * @param mapWindowsJI 
-	 * @throws IOException 
+	 * @throws IOException
 	 */
     private void expandRight(String[] itemsetI, String[] itemsetJ, 
 							Set<Integer> tidsI, 
@@ -742,7 +727,7 @@ public class AlgoTRuleGrowth_withStrings {
 	/**
 	 * This method calculate the frequency of each item in one database pass.
 	 * Then it remove all items that are not frequent.
-	 * @param database : a sequence database 
+	 * @param database : a sequence database
 	 * @return A map such that key = item
 	 *                         value = a map  where a key = tid  and a value = Occurence
 	 * This map allows knowing the frequency of each item and their first and last occurence in each sequence.
@@ -840,7 +825,7 @@ public class AlgoTRuleGrowth_withStrings {
 	 * @param item an item
 	 * @return true if the item appears in the itemset
 	 */
-	boolean contains(String[] itemset, String item) {
+    private boolean contains(String[] itemset, String item) {
 		// for each item in the itemset
 		for(int i=0; i<itemset.length; i++){
 			// if the item is found, return true
@@ -865,7 +850,7 @@ public class AlgoTRuleGrowth_withStrings {
 	 * @param itemset an itemset
 	 * @return true if the item is contained in the itemset
 	 */
-	boolean containsLEXPlus(String[] itemset, String item) {
+    private boolean containsLEXPlus(String[] itemset, String item) {
 		// for each item in itemset
 		for(int i=0; i< itemset.length; i++){
 			// check if the current item is equal to the one that is searched
@@ -890,7 +875,7 @@ public class AlgoTRuleGrowth_withStrings {
 	 * @param itemset an itemset
 	 * @return true if the item is contained in the itemset
 	 */
-	 boolean containsLEX(String[] itemset, String item) {
+    private boolean containsLEX(String[] itemset, String item) {
 		// for each item in itemset
 		for(int i=0; i< itemset.length; i++){
 			// check if the current item is equal to the one that is searched

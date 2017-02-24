@@ -25,7 +25,7 @@ import java.util.BitSet;
  * @see AlgoDCI_Closed_Optimized
  * @author Philippe Fournier-Viger
  */
-public class BitMatrix {
+class BitMatrix {
 
 	// Array containing the tidset of each item as a bitset.
 	// The position i represents the tidset of item i.

@@ -42,9 +42,9 @@ public class AlgoNaiveBayesClassifier {
     private PorterStemmer mStemmer;
     private String mOutputDirectory = "";
     private ArrayList<MemoryFile> mMemFiles = new ArrayList<MemoryFile>();
-    long mStartTimestamp = 0; // last execution start time
-    long mEndTimeStamp = 0; // last execution end time
-    HashMap<String, Integer> classProb;
+    private long mStartTimestamp = 0; // last execution start time
+    private long mEndTimeStamp = 0; // last execution end time
+    private HashMap<String, Integer> classProb;
 
     /**
      *
@@ -87,7 +87,7 @@ public class AlgoNaiveBayesClassifier {
             totalTrainingFiles++;
         }
 
-        if (mInMemoryFlag == true) {
+        if (mInMemoryFlag) {
             System.out.println("Loading Data in to memory.... May take a while depending upon the size of the data");
             loadIntoMemory();
         }
@@ -103,7 +103,7 @@ public class AlgoNaiveBayesClassifier {
                     if (getFromExistingProbability(word, op, currentClass) != 0.0) {
                         termProbInClass = getFromExistingProbability(word, op, currentClass);
                     } else {
-                        if (mInMemoryFlag == true)
+                        if (mInMemoryFlag)
                             termProbInClass = calculateProbabilityInMemory(word, op, currentClass);
                         else
                             termProbInClass = calculateProbability(word, op, currentClass);
@@ -232,7 +232,7 @@ public class AlgoNaiveBayesClassifier {
      * @param className
      * @return the cached probabilities
      */
-    public double getFromExistingProbability(String word, ArrayList<OccurrenceProbabilties> probabilties, String className) {
+    private double getFromExistingProbability(String word, ArrayList<OccurrenceProbabilties> probabilties, String className) {
         double value = 0.0;
         for (OccurrenceProbabilties op : probabilties) {
             if (op.getClassName().equals(className)) {
@@ -253,7 +253,7 @@ public class AlgoNaiveBayesClassifier {
      * @param f
      * @return
      */
-    public TestRecord readOneTestFile(File f) throws Exception {
+    private TestRecord readOneTestFile(File f) throws Exception {
         TestRecord record = new TestRecord();
         String currentLine;
         ArrayList<String> words = new ArrayList<String>();

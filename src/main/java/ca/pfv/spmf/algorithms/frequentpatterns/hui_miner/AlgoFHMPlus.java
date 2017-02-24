@@ -56,50 +56,50 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoFHMPlus {
 	
 	/** the time at which the algorithm started */
-	public long startTimestamp = 0;  
+    private long startTimestamp = 0;
 	
 	/** the time at which the algorithm ended */
-	public long endTimestamp = 0; 
+    private long endTimestamp = 0;
 	
 	/** the number of high-utility itemsets generated */
-	public int huiCount =0; 
+    private int huiCount =0;
 	
 	/** the number of candidate high-utility itemsets */
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Long> mapItemToTWU;
+    private Map<Integer, Long> mapItemToTWU;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** The eucs structure:  key: item   key: another item   value: twu */
-	Map<Integer, Map<Integer, Long>> mapFMAP;  
+    private Map<Integer, Map<Integer, Long>> mapFMAP;
 	
 	/** enable LA-prune strategy  */
-	boolean ENABLE_LA_PRUNE = true;
+    private boolean ENABLE_LA_PRUNE = true;
 	
 	/** variable for debug mode */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** the total execution time **/
-	public double totalExecutionTime = 0;
+    private double totalExecutionTime = 0;
 	
 	/** the maximumMemoryUsage **/
-	public double maximumMemoryUsage = 0;
+    private double maximumMemoryUsage = 0;
 	
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 
 	/** enable LA-prune strategy  */
-	boolean ENABLE_NEW_CONSTRUCT = true;
+    private boolean ENABLE_NEW_CONSTRUCT = true;
 	
 	/** this variable indicate to use the alphabetical order instead of the ascending order of RTWU */
-	boolean USE_ALPHABETICAL_ORDER = true;
+    private boolean USE_ALPHABETICAL_ORDER = true;
 
 
 	/// =================== BEGIN FHM-PLUS ===================
@@ -110,7 +110,7 @@ public class AlgoFHMPlus {
 	private int minimumLength = 1;
 	
 	/** the size of a buffer for storing a transaction */
-	final int TRANSACTION_BUFFER = 3000;
+	private final int TRANSACTION_BUFFER = 3000;
 	/** a buffer for storing utility values */
 	private int[] utilitiesBuffer = new int[TRANSACTION_BUFFER];
 	/** a buffer for storing pairs of the form (item, utility), in a transaction */
@@ -168,7 +168,7 @@ public class AlgoFHMPlus {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -265,7 +265,7 @@ public class AlgoFHMPlus {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -433,7 +433,7 @@ public class AlgoFHMPlus {
 	 */
 	private int compareItems(int item1, int item2) {
 		// if we use the ascending order of RTWU as total order on items
-		if(USE_ALPHABETICAL_ORDER == false){
+		if(!USE_ALPHABETICAL_ORDER){
 			int compare = (int)( mapItemToTWU.get(item1) - mapItemToTWU.get(item2));
 			// if the same, use the lexical order otherwise use the TWU
 			return (compare == 0)? item1 - item2 :  compare;
@@ -706,8 +706,6 @@ public class AlgoFHMPlus {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */

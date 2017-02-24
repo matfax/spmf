@@ -31,10 +31,10 @@ import java.util.List;
  * @see ItemsetUApriori
  * @author Philippe Fournier-Viger
  */
-public class ItemsetsUApriori {
+class ItemsetsUApriori {
 	// A list containing itemsets ordered by size
 	// Level i contains itemsets of size i
-	private final List<List<ItemsetUApriori>> levels = new ArrayList<List<ItemsetUApriori>>();  // itemset classé par taille
+	private final List<List<ItemsetUApriori>> levels = new ArrayList<List<ItemsetUApriori>>();  // itemset classï¿½ par taille
 	
 	// The number of itemsets 
 	private int itemsetsCount=0;

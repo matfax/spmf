@@ -25,7 +25,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @author Philippe Fournier-Viger 2015
  * @see AlgoCORI
  */
-public class ItemsetCORI extends Itemset{
+class ItemsetCORI extends Itemset{
 	/**  the bond of this itemset */
 	public double bond = 0; 
 
@@ -48,8 +48,7 @@ public class ItemsetCORI extends Itemset{
 
 	/**
 	 * Set the support of this itemset
-	 * @param support the support
-	 */
+     */
 	public void setBond(Integer bond) {
 		this.bond = bond;
 	}

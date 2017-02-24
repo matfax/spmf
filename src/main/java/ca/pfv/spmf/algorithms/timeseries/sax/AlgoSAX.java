@@ -41,27 +41,27 @@ import java.util.List;
 public class AlgoSAX {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 	
 	/** The symbols created for the last converted time series */
-	SAXSymbol[] symbols;
+    private SAXSymbol[] symbols;
 	
 	/** the last symbol that was used (to make sure that we don't give the same symbol to several time series **/
-	int lastSymbol = 0;
+    private int lastSymbol = 0;
 	
 	/** the number of time series that was processed during the last execution of the algorithm **/
-	int timeSeriesCount = 0;
+    private int timeSeriesCount = 0;
 	
 	/** the minimum number of symbols allowed by this sax implementation*/
-	public static final int MIN_NUMBER_OF_SYMBOLS = 2;
+	private static final int MIN_NUMBER_OF_SYMBOLS = 2;
 	
 	/** the maximum number of symbols allowed by this sax implementation*/
-	public static final int MAX_NUMBER_OF_SYMBOLS = 30;
+	private static final int MAX_NUMBER_OF_SYMBOLS = 30;
 		
 	/**
 	 * Default constructor
@@ -78,7 +78,7 @@ public class AlgoSAX {
 	 * @return the sax representation of the time series (an array of Symbol objects)
 	 * @throws IOException exception if error while writing the file
 	 */
-	public SAXSymbol[] runAlgorithm(TimeSeries timeSeries, int numberOfSegments, int numberOfSymbols, boolean deactivatePAA) throws IOException {
+	public SAXSymbol[] runAlgorithm(TimeSeries timeSeries, int numberOfSegments, int numberOfSymbols, boolean deactivatePAA) {
 		// check some error for parameters
 		if(timeSeries.data.length < numberOfSegments){
 			throw new IllegalArgumentException(" The number of segments should be less than or equal to the number of data points in the time series");
@@ -184,7 +184,7 @@ public class AlgoSAX {
 	 * @throws IOException exception if error while writing the file
 	 */
 	public SAXSymbol[][] runAlgorithm(List<TimeSeries> multipleTimeSeries, int numberOfSegments,
-			int numberOfSymbols, boolean deactivatePAA) throws IOException {
+			int numberOfSymbols, boolean deactivatePAA) {
 			
 			// check some error for parameters
 			if(numberOfSegments < 2){

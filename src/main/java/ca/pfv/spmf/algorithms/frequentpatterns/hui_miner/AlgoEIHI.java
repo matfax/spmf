@@ -45,37 +45,37 @@ import java.util.Map;
 public class AlgoEIHI {
 
 	/** the maximum memory usage */
-	public double maxMemory = 0;    
+    private double maxMemory = 0;
 	/** the time the algorithm started */
-	public long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	public long endTimestamp = 0;   
+    private long endTimestamp = 0;
 	/**  the number of HUI generated */
-	public int huiCount =0;  
+    private int huiCount =0;
 	
 	/** Store the total times for all runs of this algorithm */
-	public long totalTimeForAllRuns = 0;
+    private long totalTimeForAllRuns = 0;
 	/** The number of candidates processed by the algorithm  for all updates (runs)*/
-	public int totalCandidateCountForAllRuns = 0;
+    private int totalCandidateCountForAllRuns = 0;
 	
 	/** The number of transactions processed until now by the algorithm */
-	public int transactionCount;
+    private int transactionCount;
 	
-	public int candidateCount =0;
+	private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	/** During first database, the item are sorted by TWU.... Then we keep this ordering
 	* in the following map because if the ordering change in an updated database,
 	*  then the result may be incorrect. */
-	Map<Integer, Integer> mapItemToRank;
+    private Map<Integer, Integer> mapItemToRank;
 	
 
 	/** The EUCS structure, as described in the FHM paper
 	 * It stores pairs of items and their coresponding TWU.
 	 */
-	Map<Integer, Map<Integer, Integer>> mapEUCS; 
+    private Map<Integer, Map<Integer, Integer>> mapEUCS;
 	
 	/** If this variable is set to true, this algorithm will show debuging information 
 	 * in the console
@@ -86,23 +86,23 @@ public class AlgoEIHI {
 	private Map<Integer, UtilityListEIHI> mapItemToUtilityList;
 
 	/** This is a list of all utility-lists of single items */
-	List<UtilityListEIHI> listOfUtilityLists;
+    private List<UtilityListEIHI> listOfUtilityLists;
 
 	/** This is the total utility of all transactions */
-	int totalDBUtility = 0;
+    private int totalDBUtility = 0;
 	
 	/** The minimum utility threshold */
-	int minUtility;
+    private int minUtility;
 	
 	/** The first line to be read from the input file*/
-	int firstLine;
+    private int firstLine;
 	
 	/** A buffer for storing the current itemset that is mined when performing mining
 	*  the idea is to always reuse the same buffer to reduce memory usage.
 	**/
 	private int[] itemsetBuffer = null;
 	/** The initial buffer size */
-	final int BUFFERS_SIZE = 400;
+	private final int BUFFERS_SIZE = 400;
 	
 	/** this class represent an item and its utility in a transaction */
 	class Pair{
@@ -128,7 +128,7 @@ public class AlgoEIHI {
 	/** This is the list of child of the root node in the trie. Actually the root
 	 * node is not represented.
 	 */
-	List<Node> singleItemsNodes;
+    private List<Node> singleItemsNodes;
 	
 	/**
 	 * This class is a node of the HUI-Trie.
@@ -172,10 +172,9 @@ public class AlgoEIHI {
 	
 	/**
 	 * This is a helper method to count the number of HUIs stored in the HUI-trie structure.
-	 * @param  a list of nodes to explore in a depth-first search way to count the HUIs.
 	 * @return the number of HUIs.
 	 */
-	public int getRealHUICount(List<Node> list) {
+    private int getRealHUICount(List<Node> list) {
 		int count = 0;
 		// for each node
 		for(Node node : list) {
@@ -203,10 +202,8 @@ public class AlgoEIHI {
 	/**
 	 * Recursive method to print all HUIs stored in the trie to the console.
 	 * @param list a list of nodes to explore in a depth-first search way
-	 * @param the current prefix, which is the concatenation of all items in the current
-	 * branch of the tree.
-	 */
-	public void printHUIs(List<Node> list, String prefix) {
+     */
+    private void printHUIs(List<Node> list, String prefix) {
 		// for each node
 		for(Node node : list) {
 			// append the item of that node to the prefix
@@ -241,11 +238,9 @@ public class AlgoEIHI {
 	 * Helper method to Write HUIs found to a file (a recursive method)
 	 * @param writer writer object to write HUIs to file
 	 * @param list a list of nodes to explore in a depth-first search way
-	 * @param the current prefix, which is the concatenation of all items in the current
-	 * branch of the tree.
 	 * @throws IOException  if error writing to output file
 	 */
-	public void writeHUIsToFile(List<Node> list, String prefix, BufferedWriter writer) throws IOException {
+    private void writeHUIsToFile(List<Node> list, String prefix, BufferedWriter writer) throws IOException {
 
 		// for each node
 		for(Node node : list) {
@@ -275,10 +270,8 @@ public class AlgoEIHI {
 	/**
 	 * Recursive method to print the trie to the console
 	 * @param list a list of nodes to explore in a depth-first search way
-	 * @param an indentation consisting of a set of tabulations to indent the branches of the
-	 *  tree in the console.
-	 */
-	public void printTrie(List<Node> list, String indent) {
+     */
+    private void printTrie(List<Node> list, String indent) {
 		// for each node
 		for(Node node : list) {
 			// append the item 
@@ -295,7 +288,7 @@ public class AlgoEIHI {
 	 * @param list the list of child nodes
 	 * @return true if at least one of the nodes is part of a HUI
 	 */
-	public boolean purgeTrie(List<Node> list) {
+    private boolean purgeTrie(List<Node> list) {
 //		return true;
 		boolean hasChildInHUI = false;
 		Iterator<Node> iter = list.iterator();
@@ -305,7 +298,7 @@ public class AlgoEIHI {
 				hasChildInHUI = true;
 			}else {
 				boolean nodeHasChildInAHUI = purgeTrie(node.childs);
-				if(nodeHasChildInAHUI == false) {
+				if(!nodeHasChildInAHUI) {
 					iter.remove();
 				}else {
 					hasChildInHUI = true;
@@ -323,7 +316,7 @@ public class AlgoEIHI {
 	 * @param utility the utility of the HUI
 	 * @param prefixLength The current prefix length
 	 */
-	public void insertHUIinTrie(int prefix[], int prefixLength, int lastitem, int utility) {
+    private void insertHUIinTrie(int prefix[], int prefixLength, int lastitem, int utility) {
 		List<Node> listNodes = singleItemsNodes;
 		Node currentNode = null;
 
@@ -360,9 +353,9 @@ public class AlgoEIHI {
 	
 	// NOTE : This variable used by the binary search has been made global so that we can insert a new node
 	// at the position where it should be in a list of nodes
-	int middle = -1;
+    private int middle = -1;
 	
-	public Node binarySearchForItem(List<Node> list, int item) {
+	private Node binarySearchForItem(List<Node> list, int item) {
 		middle = 0;
 		// perform a binary search to check if the item is here
         int first = 0;
@@ -404,9 +397,6 @@ public class AlgoEIHI {
 	/**
 	 * Run the algorithm
 	 * @param input the input file path
-	 * @param minUtility the minimum utility threshold
-	 * @param firstline the first line to be read
-	 * @param lastline the last line to be read
 	 * @throws IOException exception if error while writing the file
 	 */
 	public void runAlgorithm(String input, Integer minUtil, int firstLine, int lastLine) throws IOException {
@@ -467,7 +457,7 @@ public class AlgoEIHI {
 				if(tid >= firstLine){
 					// if the line is  a comment, is  empty or is a
 					// kind of metadata
-					if (thisLine.isEmpty() == true ||
+					if (thisLine.isEmpty() ||
 							thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%' || thisLine.charAt(0) == '@') {
 						continue;
 					}
@@ -542,7 +532,7 @@ public class AlgoEIHI {
 			while ((thisLine = myInput.readLine()) != null && tid < lastLine) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -679,12 +669,10 @@ public class AlgoEIHI {
 	 * @param prefix  This is the current prefix. Initially, it is empty.
 	 * @param pUL This is the Utility List of the prefix. Initially, it is empty.
 	 * @param ULs The utility lists corresponding to each extension of the prefix.
-	 * @param minUtility The minUtility threshold.
 	 * @param prefixLength The current prefix length
 	 * @throws IOException
 	 */
-	private void incFHM(int [] prefix, int prefixLength, UtilityListEIHI pUL, List<UtilityListEIHI> ULs)
-			throws IOException {
+	private void incFHM(int [] prefix, int prefixLength, UtilityListEIHI pUL, List<UtilityListEIHI> ULs) {
 		
 		// For each extension X of prefix P
  		for(int i=0; i< ULs.size(); i++){
@@ -869,7 +857,6 @@ public class AlgoEIHI {
 	
 	/**
 	 * Do a binary search to find the element with a given tid in a utility list
-	 * @param ulist the utility list
 	 * @param tid  the tid
 	 * @return  the element or null if none has the tid.
 	 */
@@ -915,7 +902,7 @@ public class AlgoEIHI {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 		System.out.println("=============  EIHI ALGORITHM - SPMF 0.97e - STATS =============");
 		System.out.println(" Number of transactions processed " + transactionCount);
 		System.out.println(" Execution time ~ "                  + (endTimestamp - startTimestamp) + " ms");

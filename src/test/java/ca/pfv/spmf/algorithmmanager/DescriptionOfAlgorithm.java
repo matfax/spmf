@@ -42,8 +42,6 @@ public abstract class DescriptionOfAlgorithm {
 	/**
 	 * Run the algorithm
 	 * 
-	 * @param algorithmName
-	 *            the name of the algorithm
 	 * @param inputFile
 	 *            the input file for the algorithm
 	 * @param outputFile
@@ -139,7 +137,6 @@ public abstract class DescriptionOfAlgorithm {
 	/**
 	 * Check if a given value would be of the correct type as the i-th parameter value of this
 	 * algorithm.
-	 * @param string the value as a string
 	 * @param i the parameter number
 	 * @return true if it is of the correct type. Otherwise, false
 	 */

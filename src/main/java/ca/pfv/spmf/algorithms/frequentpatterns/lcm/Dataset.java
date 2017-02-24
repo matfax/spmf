@@ -44,7 +44,7 @@ public class Dataset {
         String items;
         while((items = br.readLine()) != null) { // iterate over the lines to build the transaction
 			// if the line is  a comment, is  empty or is  metadata
-			if (items.isEmpty() == true || items.charAt(0) == '#' 
+			if (items.isEmpty() || items.charAt(0) == '#'
 					|| items.charAt(0) == '%' || items.charAt(0) == '@') {
 				continue;
 			}

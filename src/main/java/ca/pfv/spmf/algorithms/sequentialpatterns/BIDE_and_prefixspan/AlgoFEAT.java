@@ -1,21 +1,15 @@
 package ca.pfv.spmf.algorithms.sequentialpatterns.BIDE_and_prefixspan;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /*** 
@@ -44,11 +38,11 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoFEAT{
 		
 	// for statistics
-	long startTime;
-	long endTime;
+    private long startTime;
+	private long endTime;
 
 	// relative minimum support
-	public int minsuppRelative;
+    private int minsuppRelative;
 	
 	// The set of all sequential patterns that are found 
 	private List<SequentialPattern> generators = null;
@@ -57,19 +51,19 @@ public class AlgoFEAT{
 	private int maximumPatternLength = Integer.MAX_VALUE;
 	
 	//number of prefix pruned
-	public int prefixPrunedCount = 0;
+    private int prefixPrunedCount = 0;
 	
 	// if enabled, the result will be verified to see if some patterns found are not generators.
-	boolean DEBUG_MODE = false;  	
+    private boolean DEBUG_MODE = false;
 	
 	// the initial database after removing infrequent items
-	List<PseudoSequence> initialDatabase = null;
+    private List<PseudoSequence> initialDatabase = null;
 
 //	// indicate if the pruning will be activated or not
-	boolean performPruning = true;
+private boolean performPruning = true;
 	
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+    private boolean showSequenceIdentifiers = false;
 	
 	/**
 	 * Default constructor
@@ -144,13 +138,10 @@ public class AlgoFEAT{
 	/**
 	 * Run the algorithm
 	 * @param database : a sequence database
-	 * @param minsupPercent  :  the minimum support as an integer
-	 * @param outputFilePath : the path of the output file to save the result
-	 *                         or null if you want the result to be saved into memory
-	 * @return return the result, if saved into memory, otherwise null 
+	 * @return return the result, if saved into memory, otherwise null
 	 * @throws IOException  exception if error while writing the file
 	 */
-	public List<SequentialPattern> runAlgorithm(SequenceDatabase database,  int minsup) throws IOException {
+	public List<SequentialPattern> runAlgorithm(SequenceDatabase database, int minsup) throws IOException {
     	if(DEBUG_MODE){
     		System.out.println(" %%%%%%%%%%  DEBUG MODE %%%%%%%%%%");
     	}
@@ -176,7 +167,7 @@ public class AlgoFEAT{
 	 * Note that this method does not count the empty sequence.
 	 * @return the number of generators.
 	 */
-	public long getPatternCount() {
+    private long getPatternCount() {
 		return generators.size();  // for the empty sequence
 	}
 
@@ -188,7 +179,7 @@ public class AlgoFEAT{
      * @param pattern2 another sequential pattern of larger size
 	 * @return true if the pattern1 contains pattern2.
 	 */
-	boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
+    private boolean strictlyContains(SequentialPattern pattern1, SequentialPattern pattern2) {
 		// To see if pattern2 is strictly contained in pattern1,
 		// we will search for each itemset i of pattern2 in pattern1 by advancing
 		// in pattern 1 one itemset at a time.
@@ -229,8 +220,6 @@ public class AlgoFEAT{
 	/**
 	 * This is the main method for the PrefixSpan algorithm that is called
 	 * to start the algorithm
-	 * @param outputFilePath  an output file path if the result should be saved to a file
-	 *                        or null if the result should be saved to memory.
 	 * @param database a sequence database
 	 * @throws IOException exception if an error while writing the output file
 	 */
@@ -297,7 +286,7 @@ public class AlgoFEAT{
 				
 				// We make a recursive call to try to find larger sequential
 				// patterns starting with this prefix
-				if((performPruning == false || !canPrune) && maximumPatternLength >1){
+				if((!performPruning || !canPrune) && maximumPatternLength >1){
 					featRecursion(prefix, projectedDatabase, 2); 
 				}else {
 					prefixPrunedCount++;
@@ -338,7 +327,7 @@ public class AlgoFEAT{
 	 * @param prefix the pattern to be saved.
 	 * @throws IOException exception if error while writing the output file.
 	 */
-	private void savePattern(SequentialPattern prefix) throws IOException {
+	private void savePattern(SequentialPattern prefix) {
 		// increase the number of pattern found for statistics purposes
 		generators.add(prefix);
 	}
@@ -440,7 +429,7 @@ public class AlgoFEAT{
 		// for each sequence in the database received as parameter
 		for(PseudoSequence sequence : database){ 
 			
-			if(sidset.contains(sequence.getId()) == false){
+			if(!sidset.contains(sequence.getId())){
 				continue;
 			}
 			
@@ -496,7 +485,7 @@ public class AlgoFEAT{
 	 * @param k  the prefix length in terms of items
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
-	private void featRecursion(SequentialPattern prefix, List<PseudoSequence> database, int k) throws IOException {	
+	private void featRecursion(SequentialPattern prefix, List<PseudoSequence> database, int k) {
 		// find frequent items of size 1 in the current projected database.
 		Set<Pair> pairs = findAllFrequentPairs(database);
 	
@@ -551,7 +540,7 @@ public class AlgoFEAT{
 					savePattern(newPrefix); 
 				}
 				
-				if((performPruning == false || !canPrune)  && k < maximumPatternLength){
+				if((!performPruning || !canPrune)  && k < maximumPatternLength){
 					featRecursion(newPrefix, projectedDatabase.newSequences, k+1);
 				}else {
 					prefixPrunedCount++;
@@ -632,7 +621,7 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 						localCanPrune = false;
 						// Then, if we know that the prefix is not a generator, then we don't
 						// need to count the support of prefix without i, so we break
-						if(isGenerator == false) {
+						if(!isGenerator) {
 							break;
 						}else if(supCount + seqRemaining < newPrefix.getAbsoluteSupport()){
 							// this means that the support of prefix without i cannot
@@ -643,11 +632,11 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 					
 				}
 				// if the projections are the same for all sequences
-				if(localCanPrune == true) {
+				if(localCanPrune) {
 					canPrune = true;
 					// if we have established that we can prune and this is not a generator, we
 					// don't need to continue this loop
-					if(canPrune == true && isGenerator == false) {
+					if(canPrune && !isGenerator) {
 						break loop;
 					}
 				}
@@ -669,9 +658,7 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 	/**
 	 * Check if two prefix have the same projection for a given sequence.
 	 * @param originalSequence  the sequence
-	 * @param newPrefix  the original prefix    e1 e2 ... ei-1 ei ei+1...ej... en
 	 * @param i   the item that should be ignored to generate the second prefix  e1 e2 ... ei-1  ei+1... ej
-	 * @param j   the last item that should be considered for the first prefix  e1  e2 ...  ej
 	 * @return true if they have the same projection,  false if not and null if the prefix without i
 	 *   is not contained in the sequence
 	 */
@@ -845,7 +832,7 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
+    private Set<Pair> findAllFrequentPairs(List<PseudoSequence> sequences){
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPairs = new HashMap<Pair, Pair>();
 		// for each sequence

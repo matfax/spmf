@@ -35,7 +35,7 @@ import java.util.Map;
  * @see MISNode
  * @author Azadeh Soltani
  */
-public class MISTree {
+class MISTree {
 	// List of items in the header table
 	List<Integer> headerList = null;
 	// List of pairs (item, node) of the header table
@@ -46,7 +46,7 @@ public class MISTree {
 
 	// Map that indicates the last node for each item using the node links
 	// key: item   value: an fp tree node
-	Map<Integer, MISNode> mapItemLastNode = new HashMap<Integer, MISNode>();
+    private Map<Integer, MISNode> mapItemLastNode = new HashMap<Integer, MISNode>();
 	
 	// root of the tree
 	MISNode root = new MISNode(); // null node
@@ -267,7 +267,7 @@ public class MISTree {
 	 * Print a MIS tree to System.out (recursive method)
 	 * @param TRoot the root of the subtree to be printed.
 	 */
-	public void print(MISNode TRoot) {
+    private void print(MISNode TRoot) {
 		// char a[]={'z','a','b','c','d','e','f','g','h'};
 		// prefix print
 		if (TRoot.itemID != -1)

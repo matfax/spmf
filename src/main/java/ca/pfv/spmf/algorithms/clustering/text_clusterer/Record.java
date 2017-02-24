@@ -20,10 +20,10 @@ package ca.pfv.spmf.algorithms.clustering.text_clusterer;
  * @author Sabarish Raghu
  *
  */
-public class Record {
-public int recordId; //record/Attribute Id in the input file
-String attribute;	//the text record in the input file
-public double[] tfVector;
+class Record {
+private int recordId; //record/Attribute Id in the input file
+private String attribute;	//the text record in the input file
+private double[] tfVector;
 public int getRecordId() {
 	return recordId;
 }

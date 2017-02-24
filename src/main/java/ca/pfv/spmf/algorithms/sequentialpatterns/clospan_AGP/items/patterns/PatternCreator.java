@@ -70,7 +70,7 @@ public class PatternCreator {
      * @param pair the pair to be used to create the pattern
      * @return  the created pattern
      */
-    public Pattern createPattern(ItemAbstractionPair pair) {
+    private Pattern createPattern(ItemAbstractionPair pair) {
         List<ItemAbstractionPair> elements = new ArrayList<ItemAbstractionPair>();
         elements.add(pair);
         return createPattern(elements);

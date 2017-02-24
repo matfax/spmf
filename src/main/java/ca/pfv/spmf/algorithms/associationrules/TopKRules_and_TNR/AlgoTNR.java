@@ -39,33 +39,33 @@ import java.util.Map.Entry;
 public class AlgoTNR {
 
     // for statistics
-    long timeStart = 0;  // start time of last execution
-    long timeEnd = 0;   // end time of last execution
+    private long timeStart = 0;  // start time of last execution
+    private long timeEnd = 0;   // end time of last execution
 
     // the maximum number of candidates at the same time during the last execution
-    int maxCandidateCount = 0;
-    int notAdded = 0;  // rules eliminated by strategy 1
-    int totalremovedCount = 0; // rules eliminated by strategy 2
+    private int maxCandidateCount = 0;
+    private int notAdded = 0;  // rules eliminated by strategy 1
+    private int totalremovedCount = 0; // rules eliminated by strategy 2
 
-    long totalCandidatesConsideredFromR = 0;  // the total number of candidates processed
-    long totalRules11considered = 0;  // the total number of rules with only two items considered
+    private long totalCandidatesConsideredFromR = 0;  // the total number of candidates processed
+    private long totalRules11considered = 0;  // the total number of rules with only two items considered
 
     // Parameters
-    double minConfidence;  // minimum confidence threshold
-    int initialK = 0;     // the value of k set by the user
-    Database database;    // the transaction database
-    int delta = 0;        // the delta parameter
+    private double minConfidence;  // minimum confidence threshold
+    private int initialK = 0;     // the value of k set by the user
+    private Database database;    // the transaction database
+    private int delta = 0;        // the delta parameter
 
     // Internal variables
-    RedBlackTree<RuleG> kRules;  // the top k rules found until now
-    RedBlackTree<RuleG> candidates;  // the candidates for expansion
-    int k = 0;              // will contain k + delta
-    int minsuppRelative;   // minimum support threshold that will be raised dynamically
+    private RedBlackTree<RuleG> kRules;  // the top k rules found until now
+    private RedBlackTree<RuleG> candidates;  // the candidates for expansion
+    private int k = 0;              // will contain k + delta
+    private int minsuppRelative;   // minimum support threshold that will be raised dynamically
 
     // a vertical representation of the database
-    BitSet[] tableItemTids; // [item], IDs of transaction containing the item
+    private BitSet[] tableItemTids; // [item], IDs of transaction containing the item
     // a table indicating the support of each item
-    int[] tableItemCount; // [item], support
+    private int[] tableItemCount; // [item], support
 
     /**
      * Default constructor
@@ -138,23 +138,21 @@ public class AlgoTNR {
     private void start() {
 
         // for each item I in the database
-        main:
         for (int itemI = 0; itemI <= database.maxItem; itemI++) {
             // if the item is not frequent according to the current
             // minsup threshold, then skip it
             if (tableItemCount[itemI] < minsuppRelative) {
-                continue main;
+                continue;
             }
             // Get the bitset corresponding to item I
             BitSet tidsI = tableItemTids[itemI];
 
             // for each item J in the database
-            main2:
             for (int itemJ = itemI + 1; itemJ <= database.maxItem; itemJ++) {
                 // if the item is not frequent according to the current
                 // minsup threshold, then skip it
                 if (tableItemCount[itemJ] < minsuppRelative) {
-                    continue main2;
+                    continue;
                 }
                 // Get the bitset corresponding to item J
                 BitSet tidsJ = tableItemTids[itemJ];

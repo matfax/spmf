@@ -46,27 +46,27 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoTopKRules {
 	
 	// for statistics
-	long timeStart = 0;  // start time of last execution
-	long timeEnd = 0;  // end time of last execution
+	private long timeStart = 0;  // start time of last execution
+	private long timeEnd = 0;  // end time of last execution
 
 	// parameters
-	double minConfidence; // minconf threshold
-	int k = 0;            // variable k
-	Database database;   // a transaction database
+	private double minConfidence; // minconf threshold
+	private int k = 0;            // variable k
+	private Database database;   // a transaction database
 
 	// minimum support that will be reased during the search
-	int minsuppRelative;
+	private int minsuppRelative;
 	
 	// a vertical representation of the database
-	BitSet[] tableItemTids; // [item], IDs of transaction containing the item
+	private BitSet[] tableItemTids; // [item], IDs of transaction containing the item
 	// a table indicating the support of each item
-	int[] tableItemCount; // [item], support
+	private int[] tableItemCount; // [item], support
 	
-	PriorityQueue<RuleG> kRules; // the top k rules found until now
-	PriorityQueue<RuleG> candidates; // the candidates for expansion
+	private PriorityQueue<RuleG> kRules; // the top k rules found until now
+	private PriorityQueue<RuleG> candidates; // the candidates for expansion
 
 	// the maximum number of candidates at the same time during the last execution
-	int maxCandidateCount = 0;
+	private int maxCandidateCount = 0;
 
 	/**
 	 * Default constructor
@@ -124,21 +124,21 @@ public class AlgoTopKRules {
 		// frequent items.
 		
 		// for each item I in the database
-		main: for (int itemI = 0; itemI <= database.maxItem; itemI++) {
+		for (int itemI = 0; itemI <= database.maxItem; itemI++) {
 			// if the item is not frequent according to the current
 			// minsup threshold, then skip it
 			if (tableItemCount[itemI] < minsuppRelative) {
-				continue main;
+				continue;
 			}
 			// Get the bitset corresponding to item I
 			BitSet tidsI = tableItemTids[itemI];
 
 			// for each item J in the database
-			main2: for (int itemJ = itemI + 1; itemJ <= database.maxItem; itemJ++) {
+			for (int itemJ = itemI + 1; itemJ <= database.maxItem; itemJ++) {
 				// if the item is not frequent according to the current
 				// minsup threshold, then skip it
 				if (tableItemCount[itemJ] < minsuppRelative) {
-					continue main2;
+					continue;
 				}
 				// Get the bitset corresponding to item J
 				BitSet tidsJ = tableItemTids[itemJ];
@@ -151,7 +151,7 @@ public class AlgoTopKRules {
 				// We keep the cardinality of the new bitset because in java
 				// the cardinality() method is expensive, and we will need it again later.
 				int support = commonTids.cardinality();
-				
+
 				// If the rules I ==> J and J ==> I have enough support
 				if (support >= minsuppRelative) {
 					// generate  rules I ==> J and J ==> I and remember these rules
@@ -191,10 +191,6 @@ public class AlgoTopKRules {
 	/**
 	 * This method test the rules I ==> J and J ==> I  for their confidence
 	 * and record them for future expansions.
-	 * @param itemI an item I
-	 * @param tidI  the set of IDs of transaction containing  item I (BitSet)
-	 * @param itemJ an item J
-	 * @param tidJ  the set of IDs of transaction containing  item J (BitSet)
 	 * @param commonTids  the set of IDs of transaction containing I and J (BitSet)
 	 * @param cardinality  the cardinality of "commonTids"
 	 */

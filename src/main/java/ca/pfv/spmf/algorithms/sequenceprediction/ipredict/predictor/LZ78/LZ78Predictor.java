@@ -54,7 +54,7 @@ public class LZ78Predictor extends Predictor {
 	}
 
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		//TODO: [Reduce spatial size] Implement the mDictionary with a String hash instead of a List<Integer>, see AllKOrderMarkov.
 		mDictionary = new HashMap<List<Integer>, LZNode>();
@@ -114,9 +114,8 @@ public class LZ78Predictor extends Predictor {
 				offset++;
 			}
 		}
-		
-		return true;
-	}
+
+    }
 
 	@Override
 	public Sequence Predict(Sequence target) {

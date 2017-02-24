@@ -29,7 +29,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators
  * 
  * @author agomariz
  */
-public class RemoveStatics {
+class RemoveStatics {
 
     public static void clear() {
         ItemAbstractionPairCreator.sclear();

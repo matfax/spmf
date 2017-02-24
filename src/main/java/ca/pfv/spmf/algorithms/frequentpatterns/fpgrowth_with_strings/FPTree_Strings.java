@@ -36,7 +36,7 @@ import java.util.Map;
  * @see AlgoFPGrowth_Strings
  * @author Philippe Fournier-Viger
  */
-public class FPTree_Strings {
+class FPTree_Strings {
 	// List of items in the header table
 	List<String> headerList = null;
 	// List of pairs (item, frequency) of the header table
@@ -47,7 +47,7 @@ public class FPTree_Strings {
 
 	// Map that indicates the last node for each item using the node links
 	// key: item   value: an fp tree node
-	Map<String, FPNode_Strings> mapItemLastNode = new HashMap<String, FPNode_Strings>();
+    private Map<String, FPNode_Strings> mapItemLastNode = new HashMap<String, FPNode_Strings>();
 	
 	// root of the tree
 	FPNode_Strings root = new FPNode_Strings(); // null node

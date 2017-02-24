@@ -26,7 +26,7 @@ package ca.pfv.spmf.patterns.cluster;
 public class ClusterWithMean extends Cluster {
 	private DoubleArray mean;  // the mean of the vectors in this cluster
 	
-	DoubleArray sum; // the sum of all vectors in this clusters 
+	private DoubleArray sum; // the sum of all vectors in this clusters
 	// (used to calculate the mean efficiently)
 	
 	/**

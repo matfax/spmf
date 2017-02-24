@@ -18,7 +18,6 @@ package ca.pfv.spmf.algorithms.frequentpatterns.pascal;
  */
 
 import ca.pfv.spmf.algorithms.ArraysAlgos;
-import ca.pfv.spmf.algorithms.frequentpatterns.apriori_HT.ItemsetHashTree;
 import ca.pfv.spmf.tools.MemoryLogger;
 
 import java.io.*;
@@ -51,13 +50,13 @@ import java.util.Map.Entry;
 public class AlgoPASCAL {
 
 	// the maximul level reached by Apriori
-	protected int k;
+    private int k;
 
 	// For statistics
-	protected int totalCandidateCount = 0; // total number of candidates
+    private int totalCandidateCount = 0; // total number of candidates
 											// generated
-	protected long startTimestamp; // start time
-	protected long endTimestamp; // end time
+                                            private long startTimestamp; // start time
+	private long endTimestamp; // end time
 	private int itemsetCount; // number of itemsets found
 
 	// the relative minimum support used to find itemsets
@@ -67,7 +66,7 @@ public class AlgoPASCAL {
 	private List<int[]> database = null;
 
 	// write to file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * Default constructor
@@ -116,7 +115,7 @@ public class AlgoPASCAL {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}
@@ -235,7 +234,7 @@ public class AlgoPASCAL {
 				// for each itemset that is a generator, if the support
 				// is the same as the minimum of its subsets, then
 				// it is not a generator and we want to remember that
-				if(candidate.isGenerator == false) {
+				if(!candidate.isGenerator) {
 					continue;
 				}
 				// END CODE SPECIFIC TO PASCAL
@@ -310,7 +309,7 @@ public class AlgoPASCAL {
 			}
 			// we will generate larger itemsets next.
 			k++;
-		} while (level.isEmpty() == false);
+		} while (!level.isEmpty());
 
 		// record end time
 		endTimestamp = System.currentTimeMillis();
@@ -347,7 +346,7 @@ public class AlgoPASCAL {
 				itemset.isGenerator 
 				   = itemset1.isGenerator && itemset2.isGenerator;
 				itemset.pred_sup = Math.min(itemset1.getAbsoluteSupport(), itemset2.getAbsoluteSupport());
-				if(itemset.isGenerator == false) {
+				if(!itemset.isGenerator) {
 					itemset.support = itemset.pred_sup;
 				}
 				// END OF CODE SPECIFIC TO PASCAL
@@ -366,7 +365,7 @@ public class AlgoPASCAL {
 	 *            frequent itemsets of size k-1
 	 * @return itemsets of size k
 	 */
-	protected List<ItemsetPascal> generateCandidateSizeK(List<ItemsetPascal> levelK_1) {
+    private List<ItemsetPascal> generateCandidateSizeK(List<ItemsetPascal> levelK_1) {
 		// create a variable to store candidates
 		List<ItemsetPascal> candidates = new ArrayList<ItemsetPascal>();
 
@@ -413,7 +412,7 @@ public class AlgoPASCAL {
 					// ------ CODE SPECIFIC TO PASCAL --------
 					// if the candidate is not a generator then the support  of this
 					// itemset is the same as the lowest support of its subsets of size k-1
-					if(newItemsetPascal.isGenerator == false) {
+					if(!newItemsetPascal.isGenerator) {
 						newItemsetPascal.support = newItemsetPascal.pred_sup;
 					}
 					// ------ END CODE SPECIFIC TO PASCAL --------
@@ -428,14 +427,12 @@ public class AlgoPASCAL {
 	 * Method to check if all the subsets of size k-1 of a candidate of size k
 	 * are freuqnet
 	 * 
-	 * @param candidate
-	 *            a candidate itemset of size k
 	 * @param levelK_1
 	 *            the frequent itemsets of size k-1
 	 * @return true if all the subsets are frequet
 	 */
-	protected boolean allSubsetsOfSizeK_1AreFrequent(ItemsetPascal candidateItemset,
-			List<ItemsetPascal> levelK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(ItemsetPascal candidateItemset,
+                                                   List<ItemsetPascal> levelK_1) {
 		int[] candidate = candidateItemset.itemset;
 		
 		// generate all subsets by always each item from the candidate, one by
@@ -469,7 +466,7 @@ public class AlgoPASCAL {
 					// CHECK IF THE SUBSET IS A GENERATOR
 					int supportMiddle = levelK_1.get(middle).getAbsoluteSupport();
 					boolean isAGenerator = levelK_1.get(middle).isGenerator;
-					if(isAGenerator == false) {
+					if(!isAGenerator) {
 						// IF NOT THEN THE candidate itemset is also not a generator
 						candidateItemset.isGenerator = false;
 					}
@@ -485,7 +482,7 @@ public class AlgoPASCAL {
 				}
 			}
 
-			if (found == false) { // if we did not find it, that means that
+			if (!found) { // if we did not find it, that means that
 									// candidate is not a frequent itemset
 									// because
 				// at least one of its subsets does not appear in level k-1.
@@ -501,7 +498,7 @@ public class AlgoPASCAL {
 	 * @param itemset
 	 * @throws IOException
 	 */
-	void saveItemsetToFile(ItemsetPascal itemset) throws IOException {
+    private void saveItemsetToFile(ItemsetPascal itemset) throws IOException {
 		writer.write(itemset.toString() + " #SUP: "
 				+ itemset.getAbsoluteSupport() + " #IS_GENERATOR " + itemset.isGenerator);
 		writer.newLine();

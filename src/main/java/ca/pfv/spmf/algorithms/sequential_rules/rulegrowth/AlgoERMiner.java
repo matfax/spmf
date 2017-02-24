@@ -15,21 +15,15 @@ package ca.pfv.spmf.algorithms.sequential_rules.rulegrowth;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is the original implementation of the ERMiner algorithm for mining sequential rules
@@ -44,28 +38,28 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoERMiner {
 	//*** for statistics ***/
-	long timeStart = 0;  // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
-	int ruleCount; // number of rules generated
+    private long timeStart = 0;  // start time of latest execution
+	private long timeEnd = 0;  // end time of latest execution
+	private int ruleCount; // number of rules generated
 	
 	//*** parameters ***/
 	// minimum confidence
-	double minConfidence;
+    private double minConfidence;
 	// minimum support
-	int minsuppRelative;
+    private int minsuppRelative;
 	// this is the sequence database
-	SequenceDatabase database;
+    private SequenceDatabase database;
 	
 	//*** internal variables ***/
 	// This map contains for each item (key) a map of occurences (value).
 	// The map of occurences associates to sequence ID (key), an occurence of the item (value).
-	Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
+    private Map<Integer,  Map<Integer, Occurence>> mapItemCount;  // item, <tid, occurence>
 
 	// object to write the output file
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
-	ExpandLeftStore store = new ExpandLeftStore();
-	SparseMatrix matrix = new SparseMatrix();
+	private ExpandLeftStore store = new ExpandLeftStore();
+	private SparseMatrix matrix = new SparseMatrix();
 
 	private long totalCandidateCount;
 	private long candidatePrunedCount;
@@ -626,7 +620,7 @@ public class AlgoERMiner {
 	/**
 	 * This method calculate the frequency of each item in one database pass.
 	 * Then it remove all items that are not frequent.
-	 * @param database : a sequence database 
+	 * @param database : a sequence database
 	 * @return A map such that key = item
 	 *                         value = a map  where a key = tid  and a value = Occurence
 	 * This map allows knowing the frequency of each item and their first and last occurence in each sequence.

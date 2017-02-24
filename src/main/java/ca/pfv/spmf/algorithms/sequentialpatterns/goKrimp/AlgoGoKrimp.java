@@ -47,29 +47,29 @@ import java.util.Iterator;
  * @author Hoang Thanh Lam (TU Eindhoven and IBM Research)
  */
 public class AlgoGoKrimp {
-	ArrayList<Integer> characters; // map from characters to its indices in the
+	private ArrayList<Integer> characters; // map from characters to its indices in the
 									// dictionary
 	ArrayList<ArrayList<Event>> data; // a database of sequences
-	ArrayList<MyPattern> patterns; // the set of patterns, the dictionary in
+	private ArrayList<MyPattern> patterns; // the set of patterns, the dictionary in
 									// this implementation
-	public ArrayList<MyPattern> candidates; // the set of candidates
+                                    private ArrayList<MyPattern> candidates; // the set of candidates
 	HashMap<Integer, String> labels; // event labels
-	HashMap<Integer, ArrayList<Integer>> related_events; // map from events to
+	private HashMap<Integer, ArrayList<Integer>> related_events; // map from events to
 															// related events
 	ArrayList<Integer> classlabels; // class labels of each sequence
 
-	int Nword; // the number of encoded words
-	double comp_size; // size (in bits) of the compressed data
-	double uncomp_size; // the size (in bits) of the uncompressed data
+	private int Nword; // the number of encoded words
+	private double comp_size; // size (in bits) of the compressed data
+	private double uncomp_size; // the size (in bits) of the uncompressed data
 						// (representation by the Huffman codes)
-	static final int NSTART = 1000; // the maximum number of candidate events as
+	private static final int NSTART = 1000; // the maximum number of candidate events as
 									// starting points for extending to find
 									// compressing patterns
-	static final int NRELATED = 1000; // the maximum number of candidate events
+	private static final int NRELATED = 1000; // the maximum number of candidate events
 										// as starting points for extending to
 										// find compressing patterns
 
-	BufferedWriter writer; // object to write output file. If null, result is
+	private BufferedWriter writer; // object to write output file. If null, result is
 							// printed to console. Otherwise, the result is
 							// written to a file.
 
@@ -167,7 +167,7 @@ public class AlgoGoKrimp {
 	/**
 	 * Initialization
 	 */
-	void initialization() {
+    private void initialization() {
 		patterns = new ArrayList<MyPattern>();
 		candidates = new ArrayList<MyPattern>();
 		related_events = new HashMap<Integer, ArrayList<Integer>>();
@@ -222,7 +222,7 @@ public class AlgoGoKrimp {
 	 * @param pattern
 	 *            the input pattern
 	 */
-	void addPattern(MyPattern pattern) {
+    private void addPattern(MyPattern pattern) {
 		Nword = Nword - (pattern.freq - 1) * pattern.ids.size()
 				+ pattern.ids.size() + pattern.freq; // update the number of
 														// encoded words
@@ -273,7 +273,7 @@ public class AlgoGoKrimp {
 	 * @return null if no extension gives additional compression benefit or the
 	 *         extended pattern if otherwise
 	 */
-	MyPattern extend(MyPattern pattern) {
+    private MyPattern extend(MyPattern pattern) {
 		ArrayList<Integer> ve = get_Extending_Events_SignTest(pattern.ids
 				.get(pattern.ids.size() - 1)); // get the set of extending
 												// events
@@ -303,7 +303,7 @@ public class AlgoGoKrimp {
 	 * 
 	 * @return return a set of initial patterns
 	 */
-	ArrayList<MyPattern> get_Initial_Patterns() {
+    private ArrayList<MyPattern> get_Initial_Patterns() {
 		ArrayList<MyPattern> ie = new ArrayList();
 		for (int i = 0; i < patterns.size(); i++) {
 			if (patterns.get(i).freq >= SignTest.N) { // only consider unrare
@@ -330,7 +330,7 @@ public class AlgoGoKrimp {
 	 * 
 	 * @return the set of events being considered to extend a pattern
 	 */
-	ArrayList<Integer> get_Extending_Events_SignTest(Integer e) {
+    private ArrayList<Integer> get_Extending_Events_SignTest(Integer e) {
 		if (related_events.containsKey(e))
 			return related_events.get(e);
 		ArrayList<Integer> ve = getRelatedEvents(e);
@@ -343,7 +343,7 @@ public class AlgoGoKrimp {
 	 * 
 	 * @return index of the best pattern in the candidates ArrayList
 	 */
-	int getBestPattern() {
+    private int getBestPattern() {
 		int index = 0;
 		double min = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < candidates.size(); i++) {// for every candidate
@@ -396,7 +396,7 @@ public class AlgoGoKrimp {
 	 * 
 	 * @param pattern
 	 */
-	void remove(MyPattern pattern) {
+    private void remove(MyPattern pattern) {
 		for (int j = 0; j < data.size(); j++) {
 			HashMap<Integer, ArrayList<Integer>> hm = new HashMap();
 			ArrayList<ArrayList<Integer>> pos = new ArrayList();
@@ -432,7 +432,7 @@ public class AlgoGoKrimp {
 	 * @param pattern
 	 * @return
 	 */
-	double get_Compress_Size_When_Adding(MyPattern pattern) {
+    private double get_Compress_Size_When_Adding(MyPattern pattern) {
 		// System.out.println(pattern.ids);
 		int new_Nword = Nword - (pattern.freq - 1) * pattern.ids.size()
 				+ pattern.ids.size() + pattern.freq;
@@ -470,8 +470,8 @@ public class AlgoGoKrimp {
 	 * @param pos
 	 * @return
 	 */
-	ArrayList<ArrayList<Integer>> getBestMatches(
-			ArrayList<ArrayList<Integer>> pos) {
+    private ArrayList<ArrayList<Integer>> getBestMatches(
+            ArrayList<ArrayList<Integer>> pos) {
 		ArrayList<ArrayList<Integer>> matches = new ArrayList();
 		while (true) {
 			ArrayList<ArrayList<Event>> matrix = new ArrayList();
@@ -556,7 +556,7 @@ public class AlgoGoKrimp {
 	 *            the set of matches
 	 * @return the cost of encoding the gaps of the matches
 	 */
-	int gap_cost(ArrayList<ArrayList<Integer>> matches) {
+    private int gap_cost(ArrayList<ArrayList<Integer>> matches) {
 		int g = 0;
 		for (int i = 0; i < matches.size(); i++) {
 			for (int j = 1; j < matches.get(i).size(); j++)
@@ -572,7 +572,7 @@ public class AlgoGoKrimp {
 	 * @param index
 	 *            the identifier of the sequence
 	 */
-	void remove(ArrayList<ArrayList<Integer>> matches, int index) {
+    private void remove(ArrayList<ArrayList<Integer>> matches, int index) {
 		HashMap<Integer, Integer> hm = new HashMap();
 		for (int i = 0; i < matches.size(); i++) {
 			for (int j = 0; j < matches.get(i).size(); j++) {
@@ -595,7 +595,7 @@ public class AlgoGoKrimp {
 	 *            the input event
 	 * @return the set of related events to the input event @param e
 	 */
-	ArrayList<Integer> getRelatedEvents(Integer e) {
+    private ArrayList<Integer> getRelatedEvents(Integer e) {
 		HashMap<Integer, SignTest> me = new HashMap();// statistics
 		HashMap<Integer, Integer> mc = new HashMap();// counter
 		ArrayList<Integer> nextdata = new ArrayList();
@@ -682,7 +682,7 @@ public class AlgoGoKrimp {
 	 * @return the number of bits in the binary representation of the input
 	 *         integer a using the Elias code
 	 */
-	int bits(Integer a) {
+    private int bits(Integer a) {
 		if (a.intValue() < 0)
 			return 0;
 		else {
@@ -700,7 +700,7 @@ public class AlgoGoKrimp {
 	 *            an input number
 	 * @return the lower round value of x
 	 */
-	int lowround(double x) {
+    private int lowround(double x) {
 		int y = (int) Math.round(x);
 		if (y > x)
 			y = y - 1;
@@ -748,7 +748,7 @@ public class AlgoGoKrimp {
 	 * @param pattern
 	 * @throws IOException
 	 */
-	void printMyPattern(MyPattern pattern) throws IOException {
+    private void printMyPattern(MyPattern pattern) throws IOException {
 		if (writer == null) {// if save to memory
 
 			if (labels == null || labels.isEmpty()) {

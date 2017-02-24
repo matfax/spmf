@@ -35,8 +35,8 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.p
  */
 public class IDListFatBitmap implements IDList {
 
-    final int BIT_PER_SEQUENCE = 512; // the number of bit that we use to code a database
-    final int BIT_PER_ITEMSET = 64;  // the number of bit that we use for each sequence
+    private final int BIT_PER_SEQUENCE = 512; // the number of bit that we use to code a database
+    private final int BIT_PER_ITEMSET = 64;  // the number of bit that we use for each sequence
     /**
      * Bitset that codes all the sequences where the pattern associated with
      * this bitmap appears.
@@ -104,7 +104,7 @@ public class IDListFatBitmap implements IDList {
      * @param sid The sequence identifier where the pattern appears
      * @param tids The itemsets where the pattern appears
      */
-    public void registerNBits(int sid, List<Integer> tids) {
+    private void registerNBits(int sid, List<Integer> tids) {
         //Insert the sid in the bitset of sequences
         insertInSequence(sid);
         //Updating the support

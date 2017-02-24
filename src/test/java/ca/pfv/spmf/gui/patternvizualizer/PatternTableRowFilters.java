@@ -30,7 +30,7 @@ import ca.pfv.spmf.gui.patternvizualizer.filters.AbstractFilter;
  * @author Philippe Fournier-Viger
  *
  */
-public class PatternTableRowFilters<PatternTableModel, Object> extends RowFilter {
+class PatternTableRowFilters<PatternTableModel, Object> extends RowFilter {
 	
 	/** the current list of filters */
 	public List<AbstractFilter> filters = new  ArrayList<AbstractFilter>();
@@ -52,7 +52,7 @@ public class PatternTableRowFilters<PatternTableModel, Object> extends RowFilter
 		for(AbstractFilter filter : filters){
 			// if the entry does not respect one of the filter, we reject it
 			int columnIndex = filter.getColumnID();
-			if(filter.isKept(entry.getValue(columnIndex))== false){
+			if(!filter.isKept(entry.getValue(columnIndex))){
 				return false;
 			}
 			

@@ -107,8 +107,7 @@ public class Itemsets {
 
 	/**
 	 * Set the name of this group of itemsets
-	 * @param string the new name
-	 */
+     */
 	public void setName(String name) {
 		this.name = name;
 	}

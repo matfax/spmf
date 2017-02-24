@@ -51,14 +51,14 @@ public class InstanceViewer extends JFrame implements InstanceViewerPanelListene
 	private static final long serialVersionUID = 1L;
 	
 	/** This panel is used to draw the instances	 */
-	InstancesViewerPanel panelChart = null;
+    private InstancesViewerPanel panelChart = null;
 
 	private JLabel labelX;
 
 	private JLabel labelY;
 	
 	/** The list of attribute names */
-	String[] attributeNamesArray = null;
+    private String[] attributeNamesArray = null;
 
 	/** The combo box for selecting the attribute on the X axis */
 	private JComboBox comboBoxX;

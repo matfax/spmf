@@ -30,7 +30,7 @@ import java.util.Set;
  *
  */
 public class StopWordAnalyzer {
-Set<String> stopWordList;
+private Set<String> stopWordList;
 /**
  * Initialize all the stopwords. Stopwords are the common words in 
  * English which does not have much significance in clustering

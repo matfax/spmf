@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,22 +46,22 @@ import java.util.Vector;
 public class PatternVizualizer extends JFrame{
 	
 	/** title **/
-	String title = "SPMF - Pattern vizualization tool 2.05";
+	private String title = "SPMF - Pattern vizualization tool 2.05";
 	
 	/** Generated serial ID*/
 	private static final long serialVersionUID = -2012129335077139428L;
 	
 	/** The table for showing the patterns to the user */
-	JTable table;
+	private JTable table;
 	/** The label indicating the number of patterns currently shown in the Jtable */
 	private JLabel labelNumberOfPatterns;
 	
 	/** Variables for storing the data from the TableModel used in the Jtable */
-	Vector<List<Object>> data = null;
+	private Vector<List<Object>> data = null;
 	/** List of table column names */
-	Vector<String> columnNames = null;
+	private Vector<String> columnNames = null;
 	/** List of table column classes (Integer, Double, String) */
-	Vector<Class>  columnClasses = null;
+	private Vector<Class>  columnClasses = null;
 	
 	/** The JList showing the current filters that are applied on the Jtable*/
 	private JList listFilters;
@@ -75,7 +74,7 @@ public class PatternVizualizer extends JFrame{
 	private JButton btnRemoveAllFilters;
 
 	/** The list of current filters, used for filtering the JTable **/
-	PatternTableRowFilters  rowFilters = new PatternTableRowFilters();
+	private PatternTableRowFilters  rowFilters = new PatternTableRowFilters();
 
 	/** The TableRowSorter used by the JTable */
     private TableRowSorter<PatternTableModel> sorter;
@@ -91,7 +90,7 @@ public class PatternVizualizer extends JFrame{
 	 * @param patternFilePath the path to a file containing patterns, in SPMF format.
 	 * @throws IOException if error while reading file
 	 */
-	public PatternVizualizer(String patternFilePath) throws ParseException, IOException {
+	public PatternVizualizer(String patternFilePath) throws IOException {
 
 		// set the size of the window, and make it non-resizeable
 		setSize(800, 600);
@@ -287,7 +286,7 @@ public class PatternVizualizer extends JFrame{
         String line;
         while((line = br.readLine()) != null) { // iterate over the lines to build the transaction
 			// if the line is  a comment, is  empty or is  metadata
-			if (line.isEmpty() == true ||line.charAt(0) == '#' 
+			if (line.isEmpty() ||line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				
 				//...
@@ -438,7 +437,7 @@ public class PatternVizualizer extends JFrame{
     	Double result = null;
     	try{
     		result = Double.valueOf(token);
-    	}catch(Exception e){ 		
+    	}catch(Exception ignored){
     	}
 		return result;
 	}
@@ -454,7 +453,7 @@ public class PatternVizualizer extends JFrame{
     	Integer result = null;
     	try{
     		result = Integer.valueOf(token);
-    	}catch(Exception e){
+    	}catch(Exception ignored){
     	}
 		return result;
 	}
@@ -505,7 +504,7 @@ public class PatternVizualizer extends JFrame{
 	 * This method is called when the user selects a filter from the list of filters
 	 * @param arg0 a list selection event from the JList of filters
 	 */
-	protected void selectFilter(ListSelectionEvent arg0) {
+	private void selectFilter(ListSelectionEvent arg0) {
 		// if a filter is selected
 		if(listFilters.getSelectedIndex()> -1){
 			// Enable the button "Remove selected filter"
@@ -576,7 +575,7 @@ public class PatternVizualizer extends JFrame{
 	 * a file format.
 	 * @throws IOException if an error occurs
 	 */
-	protected void export() {
+	private void export() {
 		String selection = (String)comboBoxExport.getSelectedItem();
 		
 		// ask the user to choose the filename and path
@@ -648,8 +647,6 @@ public class PatternVizualizer extends JFrame{
 
 	/**
 	 * Save content of JTable to the SPMF format
-	 * @param table  a JTable
-	 * @param filepath  the file path where the file should be saved
 	 * @throws IOException exception if error writing to file
 	 */
 	private void exportToSPMFFormat(JTable table2, String outputFilePath) throws IOException {
@@ -695,7 +692,7 @@ public class PatternVizualizer extends JFrame{
 	 * @param filepath  the file path where the file should be saved
 	 * @throws IOException exception if error writing to file
 	 */
-	public void exportToTSV(JTable table, String filepath) throws IOException{
+	private void exportToTSV(JTable table, String filepath) throws IOException{
         BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
         // for each column
         for(int i = 0; i < table.getColumnCount(); i++){
@@ -733,7 +730,7 @@ public class PatternVizualizer extends JFrame{
 	 * @param filepath  the file path where the file should be saved
 	 * @throws IOException exception if error writing to file
 	 */
-	public void exportToCSV(JTable table, String filepath) throws IOException{
+	private void exportToCSV(JTable table, String filepath) throws IOException{
         BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
         // for each column
         for(int i = 0; i < table.getColumnCount(); i++){
@@ -780,7 +777,7 @@ public class PatternVizualizer extends JFrame{
 	/**
 	 * This method is called when the user click on the "search" button
 	 */
-	protected void search() {
+	private void search() {
 		String text = textFieldSearch.getText();
 		// if the user did not enter any text, then we do nothing
 		if(text.length() == 0){

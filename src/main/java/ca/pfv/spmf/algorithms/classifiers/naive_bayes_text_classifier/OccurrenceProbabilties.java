@@ -16,7 +16,7 @@ import java.util.HashMap;
 * 
 * @author SabarishRaghu
 */
-public class OccurrenceProbabilties {
+class OccurrenceProbabilties {
 	private String className;
 	private HashMap<String,Double> occuranceMap;
 	public String getClassName() {

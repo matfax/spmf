@@ -27,20 +27,20 @@ import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
  * You should have received a copy of the GNU General Public License
  * along with SPMF.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class PseudoSequence {
+class PseudoSequence {
 
 	// the corresponding sequence in the original database
-	protected Sequence sequence;
+	Sequence sequence;
 
 	// the first itemset of this pseudo-sequence  in the original sequence
-	protected int firstItemset;
+	int firstItemset;
 	// the first item of this pseudo-sequence in the original sequence
-	protected int firstItem;
+	int firstItem;
 	
 	/**
 	 * Default constructor
 	 */
-	protected PseudoSequence(){
+	PseudoSequence(){
 		
 	}
 	
@@ -59,7 +59,7 @@ public class PseudoSequence {
 	 * @param indexItemset the itemset where the pseudo-sequence should start in terms of the original sequence.
 	 * @param indexItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected PseudoSequence(PseudoSequence sequence, int indexItemset, int indexItem){
+	PseudoSequence(PseudoSequence sequence, int indexItemset, int indexItem){
 		// remember the original sequence
 		this.sequence = sequence.sequence;
 		// record the position of where the pseudo-sequence starts
@@ -78,7 +78,7 @@ public class PseudoSequence {
 	 * @param indexItemset the itemset where the pseudo-sequence should start in terms of the original sequence.
 	 * @param indexItem the item where the pseudo-sequence should start in terms of the original sequence.
 	 */
-	protected  PseudoSequence(Sequence sequence, int indexItemset, int indexItem){
+	PseudoSequence(Sequence sequence, int indexItemset, int indexItem){
 		// remember the original sequence
 		this.sequence = sequence;
 		// remember the starting position of this pseudo-sequence in terms
@@ -91,7 +91,7 @@ public class PseudoSequence {
 	 * Return the size of this pseudo-sequence in terms of itemsets.
 	 * @return the size.
 	 */
-	protected int size() {
+	int size() {
 		// the size is the size of the original sequence minus
 		// the itemset where this pseudo-sequence start
 		int size = sequence.size() - firstItemset;
@@ -127,7 +127,7 @@ public class PseudoSequence {
 	 * @param indexItemset the position of the given itemset.
 	 * @return true if it is cut at left.
 	 */
-	protected boolean isPostfix(int indexItemset) {
+	boolean isPostfix(int indexItemset) {
 		// if it is the first itemset of the pseudo-sequence
 		// and it is cut at left, we return true.
 		return indexItemset == 0  && firstItem !=0;
@@ -138,7 +138,7 @@ public class PseudoSequence {
 	 * @param index  the position of an itemset
 	 * @return true if it is the first one.
 	 */
-	protected boolean isFirstItemset(int index) {
+	boolean isFirstItemset(int index) {
 		return index == 0;
 	}
 	
@@ -181,7 +181,7 @@ public class PseudoSequence {
 	 * Get the sequence ID of this sequence.
 	 * @return a sequence ID (integer)
 	 */
-	protected int getId() {
+	int getId() {
 		return sequence.getId();
 	}
 
@@ -225,15 +225,14 @@ public class PseudoSequence {
 	 * @param idItem the item that we want to search.
 	 * @return the position of the item or -1 if it is not found
 	 */
-	protected int indexOfBis(int indexItemset, int idItem) {
+	int indexOfBis(int indexItemset, int idItem) {
 		// for each item in that itemset
 		for(int i=0; i < getSizeOfItemsetAt(indexItemset); i++){
 			// check if equals to the item that we search
 			if(getItemAtInItemsetAt(i, indexItemset) == idItem){
 				return i; // if equal, return the current position
 			}else if(getItemAtInItemsetAt(i, indexItemset) > idItem){
-				continue;
-			}
+            }
 		}
 		return -1; // not found, return -1.
 	}
@@ -244,15 +243,14 @@ public class PseudoSequence {
 	 * @param idItem the item that we want to search.
 	 * @return the position of the item or -1 if it is not found
 	 */
-	protected int indexOf(int sizeOfItemsetAti, int indexItemset, int idItem) {
+	int indexOf(int sizeOfItemsetAti, int indexItemset, int idItem) {
 		// for each item in that itemset
 		for(int i=0; i <sizeOfItemsetAti; i++){
 			// check if equals to the item that we search
 			if(getItemAtInItemsetAt(i, indexItemset) == idItem){
 				return i; // if equal, return the current position
 			}else if(getItemAtInItemsetAt(i, indexItemset) > idItem){
-				continue;
-			}
+            }
 		}
 		return -1; // not found, return -1.
 	}

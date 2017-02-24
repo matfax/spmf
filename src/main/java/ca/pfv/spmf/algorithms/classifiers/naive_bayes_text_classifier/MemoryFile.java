@@ -16,10 +16,10 @@ import java.util.ArrayList;
 * @author SabarishRaghu
 */
 
-public class MemoryFile {
-String classname;
-String fileName;
-ArrayList<String> content;
+class MemoryFile {
+private String classname;
+private String fileName;
+private ArrayList<String> content;
 public String getClassname() {
 	return classname;
 }

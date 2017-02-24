@@ -34,7 +34,7 @@ import java.util.Set;
 @see Itemset
 * @author Philippe Fournier-Viger
  */
-public class SequentialPattern{
+class SequentialPattern{
 	/** list of itemsets */
 	private final List<Itemset> itemsets = new ArrayList<Itemset>();
 	

@@ -30,23 +30,23 @@ import java.util.Map;
  * @author Prashant Barhate
  */
 
-public class IHUPTree {
+class IHUPTree {
 
 	// List of items in the header table
 	List<Integer> headerList = null;
 
 	// flag that indicate if the tree has more than one path
-	boolean hasMoreThanOnePath = false;
+    private boolean hasMoreThanOnePath = false;
 
 	// List of pairs (item, Utility) of the header table
 	Map<Integer, UPNode> mapItemNodes = new HashMap<Integer, UPNode>();
 
 	// root of the tree
-	UPNode root = new UPNode(); // null node
+    private UPNode root = new UPNode(); // null node
 
 	// Map that indicates the last node for each item using the node links
 	// key: item value: an fp tree node (added by Philippe)
-	Map<Integer, UPNode> mapItemLastNode = new HashMap<Integer, UPNode>();
+    private Map<Integer, UPNode> mapItemLastNode = new HashMap<Integer, UPNode>();
 
 	public IHUPTree() {
 
@@ -90,8 +90,7 @@ public class IHUPTree {
 	 * Add a transaction to the UP-Tree (for a local UP-Tree)
 	 * @param localPath the path to be inserted
 	 * @param pathUtility the path utility
-	 * @param mapMinimumItemUtility the map storing minimum item utility
-	 */
+     */
 	public void addLocalTransaction(List<Integer> localPath, int pathUtility) {
 
 		UPNode currentlocalNode = root;
@@ -104,9 +103,9 @@ public class IHUPTree {
 			UPNode child = currentlocalNode.getChildWithID(item);
 
 			if (child == null) {
-				int nodeUtility = (pathUtility); ;
-				
-				// there is no node, we create a new one
+				int nodeUtility = (pathUtility);
+
+                // there is no node, we create a new one
 				currentlocalNode = insertNewNode(currentlocalNode, item, nodeUtility);
 			} else {
 				// there is a node already, we update it
@@ -201,7 +200,7 @@ public class IHUPTree {
 		return output + toString("", root);
 	}
 
-	public String toString(String indent, UPNode node) {
+	private String toString(String indent, UPNode node) {
 		String output = indent + node.toString() + "\n";
 		String childsOutput = "";
 		for (UPNode child : node.childs) {

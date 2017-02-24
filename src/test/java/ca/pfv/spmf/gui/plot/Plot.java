@@ -66,9 +66,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 public class Plot {
 
-	public enum Line { NONE, SOLID, DASHED };
-	public enum Marker { NONE, CIRCLE, SQUARE, DIAMOND, COLUMN, BAR };
-	public enum AxisFormat { NUMBER, NUMBER_KGM, NUMBER_INT, TIME_HM, TIME_HMS, DATE, DATETIME_HM, DATETIME_HMS }
+	public enum Line { NONE, SOLID, DASHED }
+
+    public enum Marker { NONE, CIRCLE, SQUARE, DIAMOND, COLUMN, BAR }
+
+    public enum AxisFormat { NUMBER, NUMBER_KGM, NUMBER_INT, TIME_HM, TIME_HMS, DATE, DATETIME_HM, DATETIME_HMS }
 	public enum LegendFormat { NONE, TOP, RIGHT, BOTTOM }
 	
 	private enum HorizAlign { LEFT, CENTER, RIGHT }
@@ -206,12 +208,11 @@ public class Plot {
 		return this;
 	}
 
-	public Plot yAxis(String name, AxisOptions opts) {
+	public void yAxis(String name, AxisOptions opts) {
 		yAxes.put(name, new Axis(name, opts));
-		return this;
-	}
+    }
 
-	public Plot series(String name, Data data, DataSeriesOptions opts) {
+	public void series(String name, Data data, DataSeriesOptions opts) {
 		DataSeries series = dataSeriesMap.get(name);
 		if (opts != null)
 			opts.setPlot(this);
@@ -222,8 +223,7 @@ public class Plot {
 			series.data = data;
 			series.opts = opts;
 		}
-		return this;
-	}
+    }
 
 	public Plot series(String name, DataSeriesOptions opts) {
 		DataSeries series = dataSeriesMap.get(name);
@@ -783,15 +783,14 @@ public class Plot {
 			return this;
 		}
 		
-		public Data xy(double x, double y) {
+		public void xy(double x, double y) {
 			if (this.x2 == null || this.y2 == null) {
 				this.x2 = new ArrayList<Double>(10);
 				this.y2 = new ArrayList<Double>(10);
 			}
 			x2.add(x);
 			y2.add(y);
-			return this;
-		}
+        }
 		
 		public Data xy(List<Double> x, List<Double> y) {
 			this.x2 = x;
@@ -1015,7 +1014,7 @@ public class Plot {
 		g.drawString(s, x, y);
 	}
 	
-	public static String formatDouble(double d, AxisFormat format) {
+	private static String formatDouble(double d, AxisFormat format) {
 		switch (format) {
 		case TIME_HM: return String.format("%tR", new java.util.Date((long) d));
 		case TIME_HMS: return String.format("%tT", new java.util.Date((long) d));
@@ -1083,7 +1082,6 @@ public class Plot {
 	/**
 	 * Show the chart in a JFrame with a given title
 	 * @author philfv
-	 * @param the title of the JFrame
 	 */
 	public void showInJFrame(String title) {
 		clear();

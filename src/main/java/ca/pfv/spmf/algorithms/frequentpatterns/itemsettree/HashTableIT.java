@@ -87,7 +87,7 @@ public class HashTableIT {
 	 * @param items an itemset
 	 * @return the hashcode as a int
 	 */
-	public int hashCode(int[] items){
+    private int hashCode(int[] items){
 		// the hashcode is the sum of each item i multiplied by i * 10, modulo
 		// the size of the internal array of the hash table.
 		int hashcode =0;

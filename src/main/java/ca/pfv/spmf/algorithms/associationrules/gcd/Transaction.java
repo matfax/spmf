@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Transaction implements Comparable<Transaction> {
+class Transaction implements Comparable<Transaction> {
 	private ArrayList<Integer> items = new ArrayList<Integer>();
 	private MyBigInteger multiplication = MyBigInteger.constructMyBigInteger_One();
 	private int frequency = 1;

@@ -60,7 +60,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	private Sequences patterns = null;
 	
 	/// number of sequential pattern found
-	int patternCount =0;
+    private int patternCount =0;
 	
 	// start time of latest execution
 	private long startTime;
@@ -85,7 +85,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	private PseudoSequenceDatabase initialDatabase = null;
 	
 	// object to write the output file if the user wish to write to a file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * @param minsupp minimum support
@@ -387,7 +387,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 		// *********************************************************************
 		
 		// check if the backscan pruning is enabled
-		if(enableBackscanPruning == false){
+		if(!enableBackscanPruning){
 			return false;
 		}
 		
@@ -435,8 +435,8 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	 *         is in an itemset that is "cut" at left or right (prefix or postfix)
 	 *         , (2) the sequence IDs where it occurs and (3) a time interval.
 	 */
-	protected Set<Pair> findAllFrequentPairsSatisfyingC1andC2ForBackwardExtensionCheck(
-			Sequence prefix, List<PseudoSequence> maximumPeriods, int iPeriod) {
+    private Set<Pair> findAllFrequentPairsSatisfyingC1andC2ForBackwardExtensionCheck(
+            Sequence prefix, List<PseudoSequence> maximumPeriods, int iPeriod) {
 		
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPaires = new HashMap<Pair, Pair>();
@@ -532,7 +532,6 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	
 	/**
 	 * For each item, calculate the sequence id of sequences containing that item
-	 * @param database the current sequence database
 	 * @return Map of items to sequence IDs that contains each item
 	 */
 	private Map<ItemSimple, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
@@ -648,7 +647,6 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 
 	/**
 	 * Do a database projection of a sequence database with a pair.
-	 * @param pair  the pair
 	 * @param oldPrefix  the current prefix
 	 * @param newPrefix  the new prefix obtained by appending the pair to the current prefix
 	 * @param database the database to 
@@ -748,7 +746,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	 * @param database the current sequence database
 	 * @return the set of frequent pairs
 	 */
-	protected Set<Pair> findAllFrequentPairsSatisfyingC1andC2(Sequence prefixe, List<PseudoSequence> database) {
+    private Set<Pair> findAllFrequentPairsSatisfyingC1andC2(Sequence prefixe, List<PseudoSequence> database) {
 		
 		// Create a Map of pairs to store the pairs
 		Map<Pair, Pair> mapPaires = new HashMap<Pair, Pair>();
@@ -1111,7 +1109,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	private Sequence appendItemToSequence(Sequence prefix, ItemSimple item, long timestamp) {
 		Sequence newPrefix = prefix.cloneSequence();  // isSuffix
 		long decalage = newPrefix.get(newPrefix.size()-1).getTimestamp();
-		newPrefix.addItemset(new Itemset(item, timestamp + decalage));  // créé un nouvel itemset   + decalage
+		newPrefix.addItemset(new Itemset(item, timestamp + decalage));  // crï¿½ï¿½ un nouvel itemset   + decalage
 		return newPrefix;
 	}
 	

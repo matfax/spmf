@@ -24,7 +24,7 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public class FilterStringNotContains extends AbstractFilter{
 	/** the given value*/
-	String value;
+    private String value;
 	
 	/**
 	 * Constructor
@@ -59,7 +59,7 @@ public class FilterStringNotContains extends AbstractFilter{
 	 * @return true if the object should be kept. Otherwise, false.
 	 */
 	public boolean isKept(Object object) {
-		return ((String) object).contains(value) == false;
+		return !((String) object).contains(value);
 	}
 
 	/**

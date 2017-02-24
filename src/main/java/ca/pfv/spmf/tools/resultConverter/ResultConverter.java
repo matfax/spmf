@@ -21,13 +21,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,8 +45,6 @@ public class ResultConverter {
 	 * @param mapItemIDtoStringValue  a mapping between item ID (key) and attribute value (value).
 	 * @param outputFile the path of an output file to be converted
 	 * @param outputFileConverted the path of the result file to be written to disk 
-	 * @param Charset charset  the charset to be used for converting the file (e.g. UTF-8) or null if
-	 *         the default charset should be used.
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files
 	 */
 	public void convert(Map<Integer, String> mapItemIDtoStringValue,
@@ -77,7 +72,7 @@ public class ResultConverter {
 				boolean noItemsLeft = false;
 				
 				// if the line starts with a comment
-				if(thisLine.isEmpty() == false){
+				if(!thisLine.isEmpty()){
 					if(firstLine){
 						firstLine = false;
 					}else{
@@ -156,8 +151,6 @@ public class ResultConverter {
 	 * as metadata.
 	 * @param outputFile the path of an output file to be converted
 	 * @param outputFileConverted the path of the result file to be written to disk 
-	 * @param Charset charset  the charset to be used for converting the file (e.g. UTF-8) or null if
-	 *         the default charset should be used.
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files
 	 */
 	public void convert(String inputDB, String outputFile, String outputFileConverted, Charset charset) throws IOException {
@@ -207,7 +200,7 @@ public class ResultConverter {
 	 * @param string a string
 	 * @return an integer or null if the string is not an integer.
 	 */
-	Integer isInteger(String string) {
+	private Integer isInteger(String string) {
 		Integer result = null;
 	    try { 
 	    	result = Integer.parseInt(string); 

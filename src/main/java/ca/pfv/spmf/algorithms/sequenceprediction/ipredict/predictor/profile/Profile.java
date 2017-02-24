@@ -20,9 +20,9 @@ import java.util.Map.Entry;
 public class Profile {
 	
 	//Contains the parameter as strings
-	public static HashMap<String, String> parameters;
+	static HashMap<String, String> parameters;
 	
-	public Profile() {
+	Profile() {
 		parameters = new HashMap<String, String>();
 	}
 	

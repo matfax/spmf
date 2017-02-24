@@ -49,26 +49,26 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoHUIMiner {
 
 	/** the time at which the algorithm started */
-	public long startTimestamp = 0;  
+    private long startTimestamp = 0;
 	
 	/** the time at which the algorithm ended */
-	public long endTimestamp = 0; 
+    private long endTimestamp = 0;
 	
 	/** the number of high-utility itemsets generated */
-	public int huiCount =0; 
+    private int huiCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** the number of utility-list that was constructed */
 	private int joinCount;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	/** this class represent an item and its utility in a transaction */
@@ -114,7 +114,7 @@ public class AlgoHUIMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -184,7 +184,7 @@ public class AlgoHUIMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -392,8 +392,6 @@ public class AlgoHUIMiner {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */

@@ -103,7 +103,7 @@ public class MDPatternsDatabase {
 	/**
 	 * Return the number of dimensions in this database.
 	 */
-	public int getDimensionCount() {
+    private int getDimensionCount() {
 		return valuesCountForDimension.length;
 	}
 

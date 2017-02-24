@@ -59,10 +59,10 @@ public class DescriptionAlgoTRuleGrowth extends DescriptionOfAlgorithm {
 		int window = getParamAsInteger(parameters[2]);
 
 		AlgoTRuleGrowth algo = new AlgoTRuleGrowth();
-		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+		if (parameters.length >=4 && !"".equals(parameters[3])) {
 			algo.setMaxAntecedentSize(getParamAsInteger(parameters[3]));
 		}
-		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+		if (parameters.length >=5 && !"".equals(parameters[4])) {
 			algo.setMaxConsequentSize(getParamAsInteger(parameters[4]));
 		}
 		algo.runAlgorithm(minsup, minconf, inputFile, outputFile, window);

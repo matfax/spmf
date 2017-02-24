@@ -44,8 +44,8 @@ public class MemoryEfficientItemsetTree extends AbstractItemsetTree implements S
 
 	private static final long serialVersionUID = 1L;
 	
-	long sumBranchesLength; // sum of branches length
-	int totalNumberOfBranches; // total number of branches
+	private long sumBranchesLength; // sum of branches length
+	private int totalNumberOfBranches; // total number of branches
 
 	// This variable is commented and was only used
 	// for testing the performance of random queries
@@ -81,7 +81,7 @@ public class MemoryEfficientItemsetTree extends AbstractItemsetTree implements S
 		while (((line = reader.readLine()) != null)) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -434,7 +434,7 @@ loop1:	for(int i1value : itemset1){
 	 * @param a2  the second itemset
 	 * @return  the new itemset
 	 */
-	public int[] append(int[] a1, int[] a2){
+    private int[] append(int[] a1, int[] a2){
 		//if the first itemset is null, return the second one
 		if(a1 == null){
 			return a2;
@@ -540,7 +540,6 @@ loop1:	for(int i1value : itemset1){
 	 * 
 	 * @param s  the itemset
 	 * @param root  the root of the subtree
-	 * @param startFrom  the items to match starting from position j in s
 	 * @return  the support as an integer
 	 */
 	private int count(int[] s, ItemsetTreeNode root, int[] prefix) {

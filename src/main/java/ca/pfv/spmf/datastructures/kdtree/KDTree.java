@@ -52,13 +52,13 @@ public class KDTree {
 
 	private int nodeCount = 0; // number of nodes in the tree
 	private KDNode root = null; // the tree root
-	int dimensionCount = 0; // number of dimensions
+	private int dimensionCount = 0; // number of dimensions
 
 	// random number generator used by the Randomized-select algorithm
 	private static Random random = new Random(System.currentTimeMillis());  
 	
 	/* The distance function to be used for comparing vectors */
-	DistanceFunction distanceFunction = new DistanceEuclidian(); 
+    private DistanceFunction distanceFunction = new DistanceEuclidian();
 	
 //	List<DoubleArray> pointsDEBUG = null;
 
@@ -138,7 +138,6 @@ public class KDTree {
 	 * the book "Introduction to algorithms" by Cormen et al. (2001), with some
 	 * modifications such as using a while loop instead of recursive calls.
 	 * 
-	 * @param a: array of integers
 	 * @param i: the rank i of the desired integer.
 	 * @param currentD: the dimension that is used
 	 * @return the element in the array "a" that is larger than i elements.
@@ -214,8 +213,8 @@ public class KDTree {
 	//=====================================================================================
 	//======================= To find the first nearest neighbor =========================
 	//=====================================================================================
-	DoubleArray nearestNeighboor = null;  // the current nearest neighboor.
-	double minDist = 0;  // the distance of the current nearest neighbor with the target point.
+    private DoubleArray nearestNeighboor = null;  // the current nearest neighboor.
+	private double minDist = 0;  // the distance of the current nearest neighbor with the target point.
 	
 	/**
 	 * Method to get the nearest neighbor
@@ -309,8 +308,8 @@ public class KDTree {
 	//======================= Method to find the k nearest neighboor =========================
 	//=====================================================================================
 	
-	RedBlackTree<KNNPoint> resultKNN = null; // field to store the current k nearest neighboor with the target point
-	int k =0; // the parameter k.
+	private RedBlackTree<KNNPoint> resultKNN = null; // field to store the current k nearest neighboor with the target point
+	private int k =0; // the parameter k.
 	
 	/**
 	 * Method to get the k nearest neighboors
@@ -432,10 +431,7 @@ public class KDTree {
 	// =========================== METHOD TO FIND POINTS WITHIN A RADIUS - used by DBSCAN =============================
 	/**
 	 * Method to get all the points within the radius of a given target point, EXCEPT the target point!
-	 * @param the target point
-	 * @param bufferNeighboors a list where the points should be added should be provided to this method
-	 * return   the list of points
-	 */
+     */
 	public List<DoubleArray> pointsWithinRadiusOf(DoubleArray targetPoint, double radius) {
 		//////////////// DEBUG //////////////////////
 //		List<DoubleArray> result2 = new ArrayList<DoubleArray>();
@@ -479,8 +475,7 @@ public class KDTree {
 	 * @param node  the current node
 	 * @param targetPoint the vector
 	 * @param result the set of points within the radius (to be filled by this method)
-	 * @param the radius
-	 */
+     */
 	private void findPointsWithinRadius(KDNode node, DoubleArray targetPoint, List<DoubleArray> result, double radius) {
 		// if it is the target point, we skip it because we don't want to return it
 		if(node.values != targetPoint) {
@@ -516,8 +511,7 @@ public class KDTree {
 	 * Method to try to save a node in the set of the current closest k neighbors. 
 	 * @param node  the node to be added.
 	 * @param target the target node.
-	 * @param the radius
-	 */
+     */
 	private void tryToSaveRadius(KDNode node, DoubleArray target, List<DoubleArray> result, double radius) {
 		if(node == null){
 			return;
@@ -571,8 +565,7 @@ public class KDTree {
 	 * @param node  the current node
 	 * @param targetPoint the vector
 	 * @param result the set of points within the radius (to be filled by this method), and their distance to the target point!
-	 * @param the radius
-	 */
+     */
 	private void findPointsWithinRadiusWithDistance(KDNode node, DoubleArray targetPoint, List<KNNPoint> result, double radius) {
 		// if it is the target point, we skip it because we don't want to return it
 		if(node.values != targetPoint) {
@@ -606,8 +599,7 @@ public class KDTree {
 	 * Method to try to save a node in the set of the current closest k neighbors. 
 	 * @param node  the node to be added.
 	 * @param target the target node.
-	 * @param the radius
-	 */
+     */
 	private void tryToSaveRadiusWithDistance(KDNode node, DoubleArray target, List<KNNPoint> result, double radius) {
 		if(node != null){
 			double distance = distanceFunction.calculateDistance(target, node.values);

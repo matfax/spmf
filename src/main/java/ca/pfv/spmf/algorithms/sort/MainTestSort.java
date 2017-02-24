@@ -34,7 +34,7 @@ class MainTestSort {
 	}
 
 	 
-	 public static String arrayToString(int[] a) {
+	 private static String arrayToString(int[] a) {
 		    StringBuilder result = new StringBuilder();
 		    if (a.length > 0) {
 		        result.append(a[0]);

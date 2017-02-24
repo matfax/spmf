@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
  */
 public abstract class AbstractItemset {
 
-	public AbstractItemset() {
+	AbstractItemset() {
 		super();
 	}
 
@@ -63,7 +63,7 @@ public abstract class AbstractItemset {
 	 * @param nbObject  the number of transactions in the database where this itemset was found
 	 * @return the relative support of the itemset as a double
 	 */
-	public abstract double getRelativeSupport(int nbObject);
+	protected abstract double getRelativeSupport(int nbObject);
 
 	/**
 	 * Get the relative support of this itemset as a string

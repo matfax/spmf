@@ -54,25 +54,25 @@ import java.util.Set;
 public class AlgoFOSHU {
 
 	// variable for statistics
-	public double maxMemory = 0;     // the maximum memory usage
-	public long startTimestamp = 0;  // the time the algorithm started
-	public long endTimestamp = 0;   // the time the algorithm terminated
-	public int huiCount =0;  // the number of HUI generated
+    private double maxMemory = 0;     // the maximum memory usage
+	private long startTimestamp = 0;  // the time the algorithm started
+	private long endTimestamp = 0;   // the time the algorithm terminated
+	private int huiCount =0;  // the number of HUI generated
 	
 	// the number of join operations performed by the algorithm
-	public int joinCount =0;
+    private int joinCount =0;
 	
 	// the input file path
-	public String input;
+    private String input;
 	
 	// Map to remember the TWU of each item
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	// Map to remember the TWU of each item
-	int[] transactionsTU;
+    private int[] transactionsTU;
 	
 	// writer to write the output file 
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	// variable for debug mode
 	boolean debug = false;
@@ -80,19 +80,19 @@ public class AlgoFOSHU {
 	//======================== FOR SCALABILITY EXPERIMENTS =====
 	// The following line allows to specify how many lines from the input file should
 	// be read. By default this parameter is set to Integer.MAX_VALUE (read the whole file).
-	public int maxSEQUENCECOUNT = Integer.MAX_VALUE;
+    private int maxSEQUENCECOUNT = Integer.MAX_VALUE;
 	
 	//==================================================
 	
 
 	//===================== FOSHU ===========================
 	// The set of negative items
-	Set<Integer> negativeItems = null;
+    private Set<Integer> negativeItems = null;
 	// The minimum utility ratio
-	double minUtilityRatio = 0;	
+    private double minUtilityRatio = 0;
 	
 	//  The total utility of each period
-	List<Integer> periodUtilities = null;
+    private List<Integer> periodUtilities = null;
 	//====================================================
 	
 	/**
@@ -169,7 +169,7 @@ public class AlgoFOSHU {
 					&& transactionCount <= maxSEQUENCECOUNT) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -293,7 +293,7 @@ public class AlgoFOSHU {
 					&& tid <= maxSEQUENCECOUNT) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -416,7 +416,7 @@ public class AlgoFOSHU {
 				}
 			}
 			// If itemset X is not promising
-			if(isPromisingInAtLeastAPeriod == false) {
+			if(!isPromisingInAtLeastAPeriod) {
 				// then we remove it because it cannot be part of any high utility itemset
 				iter.remove();
 			}
@@ -497,7 +497,6 @@ public class AlgoFOSHU {
 	 * @param prefix  This is the current prefix. Initially, it is empty.
 	 * @param pUL This is the Utility List of the prefix. Initially, it is empty.
 	 * @parafm ULs The utility lists corresponding to each extension of the prefix.
-	 * @param minUtility The minUtility ratio threshold (a double).
 	 * @throws IOException
 	 */
 	private void foshu(int [] prefix, UtilityListFOSHU pUL, List<UtilityListFOSHU> ULs)
@@ -538,7 +537,7 @@ public class AlgoFOSHU {
 			}
 			
 			// if X is not promising, then we will not explore its extensions, so we continue.
-			if(isPromisingInAtLeastOnePeriod == false) {
+			if(!isPromisingInAtLeastOnePeriod) {
 				continue;
 			}
 
@@ -587,7 +586,7 @@ public class AlgoFOSHU {
 				
 				// if the itemset p U {X,Y} is not promising
 				// then we don't need to consider it anymore, in this depth first search.
-				if(isPromisingInAtLeastAPeriod == true) {
+				if(isPromisingInAtLeastAPeriod) {
 					exULs.add(pXY);
 				}
 			}
@@ -600,8 +599,6 @@ public class AlgoFOSHU {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param relativeUtility the relative utility of that itemset
 	 */
@@ -669,7 +666,7 @@ public class AlgoFOSHU {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 		System.out.println("=============  FOSHU ALGORITHM v2.02 - STATS =============");
 		System.out.println("Dataset : " + input);
 		System.out.println(" Total time ~ "                  + (endTimestamp - startTimestamp) + " ms");

@@ -17,7 +17,7 @@ public class ItemsetTP{
 	/** an itemset is an ordered list of items */
 	final int[] items; 
 	/** we also indicate the utility of the itemset */
-	int utility = 0;
+    private int utility = 0;
 	//	/** this is the set of tids (ids of transactions) containing this itemset */
 	List<PeriodUtility> listPeriodUtility = null;
 

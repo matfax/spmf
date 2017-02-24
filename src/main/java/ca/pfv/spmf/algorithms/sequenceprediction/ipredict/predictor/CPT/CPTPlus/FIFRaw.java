@@ -25,7 +25,7 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
 public class FIFRaw implements FIF {
 	
 	
-	public HashMap<Item, Integer> itemFrequencies;
+	private HashMap<Item, Integer> itemFrequencies;
 	
 	
 	@Override

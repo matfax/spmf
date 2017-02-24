@@ -54,14 +54,14 @@ public class DescriptionAlgoVMSP extends DescriptionOfAlgorithm {
 	@Override
 	public void runAlgorithm(String[] parameters, String inputFile, String outputFile) throws IOException {
 		AlgoVMSP algo = new AlgoVMSP();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[1]));
 		}
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setMaxGap(getParamAsInteger(parameters[2]));
 		}
 		
-		if (parameters.length >=4 && "".equals(parameters[3]) == false) {
+		if (parameters.length >=4 && !"".equals(parameters[3])) {
 			boolean outputSeqIdentifiers = getParamAsBoolean(parameters[3]);
 			algo.showSequenceIdentifiersInOutput(outputSeqIdentifiers);
 		}

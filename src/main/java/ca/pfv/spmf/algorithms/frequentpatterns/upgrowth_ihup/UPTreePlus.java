@@ -31,23 +31,23 @@ import java.util.Map;
  * @author Prashant Barhate
  */
 
-public class UPTreePlus {
+class UPTreePlus {
 
 	// List of items in the header table
 	List<Integer> headerList = null;
 
 	// flag that indicate if the tree has more than one path
-	boolean hasMoreThanOnePath = false;
+    private boolean hasMoreThanOnePath = false;
 
 	// List of pairs (item, Utility) of the header table
 	Map<Integer, UPNodePlus> mapItemNodes = new HashMap<Integer, UPNodePlus>();
 
 	// root of the tree
-	UPNodePlus root = new UPNodePlus(); // null node
+    private UPNodePlus root = new UPNodePlus(); // null node
 
 	// Map that indicates the last node for each item using the node links
 	// key: item value: an fp tree node (added by Philippe)
-	Map<Integer, UPNodePlus> mapItemLastNode = new HashMap<Integer, UPNodePlus>();
+    private Map<Integer, UPNodePlus> mapItemLastNode = new HashMap<Integer, UPNodePlus>();
 
 	public UPTreePlus() {
 
@@ -114,8 +114,7 @@ public class UPTreePlus {
 	 * @param localPath the path to be inserted
 	 * @param pathUtility the path utility
 	 * @param pathCount the path count
-	 * @param mapMinimumItemUtility the map storing minimum item utility
-	 */
+     */
 	public void addLocalTransaction(List<Integer> localPath, int pathUtility,
 			Map<Integer, Integer> mapMiniNodeUtility, int pathCount) {
 
@@ -139,8 +138,8 @@ public class UPTreePlus {
 			UPNodePlus child = currentlocalNode.getChildWithID(item);
 
 			if (child == null) {
-				int nodeUtility = (pathUtility - RemainingUtility); ;
-				// Nodeutility=  previous + (RTU - utility of
+				int nodeUtility = (pathUtility - RemainingUtility);
+                // Nodeutility=  previous + (RTU - utility of
 				// descendent items)
 				RemainingUtility = 0; // reset RU for next item
 
@@ -252,7 +251,7 @@ public class UPTreePlus {
 	 * @param node  the current node to be added to the string with its child
 	 * @return the string
 	 */
-	public String toString(String indent, UPNodePlus node) {
+    private String toString(String indent, UPNodePlus node) {
 		String output = indent + node.toString() + "\n";
 		String childsOutput = "";
 		for (UPNodePlus child : node.childs) {

@@ -60,22 +60,22 @@ public class AlgoCMSPAM {
 	private long endTime;   
 	
 	/** number of patterns */
-    public int patternCount;
+    private int patternCount;
     
     /** minsup */
     private int minsup = 0;
     
     /** object to write to a file */
-    BufferedWriter writer = null;
+    private BufferedWriter writer = null;
     
     /** Vertical database */
-    Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
     
     /** List indicating the number of bits per sequence */
-    List<Integer> sequencesSize = null;
+    private List<Integer> sequencesSize = null;
     
     /** the last bit position that is used in bitmaps */
-    int lastBitIndex = 0;  
+    private int lastBitIndex = 0;
     
 	/** maximum pattern length in terms of item count */
 	private int minimumPatternLength = 0;
@@ -84,24 +84,24 @@ public class AlgoCMSPAM {
 	   
 	/** items that need to appear in patterns found by the algorithm 
 	* (or any items if the array is empty) */
-	int[] mustAppearItems; 
+    private int[] mustAppearItems;
     
     /**Map: key: item   value:  another item that followed the first item + support
     * (could be replaced with a triangular matrix...) */
-    Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
-    Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
     
     /** Map indicating for each item, the smallest tid containing this item
     * in a sequence. */
-    Map<Integer, Short> lastItemPositionMap;
-    boolean useCMAPPruning = true;
-    boolean useLastPositionPruning = false;
+    private Map<Integer, Short> lastItemPositionMap;
+    private boolean useCMAPPruning = true;
+    private boolean useLastPositionPruning = false;
     
 	/** the max gap between two itemsets of a pattern. It is an optional parameter that the user can set. */
 	private int maxGap = Integer.MAX_VALUE;
 	
 	/**  if true, sequence ids of each pattern will be shown when they will be output */
-	boolean outputSequenceIdentifiers;
+    private boolean outputSequenceIdentifiers;
 
     /**
      * Default constructor
@@ -142,7 +142,6 @@ public class AlgoCMSPAM {
     /**
      * This is the main method for the SPAM algorithm
      *
-     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -168,7 +167,7 @@ public class AlgoCMSPAM {
             while ((thisLine = reader.readLine()) != null) {
                 // if the line is  a comment, is  empty or is a
                 // kind of metadata
-                if (thisLine.isEmpty() == true
+                if (thisLine.isEmpty()
                         || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
                         || thisLine.charAt(0) == '@') {
                     continue;
@@ -232,7 +231,7 @@ public class AlgoCMSPAM {
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -429,7 +428,6 @@ public class AlgoCMSPAM {
         Map<Integer, Integer> mapSupportItemsAfter = coocMapAfter.get(lastAppendedItem);
 
         // for each item in sn
-        loopi:
         for (Integer i : sn) {
 
             // LAST POSITION PRUNING
@@ -442,24 +440,24 @@ public class AlgoCMSPAM {
             // we only check with the last appended item
             if (useCMAPPruning) {
                 if (mapSupportItemsAfter == null) {
-                    continue loopi;
+                    continue;
                 }
                 Integer support = mapSupportItemsAfter.get(i);
                 if (support == null || support < minsup) {
 //							System.out.println("PRUNE");
-                    continue loopi;
+                    continue;
                 }
             }
 
             // perform the S-STEP with that item to get a new bitmap
             Bitmap.INTERSECTION_COUNT++;
-            
+
 //            System.out.println(prefix +  " bitmap : " + prefixBitmap.bitmap);
 //            if(prefix.size() == 1 && prefix.get(0).get(0) == 5) {
 //            	System.out.println("TEST1" + prefixB);
 //            }
-            
-            
+
+
             Bitmap newBitmap = prefixBitmap.createNewBitmapSStep(verticalDB.get(i), sequencesSize, lastBitIndex, maxGap);
             // if the support is higher than minsup
             if (newBitmap.getSupportWithoutGapTotal() >= minsup) {
@@ -496,7 +494,6 @@ public class AlgoCMSPAM {
         List<Bitmap> iTempBitmaps = new ArrayList<Bitmap>();
 
         // for each item in in
-        loop2:
         for (Integer i : in) {
 
 
@@ -512,11 +509,11 @@ public class AlgoCMSPAM {
                 // CMAP PRUNING
                 if (useCMAPPruning) {
                     if (mapSupportItemsEquals == null) {
-                        continue loop2;
+                        continue;
                     }
                     Integer support = mapSupportItemsEquals.get(i);
                     if (support == null || support < minsup) {
-                        continue loop2;
+                        continue;
                     }
                 }
 
@@ -571,7 +568,7 @@ public class AlgoCMSPAM {
 			if(mustAppearItems.length > 1) {
 				return;
 			}
-			if(item.equals(mustAppearItems[0]) == false){
+			if(!item.equals(mustAppearItems[0])){
 				return;
 			}
 		}
@@ -713,7 +710,7 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
 	 * @param item the item
 	 * @return true if the user has specified that this item must appear in the pattern
 	 */
-	public boolean itemMustAppearInPatterns(int item) {
+    private boolean itemMustAppearInPatterns(int item) {
 		return (mustAppearItems == null)
 				|| Arrays.binarySearch(mustAppearItems, item) >=0;
 	}

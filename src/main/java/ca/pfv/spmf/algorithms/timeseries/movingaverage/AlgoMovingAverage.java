@@ -33,12 +33,12 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoMovingAverage {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
-	boolean DEBUG_MODE = false;
+    private boolean DEBUG_MODE = false;
 		
 	/**
 	 * Default constructor
@@ -53,7 +53,7 @@ public class AlgoMovingAverage {
 	 * @return the moving average of the time series (an array of double objects)
 	 * @throws IOException exception if error while writing the file
 	 */
-	public TimeSeries runAlgorithm(TimeSeries timeSeries, int windowSize) throws IOException {
+	public TimeSeries runAlgorithm(TimeSeries timeSeries, int windowSize) {
 		// check some error for parameters
 		if(timeSeries.data.length < windowSize){
 			throw new IllegalArgumentException(" The window size should be greater or equal to 1");

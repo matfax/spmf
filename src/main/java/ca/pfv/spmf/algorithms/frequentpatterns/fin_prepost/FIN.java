@@ -41,50 +41,50 @@ import java.util.Map.Entry;
 public class FIN {
 
 	// the start time and end time of the last algorithm execution
-	long startTimestamp;
-	long endTimestamp;
+    private long startTimestamp;
+	private long endTimestamp;
 
 	// number of itemsets found
-	int outputCount = 0;
+    private int outputCount = 0;
 
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
-	public int[][] bf;
-	public int bf_cursor;
-	public int bf_size;
-	public int bf_col;
-	public int bf_currentSize;
+	private int[][] bf;
+	private int bf_cursor;
+	private int bf_size;
+	private int bf_col;
+	private int bf_currentSize;
 
-	public int numOfFItem; // Number of items
-	public int minSupport; // minimum support
-	public Item[] item; // list of items sorted by support
+	private int numOfFItem; // Number of items
+	private int minSupport; // minimum support
+	private Item[] item; // list of items sorted by support
 
 	// public FILE out;
-	public int[] result; // the current itemset
-	public int resultLen = 0; // the size of the current itemset
-	public int resultCount = 0;
-	public int nlLenSum = 0; // node list length of the current itemset
+    private int[] result; // the current itemset
+	private int resultLen = 0; // the size of the current itemset
+	private int resultCount = 0;
+	private int nlLenSum = 0; // node list length of the current itemset
 
 	// Tree stuff
-	public PPCTreeNode ppcRoot;
-	public NodeListTreeNode nlRoot;
-	public int[] itemsetCount;
+    private PPCTreeNode ppcRoot;
+	private NodeListTreeNode nlRoot;
+	private int[] itemsetCount;
 
-	public int[] nlistBegin;
-	public int nlistCol;
-	public int[] nlistLen;
-	public int firstNlistBegin;
-	public int PPCNodeCount;
-	public int[] SupportDict;
+	private int[] nlistBegin;
+	private int nlistCol;
+	private int[] nlistLen;
+	private int firstNlistBegin;
+	private int PPCNodeCount;
+	private int[] SupportDict;
 
-	public int[] sameItems;
-	public int nlNodeCount;
+	private int[] sameItems;
+	private int nlNodeCount;
 
 	/**
 	 * Comparator to sort items by decreasing order of frequency
 	 */
-	static Comparator<Item> comp = new Comparator<Item>() {
+	private static Comparator<Item> comp = new Comparator<Item>() {
 		public int compare(Item a, Item b) {
 			return ((Item) b).num - ((Item) a).num;
 		}
@@ -180,7 +180,7 @@ public class FIN {
 	 * @throws IOException
 	 *             if an exception while reading/writting to file
 	 */
-	void buildTree(String filename) throws IOException {
+    private void buildTree(String filename) throws IOException {
 
 		PPCNodeCount = 0;
 		ppcRoot.label = -1;
@@ -196,7 +196,7 @@ public class FIN {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}
@@ -367,7 +367,7 @@ public class FIN {
 	/**
 	 * Initialize the tree
 	 */
-	void initializeTree() {
+    private void initializeTree() {
 
 		NodeListTreeNode lastChild = null;
 		for (int t = numOfFItem - 1; t >= 0; t--) {
@@ -398,7 +398,7 @@ public class FIN {
 	 * @param minSupport
 	 * @throws IOException
 	 */
-	void getData(String filename, double minSupport) throws IOException {
+    private void getData(String filename, double minSupport) throws IOException {
 		numOfTrans = 0;
 
 		// (1) Scan the database and count the support of each item.
@@ -412,7 +412,7 @@ public class FIN {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}
@@ -460,8 +460,8 @@ public class FIN {
 		Arrays.sort(item, comp);
 	}
 
-	NodeListTreeNode iskItemSetFreq(NodeListTreeNode ni, NodeListTreeNode nj,
-			int level, NodeListTreeNode lastChild, IntegerByRef sameCountRef) {
+	private NodeListTreeNode iskItemSetFreq(NodeListTreeNode ni, NodeListTreeNode nj,
+                                            int level, NodeListTreeNode lastChild, IntegerByRef sameCountRef) {
 
 		if (bf_cursor + ni.NLLength > bf_currentSize) {
 			bf_col++;
@@ -526,8 +526,8 @@ public class FIN {
 	 * @param sameCount
 	 * @throws IOException if error while writing itemsets to file
 	 */
-	public void traverse(NodeListTreeNode curNode, NodeListTreeNode curRoot,
-			int level, int sameCount) throws IOException {
+    private void traverse(NodeListTreeNode curNode, NodeListTreeNode curRoot,
+                          int level, int sameCount) throws IOException {
 
 		MemoryLogger.getInstance().checkMemory();
 
@@ -583,8 +583,8 @@ public class FIN {
 		resultLen--;
 	}
 
-	NodeListTreeNode is2_itemSetValid(NodeListTreeNode ni, NodeListTreeNode nj,
-			int level, NodeListTreeNode lastChild, IntegerByRef sameCount) {
+	private NodeListTreeNode is2_itemSetValid(NodeListTreeNode ni, NodeListTreeNode nj,
+                                              int level, NodeListTreeNode lastChild, IntegerByRef sameCount) {
 		int i = ni.label;
 		int j = nj.label;
 		if (ni.support == itemsetCount[(i - 1) * i / 2 + j]) {

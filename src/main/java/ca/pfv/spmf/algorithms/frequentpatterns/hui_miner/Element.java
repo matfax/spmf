@@ -25,7 +25,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
  * @see UtilityList
  * @author Philippe Fournier-Viger
  */
-public class Element {
+class Element {
 	// The three variables as described in the paper:
 	/** transaction id */
 	final int tid ;   

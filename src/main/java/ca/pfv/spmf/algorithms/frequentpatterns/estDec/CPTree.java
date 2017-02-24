@@ -37,7 +37,7 @@ import java.util.List;
  * @see CPTreeNode
  * @author Azadeh Soltani
  */
-public class CPTree {
+class CPTree {
 
 	private double N; // |Dk|
 	private double d; // decay rate
@@ -48,7 +48,7 @@ public class CPTree {
 
 	// Hashtable for storing frequent itemsets into memory
 	// (used if result is saved to memory)
-	Hashtable<int[], Double> patterns;
+    private Hashtable<int[], Double> patterns;
 
 	// writer used if result is saved to file
 	private BufferedWriter writer;
@@ -63,7 +63,7 @@ public class CPTree {
 	// the tree root
 	CPTreeNode root; 
 	
-	int[] itemsetBuffer = new int[500];
+	private int[] itemsetBuffer = new int[500];
 
 	/**
 	 * Constructor
@@ -141,10 +141,8 @@ public class CPTree {
 	 * 
 	 * @param itemset
 	 *            the itemset
-	 * @param pos
-	 *            the index of the item to be ignored in the itemset
-	 ********************************************************************/
-	double getCountOfItemset(int[] itemset) {
+     ********************************************************************/
+    private double getCountOfItemset(int[] itemset) {
     
 		CPTreeNode currentNode = root.getChildWithID(itemset[0], -1);
 		int ind = 1;
@@ -161,8 +159,7 @@ public class CPTree {
 			if (parentInd != -1) {
 				ind++;
 				l++;
-				continue;
-			} else {
+            } else {
 				currentNode = currentNode.getChildWithID(itemset[ind],
 						oldPInd);
 				if (currentNode != null) {
@@ -179,11 +176,9 @@ public class CPTree {
 
 	/********************************************************************
 	 * Method for estimating the count of n-itemset from its n-1 subsets
-	 * 
-	 * @param currentNode
-	 *            , transaction, index
-	 ********************************************************************/
-	double estimateCount(int[] itemset,int length) {
+	 *
+     ********************************************************************/
+    private double estimateCount(int[] itemset, int length) {
 		double min = Double.MAX_VALUE;
 		// We will consider each subset of length n-1 of the itemset "itemset" to
 		// find the minimum count of its n-1 subsets.
@@ -225,8 +220,8 @@ public class CPTree {
 	 * 
 	 ********************************************************************/
 
-	public void insert_n_itemsets(CPTreeNode currentNode, short PI,
-			List<Integer> transaction, int ind, int[] itemset, int length) {
+    private void insert_n_itemsets(CPTreeNode currentNode, short PI,
+                                   List<Integer> transaction, int ind, int[] itemset, int length) {
 		// stop recursion
 		if (ind >= transaction.size())
 			return;
@@ -262,10 +257,8 @@ public class CPTree {
 
 	/********************************************************************
 	 * Method for force pruning
-	 * 
-	 * @param root
-	 *            t
-	 ********************************************************************/
+	 *
+     ********************************************************************/
 	void forcePruning(CPTreeNode currentNode) {
 		for (int i = 0; i < currentNode.children.size(); ++i) {
 			CPTreeNode node = currentNode.children.get(i);
@@ -280,11 +273,10 @@ public class CPTree {
 	/********************************************************************
 	 * Recursive method for finding frequent patterns.
 	 * 
-	 * @param root   root of the current subtree
 	 * @param pattern    current pattern
 	 * @throws IOException
 	 ********************************************************************/
-	void patternMining(CPTreeNode currentNode, int[] pattern) throws IOException {
+    private void patternMining(CPTreeNode currentNode, int[] pattern) throws IOException {
 		if (currentNode.itemIDList != null && currentNode.itemIDList.size() > 0) {
 			
 			// list of itemset of patterns corresponding to each itemIdList item
@@ -348,10 +340,8 @@ public class CPTree {
 
 	/********************************************************************
 	 * Method for finding frequent patterns and save them into memory
-	 * 
-	 * @param root
-	 *            root of the current subtree
-	 ********************************************************************/
+	 *
+     ********************************************************************/
 	Hashtable<int[], Double> patternMining_saveToMemory()	throws IOException {
 		// Initialize hashtable for storing frequent patterns into memory
 		patterns = new Hashtable<int[], Double>();
@@ -367,8 +357,6 @@ public class CPTree {
 	/********************************************************************
 	 * Method for finding frequent patterns and save them into file
 	 * 
-	 * @param root
-	 *            the root of the curent subtree
 	 * @param outputPath
 	 *            the output file path
 	 * @throws IOException
@@ -393,7 +381,7 @@ public class CPTree {
 	 * @param support
 	 *            a double value
 	 ********************************************************************/
-	void writeItemset(int[] itemset, double support) throws IOException {
+    private void writeItemset(int[] itemset, double support) throws IOException {
 		StringBuilder buffer = new StringBuilder();
 
 		// for each item
@@ -417,7 +405,7 @@ public class CPTree {
 	 * @param m
 	 *            the child node
 	 */
-	public void merge(CPTreeNode mp, CPTreeNode m) {
+    private void merge(CPTreeNode mp, CPTreeNode m) {
 
 //		System.out.println("MERGE");
 		int l = mp.itemIDList.size();
@@ -445,7 +433,7 @@ public class CPTree {
 	 * 
 	 * * @param m a node which should be split
 	 */
-	public void split(CPTreeNode m) {
+    private void split(CPTreeNode m) {
 		int longestLevel = m.getLongestLevel();
 //		int l = m.itemIDList.size();
 		for (int j = 1; j < m.itemIDList.size(); ++j)
@@ -509,8 +497,7 @@ public class CPTree {
 		m.update(d);
 		if (m.counter1 / N < minsig ) {
 			mp.children.remove(m);
-			return;
-		} 
+        }
 		else {
 			
 		List<Integer> leafCommonItemInds = new ArrayList<Integer>();
@@ -551,8 +538,8 @@ public class CPTree {
 	/**
 	 * 
 	 */
-	List<Integer> FindLevelCommonItems(CPTreeNode m,	List<Integer> levelParents,
-			List<Integer> leafCommonItemInds, int[] transaction) {
+    private List<Integer> FindLevelCommonItems(CPTreeNode m, List<Integer> levelParents,
+                                               List<Integer> leafCommonItemInds, int[] transaction) {
         ArrayList<Integer> newParents = new ArrayList<Integer>();
 		for (int k = levelParents.get(0)+1; k < m.itemIDList.size(); ++k) {
 			if (Arrays.binarySearch(transaction, m.itemIDList.get(k)) >= 0) {

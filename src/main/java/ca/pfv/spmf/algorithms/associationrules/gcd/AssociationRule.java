@@ -18,7 +18,7 @@
 
 package ca.pfv.spmf.algorithms.associationrules.gcd;
 
-public class AssociationRule {
+class AssociationRule {
 	private MyBigInteger antecedent;
 	private MyBigInteger consequent;
 	private double support;

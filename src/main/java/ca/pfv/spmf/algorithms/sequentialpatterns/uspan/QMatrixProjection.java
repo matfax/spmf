@@ -40,9 +40,7 @@ class QMatrixProjection{
 	
 	/**
 	 * Constructor
-	 * @param nbItem the number of item in the sequence
-	 * @param nbItemset the number of itemsets in that sequence
-	 */
+     */
 	public QMatrixProjection(QMatrix matrix, List<MatrixPosition> positions){
 		this.originalMatrix = matrix; 
 		this.positions = positions;
@@ -50,9 +48,7 @@ class QMatrixProjection{
 	
 	/**
 	 * Constructor
-	 * @param nbItem the number of item in the sequence
-	 * @param nbItemset the number of itemsets in that sequence
-	 */
+     */
 	public QMatrixProjection(QMatrixProjection projection, List<MatrixPosition> positions){
 		this.originalMatrix = projection.originalMatrix; 
 		this.positions = positions;

@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Vikram Goyal, Ashish Sureka, Dhaval Patel, Siddharth Dawar
  */
 
-public class UtilityInterval {
+class UtilityInterval {
 	/**
 	 * Interval class with low and high values has methods to get low and high
 	 * values
@@ -81,7 +81,7 @@ public class UtilityInterval {
 	}
 
 	/** List of intervals */
-	ArrayList<Interval> intervalSet = null;
+    private ArrayList<Interval> intervalSet = null;
 	private long currentMaxMin = 0;
 
 	/**

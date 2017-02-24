@@ -20,10 +20,10 @@ package ca.pfv.spmf.algorithms.clustering.text_clusterer;
  * @author Sabarish Raghu
  *
  */
-public class SimilarRecords {
-int record1Pos; //index of the first record
-int record2Pos; //index of the second record
-double similarity; //similarity measure between the 2 records
+class SimilarRecords {
+private int record1Pos; //index of the first record
+private int record2Pos; //index of the second record
+private double similarity; //similarity measure between the 2 records
 public int getRecord1Pos() {
 	return record1Pos;
 }

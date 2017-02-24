@@ -33,7 +33,7 @@ public interface IdListCreator {
      * It creates an empty IdList.
      * @return the idlist
      */
-    public IDList create();
+    IDList create();
 
     /**
      * It adds an appearance <sid,tid> in a sequence to an Idlist 
@@ -41,7 +41,7 @@ public interface IdListCreator {
      * @param sequence the sequence
      * @param timestamp the timestamp
      */
-    public void addAppearance(IDList idlist, Integer sequence, Integer timestamp);
+    void addAppearance(IDList idlist, Integer sequence, Integer timestamp);
 
     /**
      * It adds several appearances <sid, {tid_1,tid_2,...,tid_n}> in a sequence to an Idlist
@@ -49,5 +49,5 @@ public interface IdListCreator {
      * @param sequence the sequence
      * @param items a list of items
      */
-    public void addAppearancesInSequence(IDList idlist, Integer sequence, List<Integer> items);
+    void addAppearancesInSequence(IDList idlist, Integer sequence, List<Integer> items);
 }

@@ -55,17 +55,17 @@ public class AlgoFPClose {
 	private int itemsetCount; // number of freq. itemsets found
 	
 	// parameter
-	public int minSupportRelative;// the relative minimum support
+    private int minSupportRelative;// the relative minimum support
 	
-	BufferedWriter writer = null; // object to write the output file
+	private BufferedWriter writer = null; // object to write the output file
 	
 	// The  patterns that are found 
 	// (if the user want to keep them into memory)
-	protected Itemsets patterns = null;
+    private Itemsets patterns = null;
 		
 	// This variable is used to determine the size of buffers to store itemsets.
 	// A value of 2000 should be enough 
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	
 	// buffer for storing the current itemset that is mined when performing mining
 	// the idea is to always reuse the same buffer to reduce memory usage.
@@ -84,7 +84,7 @@ public class AlgoFPClose {
 	private final boolean DEBUG = false;
 	
 	// Comparator to compare the items based on the order of decreasing support in the original DB.
-	Comparator<Integer> comparatorOriginalOrder = new Comparator<Integer>(){
+    private Comparator<Integer> comparatorOriginalOrder = new Comparator<Integer>(){
 		public int compare(Integer item1, Integer item2){
 			// compare the frequency
 			int compare = originalMapSupport.get(item2) - originalMapSupport.get(item1);
@@ -113,7 +113,7 @@ public class AlgoFPClose {
 	 * @return the result if no output file path is provided.
 	 * @throws IOException exception if error reading or writing files
 	 */
-	public Itemsets runAlgorithm(String input, String output, double minsupp) throws FileNotFoundException, IOException {
+	public Itemsets runAlgorithm(String input, String output, double minsupp) throws IOException {
 		// record start time
 		startTimestamp = System.currentTimeMillis();
 		// number of itemsets found
@@ -158,7 +158,7 @@ public class AlgoFPClose {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||	line.charAt(0) == '#' || line.charAt(0) == '%'
+			if (line.isEmpty() ||	line.charAt(0) == '#' || line.charAt(0) == '%'
 				|| line.charAt(0) == '@') {
 				continue;
 			}
@@ -491,7 +491,7 @@ public class AlgoFPClose {
 	 * This has an average performance of O(n^2)
 	 * @param a array of integers
 	 */
-	public void sortOriginalOrder(int [] a, int length){
+    private void sortOriginalOrder(int[] a, int length){
 		// Perform a bubble sort
 		for(int i=0; i < length; i++){
 			for(int j= length -1; j>= i+1; j--){
@@ -514,7 +514,7 @@ public class AlgoFPClose {
 	 * @return a map for storing the support of each item (key: item, value: support)
 	 */
 	private  Map<Integer, Integer> scanDatabaseToDetermineFrequencyOfSingleItems(String input)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		// a map for storing the support of each item (key: item, value: support)
 		 Map<Integer, Integer> mapSupport = new HashMap<Integer, Integer>();
 		//Create object for reading the input file
@@ -524,7 +524,7 @@ public class AlgoFPClose {
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||  line.charAt(0) == '#' || line.charAt(0) == '%' 	|| line.charAt(0) == '@') {
+			if (line.isEmpty() ||  line.charAt(0) == '#' || line.charAt(0) == '%' 	|| line.charAt(0) == '@') {
 				continue;
 			}
 			

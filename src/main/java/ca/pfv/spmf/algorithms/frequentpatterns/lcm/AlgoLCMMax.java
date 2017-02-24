@@ -48,21 +48,21 @@ import ca.pfv.spmf.tools.MemoryLogger;
  *
  * @author Alan Souza <apsouza@inf.ufrgs.br>
  */
-public class AlgoLCMMax {
+class AlgoLCMMax {
 
     private Itemsets itemsets;
     
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// the number of frequent itemsets found (for
 	// statistics)
 	private int frequentCount; 
 
 	// the start time and end time of the last algorithm execution
-	long startTimestamp;
-	long endTimestamp;
-	int minsupRelative;
+    private long startTimestamp;
+	private long endTimestamp;
+	private int minsupRelative;
 	
 	// Buckets for occurence delivery 
 	// Recall that each bucket correspond to an item
@@ -78,9 +78,7 @@ public class AlgoLCMMax {
      * @param minimumSupport  the minimum support threshold as percentage value between 0 and 1
      * @param dataset  the dataset
      * @param outputPath  the output file path to save the result or null if to be kept in memory
-     * @param mineAllFrequentItemsets mine all frequent itemsets
-     * @param mineAllMaximalItemsets mine only maximal itemsets
-         * @return the itemsets or null if the user choose to save to file
+     * @return the itemsets or null if the user choose to save to file
      * @throws IOException if exception while reading/writing to file
      */
     public Itemsets runAlgorithm(double minimumSupport, Dataset dataset, String outputPath) throws IOException {
@@ -154,8 +152,8 @@ public class AlgoLCMMax {
      * @param tailPosInP the tail item position in itemset P
      * @throws IOException if error writing to output file
      */
-    private boolean backtrackingLCMMax(List<Integer> p, List<Transaction> transactionsOfP,
-    		List<Integer> frequentItems, int tailPosInP, Integer itemELastAddedToP) throws IOException {
+    private void backtrackingLCMMax(List<Integer> p, List<Transaction> transactionsOfP,
+                                    List<Integer> frequentItems, int tailPosInP, Integer itemELastAddedToP) {
     	
     	throw new RuntimeException("This algorithm is unavailable in the current version of SPMF. \n");
     	/*
@@ -249,7 +247,7 @@ public class AlgoLCMMax {
 	 * containing all items
 	 * @param dataset
 	 */
-	public void performFirstOccurenceDelivery(Dataset dataset) {
+    private void performFirstOccurenceDelivery(Dataset dataset) {
 
 		buckets = new List[dataset.getMaxItem() + 1]; 
 
@@ -317,7 +315,7 @@ public class AlgoLCMMax {
 		return false;
 	}
 	
-	public boolean containsByBinarySearch(List<Integer> items, Integer item) {
+	private boolean containsByBinarySearch(List<Integer> items, Integer item) {
 		if(items.size() == 0 || item > items.get(items.size() -1)) {
 			return false;
 		}

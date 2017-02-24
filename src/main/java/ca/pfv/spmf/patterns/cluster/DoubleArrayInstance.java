@@ -1,7 +1,5 @@
 package ca.pfv.spmf.patterns.cluster;
 
-import java.util.Arrays;
-
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 /* This file is copyright (c) 2008-2016 Philippe Fournier-Viger
 * 

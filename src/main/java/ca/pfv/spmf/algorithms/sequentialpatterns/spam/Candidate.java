@@ -31,7 +31,7 @@ import java.util.Collection;
 *  @see Prefix
 * @author Philippe Fournier-Viger
  */
-public class Candidate implements Comparable<Candidate>{
+class Candidate implements Comparable<Candidate>{
 	
 	Prefix prefix;
 	Bitmap bitmap;

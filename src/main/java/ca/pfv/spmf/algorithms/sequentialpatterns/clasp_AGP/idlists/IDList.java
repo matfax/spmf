@@ -40,38 +40,38 @@ public interface IDList {
      * @param minSupport Minimum relative support.
      * @return the intersection
      */
-    public IDList join(IDList idList, boolean equals, int minSupport);
+    IDList join(IDList idList, boolean equals, int minSupport);
 
     /**
      * Get the minimum relative support outlined by the IdList, i.e. the number
      * of sequences with any appearance on it.
      * @return the minsup value
      */
-    public int getSupport();
+    int getSupport();
 
     /**
      * Get the string representation of this IdList.
      * @return the string representation
      */
     @Override
-    public String toString();
+    String toString();
 
     /**
      * It moves to a Trie the sequences where the Idlist is active.
      * @param trie the trie 
      */
-    public void setAppearingIn(Trie trie);
+    void setAppearingIn(Trie trie);
     
     /**
      * It moves to a pattern the sequences where the Idlist is active.
      * @param pattern the pattern
      */
-    public void setAppearingIn(Pattern pattern);
+    void setAppearingIn(Pattern pattern);
 
     /**
      * It clears the IdList.
      */
-    public void clear();
+    void clear();
 
     /**
      * It gets a map with a match between the sequences where the pattern 
@@ -79,25 +79,25 @@ public interface IDList {
      * that sequence where the pattern is identified
      * @return the map
      */
-    public Map<Integer, List<Position>> appearingInMap();
+    Map<Integer, List<Position>> appearingInMap();
 
     /**
      * It returns the number of elements that appears after each 
      * appearance of the pattern associated with the IdList
      * @return the number of elements
      */
-    public int getTotalElementsAfterPrefixes();
+    int getTotalElementsAfterPrefixes();
     
     /**
      * It sets the number of elements that appears after each 
      * appearance of the pattern associated with the IdList
      * @param i 
      */
-    public void setTotalElementsAfterPrefixes(int i);
+    void setTotalElementsAfterPrefixes(int i);
     
     /**
      * It sets the original lengths of the database sequences
      * @param map 
      */
-    public void SetOriginalSequenceLengths(Map<Integer, Integer> map);
+    void SetOriginalSequenceLengths(Map<Integer, Integer> map);
 }

@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * @see SignTest
 *  @author  Hoang Thanh Lam (TU Eindhoven and IBM Research)
  */
-public class MyPattern implements Comparable<MyPattern> {
+class MyPattern implements Comparable<MyPattern> {
  ArrayList<Integer> ids;
  double ben; // the compression benefit of using this pattern
  int freq; // the number of time this pattern is used

@@ -12,12 +12,12 @@ import java.util.HashSet;
  * You may obtain a copy of the License at
  * https://opensource.org/licenses/MIT 
  */
-public class LZNode {
+class LZNode {
 
 	/**
 	 * Label of the node
 	 */
-	public int value;
+    private int value;
 	
 	/**
 	 * List of children nodes

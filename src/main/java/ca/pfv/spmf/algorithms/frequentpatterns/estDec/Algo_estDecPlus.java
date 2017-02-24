@@ -47,16 +47,16 @@ import java.util.Hashtable;
 public class Algo_estDecPlus {
 
 	// the Compressible Prefix tree
-	CPTree tree; 
+    private CPTree tree;
 	
 	// the number of transactions
-	int transactionCount = 0; 
+    private int transactionCount = 0;
 
 	// the total time for mining (for stats)
 	private long miningTime = 0;
 	
 	// the total time for transaction insertion (for stats)
-	double sumTransactionInsertionTime = 0; 
+    private double sumTransactionInsertionTime = 0;
 	
 	/**
 	 * Constructor
@@ -92,13 +92,11 @@ public class Algo_estDecPlus {
 	 * Run the algorithm by loading the transactions from an input file.
 	 * 
 	 * @param input   the input file path
-	 * @param output  the output file path for saving the result
-	 * @param mins    the minsup threshold as a double value in [0, 1]
 	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 
 		// read the input file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
@@ -133,14 +131,11 @@ public class Algo_estDecPlus {
 	 * Run the algorithm by loading the transactions from an input file.
 	 * 
 	 * @param input   the input file path
-	 * @param output  the output file path for saving the result
-	 * @param mins    the minsup threshold as a double value in [0, 1]
-	 * @param lineCount the number of lines to be read
 	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input, int numberOfLines)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 
 		// read the input file
 		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
@@ -194,7 +189,6 @@ public class Algo_estDecPlus {
 	 * to memory
 	 * 
 	 * @throws IOException if error when writting to output file
-	 * @param outputPath the output file path
 	 * @return
 	 */
 	public Hashtable<int[], Double> performMining_saveResultToMemory()

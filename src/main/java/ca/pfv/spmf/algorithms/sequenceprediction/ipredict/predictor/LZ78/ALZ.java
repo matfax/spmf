@@ -45,7 +45,7 @@ public class ALZ extends Predictor {
 	private HashMap<List<Integer>, LZNode> mDictionary;
 	
 	
-	public ALZ() {
+	private ALZ() {
 		TAG = "ALZ";
 	}
 	
@@ -54,7 +54,7 @@ public class ALZ extends Predictor {
 	}
 	
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		
 		mDictionary = new HashMap<List<Integer>, LZNode>();
@@ -128,11 +128,9 @@ public class ALZ extends Predictor {
 				
 			}
 		}
-		
-		
-		
-		return null;
-	}
+
+
+    }
 	
 	
 	private void updateFromWindow(List<Integer> window) {

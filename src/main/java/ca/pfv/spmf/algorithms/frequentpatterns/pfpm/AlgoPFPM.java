@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -54,58 +53,58 @@ public class AlgoPFPM {
 	private static final boolean ENABLE_LA_PRUNE = false;
 
 	/** the number of high-utility itemsets generated */
-	public int phuiCount =0; 
+    private int phuiCount =0;
 	
 	/** the number of candidate high-utility itemsets */
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU, support and largest periodicity of each item */
-	static Map<Integer, ItemInfo> mapItemToItemInfo;
+	private static Map<Integer, ItemInfo> mapItemToItemInfo;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;   
+    private BufferedWriter writer = null;
 	
 	/** The eucs structure:  key: item   key: another item   value: support */
-	Map<Integer, Map<Integer, Long>> mapESCS = null;  
+    private Map<Integer, Map<Integer, Long>> mapESCS = null;
 	
 	/** enable ESCP strategy  */
-	boolean ENABLE_ESCP = true;
+    private boolean ENABLE_ESCP = true;
 	
 	/** variable for debug mode */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 	
 	/** buffer for storing the current transaction. */
-	final int TRANSACTION_BUFFERS_SIZE = 1000;
+	private final int TRANSACTION_BUFFERS_SIZE = 1000;
 	private int[] transactionBuffer = null;
 	
 	/** the database size (number of transactions */
-	protected int databaseSize = 0;
+    private int databaseSize = 0;
 	
 	/** minimum periodicity threshold**/
-	int minPeriodicity;
+    private int minPeriodicity;
 
 	/** maximum periodicity threshold **/
-	int maxPeriodicity;
+    private int maxPeriodicity;
 
 	/** maximum average periodicity threshold **/
-	int minAveragePeriodicity;
+    private int minAveragePeriodicity;
 	
 	/** maximum average periodicity threshold **/
-	int maxAveragePeriodicity;
+    private int maxAveragePeriodicity;
 	
 	/** the gamma parameter **/
-	protected double supportPruningThreshold = 0;
+    private double supportPruningThreshold = 0;
 	
 	/** the total execution time **/
-	public double totalExecutionTime = 0;
+    private double totalExecutionTime = 0;
 	
 	/** the maximumMemoryUsage **/
-	public double maximumMemoryUsage = 0;
+    private double maximumMemoryUsage = 0;
 
 	/** this class represent a single item and its support and periodicity */
 	class ItemInfo{
@@ -129,7 +128,6 @@ public class AlgoPFPM {
 	 * @param minPeriodicity the minimum periodicity threshold 
 	 * @param maxPeriodicity the maximum periodicity threshold 
 	 * @param minAveragePeriodicity 
-	 * @param maxAveragePeriodicity2 
 	 * @throws IOException exception if error while writing the file
 	 */
 	public void runAlgorithm(String input, String output, int minPeriodicity, int maxPeriodicity, int minAveragePeriodicity, int maxAveragePeriodicity) throws IOException {
@@ -173,7 +171,7 @@ public class AlgoPFPM {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -330,7 +328,7 @@ public class AlgoPFPM {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -436,7 +434,7 @@ public class AlgoPFPM {
 	 * @param a array of integers
 	 * @param sizeNewTransaction 
 	 */
-	public static void insertionSort(int [] a, int sizeNewTransaction){
+	private static void insertionSort(int[] a, int sizeNewTransaction){
 		for(int j=1; j< sizeNewTransaction; j++){
 			int key = a[j];
 			int i = j - 1;
@@ -467,7 +465,6 @@ public class AlgoPFPM {
 	 * @param prefix  This is the current prefix. Initially, it is empty.
 	 * @param pUL This is the Utility List of the prefix. Initially, it is empty.
 	 * @param ULs The utility lists corresponding to each extension of the prefix.
-	 * @param minUtility The minUtility threshold.
 	 * @param prefixLength The current prefix length
 	 * @throws IOException
 	 */
@@ -677,7 +674,6 @@ public class AlgoPFPM {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
 	 * @param prefixLength the prefix length
 	 * @param utilityList the utility list
 	 * @param averagePeriodicity the average periodicity

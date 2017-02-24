@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * This is an implementation of the BIDE+ algorithm by Wang et al. 2007 to be used
  * with the SeqDim algorithm. This implementation is optimized to be used with SeqDim.
- * If you wish to use BIDE+ without SeqDIM, please see the package: <br/>
+ * If you wish to use BIDE+ without SeqDIM, please see the package:ï¿½<br/>
  *   ca.pfv.spmf.sequential_patterns.bide_and_prefixspan.<br/><br/>
  *   
  * BIDE+ is described in: <br/>
@@ -238,12 +238,11 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	/**
 	 * Method to find all frequent items in a list of maximum periods.
 	 * @param prefix the current prefix
-	 * @param maximum periods  a list of maximum periods
 	 * @return a set of pairs indicating the support of items (note that a pair distinguish
 	 *         between items in a postfix, prefix...).
 	 */
-	protected Set<Pair> findAllFrequentPairsForBackwardExtensionCheck(
-			Sequence prefix, List<PseudoSequence> maximumPeriods, int iPeriod) {
+    private Set<Pair> findAllFrequentPairsForBackwardExtensionCheck(
+            Sequence prefix, List<PseudoSequence> maximumPeriods, int iPeriod) {
 		// Create a Map of pairs to store the pairs
 		Map<Pair, Pair> mapPaires = new HashMap<Pair, Pair>();
 		
@@ -329,7 +328,6 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	 * Add a pair to the map of pairs and add a sequence ID to it. 
 	 * If the pair is already in the map, the id is added to the old pair.
 	 * @param mapPaires the map of pairs
-	 * @param seqID a sequence id
 	 * @param pair a pair
 	 */
 	private void addPair(Map<Pair, Pair> mapPaires,
@@ -365,7 +363,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 		Sequence lastSequence = null;
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<ItemSimple, Set<Integer>> mapSequenceID = new HashMap<ItemSimple, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
+		Map<ItemSimple, Set<Integer>> mapSequenceID = new HashMap<ItemSimple, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
 		
 		
 		// for each sequence
@@ -404,7 +402,6 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -448,7 +445,6 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	/**
 	 * Method to recursively grow a given sequential pattern.
 	 * @param prefix  the current sequential pattern that we want to try to grow
-	 * @param database the current projected sequence database
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
 	private int recursion(Sequence prefix, PseudoSequenceDatabase contexte) {	
@@ -485,10 +481,10 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 				// with this item and this prefix
 				int maxSupportOfSuccessors = 0;
 				// Apply the "backscan pruning" strategy (see BIDE+ paper)
-				if(checkBackScanPruning(newPrefix) == false){
+				if(!checkBackScanPruning(newPrefix)){
 					// make a recursive call to extend the prefix with this item
 					// and generate other patterns starting with that prefix + item
-					maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // récursion
+					maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // rï¿½cursion
 				}		
 				
 				// check the forward extension for the prefix
@@ -517,7 +513,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	 *         is in an itemset that is "cut" at left or right (prefix or postfix)
 	 *         and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<Pair> findAllFrequentPairs(Sequence prefix, List<PseudoSequence> sequences){
+    private Set<Pair> findAllFrequentPairs(Sequence prefix, List<PseudoSequence> sequences){
 		// We use a Map the store the pairs.
 		Map<Pair, Pair> mapPairs = new HashMap<Pair, Pair>();
 		

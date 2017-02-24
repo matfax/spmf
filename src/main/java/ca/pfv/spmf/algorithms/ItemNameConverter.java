@@ -33,13 +33,13 @@ public class ItemNameConverter {
 
 	/** This structure is used for converting new names to old names.
 	 *  The i-th position contains the old item name corresponding to the new name "i" **/
-	int[] newNamesToOldNames;
+    private int[] newNamesToOldNames;
 	/** This structure is used for converting old names to new names.
 	 *  The key is an old name. The value is a new name **/
-	Map<Integer, Integer> oldNamesToNewNames;
+    private Map<Integer, Integer> oldNamesToNewNames;
 	
 	/** this variable is the next new name that will be given*/
-	int currentIndex;
+    private int currentIndex;
 	
 	/**
 	 * Constructor
@@ -81,7 +81,6 @@ public class ItemNameConverter {
 	
 	/**
 	 * Convert an old name to the corresponding new name.
-	 * @param oldName an old name
 	 * @return the corresponding new name or null, if no new name exists for that old name.
 	 */
 	public int toOldName(int newName) {

@@ -57,14 +57,14 @@ public class DescriptionAlgoTKS extends DescriptionOfAlgorithm {
 		int k = getParamAsInteger(parameters[0]);
 
 		AlgoTKS algo = new AlgoTKS();
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setMinimumPatternLength(getParamAsInteger(parameters[1]));
 		}
-		if (parameters.length >=3 && "".equals(parameters[2]) == false) {
+		if (parameters.length >=3 && !"".equals(parameters[2])) {
 			algo.setMaximumPatternLength(getParamAsInteger(parameters[2]));
 		}
 		// get the required items if any (optional)
-		if (parameters.length >=4 && parameters[3] != null && parameters[3].isEmpty() != true) {
+		if (parameters.length >=4 && parameters[3] != null && !parameters[3].isEmpty()) {
 			// if the author did not say any
 			String[] itemsString = parameters[3].split(",");
 			int[] requiredItems = new int[itemsString.length];
@@ -73,11 +73,11 @@ public class DescriptionAlgoTKS extends DescriptionOfAlgorithm {
 			}
 			algo.setMustAppearItems(requiredItems);
 		}
-		if (parameters.length >=5 && "".equals(parameters[4]) == false) {
+		if (parameters.length >=5 && !"".equals(parameters[4])) {
 			algo.setMaxGap(getParamAsInteger(parameters[4]));
 		}
 		
-		if (parameters.length >=6 && "".equals(parameters[5]) == false) {
+		if (parameters.length >=6 && !"".equals(parameters[5])) {
 			boolean outputSeqIdentifiers = getParamAsBoolean(parameters[5]);
 			algo.showSequenceIdentifiersInOutput(outputSeqIdentifiers);
 		}

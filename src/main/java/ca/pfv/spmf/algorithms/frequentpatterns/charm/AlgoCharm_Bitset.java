@@ -64,30 +64,30 @@ public class AlgoCharm_Bitset {
 	/** relative minimum support **/
 	private int minsupRelative;  
 	/** the transaction database **/
-	protected TransactionDatabase database; 
+	TransactionDatabase database;
 
 	/**  start time of the last execution */
-	protected long startTimestamp;
+	long startTimestamp;
 	/** end  time of the last execution */
-	protected long endTime; 
+	long endTime;
 	
 	/** 
 	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
-	protected Itemsets closedItemsets;
+	Itemsets closedItemsets;
 	
 	/** object to write the output file */
 	BufferedWriter writer = null; 
 	
 	/** the number of patterns found */
-	protected int itemsetCount; 
+	int itemsetCount;
 	
 	/** For optimization with a triangular matrix for counting 
 	/ itemsets of size 2.  */
 	private TriangularMatrix matrix; // the triangular matrix
 
 	/** The hash table for storing itemsets for closeness checking (an optimization) */
-	protected HashTable hash;
+	HashTable hash;
 	
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
@@ -237,14 +237,14 @@ public class AlgoCharm_Bitset {
 			
 			// For each item itemJ that is larger than i according to the total order of
 			// increasing support.
-loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
+			for (int j = i + 1; j < frequentItems.size(); j++) {
 				Integer itemJ = frequentItems.get(j);
 				// If the itemset is null (which means that it has been removed, then we 
 				// continue to the next item
-				if(itemJ == null) {
+				if (itemJ == null) {
 					continue;
 				}
-				
+
 				// If the triangular matrix optimization is activated and X is a single item
 				// we obtain the support of the pair of item "x", "j" by using the matrix. 
 				// This allows to determine
@@ -252,42 +252,42 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 				// Then if the support is less than minsup, the itemset X + j is infrequent
 				// and we don't need to consider it anymore.
 				int supportIJ = -1;
-				if(itemsetX.length == 1 && useTriangularMatrixOptimization) {
+				if (itemsetX.length == 1 && useTriangularMatrixOptimization) {
 					// check the support of {i,j} according to the triangular matrix
 					supportIJ = matrix.getSupportForItems(itemX, itemJ);
 					// if not frequent
 					if (supportIJ < minsupRelative) {
 						// skip j;
-						continue loopJ;
+						continue;
 					}
 				}
-				
+
 				// We obtain the tidset of J.
 				BitSetSupport tidsetJ = mapItemTIDS.get(itemJ);
 
 				// Calculate the tidset of itemset "X" + "J" by performing the intersection of 
 				// the tidsets of X and the tidset of J.
 				BitSetSupport bitsetSupportUnion = new BitSetSupport();
-				if(itemsetX.length == 1 && useTriangularMatrixOptimization) {
+				if (itemsetX.length == 1 && useTriangularMatrixOptimization) {
 					// If the triangular matrix optimization is used and X is a single item, then
 					// we perform the intersection but we do not calculate the support since
 					// it was already calculated using the triangular matrix
 					bitsetSupportUnion = performANDFirstTime(tidsetX, tidsetJ, supportIJ);
-				}else {
+				} else {
 					// Otherwise, we perform the intersection and calculate the support
 					// by calculating the cardinality of the resulting tidset.
 					bitsetSupportUnion = performAND(tidsetX, tidsetJ);
 				}
-				
+
 				// if the union is infrequent, we don't need to consider it further
-				if(bitsetSupportUnion.support < minsupRelative) {
+				if (bitsetSupportUnion.support < minsupRelative) {
 					continue;
 				}
-				
+
 				// We next check which of the four Charm properties hold
 				// If Property 1 holds
-				if(tidsetX.support == tidsetJ.support && 
-					bitsetSupportUnion.support == tidsetX.support) {
+				if (tidsetX.support == tidsetJ.support &&
+						bitsetSupportUnion.support == tidsetX.support) {
 					// We remove Xj 
 					frequentItems.set(j, null);
 					// Then, we calculate the union of X and Xj
@@ -296,7 +296,7 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 					realUnion[itemsetX.length] = itemJ;
 					// Then we replace X by the union
 					itemsetX = realUnion;
-				}else if(tidsetX.support < tidsetJ.support
+				} else if (tidsetX.support < tidsetJ.support
 						&& bitsetSupportUnion.support == tidsetX.support) {
 					// If property 2 holds
 					// Then, we calculate the union of X and Xj
@@ -305,7 +305,7 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 					realUnion[itemsetX.length] = itemJ;
 					// Then we replace X by the union
 					itemsetX = realUnion;
-				}else if(tidsetX.support > tidsetJ.support
+				} else if (tidsetX.support > tidsetJ.support
 						&& bitsetSupportUnion.support == tidsetJ.support) {
 					// If property 3 holds
 					// We remove Xj
@@ -314,16 +314,16 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 					// we are building.
 					// Note that we actually only add J because we keep the prefix X for
 					// for the whole equivalence class. Thus X + J can be reconstructed at any time.
-					equivalenceClassIitemsets.add(new int[] {itemJ});
+					equivalenceClassIitemsets.add(new int[]{itemJ});
 					// We also keep the tidset of X + J
 					equivalenceClassItidsets.add(bitsetSupportUnion);
-				}else {  
+				} else {
 					// If property 4 holds
 					// Then, we add the itemset X + J to the equivalence class that
 					// we are building.
 					// Note that we actually only add J because we keep the prefix X for
 					// for the whole equivalence class. Thus X + J can be reconstructed at any time.
-					equivalenceClassIitemsets.add(new int[] {itemJ});
+					equivalenceClassIitemsets.add(new int[]{itemJ});
 					// We also keep the tidset of X + J
 					equivalenceClassItidsets.add(bitsetSupportUnion);
 				}
@@ -430,8 +430,8 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 	 * @param equivalenceClassTidsets the list of tidsets of itemsets of the current equivalence class
 	 * @throws IOException 
 	 */
-	void processEquivalenceClass(int[] prefix, List<int[]> equivalenceClassItemsets,
-			List<BitSetSupport> equivalenceClassTidsets) throws IOException {
+	private void processEquivalenceClass(int[] prefix, List<int[]> equivalenceClassItemsets,
+										 List<BitSetSupport> equivalenceClassTidsets) throws IOException {
 		
 		// If there is only on itemset in equivalence class
 		if(equivalenceClassItemsets.size() == 1) {

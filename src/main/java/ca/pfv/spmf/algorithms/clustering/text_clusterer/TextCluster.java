@@ -23,8 +23,8 @@ import java.util.HashSet;
  * @author Sabarish Raghu
  *
  */
-public class TextCluster {
-	public ArrayList<Integer> cluster; //consists of indices of records in a cluster
+class TextCluster {
+	private ArrayList<Integer> cluster; //consists of indices of records in a cluster
 
 	public ArrayList<Integer> getCluster() {
 		return cluster;

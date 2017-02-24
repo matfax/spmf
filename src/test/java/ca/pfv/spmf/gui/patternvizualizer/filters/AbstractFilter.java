@@ -26,9 +26,9 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public abstract class AbstractFilter{
 	/** The column that the filter is applied to */
-	String columnName;
+    private String columnName;
 	/** The index of the column that the filter is applied to */
-	int columnID;
+    private int columnID;
 	
 	/**
 	 * Constructor
@@ -51,7 +51,7 @@ public abstract class AbstractFilter{
 	 * Get the name of the column that this filter is applied to
 	 * @return the name of the column
 	 */
-	public String getColumnName(){
+    String getColumnName(){
 		return columnName;
 	}
 	

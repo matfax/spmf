@@ -55,12 +55,12 @@ import java.util.Map.Entry;
 public class AlgoAprioriHT {
 
 	// the maximul level reached by Apriori 
-	protected int k;
+    private int k;
 
 	// For statistics
-	protected int totalCandidateCount = 0; // total number of candidates generated
-	protected long startTimestamp;  // start time
-	protected long endTimestamp;   // end time
+    private int totalCandidateCount = 0; // total number of candidates generated
+	private long startTimestamp;  // start time
+	private long endTimestamp;   // end time
 	private int itemsetCount;   // number of itemsets found
 	private int hash_tree_branch_count;  // the number of branches in the hash tree
 	
@@ -71,7 +71,7 @@ public class AlgoAprioriHT {
 	private List<int[]> database = null;
 
 	// write to file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * Default constructor
@@ -118,7 +118,7 @@ public class AlgoAprioriHT {
 		while (((line = reader.readLine()) != null)) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -312,7 +312,6 @@ public class AlgoAprioriHT {
 	 * Method to generate candidates of size k from two list of itemsets of size k-1
 	 * @param list1 the first list
 	 * @param list2 the second list (may be equal to the first list)
-	 * @param candidatesK the hash-tree containing the candidates of size k-1
 	 * @param newCandidates the hash-tree to store the candidates of size k
 	 */
 	private void generate(List<Itemset> list1, List<Itemset> list2,
@@ -401,11 +400,11 @@ public class AlgoAprioriHT {
 	 * @param hashtreeCandidatesK_1  the hash-tree of the previous level
 	 * @return
 	 */
-	protected boolean allSubsetsOfSizeK_1AreFrequent(int[] itemset, ItemsetHashTree hashtreeCandidatesK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(int[] itemset, ItemsetHashTree hashtreeCandidatesK_1) {
 		// generate all subsets by always each item from the candidate, one by one
 		for(int posRemoved=0; posRemoved< itemset.length; posRemoved++){
 
-			if(hashtreeCandidatesK_1.isInTheTree(itemset, posRemoved) == false){  // if we did not find it, that means that candidate is not a frequent itemset because
+			if(!hashtreeCandidatesK_1.isInTheTree(itemset, posRemoved)){  // if we did not find it, that means that candidate is not a frequent itemset because
 				// at least one of its subsets does not appear in level k-1.
 				return false;
 			}
@@ -418,7 +417,7 @@ public class AlgoAprioriHT {
 	 * @param itemset
 	 * @throws IOException
 	 */
-	void saveItemsetToFile(Itemset itemset) throws IOException {
+    private void saveItemsetToFile(Itemset itemset) throws IOException {
 		writer.write(itemset.toString() + " #SUP: "
 				+ itemset.getAbsoluteSupport());
 		writer.newLine();
@@ -431,7 +430,7 @@ public class AlgoAprioriHT {
 	 * @param support the support of the item.
 	 * @throws IOException if an error happens while writing to file.
 	 */
-	void saveItemsetToFile(Integer item, Integer support) throws IOException {
+    private void saveItemsetToFile(Integer item, Integer support) throws IOException {
 		writer.write(item + " #SUP: " + support);
 		writer.newLine();
 		itemsetCount++;

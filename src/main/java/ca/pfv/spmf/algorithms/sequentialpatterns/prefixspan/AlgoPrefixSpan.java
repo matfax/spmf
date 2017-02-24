@@ -48,17 +48,17 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoPrefixSpan{
 		
 	/** for statistics **/
-	long startTime;
-	long endTime;
+	private long startTime;
+	private long endTime;
 	
 	/** the number of pattern found */
-	int patternCount;
+	private int patternCount;
 	
 	/** absolute minimum support */
 	private int minsuppAbsolute;
 
 	/** writer to write output file */
-	BufferedWriter writer = null;
+	private BufferedWriter writer = null;
 	
 	/** The sequential patterns that are found  (if the user want to keep them into memory) */
 	private SequentialPatterns patterns = null;
@@ -67,21 +67,21 @@ public class AlgoPrefixSpan{
 	private int maximumPatternLength = Integer.MAX_VALUE;
 	
 	/** if true, sequence identifiers of each pattern will be shown*/
-	boolean showSequenceIdentifiers = false;
+	private boolean showSequenceIdentifiers = false;
 	
 	/** buffer for storing the current pattern that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. **/
-	final int BUFFERS_SIZE = 2000;
+	private final int BUFFERS_SIZE = 2000;
 	private int[] patternBuffer = new int[BUFFERS_SIZE];
 	
 	/** original sequence count **/
-	int sequenceCount = 0;
+	private int sequenceCount = 0;
 	
 	/** the sequence database **/
-	SequenceDatabase sequenceDatabase;
+	private SequenceDatabase sequenceDatabase;
 	
 	/** boolean indicating whether this database contains itemsets with multiple items or not */
-	boolean containsItemsetsWithMultipleItems = false;
+	private boolean containsItemsetsWithMultipleItems = false;
 	
 	/**
 	 * Default constructor
@@ -129,8 +129,6 @@ public class AlgoPrefixSpan{
 	
 	/**
 	 * Run the algorithm
-	 * @param database : a sequence database
-	 * @param minsupPercent  :  the minimum support as an integer
 	 * @param outputFilePath : the path of the output file to save the result
 	 *                         or null if you want the result to be saved into memory
 	 * @return return the result, if saved into memory, otherwise null 
@@ -242,7 +240,6 @@ public class AlgoPrefixSpan{
 						System.arraycopy(sequence, 0, newSequence, 0, currentPosition+1);
 						sequenceDatabase.getSequences().set(i, newSequence);
 						// continue to next sequence
-						continue; 
 					}else{
 						// if the sequence is  empty, delete this sequence by replacing it with null
 						sequenceDatabase.getSequences().set(i, null);
@@ -338,7 +335,6 @@ public class AlgoPrefixSpan{
 						System.arraycopy(sequence, 0, newSequence, 0, currentPosition+1);
 						sequenceDatabase.getSequences().set(i, newSequence);
 						// continue to next sequence
-						continue; 
 					}else{
 						// if the sequence is  empty, delete this sequence by replacing it with null
 						sequenceDatabase.getSequences().set(i, null);
@@ -421,7 +417,6 @@ public class AlgoPrefixSpan{
 	 * Save a pattern containing two or more items to the output file (or in memory, depending on what the user prefer)
 	 * @param lastBufferPosition the last position in the buffer for this pattern
 	 * @param pseudoSequences the list of pseudosequences where this pattern appears.
-	 * @param length the pattern length in terms of number of items.
 	 * @throws IOException if error when writing to file
 	 */
 	private void savePattern(int lastBufferPosition, List<PseudoSequence> pseudoSequences) throws IOException {
@@ -436,7 +431,7 @@ public class AlgoPrefixSpan{
 				r.append(patternBuffer[i]);
 				r.append(" ");
 			}
-			if(containsItemsetsWithMultipleItems == false){
+			if(!containsItemsetsWithMultipleItems){
 				r.append("-1 ");
 			}
 			r.append("#SUP: ");
@@ -533,8 +528,6 @@ public class AlgoPrefixSpan{
 	/**
 	 * Create a projected database by pseudo-projection with the initial database and a given item.
 	 * @param item The item to use to make the pseudo-projection
-	 * @param sequenceDatabase2 The current database.
-	 * @param list  The set of sequence ids containing the item
 	 * @return the projected database.
 	 */
 	private List<PseudoSequence> buildProjectedDatabaseSingleItems(int item, List<Integer> sequenceIDs) {
@@ -568,8 +561,6 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	/**
 	 * Create a projected database by pseudo-projection with the initial database and a given item.
 	 * @param item The item to use to make the pseudo-projection
-	 * @param sequenceDatabase2 The current database.
-	 * @param list  The set of sequence ids containing the item
 	 * @return the projected database.
 	 */
 	private List<PseudoSequence> buildProjectedDatabaseFirstTimeMultipleItems(int item, List<Integer> sequenceIDs) {
@@ -588,7 +579,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 				if(token == item){
 					// if it is not the end of the sequence
 					boolean isEndOfSequence = sequence[j+1] == -1 && sequence[j+2] == -2;
-					if(isEndOfSequence == false){
+					if(!isEndOfSequence){
 						PseudoSequence pseudoSequence = new PseudoSequence(sequenceID, j+1);
 						projectedDatabase.add(pseudoSequence);
 					}
@@ -748,12 +739,11 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	/**
 	 * Method to find all frequent items in a projected sequence database
 	 * @param sequences  the set of sequences
-	 * @param patternBuffer  the current sequential pattern that we want to try to grow
 	 * @param lastBufferPosition the last position used in the buffer for storing the current prefix
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected Map<Integer,List<PseudoSequence>>  findAllFrequentPairsSingleItems(List<PseudoSequence> sequences, int lastBufferPosition){
+	private Map<Integer,List<PseudoSequence>>  findAllFrequentPairsSingleItems(List<PseudoSequence> sequences, int lastBufferPosition){
 		// We use a Map the store the pairs.
 		Map<Integer,List<PseudoSequence>>  mapItemsPseudoSequences = new HashMap<Integer,List<PseudoSequence>>();
 
@@ -804,16 +794,16 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	public class MapFrequentPairs{
 	    public final Map<Pair, Pair>  mapPairs = new HashMap<Pair, Pair>();
 	    public final Map<Pair, Pair>  mapPairsInPostfix = new HashMap<Pair, Pair>();
-	};
+	}
 
-	/**
+    /**
 	 * Method to find all frequent items in a projected sequence database
 	 * @param sequences  the set of sequences
 	 * @param lastBufferPosition the last position used in the buffer for storing the current prefix
 	 * @return A list of pairs, where a pair is an item with (1) a boolean indicating if it
 	 *         is in an itemset that is "cut" and (2) the sequence IDs where it occurs.
 	 */
-	protected MapFrequentPairs findAllFrequentPairs(List<PseudoSequence> sequences, int lastBufferPosition){
+	private MapFrequentPairs findAllFrequentPairs(List<PseudoSequence> sequences, int lastBufferPosition){
 		// We use an object containing two maps the store the pairs.
 		MapFrequentPairs mapsPairs = new MapFrequentPairs();
 		
@@ -825,9 +815,9 @@ loopSeq:for(int sequenceID : sequenceIDs){
 				firstPositionOfLastItemsetInBuffer++;
 				break;
 			}
-		};
-		
-		// use a variable to try to match the last itemset of the pattern in the buffer
+		}
+
+        // use a variable to try to match the last itemset of the pattern in the buffer
 		int positionToBeMatched = firstPositionOfLastItemsetInBuffer;
 		
 		// for each sequence
@@ -886,7 +876,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 					///////// ====== IMPORTANT =========
 					// if the current itemset is a postfix and it is not the first itemset
 					// we must also consider that it may not be a postfix for extending the current prefix
-					if(currentItemsetIsPostfix && isFirstItemset == false){
+					if(currentItemsetIsPostfix && !isFirstItemset){
 						// create the pair corresponding to this item
 						 pair = new Pair(token);     // FALSE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 						// get the pair object store in the map if there is one already
@@ -915,7 +905,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 
 					
 					//  try to match this item with the last itemset in the prefix
-					if(currentItemsetIsPostfix == false && patternBuffer[positionToBeMatched] == token){
+					if(!currentItemsetIsPostfix && patternBuffer[positionToBeMatched] == token){
 						positionToBeMatched++;
 						if(positionToBeMatched > lastBufferPosition){
 							currentItemsetIsPostfix = true;
@@ -936,8 +926,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 
 	/**
 	 * Print statistics about the algorithm execution to System.out.
-	 * @param size  the size of the database
-	 */
+     */
 	public void printStatistics() {
 		StringBuilder r = new StringBuilder(200);
 		r.append("=============  PREFIXSPAN 0.99-2016 - STATISTICS =============\n Total time ~ ");

@@ -24,7 +24,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoPASCAL
  * @author Philippe Fournier-Viger
 */
-public class ItemsetPascal extends Itemset{
+class ItemsetPascal extends Itemset{
 	/** field indicating if this itemset is a generator **/
 	public boolean isGenerator = true;
 	

@@ -37,14 +37,14 @@ import java.util.Map.Entry;
 public class AlgoMSApriori {
 
 	// the current level in the apriori generation (itemsets of size k)
-	protected int k;
+    private int k;
 	
 	// the array of MIS value where the position i indicate the MIS of item with ID i.
-	int MIS[];
+    private int[] MIS;
 
 	// for statistics
-	protected long startTimestamp;  // start time of latest execution
-	protected long endTimestamp;   // end time of latest execution
+    private long startTimestamp;  // start time of latest execution
+	private long endTimestamp;   // end time of latest execution
 	private int itemsetCount;  // number of frequent itemsets generated
 
 	// the LS value as an integer
@@ -55,10 +55,10 @@ public class AlgoMSApriori {
 	private List<Integer[]> database = null;
 	
 	// the  comparator that is used to sort items by MIS values
-	final Comparator<Integer> itemComparator;
+	private final Comparator<Integer> itemComparator;
 
 	// object to write the output file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/**
 	 * Constructor
@@ -117,7 +117,7 @@ public class AlgoMSApriori {
 		while (((line = reader.readLine()) != null)) { 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -291,7 +291,7 @@ public class AlgoMSApriori {
 				}
 			}
 			k++;
-		} while (level.isEmpty() == false);
+		} while (!level.isEmpty());
 
 		// record the end time
 		endTimestamp = System.currentTimeMillis();
@@ -329,8 +329,8 @@ public class AlgoMSApriori {
 	/**
 	 * Generate candidates of size K by using frequent itemsets of size K-1.
 	 * @return  the set of candidates of size K
-	 */	
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
+	 */
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1) {
 		// list to store the candidates generated
 		List<Itemset> candidates = new ArrayList<Itemset>();
 
@@ -386,7 +386,7 @@ public class AlgoMSApriori {
 	}
 
 	// --------------------------------------------------------------------------------------------
-	protected boolean allSubsetsOfSizeK_1AreFrequent(int[] c, List<Itemset> levelK_1) {
+    private boolean allSubsetsOfSizeK_1AreFrequent(int[] c, List<Itemset> levelK_1) {
 		// generate all subsets by always each item from the candidate, one by
 		// one
 		for (int posRemoved = 0; posRemoved < c.length; posRemoved++) {
@@ -424,7 +424,7 @@ public class AlgoMSApriori {
 	            }
 	        }
 
-	        if (found == false) { // if we did not find it, that means that
+	        if (!found) { // if we did not find it, that means that
 									// candidate is not a frequent itemset
 									// because
 				// at least one of its subsets does not appear in level k-1.
@@ -438,7 +438,6 @@ public class AlgoMSApriori {
 	 * Method to check if two itemsets are equals
 	 * @param itemset the first itemset
 	 * @param candidate the second itemset
-	 * @param postRemoved a position that should be ignored from itemset "candidate" for the comparison
 	 * @return 0 if they are the same, <0 if "itemset" is smaller than candidate according to the MIS order, otherwise >0
 	 */
 	private int sameAs(Itemset itemset, int[] candidate, int posRemoved) {

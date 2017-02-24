@@ -228,7 +228,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * @return The item position where we found the item, or null if this
      * does not appear
      */
-    public Integer searchForFirstAppearance(Pattern p, Integer beginning, Item itemPair) {
+    private Integer searchForFirstAppearance(Pattern p, Integer beginning, Item itemPair) {
         for (int i = beginning; i < p.size(); i++) {
             Item currentItem = p.getIthElement(i).getItem();
             if (currentItem.equals(itemPair)) {
@@ -251,7 +251,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * @param previousPosition Position of the previous element
      * @return the position
      */
-    public Integer findItemPositionInPattern(Pattern p, Item itemPair, Abstraction_Generic currentAbs, Abstraction_Generic previousAbs, Integer currentPosition, Integer previousPosition) {
+    private Integer findItemPositionInPattern(Pattern p, Item itemPair, Abstraction_Generic currentAbs, Abstraction_Generic previousAbs, Integer currentPosition, Integer previousPosition) {
         Abstraction_Qualitative abs = (Abstraction_Qualitative) currentAbs;
         Integer pos;
         //If the current Abstraction has an equal relation with the previous pair
@@ -282,7 +282,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * @param beginning the position
      * @return the position +1
      */
-    public Integer increasePosition(Integer beginning) {
+    private Integer increasePosition(Integer beginning) {
         return beginning + 1;
     }
 
@@ -293,7 +293,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
      * @param beginning Index from which we start to search for
      * @return The item index where a new Itemset starts
      */
-    public int increaseItemset(Pattern p, Integer beginning) {
+    private int increaseItemset(Pattern p, Integer beginning) {
         //For all the elements appearing after beginning index
         for (int i = beginning + 1; i < p.size(); i++) {
             ItemAbstractionPair currentPair = p.getIthElement(i);

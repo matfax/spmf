@@ -40,23 +40,23 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
  */
 public interface AbstractionCreator {
 
-    public Abstraction_Generic CreateDefaultAbstraction();
+    Abstraction_Generic CreateDefaultAbstraction();
 
-    public List<Pattern> createSize2Sequences(List<Sequence> sequences);
+    List<Pattern> createSize2Sequences(List<Sequence> sequences);
 
-    public Pattern getSubpattern(Pattern extension, int i);
+    Pattern getSubpattern(Pattern extension, int i);
 
-    public List<Pattern> createSize2Sequences(Map<Integer, Map<Item, List<Integer>>> bbddHorizontal, Map<Item, Pattern> itemsfrecuentes);
+    List<Pattern> createSize2Sequences(Map<Integer, Map<Item, List<Integer>>> bbddHorizontal, Map<Item, Pattern> itemsfrecuentes);
 
-    public void clear();
+    void clear();
 
-    public Abstraction_Generic createAbstraction(long timeActual, long timeAnterior);
+    Abstraction_Generic createAbstraction(long timeActual, long timeAnterior);
 
-    public int[] findPositionOfItemInSequence(Sequence secuencia, Item itemPar, Abstraction_Generic absPar, Abstraction_Generic absAnterior, int indexItemset,int indexitem, int indexItemsetAnterior,int indexitemAnterior);
+    int[] findPositionOfItemInSequence(Sequence secuencia, Item itemPar, Abstraction_Generic absPar, Abstraction_Generic absAnterior, int indexItemset, int indexitem, int indexItemsetAnterior, int indexitemAnterior);
 
-    public Pattern generateCandidates(AbstractionCreator creador, Pattern patron1, Pattern patron2,double minSupport);
+    Pattern generateCandidates(AbstractionCreator creador, Pattern patron1, Pattern patron2, double minSupport);
 
-    public void isCandidateInSequence(CandidateInSequenceFinder buscador, Pattern candidato, Sequence secuencia, int k, int i, List<int[]> posicion);
+    void isCandidateInSequence(CandidateInSequenceFinder buscador, Pattern candidato, Sequence secuencia, int k, int i, List<int[]> posicion);
 
-    public List<Pattern> generateSize2Candidates(AbstractionCreator creador, Pattern get, Pattern get0);
+    List<Pattern> generateSize2Candidates(AbstractionCreator creador, Pattern get, Pattern get0);
 }

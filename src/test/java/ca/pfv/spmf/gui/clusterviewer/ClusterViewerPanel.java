@@ -48,7 +48,7 @@ import java.util.List;
  * @author Philippe Fournier-Viger, 2016
  *
  */
-public class ClusterViewerPanel extends JPanel {
+class ClusterViewerPanel extends JPanel {
 	
 	/**
 	 * static UID
@@ -56,22 +56,22 @@ public class ClusterViewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** The object used to draw plots **/
-	Plot plot = null;
+	private Plot plot = null;
 	
 	/** This indicates the level of zoom */
-	double scaleLevel = 1.0;
+	private double scaleLevel = 1.0;
 	
 	/**  The height **/
-	int height;
+	private int height;
 	
 	/** The width **/
-	int width;
+	private int width;
 	
 	/** the heigth after scaling **/
-	int originalHeigth;
+	private int originalHeigth;
 	
 	/** the width after scaling **/
-	int originalWidth;
+	private int originalWidth;
 
 	/** The time series to be displayed **/
 	private List<Cluster> multipleClusters;
@@ -80,27 +80,27 @@ public class ClusterViewerPanel extends JPanel {
 	private Color multipleClustersColors[];
 	
 	/** min and max values on the X axis **/
-    double minX = 0;
-    double maxX = Double.MIN_VALUE;
+	private double minX = 0;
+    private double maxX = Double.MIN_VALUE;
 	
 	/** min and max values on the Y axis **/
-    double minY = Double.MAX_VALUE;
-    double maxY = Double.MIN_VALUE;
+	private double minY = Double.MAX_VALUE;
+    private double maxY = Double.MIN_VALUE;
     
     /**  If true, the grid will be drawn **/
-    boolean drawTheGrid = false;
+	private boolean drawTheGrid = false;
 	
     /**  The size of the markers in points**/
 	private int markerSize = 5;
 
     /**  If true, the legend will be drawn **/
-    LegendFormat legendFormat = LegendFormat.BOTTOM;
+	private LegendFormat legendFormat = LegendFormat.BOTTOM;
     
     /** The listeners **/
-    List<ClusterViewerPanelListener> listeners = new ArrayList<ClusterViewerPanelListener>();
+	private List<ClusterViewerPanelListener> listeners = new ArrayList<ClusterViewerPanelListener>();
 
 	/** The set of basic colors */
-	Color[] colors = new Color[]{Color.blue, Color.green, Color.red, Color.yellow, Color.magenta, Color.orange, Color.cyan, Color.pink,  Color.darkGray, Color.gray, Color.lightGray, };
+	private Color[] colors = new Color[]{Color.blue, Color.green, Color.red, Color.yellow, Color.magenta, Color.orange, Color.cyan, Color.pink,  Color.darkGray, Color.gray, Color.lightGray, };
 	
     /** The selected attribute for the X axis */
 	private int attributeSelectedX;
@@ -219,10 +219,8 @@ public class ClusterViewerPanel extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		width = this.width;
-		height = this.height;
-		
-        super.paintComponent(g);
+
+		super.paintComponent(g);
         
         Graphics2D g2 = ( Graphics2D ) g; // cast g to Graphics2D  
         
@@ -275,7 +273,7 @@ public class ClusterViewerPanel extends JPanel {
 
             int count = 0;
         	Cluster cluster = multipleClusters.get(i);
-        	Data data = plot.data();
+        	Data data = Plot.data();
         	
         	// For each data point
         	for(int j = 0; j < cluster.getVectors().size(); j++){
@@ -405,7 +403,7 @@ public class ClusterViewerPanel extends JPanel {
 	 * This method is called when the user click on the button to export the current plot to a file
 	 * @throws IOException if an error occurs
 	 */
-	protected void export() {
+	void export() {
 		
 		// ask the user to choose the filename and path
 		String outputFilePath = null;
@@ -459,7 +457,7 @@ public class ClusterViewerPanel extends JPanel {
 		try{
 			
 			// add the .png extension
-			if(outputFilePath.endsWith("png") == false){
+			if(!outputFilePath.endsWith("png")){
 				outputFilePath = outputFilePath + ".png";
 			}
 			File outputFile = new File(outputFilePath);
@@ -498,7 +496,7 @@ public class ClusterViewerPanel extends JPanel {
 		        return Printable.PAGE_EXISTS;
 			}
 		}); 
-		if (pj.printDialog() == false)
+		if (!pj.printDialog())
 			return;
 
 		try {

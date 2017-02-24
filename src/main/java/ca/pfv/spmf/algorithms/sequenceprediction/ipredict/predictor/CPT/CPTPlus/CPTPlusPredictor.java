@@ -48,12 +48,12 @@ public class CPTPlusPredictor extends Predictor {
 	 */
 	public Map<Integer, Bitvector> II;
 	
-	protected CPTHelper helper;
+	private CPTHelper helper;
 	
 	/**
 	 * number of node in the prediction tree (used for size())
 	 */
-	protected long nodeNumber;
+	private long nodeNumber;
 	
 	/**
 	 * Flag for the CCF Strategy (default value)
@@ -66,15 +66,15 @@ public class CPTPlusPredictor extends Predictor {
 	private boolean CBS = true;
 	
 	
-	public Encoder encoder;
+	private Encoder encoder;
 	
-	protected boolean seqEncoding;
+	private boolean seqEncoding;
 	
-	public Paramable parameters;
+	private Paramable parameters;
 	
 	private String TAG = "CPT+";
 	
-	public CPTPlusPredictor() {
+	private CPTPlusPredictor() {
 		
 		Root = new PredictionTree();
 		LT = new HashMap<Integer, PredictionTree>();
@@ -89,7 +89,7 @@ public class CPTPlusPredictor extends Predictor {
 		helper = new CPTHelper(this);
 	}
 	
-	public CPTPlusPredictor(String tag) {
+	private CPTPlusPredictor(String tag) {
 		this();
 		TAG = tag;
 	}
@@ -105,7 +105,7 @@ public class CPTPlusPredictor extends Predictor {
 	}
 	
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		
 		Root = new PredictionTree();
 		LT = new HashMap<Integer, PredictionTree>();
@@ -157,7 +157,7 @@ public class CPTPlusPredictor extends Predictor {
 				for(Item item : itemset) {
 				
 					//adding the item in the Inverted Index if needed
-					if(II.containsKey(item.val) == false) {
+					if(!II.containsKey(item.val)) {
 						Bitvector tmpBitset = new Bitvector();
 						II.put(item.val, tmpBitset);
 					}
@@ -167,7 +167,7 @@ public class CPTPlusPredictor extends Predictor {
 				}
 				
 				//if this itemCompressed is not a child of the current node, we add him
-				if(curNode.hasChild(itemCompressed) == false) {
+				if(!curNode.hasChild(itemCompressed)) {
 					curNode.addChild(itemCompressed);
 					nodeNumber++;
 					curNode = curNode.getChild(itemCompressed);
@@ -188,8 +188,7 @@ public class CPTPlusPredictor extends Predictor {
 		if(parameters.paramBoolOrDefault("CBS", CBS)) {
 			pathCollapse();
 		}
-		
-		return true;
+
 	}
 	
 	
@@ -210,7 +209,7 @@ public class CPTPlusPredictor extends Predictor {
 	}
 	
 	
-	protected CountTable predictionByActiveNoiseReduction(Sequence target) {
+	private CountTable predictionByActiveNoiseReduction(Sequence target) {
 		
 		//Queues setup
 		HashSet<Sequence> seen = new HashSet<Sequence>(); //contains the sequence already seen to avoid work duplication
@@ -242,7 +241,7 @@ public class CPTPlusPredictor extends Predictor {
 		
 			
 			//if this sequence has not been seen yet
-			if(seen.contains(seq) == false) {
+			if(!seen.contains(seq)) {
 			
 				//set this sequence to seen
 				seen.add(seq);
@@ -294,7 +293,7 @@ public class CPTPlusPredictor extends Predictor {
 	 * @param target Sequence to consider to find the alphabet of items
 	 * @param noiseRatio [0,1] Portion of the sequence to identify as noisy (it defines the number of item returned)
 	 */
-	protected List<Item> getNoise(Sequence target, double noiseRatio) {
+	private List<Item> getNoise(Sequence target, double noiseRatio) {
 		
 		//Converting the noiseRatio (relative to the noiseCount (absolute)
 		int noiseCount = (int) Math.floor(target.size() * noiseRatio);
@@ -341,7 +340,7 @@ public class CPTPlusPredictor extends Predictor {
 	 * so the Lookup Table for CPT does not have to be updated since it is already pointing
 	 * to this node.
 	 */
-	protected void pathCollapse() {
+	private void pathCollapse() {
 		
 		int nodeSaved = 0;
 		
@@ -359,7 +358,7 @@ public class CPTPlusPredictor extends Predictor {
 			if(cur.getChildren().size() == 0) {
 				
 				//while the path is singular (starting from the leaf)
-				while(singlePath == true) {
+				while(singlePath) {
 					
 					//if the current node has multiple children
 					if(cur.getChildren().size() > 1 || cur == null) {

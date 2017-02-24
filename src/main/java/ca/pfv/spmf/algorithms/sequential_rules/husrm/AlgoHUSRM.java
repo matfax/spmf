@@ -46,24 +46,24 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoHUSRM {
 	// for statistics //
 	/** start time of latest execution */
-	long timeStart = 0; 
+    private long timeStart = 0;
 	/** end time of latest execution */
-	long timeEnd = 0; 
+    private long timeEnd = 0;
 	/**  number of rules generated */
-	int ruleCount; 
+    private int ruleCount;
 
 	// parameters ***/
 	/** minimum confidence **/
-	double minConfidence;
+    private double minConfidence;
 	
 	/** minimum support */
-	double minutil;
+    private double minutil;
 
 	/** this is the sequence database */
-	SequenceDatabaseWithUtility database;
+    private SequenceDatabaseWithUtility database;
 
 	/** this buffered writer is used to write the output file */
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	/** this is a map where the KEY is an item and the VALUE is the list of sequences
 	/* containing the item. */
@@ -72,7 +72,7 @@ public class AlgoHUSRM {
 	/** this variable is used to activate the debug mode.  When this mode is activated
 	/* some additional information about the algorithm will be shown in the console for
 	/* debugging **/
-	final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 	
 	/** this is a contrainst on the maximum number of item that the left side of a rule should
 	/* contain */
@@ -185,7 +185,7 @@ public class AlgoHUSRM {
 		// FIRST STEP: We will calculate the estimated profit of each single item
 
 		// if this strategy has not been deactivated
-		if(deactivateStrategy1 == false){
+		if(!deactivateStrategy1){
 			// This map will store pairs of (key: item   value: estimated profit of the item)
 			Map<Integer, Double> mapItemEstimatedUtility = new HashMap<Integer, Double>();
 			 
@@ -545,7 +545,7 @@ public class AlgoHUSRM {
 				// can have a estimated utility higher or equal to minutil.
 				if(entry.getValue().utility < minutil){
 					// we only do that if the user did not deactivate strategy 2
-					if(deactivateStrategy2 == false){
+					if(!deactivateStrategy2){
 						iterEntry.remove();
 					}
 				}
@@ -1915,22 +1915,20 @@ loop1:	for(; i < sequence.getItemsets().size(); i++){
 
 		/**
 		 * This method adds a sequence id to this list
-		 * @param int the sequence id
-		 */
-		public abstract void addSequenceID(int noSequence);
+         */
+        void addSequenceID(int noSequence);
 
 		/**
 		 * Get the number of sequence ids
 		 * @return the number of sequence ids
 		 */
-		public abstract int getSize();
+        int getSize();
 
 		/**
 		 *  Method to intersect two lists of sequences ids
-		 * @param vector another list
 		 * @return the intersection of this list and the other list.
 		 */
-		public abstract ListSequenceIDs intersection(ListSequenceIDs vector2);
+        ListSequenceIDs intersection(ListSequenceIDs vector2);
 	}
 	
 	/**
@@ -1974,7 +1972,6 @@ loop1:	for(; i < sequence.getItemsets().size(); i++){
 		
 		/**
 		 *  Method to intersect two lists of sequences ids
-		 * @param vector another list
 		 * @return the intersection of this list and the other list.
 		 */
 		public ListSequenceIDs intersection(ListSequenceIDs vector2){
@@ -2017,8 +2014,7 @@ loop1:	for(; i < sequence.getItemsets().size(); i++){
 
 			/**
 			 * This method adds a sequence id to this list
-			 * @param int the sequence id
-			 */
+             */
 			public void addSequenceID(int noSequence){
 				list.add(noSequence);
 			}
@@ -2034,7 +2030,6 @@ loop1:	for(; i < sequence.getItemsets().size(); i++){
 			
 			/**
 			 *  Method to intersect two lists of sequences ids
-			 * @param vector another list
 			 * @return the intersection of this list and the other list.
 			 */
 			public ListSequenceIDs intersection(ListSequenceIDs list2){

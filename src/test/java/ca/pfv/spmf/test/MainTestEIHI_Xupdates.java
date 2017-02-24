@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class MainTestEIHI_Xupdates {
 
-    public static int countLines(String filepath) throws IOException {
+    private static int countLines(String filepath) throws IOException {
         LineNumberReader reader = new LineNumberReader(new InputStreamReader(MainTestEIHI_Xupdates.class.getClassLoader().getResourceAsStream(filepath)));
         while (reader.readLine() != null) {
         }

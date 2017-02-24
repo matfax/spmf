@@ -57,7 +57,7 @@ public class DescriptionAlgoDCIClosed extends DescriptionOfAlgorithm {
 		int minsup = getParamAsInteger(parameters[0]);
 		AlgoDCI_Closed_Optimized algorithm = new AlgoDCI_Closed_Optimized();
 		
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algorithm.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		algorithm.runAlgorithm(inputFile, outputFile, minsup);

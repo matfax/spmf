@@ -51,19 +51,19 @@ public class AlgoHUINIVMine {
 	// the set of high utility itemsets found by the algorithm
 	private ItemsetsTP highUtilityItemsets = null;
 	// the database
-	protected UtilityTransactionDatabaseTP database;
+    private UtilityTransactionDatabaseTP database;
 	
 	// the min utility threshold
-	int minUtility;
+    private int minUtility;
 
 	// for statistics
-	long startTimestamp = 0;  // start time
-	long endTimestamp = 0; // end time
+    private long startTimestamp = 0;  // start time
+	private long endTimestamp = 0; // end time
 	private int candidatesCount; // the number of candidates generated
 	
 	//=========  DIFFERENCE FROM TWO-PHASE ======/
 	/** the set of negative items **/
-	Set<Integer> negativeItems = new HashSet<Integer>();
+    private Set<Integer> negativeItems = new HashSet<Integer>();
 	//===========================================/
 	
 	/**
@@ -281,7 +281,7 @@ public class AlgoHUINIVMine {
 	 */
 	private boolean onlyContainsNegativeItems(List<Integer> items) {
 		for(Integer item : items) {
-			if(negativeItems.contains(item) == false) {
+			if(!negativeItems.contains(item)) {
 				return false;
 			}
 		}
@@ -298,7 +298,7 @@ public class AlgoHUINIVMine {
 	 * @param candidatesHTWUI  structure to store the HWTUIs
 	 * @return  candidates of size K
 	 */
-	protected List<ItemsetTP> generateCandidateSizeK(List<ItemsetTP> levelK_1, ItemsetsTP candidatesHTWUI) {
+    private List<ItemsetTP> generateCandidateSizeK(List<ItemsetTP> levelK_1, ItemsetsTP candidatesHTWUI) {
 		
 	// For each itemset I1 and I2 of level k-1
 	loop1:	for(int i=0; i< levelK_1.size(); i++){

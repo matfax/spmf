@@ -30,15 +30,15 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * @see Itemset
  * @author Philippe Fournier-Viger
  */
-public class Rule {
+class Rule {
 	
 	int[] itemsetI;
 	int[] itemsetJ; 
-	Set<Integer> tidsI;
-	Set<Integer> tidsJ;
-	Set<Integer> tidsIJ;
-	Map<Integer, Occurence> occurencesI;
-	Map<Integer, Occurence> occurencesJ;
+	private Set<Integer> tidsI;
+	private Set<Integer> tidsJ;
+	private Set<Integer> tidsIJ;
+	private Map<Integer, Occurence> occurencesI;
+	private Map<Integer, Occurence> occurencesJ;
 
 	public Rule(int[] itemsetI, int[] itemsetJ, Set<Integer> tidsI,
 			Set<Integer> tidsJ, Set<Integer> tidsIJ,

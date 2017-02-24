@@ -31,9 +31,9 @@ public class PreferencesManager {
 	// We use two registry key to store
 	// the paths of the last folders used by the user
 	// for input and output files.
-    public static final String REGKEY_SPMF_INPUT_FILE = "ca.pfv.spmf.gui.input";
-    public static final String REGKEY_SPMF_OUTPUT_FILE = "ca.pfv.spmf.gui.output";
-    public static final String REGKEY_SPMF_PREFERED_CHARSET = "ca.pfv.spmf.gui.charset";
+    private static final String REGKEY_SPMF_INPUT_FILE = "ca.pfv.spmf.gui.input";
+    private static final String REGKEY_SPMF_OUTPUT_FILE = "ca.pfv.spmf.gui.output";
+    private static final String REGKEY_SPMF_PREFERED_CHARSET = "ca.pfv.spmf.gui.charset";
 
     // Implemented as a singleton
     private static PreferencesManager instance;

@@ -24,7 +24,7 @@ package ca.pfv.spmf.gui.patternvizualizer.filters;
  */
 public class FilterEqualInteger extends AbstractFilter{
 	/** the given value*/
-	int value;
+    private int value;
 	
 	/**
 	 * Constructor

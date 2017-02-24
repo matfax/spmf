@@ -57,7 +57,7 @@ import ca.pfv.spmf.test.MainTestApriori_saveToFile;
  * @author Philippe Fournier-Viger, 2016
  *
  */
-public class InstancesViewerPanel extends JPanel {
+class InstancesViewerPanel extends JPanel {
 	
 	/**
 	 * static UID
@@ -65,42 +65,42 @@ public class InstancesViewerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** The object used to draw plots **/
-	Plot plot = null;
+	private Plot plot = null;
 	
 	/** This indicates the level of zoom */
-	double scaleLevel = 1.0;
+	private double scaleLevel = 1.0;
 	
 	/**  The height **/
-	int height;
+	private int height;
 	
 	/** The width **/
-	int width;
+	private int width;
 	
 	/** the height after scaling **/
-	int originalHeigth;
+	private int originalHeigth;
 	
 	/** the width after scaling **/
-	int originalWidth;
+	private int originalWidth;
 
 	/** The instances to be displayed **/
 	private List<DoubleArray> multipleInstances;
 	
 	/** min and max values on the X axis **/
-    double minX = 0;
-    double maxX = Double.MIN_VALUE;
+	private double minX = 0;
+    private double maxX = Double.MIN_VALUE;
 	
 	/** min and max values on the Y axis **/
-    double minY = Double.MAX_VALUE;
-    double maxY = Double.MIN_VALUE;
+	private double minY = Double.MAX_VALUE;
+    private double maxY = Double.MIN_VALUE;
     
     /**  If true, the grid will be drawn **/
-    boolean drawTheGrid = false;
+	private boolean drawTheGrid = false;
 	
     /**  The size of the markers in points**/
 	private int markerSize = 5;
     
     /** The listeners **/
-    List<InstanceViewerPanelListener> listeners = new ArrayList<InstanceViewerPanelListener>();
+	private List<InstanceViewerPanelListener> listeners = new ArrayList<InstanceViewerPanelListener>();
 
     /** The selected attribute for the X axis */
 	private int attributeSelectedX;
@@ -223,7 +223,7 @@ public class InstancesViewerPanel extends JPanel {
         for(int i = 0; i < multipleInstances.size(); i++){
 
         	DoubleArray instance = multipleInstances.get(i);
-        	Data data = plot.data();
+        	Data data = Plot.data();
         	
 
     		data.xy(instance.data[attributeSelectedX], instance.data[attributeSelectedY]);
@@ -311,7 +311,7 @@ public class InstancesViewerPanel extends JPanel {
 	 * This method is called when the user click on the button to export the current plot to a file
 	 * @throws IOException if an error occurs
 	 */
-	protected void export() {
+	void export() {
 		
 		// ask the user to choose the filename and path
 		String outputFilePath = null;
@@ -365,7 +365,7 @@ public class InstancesViewerPanel extends JPanel {
 		try{
 			
 			// add the .png extension
-			if(outputFilePath.endsWith("png") == false){
+			if(!outputFilePath.endsWith("png")){
 				outputFilePath = outputFilePath + ".png";
 			}
 			File outputFile = new File(outputFilePath);
@@ -404,7 +404,7 @@ public class InstancesViewerPanel extends JPanel {
 		        return Printable.PAGE_EXISTS;
 			}
 		}); 
-		if (pj.printDialog() == false)
+		if (!pj.printDialog())
 			return;
 
 		try {

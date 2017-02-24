@@ -31,7 +31,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoFPGrowth
  * @author Philippe Fournier-Viger
  */
-public class FPNode {
+class FPNode {
 	int itemID = -1;  // item id
 	int counter = 1;  // frequency counter  (a.k.a. support)
 	
@@ -69,7 +69,6 @@ public class FPNode {
 	/**
 	 * Method for getting a string representation of this tree 
 	 * (to be used for debugging purposes).
-	 * @param an indentation
 	 * @return a string
 	 */
 	public String toString(String indent) {

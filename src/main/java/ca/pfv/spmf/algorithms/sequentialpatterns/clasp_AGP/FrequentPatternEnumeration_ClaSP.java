@@ -47,7 +47,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clasp_AGP.tries.TrieNode;
  *
  * @author agomariz
  */
-public class FrequentPatternEnumeration_ClaSP {
+class FrequentPatternEnumeration_ClaSP {
 
     public long joinCount = 0;  // PFV 2013 - to count the number of intersections
     /**
@@ -88,7 +88,7 @@ public class FrequentPatternEnumeration_ClaSP {
 /**
  * Tin inserts:
  */
-protected List<TrieNode>  firstSequenceExtensions;
+private List<TrieNode>  firstSequenceExtensions;
     /**
      * Standard constructor
      *
@@ -111,12 +111,7 @@ protected List<TrieNode>  firstSequenceExtensions;
     /**
      * Execution of the search of frequent patterns.
      *
-     * @param equivalenceClass The equivalence class from we start to search
-     * for.
-     * @param keepPatterns Flag to indicate if we want to keep the patterns
-     * found.
      * @param verbose Flag for debugging purposes
-     * @param coocMapBefore
      * @param
      */
         
@@ -172,58 +167,57 @@ isAvoidable = isAvoidable(pattern, currentTrie);
  */
 if (!isAvoidable) {        
         //For all the nodes of sequenceExtensions
-        loops:
-        for (TrieNode node : sequenceExtensions) {
-            //node.getPair().getItem();
-            //lastAppendedItem
-            // ====== PFV 2013 =========================
+    for (TrieNode node : sequenceExtensions) {
+        //node.getPair().getItem();
+        //lastAppendedItem
+        // ====== PFV 2013 =========================
 
-            if (coocMapAfter != null) {
-                Map<Integer, Integer> map = coocMapAfter.get(lastAppendedItem.getId());
-                if (map != null) {
-                    Integer coocurenceCount = map.get(node.getPair().getItem().getId());
-                    if (coocurenceCount == null || coocurenceCount < minSupAbsolute) {
-                        continue loops;
-                    }
-                } else {
-                    continue loops;
+        if (coocMapAfter != null) {
+            Map<Integer, Integer> map = coocMapAfter.get(lastAppendedItem.getId());
+            if (map != null) {
+                Integer coocurenceCount = map.get(node.getPair().getItem().getId());
+                if (coocurenceCount == null || coocurenceCount < minSupAbsolute) {
+                    continue;
                 }
+            } else {
+                continue;
             }
-            // ====== FIN PFV 2013 =========================
+        }
+        // ====== FIN PFV 2013 =========================
 
-            //We create a new pattern based in the elements of the clone
-            Pattern extension = new Pattern(new ArrayList<ItemAbstractionPair>(clone.getElements()));
-            //And we extend it with the only element of the eq class identifier
-            ItemAbstractionPair newPair = node.getPair();
-            extension.add(newPair);
+        //We create a new pattern based in the elements of the clone
+        Pattern extension = new Pattern(new ArrayList<ItemAbstractionPair>(clone.getElements()));
+        //And we extend it with the only element of the eq class identifier
+        ItemAbstractionPair newPair = node.getPair();
+        extension.add(newPair);
 
             /*
              * We make the join operation between the tries of both patterns in 
              * order to know the appearances of the new pattern and its support.
              */
-            joinCount++;
-            IDList newIdList = currentTrie.getIdList().join(node.getChild().getIdList(), false, (int) minSupAbsolute);
-            //If the new pattern is frequent
-            if (newIdList.getSupport() >= minSupAbsolute) {
-                //We create a new trie for it
-                Trie newTrie = new Trie(null, newIdList);
-                //abd we insert it its appearances
-                newIdList.setAppearingIn(newTrie);
+        joinCount++;
+        IDList newIdList = currentTrie.getIdList().join(node.getChild().getIdList(), false, (int) minSupAbsolute);
+        //If the new pattern is frequent
+        if (newIdList.getSupport() >= minSupAbsolute) {
+            //We create a new trie for it
+            Trie newTrie = new Trie(null, newIdList);
+            //abd we insert it its appearances
+            newIdList.setAppearingIn(newTrie);
 
-                //we put in a TrieNode the new pair and the new Trie created
-                TrieNode newTrieNode = new TrieNode(newPair, newTrie);
-                //And we merge the new Trie with the current one
-                currentTrie.mergeWithTrie(newTrieNode);
+            //we put in a TrieNode the new pair and the new Trie created
+            TrieNode newTrieNode = new TrieNode(newPair, newTrie);
+            //And we merge the new Trie with the current one
+            currentTrie.mergeWithTrie(newTrieNode);
 
                 /*
                  * Finally we add the new pattern and nodeTrie to the sets that 
                  * are needed for future patterns
                  */
-                newPatterns.add(extension);
-                newNodesToExtends.add(newTrieNode);
-                new_sequenceExtension.add(newTrieNode);
-            }
+            newPatterns.add(extension);
+            newNodesToExtends.add(newTrieNode);
+            new_sequenceExtension.add(newTrieNode);
         }
+    }
 
         int sequenceExtensionSize = new_sequenceExtension.size();
         //For all the elements valuables as future s-extensions
@@ -252,7 +246,6 @@ if (!isAvoidable) {
          * From the beginning index to the last equivalence class appearing in 
          * the itemset extension set
          */
-        loopi:
         for (int k = beginning; k < itemsetsExtensions.size(); k++) {
 
 
@@ -264,10 +257,10 @@ if (!isAvoidable) {
                 if (map != null) {
                     Integer coocurenceCount = map.get(eq.getPair().getItem().getId());
                     if (coocurenceCount == null || coocurenceCount < minSupAbsolute) {
-                        continue loopi;
+                        continue;
                     }
                 } else {
-                    continue loopi;
+                    continue;
                 }
             }
             // ====== FIN PFV 2013 =========================
@@ -298,7 +291,7 @@ if (!isAvoidable) {
 /*
  * Tin inserts:        
  */
-currentTrie.mergeWithTrie_i(newTrieNode);
+                currentTrie.mergeWithTrie_i(newTrieNode);
 //                currentTrie.mergeWithTrie(newTrieNode);
                 
 
@@ -546,7 +539,6 @@ List<Entry<Pattern, Trie>> entryList = new ArrayList<Entry<Pattern, Trie>>();
      * addition of the number of elements that appear in the projected database
      * and the support of the related prefix
      *
-     * @param idList IdList of the prefix to consider
      * @param trie Trie of the pattern to consider
      * @return
      */

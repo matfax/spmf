@@ -67,7 +67,7 @@ public class AlgoBIDEPlus_withStrings {
 	private int minsuppAbsolute;
 	
 	// object to write the file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	// For BIDE+, we have to keep a pointer to the original database
 	private List<PseudoSequenceBIDE> initialContext = null;
@@ -250,12 +250,11 @@ public class AlgoBIDEPlus_withStrings {
 	/**
 	 * Method to find all frequent items in a list of maximum periods.
 	 * @param prefix the current prefix
-	 * @param maximum periods  a list of maximum periods
 	 * @return a set of pairs indicating the support of items (note that a pair distinguish
 	 *         between items in a postfix, prefix...).
 	 */
-	protected Set<PairBIDE> findAllFrequentPairsForBackwardExtensionCheck(
-			SequentialPattern prefix, List<PseudoSequenceBIDE> maximumPeriods, int iPeriod) {
+    private Set<PairBIDE> findAllFrequentPairsForBackwardExtensionCheck(
+            SequentialPattern prefix, List<PseudoSequenceBIDE> maximumPeriods, int iPeriod) {
 		// Create a Map of pairs to store the pairs
 		Map<PairBIDE, PairBIDE> mapPaires = new HashMap<PairBIDE, PairBIDE>();
 
@@ -351,13 +350,12 @@ public class AlgoBIDEPlus_withStrings {
 	
 	/**
 	 * For each item, calculate the sequence id of sequences containing that item
-	 * @param database the current sequence database
 	 * @return Map of items to sequence IDs that contains each item
 	 */
 	private Map<String, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
+		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
 		// for each sequence
 		for(Sequence sequence : contexte.getSequences()){
 			// for each itemset
@@ -383,7 +381,6 @@ public class AlgoBIDEPlus_withStrings {
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -427,7 +424,6 @@ public class AlgoBIDEPlus_withStrings {
 	/**
 	 * Method to recursively grow a given sequential pattern.
 	 * @param prefix  the current sequential pattern that we want to try to grow
-	 * @param database the current projected sequence database
 	 * @throws IOException exception if there is an error writing to the output file
 	 */
 	private int recursion(SequentialPattern prefix, List<PseudoSequenceBIDE> contexte) throws IOException {	
@@ -464,10 +460,10 @@ public class AlgoBIDEPlus_withStrings {
 				int maxSupportOfSuccessors = 0;
 				
 				// Apply the "backscan pruning" strategy (see BIDE+ paper)
-				if(checkBackScanPruning(newPrefix) == false){
+				if(!checkBackScanPruning(newPrefix)){
 					// make a recursive call to extend the prefix with this item
 					// and generate other patterns starting with that prefix + item
-					 maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // récursion
+					 maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // rï¿½cursion
 				}	
 				
 				// check the forward extension for the prefix
@@ -497,7 +493,7 @@ public class AlgoBIDEPlus_withStrings {
 	 *         is in an itemset that is "cut" at left or right (prefix or postfix)
 	 *         and (2) the sequence IDs where it occurs.
 	 */
-	protected Set<PairBIDE> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequenceBIDE> sequences){
+    private Set<PairBIDE> findAllFrequentPairs(SequentialPattern prefix, List<PseudoSequenceBIDE> sequences){
 		// We use a Map the store the pairs.
 		Map<PairBIDE, PairBIDE> mapPairs = new HashMap<PairBIDE, PairBIDE>();
 		
@@ -531,7 +527,7 @@ public class AlgoBIDEPlus_withStrings {
 	 */
 	private SequentialPattern appendItemToSequence(SequentialPattern prefix, String item) {
 		SequentialPattern newPrefix = prefix.cloneSequence();  // isSuffix
-		newPrefix.addItemset(new Itemset(item));  // créé un nouvel itemset   + decalage
+		newPrefix.addItemset(new Itemset(item));  // crï¿½ï¿½ un nouvel itemset   + decalage
 		return newPrefix;
 	}
 	

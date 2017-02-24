@@ -1,27 +1,11 @@
 package ca.pfv.spmf.algorithms.sequentialpatterns.spam;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Set;
-
 import ca.pfv.spmf.patterns.itemset_list_integers_without_support.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /*** 
  * This is the original implementation of the TKS algorithm
@@ -77,29 +61,29 @@ public class AlgoTKS{
 	private int k = 0;  
 	
 	/** Vertical database (bitsets) */
-	Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
 	
 	/** List indicating the number of bits per sequence */
-	List<Integer> sequencesSize = null;
+    private List<Integer> sequencesSize = null;
 	
 	/**  the last bit position that is used in bitmaps */
-	int lastBitIndex = 0;  
+    private int lastBitIndex = 0;
 	
 	/**  the top k patterns found until now  */
-	PriorityQueue<PatternTKS> kPatterns;  
+    private PriorityQueue<PatternTKS> kPatterns;
 	
 	/** the candidates for expansion */
-	PriorityQueue<Candidate> candidates;  
+    private PriorityQueue<Candidate> candidates;
 	
 	/** the max number of candidates at the same time during the last execution (for stats) */
-	int maxCandidateCount = 0;
+    private int maxCandidateCount = 0;
 	
 	/** the number of candidates considered (for stats) */
-	int candidateExplored = 0;
+    private int candidateExplored = 0;
 	
 	/** the set of items that have been discarded because their support has become
 	* lower than minsup and should not be considered anymore */
-	Set<Integer> discardedItems;
+    private Set<Integer> discardedItems;
 	
 	// THE STRATEGIES FOR OPTIMIZING THE ALGORITHMS
 	// EACH ONE CAN BE ACTIVATED OR DESACTIVATED.
@@ -107,23 +91,23 @@ public class AlgoTKS{
 	// #1 : raise minsup during preprocessing for single items and discard infrequent items
 	// before DFS exploration
 	// #2 keep note of discarded single items and ignore them during searching
-	final boolean useDiscardedItemsPruningStrategy = true; 
+	private final boolean useDiscardedItemsPruningStrategy = true;
 	// #3 very small improvement (rarely match the condition so that it can be applied)
-	final boolean usePruneBranchesInsideDFSPruning = true; 
+	private final boolean usePruneBranchesInsideDFSPruning = true;
 	
 	// #4 rebuild tree  when it is too large
-	final boolean rebuildCandidateTreeWhenTooLarge = false;  
-	int addedCandidatesSinceLastRebuilt = 0;
-	final int MIN_CANDIDATES_COUNT_BEFORE_REBUILD = 1500;
-	final int MIN_ADDED_CANDIDATE_COUNT_SINCE_LAST_REBUILD_BEFORE_REBUILD = 400;
+	private final boolean rebuildCandidateTreeWhenTooLarge = false;
+	private int addedCandidatesSinceLastRebuilt = 0;
+	private final int MIN_CANDIDATES_COUNT_BEFORE_REBUILD = 1500;
+	private final int MIN_ADDED_CANDIDATE_COUNT_SINCE_LAST_REBUILD_BEFORE_REBUILD = 400;
 	
 	// #5  cooccurrence  map  (useful for sparse datasets such as BMS...)
-	final boolean useCooccurrenceInformation = true;
+	private final boolean useCooccurrenceInformation = true;
 	
 	// the cooccurrence map
     // Map: key: item   value:  another item that followed the first item + support
-    Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
-    Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
     
 	/** maximum pattern length in terms of item count */
 	private int minimumPatternLength = 0;
@@ -133,7 +117,7 @@ public class AlgoTKS{
 	
 	/** items that need to appear in patterns found by TKS 
 	* (or any items if the array is empty) */
-	int[] mustAppearItems;
+    private int[] mustAppearItems;
 	
 	/** the max gap between two itemsets of a pattern.
 	* It is an optional parameter that the user can set. */
@@ -171,11 +155,10 @@ public class AlgoTKS{
 	
 	/**
 	 * This is the main method for the TKS algorithm
-	 * @param an input file
 	 * @param k the number of patterns to be found
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	private PriorityQueue<PatternTKS> tks(String input, int k) throws IOException{
+	private PriorityQueue<PatternTKS> tks(String input, int k) {
 		this.k = k;
 
 		// set minsup = 1 (will be increased by the algorithm progressively)
@@ -211,7 +194,7 @@ public class AlgoTKS{
 			while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||  thisLine.startsWith("#") || thisLine.charAt(0) == '%' 	|| thisLine.charAt(0) == '@') {
+				if (thisLine.isEmpty() ||  thisLine.startsWith("#") || thisLine.charAt(0) == '%' 	|| thisLine.charAt(0) == '@') {
 					continue;
 				}
 				
@@ -490,9 +473,7 @@ public class AlgoTKS{
 
 	/**
 	 * Save a rule in the current top-k set
-	 * @param integer the rule
-	 * @param bitmap the support of the rule
-	 */
+     */
 	private void save(PatternTKS pattern) {
 		// First, we check if the pattern contains the desired items (optional)
 		// We only do that if the user has specified some items that must appear in
@@ -565,10 +546,9 @@ loop:		for(Itemset itemset : pattern.prefix.getItemsets()){
 	 * @param in  a list of items to be considered for s-steps
 	 * @param hasToBeGreaterThanForIStep
 	 * @param prefixLength the number of items in the prefix (the prefix length)
-	 * @param m size of the current prefix in terms of items
 	 * @throws IOException  if there is an error writing a pattern to the output file
 	 */
-	private void dfsPruning(Prefix prefix, Bitmap prefixBitmap, Collection<Integer> sn, Collection<Integer> in, int hasToBeGreaterThanForIStep, int prefixLength) throws IOException {
+	private void dfsPruning(Prefix prefix, Bitmap prefixBitmap, Collection<Integer> sn, Collection<Integer> in, int hasToBeGreaterThanForIStep, int prefixLength) {
 //		System.out.println(prefix.toString());
 //		Itemset lastItemsetOfPrefix = prefix.get(prefix.getItemsets().size()-1));
 //		Integer lastAppendedItem = lastItemsetOfPrefix.get(lastItemsetOfPrefix.size()-1);
@@ -812,7 +792,7 @@ loop2:	for(Integer i : in){
 	 * @param item the item
 	 * @return true if the user has specified that this item must appear in the pattern
 	 */
-	public boolean itemMustAppearInPatterns(int item) {
+    private boolean itemMustAppearInPatterns(int item) {
 		return (mustAppearItems == null) || Arrays.binarySearch(mustAppearItems, item) >=0;
 	}
 

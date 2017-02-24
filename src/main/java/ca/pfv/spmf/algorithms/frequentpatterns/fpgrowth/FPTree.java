@@ -36,7 +36,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoFPGrowth
  * @author Philippe Fournier-Viger
  */
-public class FPTree {
+class FPTree {
 	// List of items in the header table
 	List<Integer> headerList = null;
 	
@@ -45,7 +45,7 @@ public class FPTree {
 	
 	// Map that indicates the last node for each item using the node links
 	// key: item   value: an fp tree node
-	Map<Integer, FPNode> mapItemLastNode = new HashMap<Integer, FPNode>();
+    private Map<Integer, FPNode> mapItemLastNode = new HashMap<Integer, FPNode>();
 	
 	// root of the tree
 	FPNode root = new FPNode(); // null node

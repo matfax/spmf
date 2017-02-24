@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @see AlgoEFIMClosed
  */
-public class Dataset {
+class Dataset {
 
 	/** the list of transactions in this dataset */
 	List<Transaction> transactions;
@@ -52,7 +52,7 @@ public class Dataset {
         // iterate over the lines to build the transaction
         while((line = br.readLine()) != null) { 
 			// if the line is  a comment, is  empty or is  metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#' 
+			if (line.isEmpty() || line.charAt(0) == '#'
 					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
 				continue;
 			}

@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class GCDAssociator {
+class GCDAssociator {
 	private Integer primeNumber;
 	private static Map<Integer, List<Transaction>> transactionSets;
 	private static Set<GCDInfo> results = new HashSet<GCDInfo>();

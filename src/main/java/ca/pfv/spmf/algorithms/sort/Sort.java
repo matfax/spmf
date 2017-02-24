@@ -23,7 +23,7 @@ package ca.pfv.spmf.algorithms.sort;
  * Please refer to that book for details about the algorithms and proofs that
  * they are correct.
  */
-public class Sort {
+class Sort {
 	
 	/**
 	 * Implementation of Insertion sort for integers.
@@ -123,7 +123,7 @@ public class Sort {
 		}
   	}
 	// helper method for the quick sort  (see book for details)
-	 static int partition(int[] a, int p, int r) {
+	 private static int partition(int[] a, int p, int r) {
 		int x = a[r];
 		int i = p - 1;
 		for(int j = p; j <= r-1; j++){

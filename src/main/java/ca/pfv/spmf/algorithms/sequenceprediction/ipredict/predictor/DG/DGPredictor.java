@@ -28,19 +28,19 @@ public class DGPredictor extends Predictor {
 	
 	private HashMap<Integer, DGNode> mDictionary; //link unique items to their node in a DG
 	
-	public Paramable parameters;
+	private Paramable parameters;
 	
 	/**
 	 * Lookahead window of the model (default value)
 	 */
 	private final int lookahead = 4;
 	
-	public DGPredictor() {
+	private DGPredictor() {
 		TAG = "DG";
 		parameters = new Paramable();
 	}
 	
-	public DGPredictor(String tag) {
+	private DGPredictor(String tag) {
 		TAG = tag;
 		parameters = new Paramable();
 	}
@@ -51,7 +51,7 @@ public class DGPredictor extends Predictor {
 	}
 
 	@Override
-	public Boolean Train(List<Sequence> trainingSequences) {
+	public void Train(List<Sequence> trainingSequences) {
 		//TODO:  Resolve ABB...AC...AD...ABB problem, described in Mogul&Padmanabhan (3. some Issues)
 		
 		int w = parameters.paramIntOrDefault("lookahead", lookahead); //Window size parameter
@@ -83,10 +83,9 @@ public class DGPredictor extends Predictor {
 			}
 			
 		}
-		
-		
-		return null;
-	}
+
+
+    }
 
 	@Override
 	public Sequence Predict(Sequence target) {

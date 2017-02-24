@@ -71,7 +71,7 @@ public class AlgoSkyMine {
 	private Map<Integer, Long> mapMaximumItemUtility;
 	
 	/** variable to store the header list */
-	static ArrayList<Integer> headerlist;
+	private static ArrayList<Integer> headerlist;
 	
 	/** Map to store the Item summary of each item (utility, support, min/max frequencies, etc.) */
 	static private HashMap<Integer, ItemSummary> itemDetail;
@@ -79,20 +79,22 @@ public class AlgoSkyMine {
 	// =========  Data structure for skyline mining ===========================//
 	
 	/** Array of utility frequencies (utility /support pairs) **/
-	UtilitySupport[][] itempairsUtilityMatrix = null;
+    private UtilitySupport[][] itempairsUtilityMatrix = null;
 	
 	/** Number of items */
-	int number_items = 0;
+    private int number_items = 0;
 	
 	/** count array */
-	int[][] countArray = null;
-	long numberInsertedPatterns = 0, numberVerifiedPatterns = 0, numberOfSkylineItemsets = 0;
+    private int[][] countArray = null;
+	private long numberInsertedPatterns = 0;
+    private long numberVerifiedPatterns = 0;
+    private long numberOfSkylineItemsets = 0;
 
 	/** Candidate set */
-	ParetoSet candidateSet;
+    private ParetoSet candidateSet;
 	
 	/** Result set */
-	ParetoSet resultSet;
+    private ParetoSet resultSet;
 	
 	/** Structure to store potential High utility itemsets */
 	private List<Itemset> phuis;
@@ -109,8 +111,6 @@ public class AlgoSkyMine {
 	 *            path to an input file containing a utility table indicating the internal utility of each item
 	 * @param outputFilePath
 	 *            path for writing the output file (if null the result is kept in memory and not saved to file)
-	 * @param minUtility
-	 *            the minimum utility threshold
 	 * @param usePreInsertingSingleAndPairs if true, use the strategy of pre-inserting single and pairs of items
 	 * @param useRaisingUMinByNodeUtilities if true, use the strategy of raising UMin by node utility
 	 * @throws IOException exception if error while reading or writing the file
@@ -166,7 +166,7 @@ public class AlgoSkyMine {
 			// For each line in the file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -208,7 +208,7 @@ public class AlgoSkyMine {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -320,7 +320,7 @@ public class AlgoSkyMine {
 			// startTimestamp = System.currentTimeMillis();
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -434,7 +434,7 @@ public class AlgoSkyMine {
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is empty or is a kind of metadata
-				if (thisLine.isEmpty() == true || thisLine.charAt(0) == '#'
+				if (thisLine.isEmpty() || thisLine.charAt(0) == '#'
 						|| thisLine.charAt(0) == '%'
 						|| thisLine.charAt(0) == '@') {
 					continue;
@@ -544,7 +544,7 @@ public class AlgoSkyMine {
 	 * @param root
 	 *            of the FP-Tree
 	 */
-	public void generateTreeItemSets(UPNode root, int[] prefix) {
+    private void generateTreeItemSets(UPNode root, int[] prefix) {
 
 		if (root != null) {
 			List<UPNode> children = root.childs;
@@ -562,7 +562,7 @@ public class AlgoSkyMine {
 	 *            prefix of tree till root node
 	 */
 
-	public void getBFSItemsets(UPNode root, int[] items, int[] prefix) {
+    private void getBFSItemsets(UPNode root, int[] items, int[] prefix) {
 		long utilityL = 0;
 		if (root != null) {
 			int[] itemset = realloc1(items, root.itemID);
@@ -583,7 +583,7 @@ public class AlgoSkyMine {
 
 	}
 
-	public void updateParetoSingleDoubleItems() {
+	private void updateParetoSingleDoubleItems() {
 		// i and j denotes original item names
 		for (int i = 0; i < number_items; i++) {
 			for (int j = i + 1; j < number_items; j++) {
@@ -623,7 +623,7 @@ public class AlgoSkyMine {
 	 * @return the combined item set
 	 */
 
-	protected int[] realloc1(int[] oldItemSet, int newElement) {
+    private int[] realloc1(int[] oldItemSet, int newElement) {
 
 		// No old item set
 
@@ -700,11 +700,11 @@ public class AlgoSkyMine {
 					index++;
 				}
 			}
-		} while (isOrdered == false);
+		} while (!isOrdered);
 	}
 
-	public void UpdatePairsUtility(ArrayList<String> items,
-			ArrayList<Short> quantity) {
+	private void UpdatePairsUtility(ArrayList<String> items,
+                                    ArrayList<Short> quantity) {
 		for (int i = 0; i < items.size(); i++) {
 			for (int j = i + 1; j < items.size(); j++) {
 				try {
@@ -730,13 +730,9 @@ public class AlgoSkyMine {
 	 * Update the exact utility of an itemset given a transaction It assumes
 	 * that itemsets are sorted according to the lexical order.
 	 * 
-	 * @param itemset1
-	 *            the first itemset
-	 * @param itemset2
-	 *            the second itemset
 	 * @return true if the first itemset contains the second itemset
 	 */
-	public void updateExactUtility(List<Item> transaction, Itemset itemset) {
+    private void updateExactUtility(List<Item> transaction, Itemset itemset) {
 		long utility = 0;
 		// for each item in the itemset
 		loop1: for (int i = 0; i < itemset.size(); i++) {
@@ -887,7 +883,7 @@ public class AlgoSkyMine {
 		return utility;
 	}
 
-	public long getNodeHighUtilityValue(NodeList nList, int support) {
+	private long getNodeHighUtilityValue(NodeList nList, int support) {
 		long utility = 0;
 		NodeList tempHead = nList;
 		while (tempHead != null) {
@@ -898,7 +894,7 @@ public class AlgoSkyMine {
 		return utility;
 	}
 
-	public long getNodeLowUtilityValue(NodeList nList, int support) {
+	private long getNodeLowUtilityValue(NodeList nList, int support) {
 		long utility = 0;
 		NodeList tempHead = nList;
 		while (tempHead != null) {
@@ -909,7 +905,7 @@ public class AlgoSkyMine {
 		return utility;
 	}
 
-	public long getHighUtilityValue(int itemName, int support) {
+	private long getHighUtilityValue(int itemName, int support) {
 		long utility = 0;
 		long itemUtility;
 		// short item=(shortitemName;
@@ -925,7 +921,7 @@ public class AlgoSkyMine {
 		return utility;
 	}
 
-	public long getLowUtilityValue(int itemName, int support) {
+	private long getLowUtilityValue(int itemName, int support) {
 		long utility = 0;
 		long itemUtility;
 		// short item=(shortitemName;
@@ -941,7 +937,7 @@ public class AlgoSkyMine {
 		return utility;
 	}
 
-	public long getLowUtilityValue(int[] itemset, int support) {
+	private long getLowUtilityValue(int[] itemset, int support) {
 		long utility = 0;
 		long itemUtility;
 		int i = 0;
@@ -968,8 +964,6 @@ public class AlgoSkyMine {
 	 * 
 	 * @param tree
 	 *            UPTree to mine
-	 * @param minUtility
-	 *            minimum utility threshold
 	 * @param prefix
 	 *            the prefix itemset
 	 */

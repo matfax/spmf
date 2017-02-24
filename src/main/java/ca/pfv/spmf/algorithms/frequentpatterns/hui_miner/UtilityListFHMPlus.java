@@ -29,7 +29,7 @@ import java.util.List;
  * @see ElementFHMPlus
  * @author Philippe Fournier-Viger
  */
-public class UtilityListFHMPlus {
+class UtilityListFHMPlus {
 	Integer item;  // the item
 	long sumIutils = 0;  // the sum of item utilities
 	long sumRutils = 0;  // the sum of remaining utilities

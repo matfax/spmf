@@ -213,7 +213,7 @@ public class PseudoSequence {
      * @param index the position of the itemset
      * @return true if it is the first one, otherwise false
      */
-    public boolean isFirstItemset(int index) {
+    private boolean isFirstItemset(int index) {
         return index == 0;
     }
 
@@ -224,7 +224,7 @@ public class PseudoSequence {
      * @param itemsetIndex The itemset index
      * @return the item
      */
-    public Item getItemAtInItemsetAt(int firstItem, int itemIndex, int itemsetIndex) {
+    private Item getItemAtInItemsetAt(int firstItem, int itemIndex, int itemsetIndex) {
 
         if (isFirstItemset(itemsetIndex)) {
             return getItemset(itemsetIndex, firstItem).get(itemIndex + this.firstItem.get(firstItem));

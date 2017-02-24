@@ -59,24 +59,24 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoCHUIMiner {
 
 	/** the time the algorithm started */
-	public long startTimestamp = 0;   
+    private long startTimestamp = 0;
 	/**the time the algorithm terminated */
-	public long endTimestamp = 0;   
+    private long endTimestamp = 0;
 
 	/** the number of CHUI generated */
-	public int chuidCount = 0;  
+    private int chuidCount = 0;
 	
 	/** the number of candidates considered */
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	/** Writer object to write to the output file if the user choose to */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** The minimum utility threshold */
-	int minUtility = 0;
+    private int minUtility = 0;
 	
 	/** OPTIMIZATION SPECIFIC TO CHUIMINER. 
      We integrate the structure used by the EUCP strategy proposed in FHM 
@@ -84,7 +84,7 @@ public class AlgoCHUIMiner {
 	 Key: for an item x, 
 	 Value: a map of item where key is an item y and value is the TWU of {x,y} 
 	 */
-	Map<Integer, Map<Integer, Integer>> mapFMAP;  // PAIR OF ITEMS , item --> item, twu
+    private Map<Integer, Map<Integer, Integer>> mapFMAP;  // PAIR OF ITEMS , item --> item, twu
 	
 	// ======================================================
 	// ===== STRUCTURE TO STORE CHUIs IN MEMORY IF THE USER CHOOSE TO 
@@ -94,7 +94,7 @@ public class AlgoCHUIMiner {
 	 * and then by their size.  It is implemented as a list of list.
 	 * In the first list, the i-th position contains the list of itemsets
 	 * containing i items ordered by their support. */
-	List<List<Itemset>> listItemsetsBySize = null;
+    private List<List<Itemset>> listItemsetsBySize = null;
 	
 	/** The set of items appearing in CHUIs.
 	 * This information is used by the GHUI-Miner algorithm when it is applied
@@ -108,7 +108,7 @@ public class AlgoCHUIMiner {
 	 * @param sumIutils its utility
 	 * @param support its support
 	 */
-	public void saveToMemory(int [] itemset, long sumIutils, int support) {
+    private void saveToMemory(int[] itemset, long sumIutils, int support) {
 		// if the itemset is larger than the largest CHUI found until now
 		if(itemset.length >= listItemsetsBySize.size()) {
 			// create some new list in the structure for storing CHUIs to store
@@ -133,7 +133,7 @@ public class AlgoCHUIMiner {
 	// ======================================================
 	
 	/** Determine if the EUCP strategy will be used */
-	boolean useEUCPstrategy;
+    private boolean useEUCPstrategy;
 	
 	/**
 	 * Default constructor
@@ -192,7 +192,7 @@ public class AlgoCHUIMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -261,7 +261,7 @@ public class AlgoCHUIMiner {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -378,7 +378,6 @@ public class AlgoCHUIMiner {
 	 * the itemsets to the output file.
 	 * @param closedSet  This is the current prefix. Initially, it is empty.
 	 * @param closedSetUL This is the Utility List of the prefix. Initially, it is empty.
-	 * @param minUtilityRatio The minUtility threshold.
 	 * @throws IOException
 	 */
 	private void chuimineClosed_eucp(boolean firstTime, int [] closedSet, UtilityList closedSetUL, 
@@ -405,7 +404,7 @@ public class AlgoCHUIMiner {
 				int[] newGen = appendItem(closedSet, iUL.item);	
 				
 				// L5:  if newgen is not a duplicate
-				if(is_dup(newgen_TIDs, preset) == false){
+				if(!is_dup(newgen_TIDs, preset)){
 					// L6: ClosedsetNew = newGen
 					int[] closedSetNew = newGen;	
 
@@ -437,7 +436,7 @@ public class AlgoCHUIMiner {
 							closedSetNew = appendItem(closedSetNew, jUL.item);	
 							closedsetNewTIDs = construct(closedsetNewTIDs, jUL);
 							
-							if(isPassingHUIPruning(closedsetNewTIDs) == false) {
+							if(!isPassingHUIPruning(closedsetNewTIDs)) {
 								passedHUIPruning = false;
 								break;
 							}
@@ -614,8 +613,6 @@ public class AlgoCHUIMiner {
 
 	/**
 	 * Method to write a high utility itemset to the output file or memory.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param sumIutils the utility of the prefix concatenated with the item
 	 */
 	private void saveCHUI(int[] itemset, long sumIutils, int support) throws IOException {
@@ -652,7 +649,7 @@ public class AlgoCHUIMiner {
 	 * Print statistics about the latest execution to System.out.
 	 * @throws IOException 
 	 */
-	public void printStats() throws IOException {
+	public void printStats() {
 
 		System.out.println("=============  CHUIMiner ALGORITHM SPMF 0.97e - STATS =============");
 		System.out.println(" Total time ~ "                  + (endTimestamp - startTimestamp) + " ms");

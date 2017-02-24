@@ -208,7 +208,6 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	/**
 	 * Create a projected database by pseudo-projection
 	 * @param item The item to use to make the pseudo-projection
-	 * @param context The current database.
 	 * @param inSuffix This boolean indicates if the item "item" is part of a suffix or not.
 	 * @return the projected database.
 	 */
@@ -308,7 +307,7 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	 * @param sequences the sequence database
 	 * @return  a set of Pair objects
 	 */
-	protected Set<Pair> findAlllPairsAndCountTheirSupport(List<PseudoSequence> sequences){
+    private Set<Pair> findAlllPairsAndCountTheirSupport(List<PseudoSequence> sequences){
 		// we will scan the database and store the cumulative support of each pair
 		// in a map.
 		

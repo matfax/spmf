@@ -42,32 +42,32 @@ import java.util.Map.Entry;
 public class AlgoAprioriTID_Bitset {
 
 	/** the current level */
-	protected int k; 
+    private int k;
 
 	/** variables for counting support of items */
-	Map<Integer, BitSet> mapItemTIDS = new HashMap<Integer, BitSet>();
+    private Map<Integer, BitSet> mapItemTIDS = new HashMap<Integer, BitSet>();
 
 	/** the minimum support threshold */
-	int minSuppRelative;
+    private int minSuppRelative;
 
 	/** Special parameter to set the maximum size of itemsets to be discovered */
-	int maxItemsetSize = Integer.MAX_VALUE;
+    private int maxItemsetSize = Integer.MAX_VALUE;
 
 	/** start time of latest execution */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** end time of latest execution */
-	long endTimeStamp = 0; 
+    private long endTimeStamp = 0;
 	
 	/**  object to write the output file */
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	/** the number of frequent itemsets found */
 	private int itemsetCount;
 	private int tidcount = 0;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -102,7 +102,7 @@ public class AlgoAprioriTID_Bitset {
 			
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -174,7 +174,7 @@ public class AlgoAprioriTID_Bitset {
 			// We build the level k+1 with all the candidates that have
 			// a support higher than the minsup threshold.
 			level = generateCandidateSizeK(level);
-			; // We keep only the last level...
+            // We keep only the last level...
 			k++;
 		}
 
@@ -190,7 +190,7 @@ public class AlgoAprioriTID_Bitset {
 	 * @param levelK_1  frequent itemsets of size k-1
 	 * @return itemsets of size k
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1)
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1)
 			throws IOException {
 		// create a variable to store candidates
 		List<Itemset> candidates = new ArrayList<Itemset>();
@@ -262,7 +262,7 @@ public class AlgoAprioriTID_Bitset {
 	 * @param itemset the itemset to be saved
 	 * @throws IOException an exception if error while writing the file.
 	 */
-	void saveItemsetToFile(Itemset itemset) throws IOException {
+    private void saveItemsetToFile(Itemset itemset) throws IOException {
 		writer.write(itemset.toString() + " #SUP: " + itemset.cardinality);
 		if(showTransactionIdentifiers) {
         	writer.append(" #TID:");

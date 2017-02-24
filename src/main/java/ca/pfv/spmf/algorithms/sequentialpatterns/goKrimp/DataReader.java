@@ -146,7 +146,7 @@ public class DataReader {
         return gk;
     }
     
-    HashMap<Integer,String> readLabel(String dataname){
+    private HashMap<Integer,String> readLabel(String dataname){
         HashMap<Integer,String> labels= new HashMap();
         File file = new File(dataname);
         if(!file.exists()){ //the label file with such name does not exist   //BUG FIX 2015 PHILIPPE: ADDED "!"

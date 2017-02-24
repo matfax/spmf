@@ -31,11 +31,11 @@ import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
  * @see SequenceDatabase
  * @author Philippe Fournier-Viger
  */
-public class Occurence {
+class Occurence {
 	/** the sequenceID (a.k.a transaction id) */
-	int sequenceID =-1;
+    private int sequenceID =-1;
 	/** a list of occurences (position in this sequence) */
-	List<Short> occurences = new ArrayList<Short>();
+    private List<Short> occurences = new ArrayList<Short>();
 	
 	/**
 	 * Contructor

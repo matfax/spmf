@@ -60,22 +60,22 @@ import java.util.*;
 public class AlgoDCI_Closed_Optimized {
 	
 	/** number of closed itemsets found */
-	int closedCount =0;
+    private int closedCount =0;
 	
 	/** the number of transaction in the transaction database */
-	int tidsCount =0;
+    private int tidsCount =0;
 	
 	/** the largest item in the transaction database */
-	int maxItemId =1;  
+    private int maxItemId =1;
 	
 	/** relative minimum support set by the user */
 	private int minSuppRelative;
 	
 	/** object to write the output file */
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 	/** if true, transaction identifiers of each pattern will be shown*/
-	boolean showTransactionIdentifiers = false;
+    private boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -184,7 +184,7 @@ public class AlgoDCI_Closed_Optimized {
 		while( ((line = reader.readLine())!= null)){
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -209,7 +209,6 @@ public class AlgoDCI_Closed_Optimized {
 
 	/**
 	 * The method "DCI_CLOSED" as described in the paper.
-	 * @param firstime true if this method is called for the first time
 	 * @param closedset the closed set (see paper).
 	 * @param bitset the tids set of the closed set
 	 * @param postset  the postset (see paper for full details)
@@ -245,7 +244,7 @@ public class AlgoDCI_Closed_Optimized {
 				newgen.add(i);
 				
 				// L5:  if newgen is not a duplicate
-				if(isDuplicate(newgenTIDs, preset, matrix) == false){
+				if(!isDuplicate(newgenTIDs, preset, matrix)){
 					// L6: ClosedsetNew = newGen
 					List<Integer> closedsetNew = new ArrayList<Integer>();
 					closedsetNew.addAll(newgen);
@@ -308,7 +307,7 @@ public class AlgoDCI_Closed_Optimized {
 	 */
 	private boolean smallerAccordingToTotalOrder(Integer i, Integer j, BitMatrix matrix) {
 		if(matrix.getSupportOfItem(i) == matrix.getSupportOfItem(j)){
-			return (i < j) ? true : false;
+			return (i < j);
 		}
 		return matrix.getSupportOfItem(j) - matrix.getSupportOfItem(i) >0;
 	}
@@ -442,7 +441,7 @@ public class AlgoDCI_Closed_Optimized {
 		// for each bit of bs1
 		for (int i = bs1.nextSetBit(0); i >= 0; i = bs1.nextSetBit(i+1)) {
 			// if the bit is not in bs2 return false
-		     if(bs2.get(i) == false){
+		     if(!bs2.get(i)){
 		    	 return false;
 		     }
 		}

@@ -17,17 +17,11 @@ package ca.pfv.spmf.algorithms.timeseries.reader_writer;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
-import ca.pfv.spmf.algorithms.ArraysAlgos;
 import ca.pfv.spmf.algorithms.timeseries.TimeSeries;
 import ca.pfv.spmf.tools.MemoryLogger;
 
@@ -41,19 +35,19 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoTimeSeriesWriter {
  
 	/** the time the algorithm started */
-	long startTimestamp = 0; 
+    private long startTimestamp = 0;
 	
 	/** the time the algorithm terminated */
-	long endTimestamp = 0;  
+    private long endTimestamp = 0;
 	
 	/** This program will execute in DEBUG MODE if this variable is true */
 	boolean DEBUG_MODE = false;
 	
 	/** The number of time series in the last file that was read */
-	int timeSeriesCount = 0;
+    private int timeSeriesCount = 0;
 	
 	/** writer to write the output file **/
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 		
 	/**
 	 * Default constructor
@@ -63,8 +57,6 @@ public class AlgoTimeSeriesWriter {
 
 	/**
 	 * Run the algorithm
-	 * @param input the output file path
-	 * @param timeSeries a list of time  serie
 	 * @param separator a separator (a string) to separate time series values (for exmaple the comma ',')
 	 * @throws IOException exception if error while writing the file
 	 */

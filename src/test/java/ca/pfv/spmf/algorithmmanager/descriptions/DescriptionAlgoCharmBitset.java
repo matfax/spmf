@@ -68,7 +68,7 @@ public class DescriptionAlgoCharmBitset extends DescriptionOfAlgorithm {
 			e.printStackTrace();
 		}
 		
-		if (parameters.length >=2 && "".equals(parameters[1]) == false) {
+		if (parameters.length >=2 && !"".equals(parameters[1])) {
 			algo.setShowTransactionIdentifiers(getParamAsBoolean(parameters[1]));
 		}
 		

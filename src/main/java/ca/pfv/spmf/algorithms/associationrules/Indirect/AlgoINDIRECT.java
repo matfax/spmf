@@ -63,19 +63,19 @@ import java.util.Map.Entry;
 public class AlgoINDIRECT {
 
 	// variables for the tid (transaction ids) set of items
-	Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
+    private Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
 	
 	// Parameters
-	int minSuppRelative;
-	double minconf = 0;
-	double tsRelative = 0;
+    private int minSuppRelative;
+	private double minconf = 0;
+	private double tsRelative = 0;
 	
 	// for statistics
-	long startTimestamp = 0; // start time of the last algorithm execution
-	long endTimeStamp = 0; // end time of the last algorithm execution
+    private long startTimestamp = 0; // start time of the last algorithm execution
+	private long endTimeStamp = 0; // end time of the last algorithm execution
 	
 	// object to write the result to disk
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 
 	// the number of rule found
 	private int ruleCount;
@@ -117,7 +117,7 @@ public class AlgoINDIRECT {
 		while( ((line = reader.readLine())!= null)){
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true ||
+			if (line.isEmpty() ||
 					line.charAt(0) == '#' || line.charAt(0) == '%'
 							|| line.charAt(0) == '@') {
 				continue;
@@ -202,7 +202,7 @@ public class AlgoINDIRECT {
 	 * @return the list of candidates of size k
 	 * @throws IOException exception if there is an error writing the file
 	 */
-	protected List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1, int level) throws IOException {
+    private List<Itemset> generateCandidateSizeK(List<Itemset> levelK_1, int level) throws IOException {
 		// create an empty list to store the candidate
 		List<Itemset> nextLevel = new ArrayList<Itemset>();
 
@@ -269,12 +269,12 @@ loop2:		for(int j=i+1; j< levelK_1.size(); j++){
 					// We check if the pair of itemset have only one item that is different.
 	  loopX:		for(Integer a : candidate1.getItems()){
 		  				// if candidate2 does not contain item a
-						if(candidate2.contains(a) == false){
+						if(!candidate2.contains(a)){
 							Integer b = null;
 							// for each item of candidate 2
 							for(Integer itemM : candidate2.getItems()){
 								// if candidate1 does not contain that item
-								if(candidate1.contains(itemM) == false){
+								if(!candidate1.contains(itemM)){
 									if(b!= null){
 										continue loopX;  // more than two items are different... we don't want that.
 									}

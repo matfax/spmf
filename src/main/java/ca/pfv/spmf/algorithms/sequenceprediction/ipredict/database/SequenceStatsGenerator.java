@@ -38,11 +38,10 @@ public class SequenceStatsGenerator {
 
 	/**
 	 * This method generates statistics for a sequence database (a file)
-	 * @param path the path to the file
 	 * @param name of the database
 	 * @throws IOException  exception if there is a problem while reading the file.
 	 */
-	public static void prinStats(SequenceDatabase database, String name) throws IOException {
+	public static void prinStats(SequenceDatabase database, String name) {
 
 		/////////////////////////////////////
 		//  We finished reading the database into memory.

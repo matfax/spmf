@@ -28,7 +28,7 @@ import java.util.List;
  * @see Element
  * @author Philippe Fournier-Viger
  */
-public class TIDList {
+class TIDList {
 	Integer item;  // the item
 	List<Integer> elements = new ArrayList<Integer>();  // the elements
 	int largestPeriodicity = 0;

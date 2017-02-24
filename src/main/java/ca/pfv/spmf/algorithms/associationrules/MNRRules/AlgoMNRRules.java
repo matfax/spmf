@@ -69,15 +69,15 @@ public class AlgoMNRRules {
 	private int databaseSize; //
 	
 	// for statistics
-	long startTimestamp = 0; // last execution start time
-	long endTimeStamp = 0;   // last execution end time
+    private long startTimestamp = 0; // last execution start time
+	private long endTimeStamp = 0;   // last execution end time
 	private int ruleCount;  // number of rule found
 	
 	// the rules found (if we save to memory)
 	private Rules rules;
 	
 	// object to write the output file if the user wish to write to a file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	/**
 	 * Default constructor

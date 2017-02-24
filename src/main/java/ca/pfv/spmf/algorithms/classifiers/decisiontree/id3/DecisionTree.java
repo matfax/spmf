@@ -50,7 +50,7 @@ public class DecisionTree {
 	 * @param value  a string that should be used to increase the indentation
 	 */
 	private void print(Node nodeToPrint, String indent, String value) {
-		if(value.isEmpty() == false)
+		if(!value.isEmpty())
 		System.out.println(indent + value);
 
 		String newIndent = indent + "  ";

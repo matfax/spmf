@@ -57,41 +57,41 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoVMSP {
 
     /** for statistics */
-    public long startTime;
-    public long endTime;
-    public int patternCount;
+    private long startTime;
+    private long endTime;
+    private int patternCount;
     
     /**  minsup */
     private int minsup = 0;
     
     /** object to write to a file */
-    BufferedWriter writer = null;
+    private BufferedWriter writer = null;
     
     /** Vertical database */
-    Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
+    private Map<Integer, Bitmap> verticalDB = new HashMap<Integer, Bitmap>();
     
     /** List indicating the number of bits per sequence */
-    List<Integer> sequencesSize = null;
+    private List<Integer> sequencesSize = null;
     
     /** the last bit position that is used in bitmaps */
-    int lastBitIndex = 0;  
+    private int lastBitIndex = 0;
     
     /** maximum pattern length in terms of item count */
     private int maximumPatternLength = Integer.MAX_VALUE;
     
     /** Map: key: item   value:  another item that followed the first item + support
     /* (could be replaced with a triangular matrix...) */
-    Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
-    Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapAfter = null;
+    private Map<Integer, Map<Integer, Integer>> coocMapEquals = null;
     
     /** Map indicating for each item, the smallest tid containing this item
     * in a sequence. */
-    Map<Integer, Short> lastItemPositionMap;
-    boolean useCMAPPruning = true;
-    boolean useLastPositionPruning = false;
+    private Map<Integer, Short> lastItemPositionMap;
+    private boolean useCMAPPruning = true;
+    private boolean useLastPositionPruning = false;
     
     /** STRUCTURE TO STORE MAXIMAL PATTERNS  BY ASCENDING ORDER OF SUPPORT */
-    List<TreeSet<PatternVMSP>> maxPatterns = null; 
+    private List<TreeSet<PatternVMSP>> maxPatterns = null;
     
     /** Indicate if the forward checking strategy should be used or not by the algorithm */
 	private boolean useStrategyForwardExtensionChecking = true;
@@ -154,7 +154,6 @@ public class AlgoVMSP {
     /**
      * This is the main method for the VMSP algorithm
      *
-     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -190,7 +189,7 @@ public class AlgoVMSP {
             while ((thisLine = reader.readLine()) != null) {
                 // if the line is  a comment, is  empty or is a
                 // kind of metadata
-                if (thisLine.isEmpty() == true
+                if (thisLine.isEmpty()
                         || thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
                         || thisLine.charAt(0) == '@') {
                     continue;
@@ -248,7 +247,7 @@ public class AlgoVMSP {
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -444,7 +443,7 @@ public class AlgoVMSP {
            if (maximumPatternLength > 1) {
               hasExtension =  dfsPruning(prefix, entry.getValue(), frequentItems, frequentItems, entry.getKey(), 2, entry.getKey());
            }
-           if(hasExtension == false) {
+           if(!hasExtension) {
         	   savePatternSingleItem(entry.getKey(), entry.getValue(), itemIsEven);
            }
             
@@ -471,7 +470,7 @@ public class AlgoVMSP {
      * file
      * @return TRUE IF A FREQUENT PATTERN WAS CREATED USING THE PREFIX.
      */
-    boolean dfsPruning(PrefixVMSP prefix, Bitmap prefixBitmap, List<Integer> sn, List<Integer> in, int hasToBeGreaterThanForIStep, int m, Integer lastAppendedItem) throws IOException {
+    private boolean dfsPruning(PrefixVMSP prefix, Bitmap prefixBitmap, List<Integer> sn, List<Integer> in, int hasToBeGreaterThanForIStep, int m, Integer lastAppendedItem) {
     	boolean atLeastOneFrequentExtension = false;
     	
     	if(DEBUG){
@@ -493,19 +492,18 @@ public class AlgoVMSP {
         Map<Integer, Integer> mapSupportItemsAfter = coocMapAfter.get(lastAppendedItem);
 
         // for each item in sn
-        loopi:
         for (Integer i : sn) {
 
             // CMAP PRUNING
             // we only check with the last appended item
             if (useCMAPPruning) {
                 if (mapSupportItemsAfter == null) {
-                    continue loopi; 
+                    continue;
                 }
                 Integer support = mapSupportItemsAfter.get(i);
                 if (support == null || support < minsup) {
 //							System.out.println("PRUNE");
-                    continue loopi;
+                    continue;
                 }
             }
 
@@ -548,7 +546,7 @@ public class AlgoVMSP {
 	            	hasFrequentExtension = dfsPruning(prefixSStep, newBitmap, sTemp, sTemp, item, m + 1, item);
 	            }
 	            
-	            if(hasFrequentExtension == false) {
+	            if(!hasFrequentExtension) {
 	                // STRATEGY: NEWWW
 	                atLeastOneFrequentExtension = true;
 	                savePatternMultipleItems(prefixSStep, newBitmap, m);
@@ -563,7 +561,6 @@ public class AlgoVMSP {
         List<Bitmap> iTempBitmaps = new ArrayList<Bitmap>();
 
         // for each item in in
-        loop2:
         for (Integer i : in) {
 
 
@@ -579,11 +576,11 @@ public class AlgoVMSP {
                 // CMAP PRUNING
                 if (useCMAPPruning) {
                     if (mapSupportItemsEquals == null) {
-                        continue loop2;
+                        continue;
                     }
                     Integer support = mapSupportItemsEquals.get(i);
                     if (support == null || support < minsup) {
-                        continue loop2;
+                        continue;
                     }
                 }
 
@@ -622,7 +619,7 @@ public class AlgoVMSP {
             	hasFrequentExtension = dfsPruning(prefixIStep, newBitmap, sTemp, iTemp, item, m + 1, item);
             }
             
-            if(hasFrequentExtension == false) {
+            if(!hasFrequentExtension) {
             	// STRATEGY: NEWWW
                 atLeastOneFrequentExtension = true;
                 // save the pattern
@@ -633,7 +630,7 @@ public class AlgoVMSP {
         MemoryLogger.getInstance().checkMemory();
         
         return atLeastOneFrequentExtension 
-        		|| useStrategyForwardExtensionChecking == false;
+        		|| !useStrategyForwardExtensionChecking;
     }
 
     /**
@@ -641,11 +638,11 @@ public class AlgoVMSP {
      *
      * @param item the item
      * @param bitmap its bitmap
-     * @param itemIsEven 
+     * @param itemIsEven
      * @throws IOException exception if error while writing to the file
      * @return true if is subsumed
      */
-    private boolean savePatternSingleItem(Integer item, Bitmap bitmap, boolean itemIsEven) throws IOException {
+    private void savePatternSingleItem(Integer item, Bitmap bitmap, boolean itemIsEven) {
     	if(DEBUG){
     		System.out.println("Trying to save : " + item);
     	}
@@ -666,7 +663,7 @@ public class AlgoVMSP {
 		        	if(pPrime.prefix.sumOfEvenItems >= item &&
 		        			bitmap.getSupport() >= pPrime.support) {
 		        		if(pPrime.prefix.containsItem(item)) {
-			        		return true;
+                            return;
 		        		}
 		        	}
 				}
@@ -683,7 +680,7 @@ public class AlgoVMSP {
 		        	if(pPrime.prefix.sumOfOddItems > item &&
 		        			bitmap.getSupport() >= pPrime.support) {
 		        		if(pPrime.prefix.containsItem(item)) {
-			        		return true;
+                            return;
 		        		}
 		        	}
 				}
@@ -714,8 +711,6 @@ public class AlgoVMSP {
         if(DEBUG){
         	System.out.println(" saved");
         }
-		
-		return false;
 
         // END CHANGED ------
     }
@@ -730,7 +725,7 @@ public class AlgoVMSP {
      * @throws IOException exception if error while writing to the file
      * @return true if pattern is subsumed
      */
-    private boolean savePatternMultipleItems(PrefixVMSP prefix, Bitmap bitmap, int length) throws IOException {
+    private void savePatternMultipleItems(PrefixVMSP prefix, Bitmap bitmap, int length) {
         // CHANGED ------
     	if(DEBUG){
     		System.out.println("*Trying to save : " +  prefix);
@@ -760,7 +755,7 @@ public class AlgoVMSP {
     			   prefix.sumOfOddItems <= pPrime.prefix.sumOfOddItems &&
     			   bitmap.getSupport() >= pPrime.support && 
     			   strictlyContains(pPrime.prefix, prefix)) {
-	        			return true;
+                    return;
 	        	}
 
     		}
@@ -823,8 +818,7 @@ public class AlgoVMSP {
 //        if(patternCount % 200 == 0) {
 //        	System.out.println(patternCount);
 //        }
-        return false;  // not subsumed
-        
+
 
 //        StringBuilder r = new StringBuilder("");
 //        for (Itemset itemset : prefix.getItemsets()) {
@@ -853,7 +847,7 @@ public class AlgoVMSP {
      * @param pattern2 another sequential pattern
 	 * @return true if the pattern1 contains pattern2.
 	 */
-	boolean strictlyContains(PrefixVMSP pattern1, PrefixVMSP pattern2) {
+    private boolean strictlyContains(PrefixVMSP pattern1, PrefixVMSP pattern2) {
 //		// if pattern2 is larger or equal in size, then it cannot be contained in pattern1
 //		if(pattern1.size() <= pattern2.size()){
 //			return false;
@@ -960,7 +954,7 @@ public class AlgoVMSP {
 	 * @param path the output file path
 	 * @throws IOException exception if an error occur when writing the file.
 	 */
-	public void writeResultTofile(String path) throws IOException {
+    private void writeResultTofile(String path) throws IOException {
 		// for each level (pattern having a same size)
       for(TreeSet<PatternVMSP> tree : maxPatterns) {
     	  if(tree == null) {

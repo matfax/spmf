@@ -61,12 +61,12 @@ public class AlgoIGB {
 	private Rules rules;
 	
 	// for statistics
-	long startTimestamp = 0; // last execution start time
-	long endTimeStamp = 0;   // last execution end time
+    private long startTimestamp = 0; // last execution start time
+	private long endTimeStamp = 0;   // last execution end time
 	private int ruleCount; // the number of rules found
 	
 	// object to write the output file if the user wish to write to a file
-	BufferedWriter writer = null;
+    private BufferedWriter writer = null;
 	
 	public AlgoIGB(){
 		
@@ -177,7 +177,7 @@ public class AlgoIGB {
 						}
 						
 						// if genI1 has no smaller premise
-						if(thereIsSmaller ==  false){
+						if(!thereIsSmaller){
 							// Add genI1 to the set of smallest premises
 							lSmallestPremise.add(genI1);//13
 						}

@@ -1,24 +1,15 @@
 package ca.pfv.spmf.algorithms.sequential_rules.trulegrowth;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.algorithms.ArraysAlgos;
 import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
 import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is the original implementation of the TRULEGROWTH algorithm for mining sequential rules 
@@ -39,8 +30,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoTRuleGrowth {
 	
 	// *** for statistics ***
-	long timeStart = 0; // start time of latest execution
-	long timeEnd = 0;  // end time of latest execution
+    private long timeStart = 0; // start time of latest execution
+	private long timeEnd = 0;  // end time of latest execution
 	
 	
 	//*** internal variables ***/
@@ -48,28 +39,28 @@ public class AlgoTRuleGrowth {
 	// KEY: an item
 	// VALUE:  a map of  key: sequence ID  value: occurences of the item in that sequence.
 	// (note: an occurence is an itemset position)
-	Map<Integer,  Map<Integer, Occurence>> mapItemCount;
+    private Map<Integer,  Map<Integer, Occurence>> mapItemCount;
 	
 	 // minimum support which will be raised dynamically
-	int minsuppRelative; 
+     private int minsuppRelative;
 	
 	// The number of patterns found
-	int ruleCount;
+    private int ruleCount;
 	
 	// object to write the output file
-	BufferedWriter writer = null; 
+    private BufferedWriter writer = null;
 	
 	
 	// *** parameters ***
-	SequenceDatabase database; // a sequence database
-	double minconf;   // minimum confidence
-	int windowSize =0;  // window size
+    private SequenceDatabase database; // a sequence database
+	private double minconf;   // minimum confidence
+	private int windowSize =0;  // window size
 	
 	
 	// the maximum size of the antecedent of rules (optional)
-	int maxAntecedentSize = Integer.MAX_VALUE;
+    private int maxAntecedentSize = Integer.MAX_VALUE;
 	// the maximum size of the consequent of rules (optional)
-	int maxConsequentSize = Integer.MAX_VALUE;
+    private int maxConsequentSize = Integer.MAX_VALUE;
 
 
 	/**
@@ -112,8 +103,8 @@ public class AlgoTRuleGrowth {
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
 	 */
-	public void runAlgorithm(String input, String output, int relativeMinSupport, double minConfidence, int windowSize 
-			) throws IOException{
+    private void runAlgorithm(String input, String output, int relativeMinSupport, double minConfidence, int windowSize
+    ) throws IOException{
 		// save the minconf parameter
 		this.minconf = minConfidence;
 		
@@ -188,45 +179,46 @@ public class AlgoTRuleGrowth {
 				Set<Integer> tidsJI= new HashSet<Integer>();
 
 				// for each occurence of I
-	looptid:	for(Occurence occI : occurencesI.values()){
-					
-					// add the sequenceID of that occurence to tidsI
-					tidsI.add(occI.sequenceID);
-					
-					// if J does not appear in that sequence continue loop
-					Occurence occJ = occurencesJ.get(occI.sequenceID);
-					if(occJ == null){
-						continue looptid;
-					}
-					
-					// make a big loop to compare if I appears before
-					// J in that sequence and
-					// if J appears before I
-					boolean addedIJ= false;
-					boolean addedJI= false;
-					// for each occurence of I in that sequence
-			loopIJ:	for(Short posI : occI.occurences){
-						// for each occurence of J in that sequence
-						for(Short posJ : occJ.occurences){
-							if(!posI.equals(posJ) && Math.abs(posI - posJ) <= windowSize){
-								if(posI <= posJ){
-									// if I is before J
-									tidsIJ.add(occI.sequenceID);
-									addedIJ = true;
-								}else{
-									// if J is before I
-									tidsJI.add(occI.sequenceID);
-									addedJI = true;
-								}
-								// if we have found that I is before J and J is before I
-								// we don't need to continue.
-								if(addedIJ && addedJI){
-									break loopIJ;
-								}
-							}
-						}
-					}
-				}
+                for (Occurence occI : occurencesI.values()) {
+
+                    // add the sequenceID of that occurence to tidsI
+                    tidsI.add(occI.sequenceID);
+
+                    // if J does not appear in that sequence continue loop
+                    Occurence occJ = occurencesJ.get(occI.sequenceID);
+                    if (occJ == null) {
+                        continue;
+                    }
+
+                    // make a big loop to compare if I appears before
+                    // J in that sequence and
+                    // if J appears before I
+                    boolean addedIJ = false;
+                    boolean addedJI = false;
+                    // for each occurence of I in that sequence
+                    loopIJ:
+                    for (Short posI : occI.occurences) {
+                        // for each occurence of J in that sequence
+                        for (Short posJ : occJ.occurences) {
+                            if (!posI.equals(posJ) && Math.abs(posI - posJ) <= windowSize) {
+                                if (posI <= posJ) {
+                                    // if I is before J
+                                    tidsIJ.add(occI.sequenceID);
+                                    addedIJ = true;
+                                } else {
+                                    // if J is before I
+                                    tidsJI.add(occI.sequenceID);
+                                    addedJI = true;
+                                }
+                                // if we have found that I is before J and J is before I
+                                // we don't need to continue.
+                                if (addedIJ && addedJI) {
+                                    break loopIJ;
+                                }
+                            }
+                        }
+                    }
+                }
 				// END
 				
 				// (2) check if I ==> J has enough common tids
@@ -307,9 +299,7 @@ public class AlgoTRuleGrowth {
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
 	 * @param itemsetI the left side of a rule (see paper)
-	 * @param itemestJ the right side of a rule (see paper)
 	 * @param tidsI the tids set of I
-	 * @param tidsJ the tids set of J
 	 * @throws IOException  exception if error while writing output file
 	 */
     private void expandLeft(int[] itemsetI, int[] itemsetJ,
@@ -571,10 +561,7 @@ public class AlgoTRuleGrowth {
 	 * This method removes elements out of the current window from a  hashmap containing
 	 * the position of items at the right of an itemset.
 	 *  key: item   value : a itemset position
-	 * @param mapMostLeftFromItemset  the map
-	 * @param lastElementOfWindow  the last itemset of the window in terms of itemset position
-	 *                             in the sequence.
-	 */
+     */
 	private void removeElementOutsideWindowER(
 			LinkedHashMap<Integer, Integer> mapMostRightfromI,
 			final int firstElementOfWindow) {
@@ -598,8 +585,7 @@ public class AlgoTRuleGrowth {
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ after the first occurence of I
 	 *   - c is lexically bigger than all items in J
-	 * @param mapWindowsJI 
-	 * @throws IOException 
+	 * @throws IOException
 	 */
     private void expandRight(int[] itemsetI, int[] itemsetJ, 
 							Set<Integer> tidsI, 
@@ -825,7 +811,7 @@ public class AlgoTRuleGrowth {
 	/**
 	 * This method calculate the frequency of each item in one database pass.
 	 * Then it remove all items that are not frequent in another database pass.
-	 * @param database : a sequence database 
+	 * @param database : a sequence database
 	 * @return A map such that key = item
 	 *                         value = a map  where a key = tid  and a value = Occurence
 	 * This map allows knowing the frequency of each item and their first and last occurence in each sequence.

@@ -76,7 +76,7 @@ public class Pattern implements Comparable<Pattern> {
      * Method to obtain the support of a pattern
      * @return  the support as an integer.
      */
-    public int getSupport(){
+    private int getSupport(){
         return appearingIn.cardinality();
     }
 
@@ -151,7 +151,7 @@ public class Pattern implements Comparable<Pattern> {
      * It obtains the elements of the pattern.
      * @return  the elements contained in the pattern as a list.
      */
-    public List<ItemAbstractionPair> getElements() {
+    private List<ItemAbstractionPair> getElements() {
         return elements;
     }
 
@@ -160,7 +160,7 @@ public class Pattern implements Comparable<Pattern> {
      * @param i  the position i
      * @return the element.
      */
-    public ItemAbstractionPair getIthElement(int i) {
+    private ItemAbstractionPair getIthElement(int i) {
         return elements.get(i);
     }
 

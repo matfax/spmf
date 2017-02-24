@@ -26,7 +26,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.hui_miner;
  * @see Element
  * @author Philippe Fournier-Viger
  */
-public class ElementFHN extends Element{
+class ElementFHN extends Element{
 	/** itemset utility */
 	public final int inutils;  
 	

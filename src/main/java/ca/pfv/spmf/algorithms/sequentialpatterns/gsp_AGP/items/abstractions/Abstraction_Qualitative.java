@@ -47,7 +47,7 @@ public class Abstraction_Qualitative extends Abstraction_Generic {
             pool.put(Boolean.FALSE, falseValue);
     }
 
-    public Abstraction_Qualitative(boolean equalRelation) {
+    private Abstraction_Qualitative(boolean equalRelation) {
         super();
         this.equalRelation = equalRelation;
     }

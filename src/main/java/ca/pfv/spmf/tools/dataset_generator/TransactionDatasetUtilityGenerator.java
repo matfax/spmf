@@ -17,8 +17,6 @@ package ca.pfv.spmf.tools.dataset_generator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -65,7 +63,7 @@ public class TransactionDatasetUtilityGenerator {
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (thisLine.isEmpty() == true ||
+			if (thisLine.isEmpty() ||
 					thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 							|| thisLine.charAt(0) == '@') {
 				continue;
@@ -84,7 +82,7 @@ public class TransactionDatasetUtilityGenerator {
 				
 				items.add(item);
 				
-				if(externalUtilities.containsKey(item) == false) {
+				if(!externalUtilities.containsKey(item)) {
 					double rand = Math.abs(randomGenerator.nextGaussian() * externalUtilityFactor);
 //					System.out.println("rand " + rand);
 					int extUtility = (int) (rand) + 1;
@@ -100,7 +98,7 @@ public class TransactionDatasetUtilityGenerator {
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
-			if (thisLine.isEmpty() == true ||
+			if (thisLine.isEmpty() ||
 					thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 							|| thisLine.charAt(0) == '@') {
 				continue;

@@ -1,10 +1,5 @@
 package ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.DatabaseHelper;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Item;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.database.Sequence;
@@ -13,6 +8,11 @@ import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.helpers.MemoryLogger;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.helpers.StatsLogger;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.profile.Profile;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.profile.ProfileManager;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 /*
  * This file is copyright (c) Ted Gueniche 
  * <ted.gueniche@gmail.com>
@@ -32,9 +32,9 @@ public class Evaluator {
 	private List<Predictor> predictors; //list of predictors
 	
 	//Sampling type
-	public final static int HOLDOUT = 0;
+	private final static int HOLDOUT = 0;
 	public final static int KFOLD = 1;
-	public final static int RANDOMSAMPLING = 2; 
+	private final static int RANDOMSAMPLING = 2;
 	
 	//statistics
 	private long startTime;
@@ -44,11 +44,11 @@ public class Evaluator {
 	private DatabaseHelper database;
 	
 	//public Stats stats;
-	public StatsLogger stats;
+    private StatsLogger stats;
 	public List<StatsLogger> experiments;
 	
-	public List<String> datasets;  
-	public List<Integer> datasetsMaxCount;  
+	private List<String> datasets;
+	private List<Integer> datasetsMaxCount;
 	
 	
 	public Evaluator(String pathToDatasets) {
@@ -84,7 +84,7 @@ public class Evaluator {
 	 * @return  a stats logger object
 	 * @throws IOException if error
 	 */
-	public StatsLogger Start(int samplingType, float param, boolean showResults, boolean showDatasetStats, boolean showExecutionStats) throws IOException {
+	public StatsLogger Start(int samplingType, float param, boolean showResults, boolean showDatasetStats, boolean showExecutionStats) {
 	
 		//Setting statsLogger
 		List<String> statsColumns = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class Evaluator {
 			
 			finalizeStats(showExecutionStats);
 			
-			if(showResults == true) {
+			if(showResults) {
 				System.out.println(stats.toString());
 			}
 		}
@@ -165,7 +165,7 @@ public class Evaluator {
 	 * The classifier is trained using the training set and evaluated using the test set.
 	 * @param ratio to divide the training and test sets
 	 */
-	public void Holdout(double ratio, int classifierId) {
+    private void Holdout(double ratio, int classifierId) {
 		
 		List<Sequence> trainingSequences = getDatabaseCopy();
 		List<Sequence> testSequences = splitList(trainingSequences, ratio);
@@ -184,7 +184,7 @@ public class Evaluator {
 	 * Holdout method repeated 10 times
 	 * @param ratio to use for the holdout method
 	 */
-	public void RandomSubSampling(double ratio, int classifierId) {
+    private void RandomSubSampling(double ratio, int classifierId) {
 		
 		int k = 10;
 		for(int i = 0 ; i < k; i++) {
@@ -202,7 +202,7 @@ public class Evaluator {
 	 * Training and testing is done k times. For each time; a fold is used for testing 
 	 * and the k-1 other folds for training
 	 */
-	public void KFold(int k, int classifierId) {
+    private void KFold(int k, int classifierId) {
 		
 		//k has to be at least 2
 		if(k < 2) {
@@ -259,7 +259,7 @@ public class Evaluator {
 	 * Display the stats for the experiment
 	 * @param showExecutionStats
 	 */
-	public void finalizeStats(boolean showExecutionStats) {
+    private void finalizeStats(boolean showExecutionStats) {
 		
 		//For each predictor, updates the stats
 		for(Predictor predictor : predictors) {
@@ -305,7 +305,7 @@ public class Evaluator {
 	/**
 	 * Tell whether the predicted sequence match the consequent sequence
 	 */
-	public static Boolean isGoodPrediction(Sequence consequent, Sequence predicted) {
+	private static Boolean isGoodPrediction(Sequence consequent, Sequence predicted) {
 		
 		Boolean hasError = false;
 		
@@ -316,13 +316,13 @@ public class Evaluator {
 				if( re.val.equals(it.val) )
 					isFound = true;
 			}
-			if(isFound == false)
+			if(!isFound)
 				hasError = true;
 			
 		}
 		
 		
-		return (hasError == false);
+		return (!hasError);
 	}
 	
 

@@ -31,7 +31,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
  * @see AlgoFPMax
  * @author Philippe Fournier-Viger, 2015
  */
-public class MFINode {
+class MFINode {
 	int itemID = -1;  // item id
 //	int counter = 1;  // frequency counter  (a.k.a. support)
 	int level;  // at which level in the MFI tree this node appears
@@ -70,7 +70,6 @@ public class MFINode {
 	/**
 	 * Method for getting a string representation of this tree 
 	 * (to be used for debugging purposes).
-	 * @param an indentation
 	 * @return a string
 	 */
 	public String toString(String indent) {

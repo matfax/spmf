@@ -63,7 +63,7 @@ public class DescriptionAlgoConvertTimeSeriesToSequenceWithSAX extends Descripti
 		int numberOfSymbols = getParamAsInteger(parameters[1]);
 		String separator = getParamAsString(parameters[2]);
 		boolean deactivatePAA = false;
-		if (parameters.length > 3 && "".equals(parameters[3]) == false) {
+		if (parameters.length > 3 && !"".equals(parameters[3])) {
 			deactivatePAA = getParamAsBoolean(parameters[3]);
 		}
 		

@@ -37,30 +37,30 @@ public interface IDList {
      * @param minSupport Minimum relative support.
      * @return the intersection
      */
-    public IDList join(IDList idList, boolean equals, int minSupport);
+    IDList join(IDList idList, boolean equals, int minSupport);
 
     /**
      * Get the minimum relative support outlined by the IdList, i.e. the number
      * of sequences with any appearance on it.
      * @return the support
      */
-    public int getSupport();
+    int getSupport();
 
     /**
      * Get the string representation of this IdList.
      * @return the string representation of this idlist
      */
     @Override
-    public String toString();
+    String toString();
 
     /**
      * It moves to a pattern the sequences where the Idlist is active.
      * @param pattern the pattern
      */
-    public void setAppearingSequences(Pattern pattern);
+    void setAppearingSequences(Pattern pattern);
 
     /**
      * It clears the IdList.
      */
-    public void clear();
+    void clear();
 }

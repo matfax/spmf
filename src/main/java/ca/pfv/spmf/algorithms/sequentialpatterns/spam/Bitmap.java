@@ -45,9 +45,9 @@ public class Bitmap {
 	
 	// For calculating the support more efficiently
 	// we keep some information:
-	int lastSID = -1;  // the sid of the last sequence inserted in that bitmap that contains a bit set to 1
+    private int lastSID = -1;  // the sid of the last sequence inserted in that bitmap that contains a bit set to 1
 	
-	int firstItemsetID = -1; // the id of the first itemset containing a bit set to 1 (in any sequence)
+	private int firstItemsetID = -1; // the id of the first itemset containing a bit set to 1 (in any sequence)
 	
 	private int support = 0;  // the number of bits that are currently set to 1 corresponding to different sequences
 	

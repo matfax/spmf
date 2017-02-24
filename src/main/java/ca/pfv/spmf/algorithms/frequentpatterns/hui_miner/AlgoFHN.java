@@ -56,40 +56,40 @@ import ca.pfv.spmf.tools.MemoryLogger;
 public class AlgoFHN {
 
 	/** the time at which the algorithm started */
-	public long startTimestamp = 0;  
+    private long startTimestamp = 0;
 	
 	/** the time at which the algorithm ended */
-	public long endTimestamp = 0; 
+    private long endTimestamp = 0;
 	
 	/** the number of high-utility itemsets generated */
-	public int huiCount =0; 
+    private int huiCount =0;
 	
 	/** the number of generated candidates (join operations) */
-	public int candidateCount =0;
+    private int candidateCount =0;
 	
 	/** Map to remember the TWU of each item */
-	Map<Integer, Integer> mapItemToTWU;
+    private Map<Integer, Integer> mapItemToTWU;
 	
 	/** writer to write the output file  */
-	BufferedWriter writer = null;  
+    private BufferedWriter writer = null;
 	
 	/** The eucs structure:  key: item   key: another item   value: twu */
-	Map<Integer, Map<Integer, Long>> mapFMAP;  
+    private Map<Integer, Map<Integer, Long>> mapFMAP;
 
 	/** enable LA-prune strategy  */
-	boolean ENABLE_LA_PRUNE = true;
+    private boolean ENABLE_LA_PRUNE = true;
 	
 	/** variable for debug mode */
-	boolean DEBUG = false;
+    private boolean DEBUG = false;
 	
 	/** buffer for storing the current itemset that is mined when performing mining
 	* the idea is to always reuse the same buffer to reduce memory usage. */
-	final int BUFFERS_SIZE = 200;
+	private final int BUFFERS_SIZE = 200;
 	private int[] itemsetBuffer = null;
 
 
 	//===================== FHN ===========================
-	Set<Integer> negativeItems = null;
+    private Set<Integer> negativeItems = null;
 	//====================================================
 	
 	/**
@@ -151,7 +151,7 @@ public class AlgoFHN {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -234,7 +234,7 @@ public class AlgoFHN {
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
-				if (thisLine.isEmpty() == true ||
+				if (thisLine.isEmpty() ||
 						thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
 								|| thisLine.charAt(0) == '@') {
 					continue;
@@ -534,8 +534,6 @@ public class AlgoFHN {
 
 	/**
 	 * Method to write a high utility itemset to the output file.
-	 * @param the prefix to be writent o the output file
-	 * @param an item to be appended to the prefix
 	 * @param utility the utility of the prefix concatenated with the item
 	 * @param prefixLength the prefix length
 	 */

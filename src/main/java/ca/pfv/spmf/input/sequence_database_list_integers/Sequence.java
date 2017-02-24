@@ -164,7 +164,7 @@ public class Sequence {
 	 * @param itemset the itemset
 	 * @return a copy of this itemset except that item(s) with a support lower than minsup have been excluded.
 	 */
-	public List<Integer> cloneItemsetMinusItems(double relativeMinsup, List<Integer> itemset,Map<Integer, Set<Sequence>> mapSequenceID) {
+    private List<Integer> cloneItemsetMinusItems(double relativeMinsup, List<Integer> itemset, Map<Integer, Set<Sequence>> mapSequenceID) {
 		// create a new itemset
 		List<Integer> newItemset = new ArrayList<Integer>();
 		// for each item of the original itemset
@@ -185,7 +185,7 @@ public class Sequence {
 	 * @param itemset the itemset
 	 * @return a copy of this itemset except that item(s) with a support lower than minsup have been excluded.
 	 */
-	public List<Integer> cloneItemsetMinusItems(List<Integer> itemset,Map<Integer, Set<Integer>> mapSequenceID, double minSupportAbsolute) {
+    private List<Integer> cloneItemsetMinusItems(List<Integer> itemset, Map<Integer, Set<Integer>> mapSequenceID, double minSupportAbsolute) {
 		// create a new itemset
 		List<Integer> newItemset = new ArrayList<Integer>();
 		// for each item of the original itemset
