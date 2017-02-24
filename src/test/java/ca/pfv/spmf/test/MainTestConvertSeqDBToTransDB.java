@@ -15,8 +15,8 @@ public class MainTestConvertSeqDBToTransDB {
     public void main() {
         NoExceptionAssertion.assertDoesNotThrow(() -> {
 
-            String inputFile = "contextPrefixspan.txt";
-            String outputFile = ".//output.txt";
+            String inputFile = "contextPrefixSpan.txt";
+            String outputFile = "output.txt";
             Formats inputFileformat = Formats.SPMF_SEQUENCE_DB;
             int sequenceCount = Integer.MAX_VALUE;
 

@@ -21,7 +21,7 @@ public class MainTestInstancesViewer {
 
             // the input file
 //		String input = "inputDBScan2.txt";
-            String input = "configKMeans.txt";
+            String input = "configKmeans.txt";
 
             // Parameters of the algorithm
             String separator = " ";
