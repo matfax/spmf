@@ -35,7 +35,7 @@ public class TransactionUtilityRemover {
 	 * Convert a transaction database with utility values to a transaction database 
 	 * without utility values
 	 * from the source code.
-	 * @param input the ca.pfv.spmf.input file path (a transaction database with utility values in SPMF format)
+	 * @param input the input file path (a transaction database with utility values in SPMF format)
 	 * @param output the output file path
 	 * @throws IOException if an error while reading/writting files.
 	 * @throws NumberFormatException 
@@ -44,9 +44,9 @@ public class TransactionUtilityRemover {
 
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
-		BufferedReader myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		BufferedReader myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String thisLine;
-		myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		// for each line (transaction) until the end of file
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a

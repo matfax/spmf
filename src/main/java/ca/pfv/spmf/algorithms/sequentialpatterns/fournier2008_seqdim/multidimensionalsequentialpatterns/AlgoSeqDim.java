@@ -41,7 +41,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * SeqDIM is a generic algorithm that can be used in theory with any combination of sequential pattern mining algorithm
  * and MDPattern mining algorithm.<br/>
  * In SPMF, the sequential pattern mining algorithm must be chosen from:<br/>
- *     AlgoPrefixspanMDSPM/AlgoBIDEPlus/AlgoFournierViger08 ca.pfv.spmf.algorithms <br/>
+ *     AlgoPrefixspanMDSPM/AlgoBIDEPlus/AlgoFournierViger08 algorithms <br/>
  * In SPMF, the MD-Pattern mining algorithm is AlgoDim and it offers to choose between Charm and AprioriClose
  *  (see the AlgoDim class for details).
  * @see AlgoFournierViger08
@@ -58,7 +58,7 @@ public class AlgoSeqDim {
 	protected MDSequences sequences = new MDSequences("FREQUENT MD-SEQUENCES");
 	private long startTime;  // the start time of the algorithm
 	private long endTime;    // the end time of the algorithm
-	private boolean mineClosedPatterns = false; // if true, only closed ca.pfv.spmf.patterns are found
+	private boolean mineClosedPatterns = false; // if true, only closed patterns are found
 	
 	// object to write the output to a file
 	BufferedWriter writer = null;
@@ -75,7 +75,7 @@ public class AlgoSeqDim {
 	 * @param algoDim  an instance of the DIM algorithm
 	 * @param mineClosedPatterns  if true, only closed mdsequential pattern will be returned
 	 * @param output  a path for writting the result to an output file
-	 * @return  the set of MD-sequential ca.pfv.spmf.patterns found
+	 * @return  the set of MD-sequential patterns found
 	 * @throws IOException exception if error writing to file
 	 */
 	public MDSequences runAlgorithm(MDSequenceDatabase database,
@@ -97,14 +97,14 @@ public class AlgoSeqDim {
 		// save user preference
 		this.mineClosedPatterns = mineClosedPatterns;
 		
-		// (1) First mine sequential ca.pfv.spmf.patterns by applying
+		// (1) First mine sequential patterns by applying
 		// a prefixspan based algorithm
 		Sequences sequencesFound = algoPrefixSpan.runAlgorithm(database
 				.getSequenceDatabase());
 
-		// (2) For each frequent sequential pattern found, ï¿½
+		// (2) For each frequent sequential pattern found, ç
 		// form projected MD-Database
-		// and then find MD-ca.pfv.spmf.patterns within projected databases
+		// and then find MD-patterns within projected databases
 		
 		// for each level
 		for (int j = 0; j < sequencesFound.getLevelCount(); j++) {
@@ -112,14 +112,14 @@ public class AlgoSeqDim {
 			// for each sequential pattern
 			for (Sequence sequence : sequencesList) {
 				// try to use this sequential pattern to
-				// generate md-sequential ca.pfv.spmf.patterns
+				// generate md-sequential patterns
 				trySequence(sequence, database, algoPrefixSpan.getMinSupp(),
 						algoDim);
 			}
 		}
 
-		// (3) IF the user wants closed ca.pfv.spmf.patterns only, we eliminate
-		// non-closed multidimensional sequential ca.pfv.spmf.patterns
+		// (3) IF the user wants closed patterns only, we eliminate 
+		// non-closed multidimensional sequential patterns
 		if (mineClosedPatterns) {
 			removeRedundancy();
 		}
@@ -130,13 +130,13 @@ public class AlgoSeqDim {
 		MemoryLogger.getInstance().checkMemory();
 		// close output file
 		writer.close();
-		// return the set of MD sequential ca.pfv.spmf.patterns
+		// return the set of MD sequential patterns
 		return sequences;
 	}
 
 
 	/**
-	 * Try to use a sequential pattern to generate MD sequential ca.pfv.spmf.patterns
+	 * Try to use a sequential pattern to generate MD sequential patterns
 	 * @param sequence a sequential pattern
 	 * @param database the MD sequence database
 	 * @param minsupp the minsup threshold (double)
@@ -200,15 +200,15 @@ public class AlgoSeqDim {
 	 * @throws IOException exception if error writing to file
 	 */
 	private void savePattern(Sequence sequence, MDSequence mdsequence) throws IOException {
-		// if the user wants only closed ca.pfv.spmf.patterns
+		// if the user wants only closed patterns
 		if(mineClosedPatterns == false){
 			// write to file
 			writeToFile(mdsequence);
 		}else{
-			// if the user wants all ca.pfv.spmf.patterns, then save to memory.
+			// if the user wants all patterns, then save to memory.
 			sequences.addSequence(mdsequence, sequence.size());
 		}
-		// increase number of md seq. ca.pfv.spmf.patterns found
+		// increase number of md seq. patterns found
 		patternCount++;
 	}
 
@@ -240,7 +240,7 @@ public class AlgoSeqDim {
 	 * @param patternsIds
 	 *            The set of sequence IDS
 	 * @param patternsDatabase
-	 *            The original md ca.pfv.spmf.patterns database
+	 *            The original md patterns database
 	 * @return A new database containing only the MDPatterns to keep.
 	 */
 	private MDPatternsDatabase createProjectedDatabase(
@@ -279,9 +279,9 @@ public class AlgoSeqDim {
 	}
 
 	/**
-	 * Eliminate non-closed multidimensional sequential ca.pfv.spmf.patterns by simply
-	 * looping and eliminating redundant ca.pfv.spmf.patterns. This is necessary if we want
-	 * to mine closed multi-dim. seq. ca.pfv.spmf.patterns, because: closed sequential patt.
+	 * Eliminate non-closed multidimensional sequential patterns by simply
+	 * looping and eliminating redundant patterns. This is necessary if we want
+	 * to mine closed multi-dim. seq. patterns, because: closed sequential patt.
 	 * mining + closed itemset mining != closed multi-dim seq. patt. mining. 
 	 * For more details about this, see the paper published by
 	 * Panida Songram, Veera Boonjing and Sarun Intakosum (2006) that 

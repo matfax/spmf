@@ -2,7 +2,7 @@
 package ca.pfv.spmf.algorithms.sequentialpatterns.goKrimp;
 
 /**
- * This is an implementation of an "event" for the GoKrimp and SedKrimp ca.pfv.spmf.algorithms
+ * This is an implementation of an "event" for the GoKrimp and SedKrimp algorithms
  * <br/><br/>
  * For more information please refer to the paper Mining Compressing Sequential Patterns in the Journal Statistical Analysis and Data Mining
  * <br/><br/>

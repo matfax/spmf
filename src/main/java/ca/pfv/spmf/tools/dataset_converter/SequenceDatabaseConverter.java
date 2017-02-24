@@ -21,9 +21,12 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,46 +39,53 @@ import java.util.Map;
 */
 public class SequenceDatabaseConverter {
 	
-	String input;  // the path of the ca.pfv.spmf.input file
+	String input;  // the path of the input file
 	String output; // the path of the file to be written to disk in SPMF format
-	int lineCount =0; // the number of sequences in the ca.pfv.spmf.input file
+	int lineCount =0; // the number of sequences in the input file
 	BufferedWriter writer; // to write the output file
 
 	/**
 	 * This method converts a sequence database from a given format to the SPMF format.
-	 * @param input  the path of the ca.pfv.spmf.input file
+	 * @param input  the path of the input file
+	 * @param charset the charset (encoding) of the input file if it is a text file (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding or if it is not a text file.
 	 * @param output the path of the file to be written to disk in SPMF format
-	 * @param inputFileformat  the format of the ca.pfv.spmf.input file
-	 * @param lineCount  the number of lines from the ca.pfv.spmf.input file that should be converted
+	 * @param inputFileformat  the format of the input file
+	 * @param lineCount  the number of lines from the input file that should be converted
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files
 	 */
-	public void convert(String input, String output, Formats inputFileformat, int lineCount) throws IOException {
+	public void convert(String input, String output, Formats inputFileformat, int lineCount, Charset charset) throws IOException {
 		
 		// we save the parameter in the class fields
 		this.input = input;
 		this.output = output;
 		this.lineCount = lineCount;
 		
+		// Use the default charset if it is null
+		if(charset == null){
+			charset = Charset.defaultCharset();
+		}
+		
 		// we create an object fro writing the output file
 		writer = new BufferedWriter(new FileWriter(output)); 
 		
 		// we call the appropriate method for converting a database
-		// according to the format of the ca.pfv.spmf.input file
+		// according to the format of the input file
 		if(inputFileformat.equals(Formats.IBMGenerator)){
 			convertIBMGenerator();
 		}
 		else if(inputFileformat.equals(Formats.Kosarak)){
-			convertKosarak();
+			convertKosarak(charset);
 		}else if(inputFileformat.equals(Formats.CSV_INTEGER)){
-			convertCSV();
+			convertCSV(charset);
 		}else if(inputFileformat.equals(Formats.BMS)){
-			convertBMS();
+			convertBMS(charset);
 		}else if(inputFileformat.equals(Formats.Snake)){
-			convertSnake();
+			convertSnake(charset);
 		}else if(inputFileformat.equals(Formats.SPMF_TRANSACTION_DB)){
-			convertTransactionDB();
+			convertTransactionDB(charset);
 		}else if(inputFileformat.equals(Formats.TEXT)){
-			convertTEXT(false);
+			convertTEXT(false, charset);
 		}
 		
 		// we close the output file
@@ -84,14 +94,16 @@ public class SequenceDatabaseConverter {
 	
 	/**
 	 * This method convert a transaction database in SPMF format to a sequence database in SPMF format
+	 * @param charset the charset (encoding) of the input file  (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding.
 	 */
-	private void convertTransactionDB() {
+	private void convertTransactionDB(Charset charset) {
 		String thisLine; // variable to read a line
 		BufferedReader myInput = null;  
 		try {
 			// Objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin,charset));
 			
 			int count =0;  // to count the number of line
 			
@@ -125,13 +137,13 @@ public class SequenceDatabaseConverter {
 	/**
 	 * This method convert a file from the SNAKE format to SPMF format
 	 */
-	private void convertSnake() {
+	private void convertSnake(Charset charset) {
 		String thisLine; // variable to read a line
 		BufferedReader myInput = null;  
 		try {
 			// Objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin, charset));
 			
 			int count =0;  // to count the number of line
 			
@@ -168,14 +180,16 @@ public class SequenceDatabaseConverter {
 
 	/**
 	 * This method convert a file from the BMS format to SPMF format
+	 * @param charset the charset (encoding) of the input file  (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding.
 	 */
-	private void convertBMS() {
+	private void convertBMS(Charset charset) {
 		String thisLine; // variable to read a line
 		BufferedReader myInput = null;
 		try {
 			// Objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin, charset));
 			
 			// In the BMS format, the sequencs of webpage of a user
 			// is separated on several lines.
@@ -222,14 +236,16 @@ public class SequenceDatabaseConverter {
 
 	/**
 	 * This method convert a file from the CSV format to SPMF format
+	 * @param charset the charset (encoding) of the input file  (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding.
 	 */
-	private void convertCSV() throws IOException {
+	private void convertCSV(Charset charset) throws IOException {
 		String thisLine; // variable to read a line
 		BufferedReader myInput = null;
 		try {
 			// Objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin, charset));
 			
 			int count = 0; // to count the number of line
 			
@@ -264,14 +280,16 @@ public class SequenceDatabaseConverter {
 
 	/**
 	 * This method convert a file from the KOSARAK format to SPMF format
+	 * @param charset the charset (encoding) of the input file if it is a text file (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding or if it is not a text file.
 	 */
-	private void convertKosarak() throws IOException {
+	private void convertKosarak(Charset charset) throws IOException {
 		String thisLine; // variable to read a line
 		BufferedReader myInput = null;
 		try {
 			// Objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin, charset));
 			
 			int count = 0; // to count the number of line
 			
@@ -305,11 +323,12 @@ public class SequenceDatabaseConverter {
 
 	/**
 	 * This method convert a file from the IBM GENERATOR format to SPMF format
+	 * 
 	 */
 	private void convertIBMGenerator() {
 		DataInputStream myInput = null;
 		try {
-			// Objects to read the ca.pfv.spmf.input file in binary format
+			// Objects to read the input file in binary format
 			FileInputStream fin = new FileInputStream(new File(input));
 			myInput = new DataInputStream(fin);
 			
@@ -378,17 +397,19 @@ public class SequenceDatabaseConverter {
 	 * between item IDs and attribute value in memory to avoid an extra database scan.
 	 * @param inputFile the path of the file to be converted
 	 * @param outputFile the path for saving the converted file
-	 * @param lineCount the number of lines of the ca.pfv.spmf.input file to be converted
-	 * @return a map of entry (key : itemID, value: attribute-value) if the ca.pfv.spmf.input format is TEXT
+	 * @param lineCount the number of lines of the input file to be converted
+	 * @param charset the charset (encoding) of the input file if it is a text file (e.g "UTF-8")
+	 *   or null if you want to use the default text encoding or if it is not a text file.
+	 * @return a map of entry (key : itemID, value: attribute-value) if the input format is TEXT
 	 * @throws IOException  if an error while reading/writing files
 	 */
 	public Map<Integer, String> convertTEXTandReturnMap(String inputFile, String outputFile,
-			int lineCount) throws IOException {
+			int lineCount, Charset charset) throws IOException {
 		// we save the parameter in the class fields
 		this.input = inputFile;
 		this.output = outputFile;
 		this.lineCount = lineCount;
-		return convertTEXT(true);
+		return convertTEXT(true, charset);
 	}
 	
 	
@@ -396,10 +417,12 @@ public class SequenceDatabaseConverter {
 	 * This method convert a file from the TEXT format to the SPMF format.
 	 * 
 	 * @param returnMapItemIDWord
+	 * @param charset the charset (encoding) of the input file(e.g "UTF-8")
+	 *   or null if you want to use the default text encoding.
 	 * @throws IOException  exception if error while reading/writing files.
 	 * @return a map where an entry indicates for an item (key), the corresponding attribute value (value).
 	 */
-	private Map<Integer, String> convertTEXT(boolean returnMapItemIDWord) throws IOException {
+	private Map<Integer, String> convertTEXT(boolean returnMapItemIDWord, Charset charset) throws IOException {
 		// This map will be used to store mapping from item id (key) to words (value).
 		// It is used only if returnMapItemIDValue is set to true.  This is used by the GUI of SPMF
 		// which need to keep this information in memory to avoid an extra database scan after an algorithm
@@ -416,18 +439,18 @@ public class SequenceDatabaseConverter {
 		Map<String, Integer> mapWordsToItemIDs = new HashMap<String,Integer>();;
 		
 		// object for writing the output file
-		BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output),charset));; 
 		
 		// This is the first line in the output file
 		writer.write("@CONVERTED_FROM_TEXT");
 		writer.newLine();
 
-		// Now we will read the ca.pfv.spmf.input file
+		// Now we will read the input file
 		BufferedReader myInput = null;
 		try {
 			// Create some objects to read the file
 			FileInputStream fin = new FileInputStream(new File(input));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(fin, charset));
 
 			
 			// READ THE WHOLE CONTENT OF THE TEXT FILE LINE BY LINE
@@ -442,11 +465,12 @@ public class SequenceDatabaseConverter {
 			// Variable to be used to assign item ids (integers) to words
 			int nextItemID = 1;
 			
-			// For each line in the ca.pfv.spmf.input file
+			// For each line in the input file
 			String thisLine;
 			while ((thisLine = myInput.readLine()) != null) {
+//				System.out.println(thisLine);
 				// if the line is too short (e.g emptylines), skip it
-				if(thisLine.length() <2){
+				if(thisLine.length() <1){
 					continue;
 				}
 				
@@ -455,46 +479,48 @@ public class SequenceDatabaseConverter {
 			
 //				// for each word
 				for(String word : words){
-					
+
 					// We check if this token contains some punctuation that ends a sentence
-					boolean isEndOfSentence = word.endsWith("?") || word.endsWith(".") || word.endsWith("!");
+					boolean isEndOfSentence = word.endsWith("?") || word.endsWith(".") || word.endsWith("!") 
+							|| word.endsWith("\u002e")	|| word.endsWith("\u3002")  // <-- This is the Chinese end of sentence (to support chinese text)
+					|| word.endsWith("\uFF01") // chinese "!"
+					|| word.endsWith("\u003F"); // chinese "?"
 					
 					// If this word contains punctuation, we remove it (this could include ,()"' and other punctuation symbols.
 					// We also transform the word to lowercase
 					String cleanWord = word.replaceAll("[^\\p{L}\\p{N}]+", "").toLowerCase();
 					
-					if(cleanWord.length() ==0){
-						continue;
-					}
-					
-					// Convert the word to an item
-					Integer item = mapWordsToItemIDs.get(cleanWord);
-					if(item == null){
-						// Give a new ID to this item
-						item = nextItemID++;
-						// Remember the ID 
-						mapWordsToItemIDs.put(cleanWord, item);
-						if(mapItemsIDToWords != null){
-							mapItemsIDToWords.put(item, cleanWord);
-						}
-						// Write the ID to the file
-						writer.write("@ITEM=" + item + "=" + cleanWord);
-						writer.newLine();
-					}
+					if(cleanWord.length() !=0){
 
-					// First we will save the word in the output file
-					// If it is not the first word we will add a space.
-					if(isFirstWordOfSentence){
-						isFirstWordOfSentence = false;
-					}else{
-						currentSentence.append(" ");
+						// Convert the word to an item
+						Integer item = mapWordsToItemIDs.get(cleanWord);
+						if(item == null){
+							// Give a new ID to this item
+							item = nextItemID++;
+							// Remember the ID 
+							mapWordsToItemIDs.put(cleanWord, item);
+							if(mapItemsIDToWords != null){
+								mapItemsIDToWords.put(item, cleanWord);
+							}
+							// Write the ID to the file
+							writer.write("@ITEM=" + item + "=" + cleanWord);
+							writer.newLine();
+						}
+	
+						// First we will save the word in the output file
+						// If it is not the first word we will add a space.
+						if(isFirstWordOfSentence){
+							isFirstWordOfSentence = false;
+						}else{
+							currentSentence.append(" ");
+						}
+						currentSentence.append(item);
+						// We need to write the itemset separator between each word
+						currentSentence.append(" -1");
 					}
-					currentSentence.append(item);
-					// We need to write the itemset separator between each word
-					currentSentence.append(" -1");
 					
 					// If this is the last word of a sentence
-					if(isEndOfSentence){
+					if(isFirstWordOfSentence == false && isEndOfSentence){
 						// We write the end of sequence and create a new line
 						currentSentence.append(" -2");
 						// We reset the variables and increase the sequence count

@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * This class represents an itemset for the BIDE+ and PrefixSpan that takes sequences of strings
- * as ca.pfv.spmf.input.
+ * as input.
  * 
  * @see AlgoPrefixSpan_with_Strings
  * @see AlgoBIDEPlus_withStrings

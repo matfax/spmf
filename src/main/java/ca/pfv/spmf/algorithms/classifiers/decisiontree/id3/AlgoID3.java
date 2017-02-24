@@ -18,20 +18,15 @@ package ca.pfv.spmf.algorithms.classifiers.decisiontree.id3;
 */
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.InputStreamReader;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * This is an implementation of the ID3 algorithm for creating a decision tree.
  * <br/><br/>
- * ID3 is a very popular ca.pfv.spmf.algorithms described in many artificial intelligence
+ * ID3 is a very popular algorithms described in many artificial intelligence
  * and data mining textbooks.
  * 
  * @author Philippe Fournier-Viger
@@ -50,9 +45,9 @@ public class AlgoID3 {
 
 	/**
 	 * Create a decision tree from a set of training instances.
-	 * @param input path to an ca.pfv.spmf.input file containing training instances
+	 * @param input path to an input file containing training instances
 	 * @param targetAttribute the target attribute (that will be used for classification)
-	 * @param separator  the separator in the ca.pfv.spmf.input file (e.g. space).
+	 * @param separator  the separator in the input file (e.g. space).
 	 * @return a decision tree
 	 * @throws IOException exception if error reading the file
 	 */
@@ -64,8 +59,8 @@ public class AlgoID3 {
 		// create an empty decision tree
 		DecisionTree tree = new DecisionTree();
 
-		// (1) read ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		// (1) read input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line = reader.readLine();
 
 		// Read the first line and note the name of the attributes.
@@ -107,7 +102,7 @@ public class AlgoID3 {
 			// remember the value for the target attribute
 			targetAttributeValues.add(lineSplit[indexTargetAttribute]);
 		}
-		reader.close(); // close ca.pfv.spmf.input file
+		reader.close(); // close input file
 
 		// (2) Start the recusive process
 		

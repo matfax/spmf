@@ -57,7 +57,7 @@ public class AlgoZart {
 	// relative minimum support threshold
 	private int minsupRelative =0;
 	
-	// the ca.pfv.spmf.input database
+	// the input database
 	private TransactionDatabase context = null;
 	
 	// the TZ, TF and TC structures as described in the paper

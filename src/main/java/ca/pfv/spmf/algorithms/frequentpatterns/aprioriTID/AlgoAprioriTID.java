@@ -15,26 +15,15 @@ package ca.pfv.spmf.algorithms.frequentpatterns.aprioriTID;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import ca.pfv.spmf.input.transaction_database_list_integers.TransactionDatabase;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an implementation of the AprioriTID algorithm.<br/><br/>
@@ -60,46 +49,51 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoAprioriTID {
 
-	// the current level
+	/** the current level */
 	protected int k; 
 
-	// variables for counting support of items
+	/** variables for counting support of items */
 	Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
 
-	// the minimum support threshold
+	/** the minimum support threshold */
 	int minSuppRelative;
 
-	// Special parameter to set the maximum size of itemsets to be discovered
+	/** Special parameter to set the maximum size of itemsets to be discovered */
 	int maxItemsetSize = Integer.MAX_VALUE;
 
-	long startTimestamp = 0; // start time of latest execution
-	long endTimeStamp = 0; // end time of latest execution
+	/** start time of latest execution */
+	long startTimestamp = 0; 
 	
-	// object for writing to file if the user choose to write to a file
+	/** end time of latest execution */
+	long endTimeStamp = 0; 
+	
+	/** object for writing to file if the user choose to write to a file */
 	BufferedWriter writer = null;
 	
-	// variable to store the result if the user choose to save to memory instead of a file
+	/** variable to store the result if the user choose to save to memory instead of a file */
 	protected Itemsets patterns = null;
 
-	// the number of frequent itemsets found
+	/** the number of frequent itemsets found */
 	private int itemsetCount = 0;
 	
-	// the number of transactions
+	/** the number of transactions */
 	private int databaseSize = 0;
 	
-	// the current transaction database, if the user has provided one
-	// instead of an ca.pfv.spmf.input file.
+	/** the current transaction database, if the user has provided one 
+	   instead of an input file. */
 	private TransactionDatabase database = null;
 
-	// indicate if the empty set should be added to the results
+	/** indicate if the empty set should be added to the results */
 	private boolean emptySetIsRequired = false;
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
 	 */
 	public AlgoAprioriTID() {
 	}
-	
 	
 	/**
 	 * This method run the algorithm on a transaction database already in memory.
@@ -124,7 +118,7 @@ public class AlgoAprioriTID {
 	
 	/**
 	 * This method run the algorithm.
-	 * @param input  the file path of an ca.pfv.spmf.input file.  if null, the result is returned by the method.
+	 * @param input  the file path of an input file.  if null, the result is returned by the method.
 	 * @param output  the output file path
 	 * @param minsup the minimum support threshold as a percentage (double)
 	 * @return if no output file path is provided, the method return frequent itemsets, otherwise null
@@ -151,7 +145,7 @@ public class AlgoAprioriTID {
 		// pass
 		mapItemTIDS = new HashMap<Integer, Set<Integer>>(); // id item, count
 
-		// read the ca.pfv.spmf.input file line by line until the end of the file
+		// read the input file line by line until the end of the file
 		// (each line is a transaction)
 		
 		databaseSize = 0; 
@@ -174,7 +168,7 @@ public class AlgoAprioriTID {
 				databaseSize++; // increment the tid number
 			}
 		}else{
-			BufferedReader reader = new BufferedReader(new FileReader(input));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			
 			String line;
 			while (((line = reader.readLine()) != null)) { // for each transaction
@@ -204,13 +198,13 @@ public class AlgoAprioriTID {
 				}
 				databaseSize++; // increment the tid number
 			}
-			reader.close(); // close the ca.pfv.spmf.input file
+			reader.close(); // close the input file
 		}
 		
 		
 		// if the user want the empty set
 		if(emptySetIsRequired ){
-			// add the empty set to the set of ca.pfv.spmf.patterns
+			// add the empty set to the set of patterns
 			patterns.addItemset(new Itemset(new int[]{}), 0);
 		}
 		
@@ -364,6 +358,12 @@ public class AlgoAprioriTID {
 		if(writer != null){
 			writer.write(itemset.toString() + " #SUP: "
 					+ itemset.getTransactionsIds().size() );
+			if(showTransactionIdentifiers) {
+	        	writer.append(" #TID:");
+	        	for (Integer tid: itemset.getTransactionsIds()) {
+	        		writer.append(" " + tid); 
+	        	}
+			}
 			writer.newLine();
 		}// otherwise the result is kept into memory
 		else{
@@ -379,13 +379,21 @@ public class AlgoAprioriTID {
 	public void setEmptySetIsRequired(boolean emptySetIsRequired) {
 		this.emptySetIsRequired = emptySetIsRequired;
 	}
-
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
 	
 	/**
 	 * Print statistics about the algorithm execution to System.out.
 	 */
 	public void printStats() {
-		System.out.println("=============  APRIORI - STATS =============");
+		System.out.println("=============  APRIORI TID v2.12 - STATS =============");
 		System.out.println(" Transactions count from database : " + databaseSize);
 		System.out.println(" Frequent itemsets count : " + itemsetCount);
 		System.out.println(" Maximum memory usage : " + 

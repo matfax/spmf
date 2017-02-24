@@ -19,6 +19,7 @@ package ca.pfv.spmf.tools.dataset_converter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * Example of how to convert a text document to a sequence database in the
@@ -27,10 +28,10 @@ import java.net.URL;
  * 
  * A file name "example.text" is provided. It contains a text documents with a few sentences.<br/><br/>
  * 
- * "The SPMF software is a data mining platform that can be used to discover ca.pfv.spmf.patterns in data. It has
-been downloaded by many data mining researchers. SPMF can be used to discover ca.pfv.spmf.patterns such as itemsets and sequential rules in data.
+ * "The SPMF software is a data mining platform that can be used to discover patterns in data. It has
+been downloaded by many data mining researchers. SPMF can be used to discover patterns such as itemsets and sequential rules in data.
 This file contains text data, and it is used to show how SPMF can be utilized to  find pattern in text documents.
-The text document will be automatically transformed into the SPMF format, which can then be analyzed by SPMF to find interesting ca.pfv.spmf.patterns"
+The text document will be automatically transformed into the SPMF format, which can then be analyzed by SPMF to find interesting patterns"
  * <br/><br/>
  * 
  * The result of the conversion process is a sequence database in SPMF format, which is similar to this (here only the first lines are shown):
@@ -75,15 +76,23 @@ class MainTestConvertSequenceDatabaseTEXTtoSPMF {
 
 	public static void main(String[] arg) throws IOException {
 
-		String inputFile = fileToPath("example2.text"); //a file that is a text document
-		String outputFile = ".//output.txt"; // the resulting converted file in SPMF format
-		Formats inputFileformat = Formats.TEXT;  // the format of the ca.pfv.spmf.input file (TEXT)
-		int sequenceCount = Integer.MAX_VALUE;  // the number of sequence from the ca.pfv.spmf.input file to be converted
-
+		//a file that is a text document
+		String inputFile = fileToPath("example2.text"); 
+		
+		//the resulting converted file in SPMF format
+		String outputFile = ".//output.txt";  
+		
+		// the format of the input file (TEXT)
+		Formats inputFileformat = Formats.TEXT;
+		
+		// the number of sequence from the input file to be converted
+		int sequenceCount = Integer.MAX_VALUE;  
+		
 		// Create a converter
 		SequenceDatabaseConverter converter = new SequenceDatabaseConverter();
-		// Call the method to convert the ca.pfv.spmf.input file from TEXT to the SPMF format
-		converter.convert(inputFile, outputFile, inputFileformat, sequenceCount);
+		
+		// Call the method to convert the input file from TEXT to the SPMF format
+		converter.convert(inputFile, outputFile, inputFileformat, sequenceCount, Charset.defaultCharset());
 	}
 
 	public static String fileToPath(String filename)

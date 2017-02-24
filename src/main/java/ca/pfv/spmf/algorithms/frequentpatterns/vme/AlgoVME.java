@@ -16,23 +16,11 @@ package ca.pfv.spmf.algorithms.frequentpatterns.vme;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an implementation of the VME algorithm (Deng and Xu, 2011) for
@@ -40,7 +28,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
  * 
  * The VME algorithm finds all the ereasable itemsets from a product database.<br/><br/>
  * 
- * Actually, this ca.pfv.spmf.algorithms is a only slight modification of the AprioriTID algorithm.<br/><br/>
+ * Actually, this algorithms is a only slight modification of the AprioriTID algorithm.<br/><br/>
  * 
  * I have implemented mostly as described in the paper with some modifications to make
  * it more efficient.<br/>
@@ -91,7 +79,7 @@ public class AlgoVME {
 
 	/**
 	 * Run the VME algorithm.
-	 * @param input path to an ca.pfv.spmf.input file
+	 * @param input path to an input file
 	 * @param output path to be used for writing the output file
 	 * @param threshold  the threshold chosen by the user.
 	 * @throws IOException exception if error reading/writing files
@@ -108,7 +96,7 @@ public class AlgoVME {
 		// Scan the database one time to get the overall profit
 		// and at the same time we record the profit of each transaction (product).
 		overallProfit = 0;
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		int i=0;
 		// for each transaction (line) until the end of file
@@ -131,7 +119,7 @@ public class AlgoVME {
 			mapTransactionProfit.put(i++, profit);
 			
 		}
-		// close ca.pfv.spmf.input file
+		// close input file
 		reader.close();
 		
 		// Calculate max profit loss
@@ -139,7 +127,7 @@ public class AlgoVME {
 		
 		// Scan the database second time to find erasable itemset of size 1 
 		// and their tid list.
-		reader = new BufferedReader(new FileReader(input));
+		reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		i=0;
 		// for each transaction (line) until the end of file
 		while( ((line = reader.readLine())!= null)){ 
@@ -168,7 +156,7 @@ public class AlgoVME {
 			}
 			i++; // increase the tid for next transaction
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// Find erasable itemsets of size 1 and delete items that are

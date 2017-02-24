@@ -39,7 +39,7 @@ class PairBIDE extends Pair{
 		// in an itemset that is cut at the right or not (a prefix) */
 	private final boolean prefix; 
 	
-	/** List of the its of all the ca.pfv.spmf.patterns that contains this one. */
+	/** List of the its of all the patterns that contains this one. */
 	private Set<Integer> sequencesID = new HashSet<Integer>();
 	
 	/**

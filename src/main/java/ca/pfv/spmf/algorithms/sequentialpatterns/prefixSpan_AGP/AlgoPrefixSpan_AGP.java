@@ -51,11 +51,11 @@ public class AlgoPrefixSpan_AGP {
     protected double minSupRelative;
     /**
      * The minimum support relative threshold, i.e. the minimum number of sequences
-     * where the ca.pfv.spmf.patterns have to be
+     * where the patterns have to be
      */
     protected double minSupAbsolute;
     /**
-     * original sequential database to be used for sequential ca.pfv.spmf.patterns
+     * original sequential database to be used for sequential patterns
      * extraction
      */
     protected SequenceDatabase originalDataset;
@@ -72,7 +72,7 @@ public class AlgoPrefixSpan_AGP {
      */
     private AbstractionCreator abstractionCreator;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm
+     * Number of frequent patterns found by the algorithm
      */
     private int numberOfFrequentPatterns = 0;
 
@@ -90,10 +90,10 @@ public class AlgoPrefixSpan_AGP {
      * Method that starts the execution of the algorithm. 
      * @param database The original database in which we apply PrefixSpan
      * @param keepPatterns Flag indicating if the user want to keep the frequent 
-     * ca.pfv.spmf.patterns or he just want the amount of them
+     * patterns or he just want the amount of them
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path pointing out to the file where the output, 
-     * composed of frequent ca.pfv.spmf.patterns, has to be kept. If, conversely, this
+     * composed of frequent patterns, has to be kept. If, conversely, this 
      * parameter is null, we understand that the user wants the output in the main memory
      * @param outputSequenceIdentifiers if true, sequences ids will be output for each pattern
      * @throws IOException 
@@ -113,7 +113,7 @@ public class AlgoPrefixSpan_AGP {
         prefixSpan(database, keepPatterns, verbose, outputFilePath, outputSequenceIdentifiers);
         //keeping the ending time
         end = System.currentTimeMillis();
-        //Search for frequent ca.pfv.spmf.patterns: Finished
+        //Search for frequent patterns: Finished
         saver.finish();
     }
 
@@ -124,10 +124,10 @@ public class AlgoPrefixSpan_AGP {
      * that appeared in the original dabase
      * @param database The original database
      * @param keepPatterns Flag indicating if the user want to keep the frequent 
-     * ca.pfv.spmf.patterns or he just want the amount of them
+     * patterns or he just want the amount of them
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path pointing out to the file where the output, 
-     * composed of frequent ca.pfv.spmf.patterns, has to be kept. If, conversely, this
+     * composed of frequent patterns, has to be kept. If, conversely, this 
      * parameter is null, we understand that the user wants the output in the main memory
      * @param outputSequenceIdentifiers if true, sequences ids will be output for each pattern
      * @throws IOException 
@@ -151,7 +151,7 @@ public class AlgoPrefixSpan_AGP {
         RecursionPrefixSpan_AGP algorithm = new RecursionPrefixSpan_AGP(abstractionCreator, saver, (int) minSupAbsolute, pseudoDatabase, mapSequenceID);
         //And we execute the actual algorithm
         algorithm.execute(keepPatterns, verbose);
-        //Finally we update the number of frequent ca.pfv.spmf.patterns that we found
+        //Finally we update the number of frequent patterns that we found
         numberOfFrequentPatterns = algorithm.numberOfFrequentPatterns();
         // check the memory usage for statistics
 	MemoryLogger.getInstance().checkMemory();
@@ -180,8 +180,8 @@ public class AlgoPrefixSpan_AGP {
     }
 
     /**
-     * Get the number of frequent ca.pfv.spmf.patterns found.
-     * @return the number of frequent ca.pfv.spmf.patterns.
+     * Get the number of frequent patterns found.
+     * @return the number of frequent patterns.
      */
     public int getNumberOfFrequentPatterns() {
         return numberOfFrequentPatterns;

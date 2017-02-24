@@ -316,7 +316,7 @@ public class AbstractionCreator_Qualitative implements AbstractionCreator {
     }
 
     /**
-     * Method that generates a candidate from two given ca.pfv.spmf.patterns. if all the
+     * Method that generates a candidate from two given patterns. if all the
      * elements of pattern1, except the first one, are the same as all the
      * elements of pattern2, except the last one. For example, if pattern1= a <
      * (b c) < d, and pattern2=(b c) < d < e, we are interested in checking if
@@ -334,7 +334,7 @@ public class AbstractionCreator_Qualitative implements AbstractionCreator {
      * @param pattern1 The pattern that plays the role of prefix
      * @param pattern2 The pattern that plays the rol of suffix
      * @param minSupport The minimum relative support
-     * @return The candidate generated from the two ca.pfv.spmf.patterns
+     * @return The candidate generated from the two patterns
      */
     public Pattern generateCandidates(AbstractionCreator creator, Pattern pattern1, Pattern pattern2, double minSupport) {
         // Flag to know if the central part of the pattern is different

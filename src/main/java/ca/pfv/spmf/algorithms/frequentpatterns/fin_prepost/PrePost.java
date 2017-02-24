@@ -1,17 +1,13 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.fin_prepost;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import ca.pfv.spmf.tools.MemoryLogger;
 
 /*
  * Copyright (c) 2008-2015 ZHIHONG DENG
@@ -103,7 +99,7 @@ public class PrePost {
 	 * Run the algorithm
 	 * 
 	 * @param filename
-	 *            the ca.pfv.spmf.input file path
+	 *            the input file path
 	 * @param minsup
 	 *            the minsup threshold
 	 * @param output
@@ -187,7 +183,7 @@ public class PrePost {
 	 * Build the tree
 	 * 
 	 * @param filename
-	 *            the ca.pfv.spmf.input filename
+	 *            the input filename
 	 * @throws IOException
 	 *             if an exception while reading/writting to file
 	 */
@@ -196,7 +192,7 @@ public class PrePost {
 		ppcRoot.label = -1;
 
 		// READ THE FILE
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(filename)));
 		String line;
 
 		// we will use a buffer to store each transaction that is read.
@@ -282,7 +278,7 @@ public class PrePost {
 				curRoot = ppcNode;
 			}
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 
 		// System.out.println( "====");
@@ -384,10 +380,10 @@ public class PrePost {
 	}
 
 	/**
-	 * Read the ca.pfv.spmf.input file to find the frequent items
+	 * Read the input file to find the frequent items
 	 * 
 	 * @param filename
-	 *            ca.pfv.spmf.input file name
+	 *            input file name
 	 * @param minSupport
 	 * @throws IOException
 	 */
@@ -399,7 +395,7 @@ public class PrePost {
 		// key = item value = support count
 		Map<Integer, Integer> mapItemCount = new HashMap<Integer, Integer>();
 		// scan the database
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(filename)));
 		String line;
 		// for each line (transaction) until the end of the file
 		while (((line = reader.readLine()) != null)) {
@@ -427,7 +423,7 @@ public class PrePost {
 			}
 
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 
 		minSupport = (int) Math.ceil(support * numOfTrans);

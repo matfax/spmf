@@ -23,8 +23,8 @@ import java.util.Set;
 /**
  * This class represent a sequential rule as output by the TNS and TopSeqRules algorithm.
  * <br/><br/>
- * It is optimized for these ca.pfv.spmf.algorithms by storing several additional fields that are necessary
- * for such top-k ca.pfv.spmf.algorithms. For example, a rule includes the
+ * It is optimized for these algorithms by storing several additional fields that are necessary 
+ * for such top-k algorithms. For example, a rule includes the 
  * transactions IDs of the antecedent, the transaction IDs of the consequent, the transaction IDs
  * of the sequences where the antecedent appears before the consequent, maps of occurences for the
  * antecedent and consequent, etc.

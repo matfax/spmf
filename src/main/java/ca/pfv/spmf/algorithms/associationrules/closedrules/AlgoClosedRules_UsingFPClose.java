@@ -39,7 +39,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
  * Here it is adapted for mining closed rules using the results obtained from the FPClose algorithm (the frequent
  * closed itemsets). 
  * The main difference with AlgoAgrawalFaster94.java, is that this implementation takes
- * a different type of Itemset object as ca.pfv.spmf.input. Moreover, the method CALCULATESUPPORT() is
+ * a different type of Itemset object as input. Moreover, the method CALCULATESUPPORT() is 
  * different because if an itemset is not closed, we must find its closure to determine
  * its support. 
  * To implement the calculation of the support efficiently, this class uses the CFI-tree
@@ -315,11 +315,11 @@ public class AlgoClosedRules_UsingFPClose extends AlgoAgrawalFaster94{
 	}
 	
 	/**
-	 * Calculate the support of an itemset by looking at the frequent ca.pfv.spmf.patterns
+	 * Calculate the support of an itemset by looking at the frequent patterns
 	 * of the same size.
-	 * Because ca.pfv.spmf.patterns are sorted by lexical order, we use a binary search.
-	 * This is MUCH MORE efficient than just browsing the full list of ca.pfv.spmf.patterns.
-	 * An alternative would be to use a trie to store ca.pfv.spmf.patterns but it may require a bit more memory.
+	 * Because patterns are sorted by lexical order, we use a binary search.
+	 * This is MUCH MORE efficient than just browsing the full list of patterns.
+	 * An alternative would be to use a trie to store patterns but it may require a bit more memory.
 	 * 
 	 * @param itemset the itemset.
 	 * @return the support of the itemset

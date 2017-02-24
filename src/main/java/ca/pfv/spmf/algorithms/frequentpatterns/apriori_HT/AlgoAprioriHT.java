@@ -16,22 +16,13 @@ package ca.pfv.spmf.algorithms.frequentpatterns.apriori_HT;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import ca.pfv.spmf.algorithms.frequentpatterns.apriori_HT.ItemsetHashTree.LeafNode;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an  implementation of the Apriori algorithm that use an Hash-tree to
@@ -92,7 +83,7 @@ public class AlgoAprioriHT {
 	/**
 	 * Run the Apriori-HT algorithm
 	 * @param minsup the minimum support threshold
-	 * @param input path to the ca.pfv.spmf.input file
+	 * @param input path to the input file
 	 * @param output path to save the result to an output file
 	 * @param hash_tree_branch_count  the number of child nodes for each node in the hash tree
 	 * @throws IOException if an error while reading/writing files
@@ -121,9 +112,9 @@ public class AlgoAprioriHT {
 		database = new ArrayList<int[]>(); 
 		
 		// scan the database to load it into memory and count the support of each single item at the same time
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
-		 // for each line (transaction) of the ca.pfv.spmf.input file until the end of file
+		 // for each line (transaction) of the input file until the end of file
 		while (((line = reader.readLine()) != null)) {
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
@@ -159,7 +150,7 @@ public class AlgoAprioriHT {
 			// increase the transaction count
 			transactionCount++;
 		} 
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// convert absolute minimum support to a relative minimum support

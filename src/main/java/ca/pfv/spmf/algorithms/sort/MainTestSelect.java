@@ -16,7 +16,7 @@ package ca.pfv.spmf.algorithms.sort;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- *  Class for testing and debugging the selection ca.pfv.spmf.algorithms (for developers only).
+ *  Class for testing and debugging the selection algorithms (for developers only).
  * @author Philippe Fournier-Viger
  */
 class MainTestSelect {

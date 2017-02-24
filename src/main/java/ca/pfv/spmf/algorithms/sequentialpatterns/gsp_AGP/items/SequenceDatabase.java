@@ -23,7 +23,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.PatternC
  * Inspired in SPMF
  * Implementation of a sequence database, where each sequence is implemented
  * as an array of integers and should have a unique id.
- * See examples in /test/ directory for the format of ca.pfv.spmf.input files.
+ * See examples in /test/ directory for the format of input files.
  *
  * Copyright (c) 2013 Antonio Gomariz Peñalver
  * 
@@ -50,7 +50,7 @@ public class SequenceDatabase {
     private AbstractionCreator abstractionCreator;
     
     /**
-     * Map to associate the frequent items with the 1-ca.pfv.spmf.patterns composed by themselves
+     * Map to associate the frequent items with the 1-patterns composed by themselves
      */
     private Map<Item, Pattern> frequentItems = new HashMap<Item, Pattern>();
     
@@ -75,7 +75,7 @@ public class SequenceDatabase {
 
     /**
      * It loads the database contained in the file path given as parameter.
-     * Besides, all the frequent 1-ca.pfv.spmf.patterns are identified and the original database
+     * Besides, all the frequent 1-patterns are identified and the original database
      * is updated by removing the non-frequent items
      * @param path File path of the original database
      * @param minSupportAbsolute Minimum absolute support
@@ -181,7 +181,7 @@ public class SequenceDatabase {
     }
 
     /**
-     * It returns the frequent 1-ca.pfv.spmf.patterns
+     * It returns the frequent 1-patterns
      * @return the list of frequent items.
      */
     public List<Pattern> frequentItems() {

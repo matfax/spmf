@@ -20,9 +20,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,17 +48,26 @@ public class ResultConverter {
 	 * @param mapItemIDtoStringValue  a mapping between item ID (key) and attribute value (value).
 	 * @param outputFile the path of an output file to be converted
 	 * @param outputFileConverted the path of the result file to be written to disk 
+	 * @param Charset charset  the charset to be used for converting the file (e.g. UTF-8) or null if
+	 *         the default charset should be used.
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files
 	 */
 	public void convert(Map<Integer, String> mapItemIDtoStringValue,
-			String outputFile, String outputFileConverted) throws IOException {
+			String outputFile, String outputFileConverted, Charset charset) throws IOException {
+		
+		if(charset == null){
+			charset = Charset.defaultCharset();
+		}
+		
 		// SECOND STEP:  READ THE RESULT FILE AND CONVERT IT BY USING THE MAP
 			// AND AT THE SAME TIME WRITE THE OUTPUT FILE.
 			FileInputStream finResult = new FileInputStream(new File(outputFile));
 			BufferedReader myInputResult = new BufferedReader(new InputStreamReader(finResult));
 			
 //				// we create an object for writing the output file
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileConverted)); 
+			BufferedWriter writer = new BufferedWriter(
+		            new OutputStreamWriter(new FileOutputStream(
+		            		outputFileConverted), charset));
 			
 			String thisLine = null;
 			boolean firstLine = true;
@@ -138,14 +152,20 @@ public class ResultConverter {
 	/**
 	 * This method converts a result file by converting item IDs to strings according to 
 	 * a provided mapping.
-	 * @param inputDB an ca.pfv.spmf.input file providing the mapping between item ID (key) and attribute value (value)
+	 * @param inputDB an input file providing the mapping between item ID (key) and attribute value (value)
 	 * as metadata.
 	 * @param outputFile the path of an output file to be converted
 	 * @param outputFileConverted the path of the result file to be written to disk 
+	 * @param Charset charset  the charset to be used for converting the file (e.g. UTF-8) or null if
+	 *         the default charset should be used.
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files
 	 */
-	public void convert(String inputDB, String outputFile, String outputFileConverted) throws IOException {
+	public void convert(String inputDB, String outputFile, String outputFileConverted, Charset charset) throws IOException {
 
+		if(charset == null){
+			charset = Charset.defaultCharset();
+		}
+		
 		// WE FIRST READ THE DATABASE FILE TO READ THE METADATA INDICATING
 		// THE MAPPING BETWEEN ITEM TO ATTRIBUTE VALUE.
 		// For example, a line: @ITEM=16=weight=red
@@ -153,7 +173,7 @@ public class ResultConverter {
 
 		// Objects to read the file
 		FileInputStream fin = new FileInputStream(new File(inputDB));
-		BufferedReader myInputDB = new BufferedReader(new InputStreamReader(fin));
+		BufferedReader myInputDB = new BufferedReader(new InputStreamReader(fin, charset));
 
 		// A map that
 		// An entry in the map is :
@@ -179,7 +199,7 @@ public class ResultConverter {
 		}// close the file
 		myInputDB.close();
 		
-		convert(mapItemIDtoStringValue, outputFile, outputFileConverted);
+		convert(mapItemIDtoStringValue, outputFile, outputFileConverted, charset);
 	}
 
 	/**

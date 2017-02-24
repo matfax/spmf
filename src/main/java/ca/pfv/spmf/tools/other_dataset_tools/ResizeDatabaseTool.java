@@ -35,7 +35,7 @@ public class ResizeDatabaseTool {
 	
 	/**
 	 * Resize a database to X % of its size
-	 * @param input the ca.pfv.spmf.input file path (a transaction database with utility values in SPMF format)
+	 * @param input the input file path (a transaction database with utility values in SPMF format)
 	 * @param output the output file path
 	 * @param percentage the percentage of the size that the original database that the output database should have
 	 * @throws IOException if an error while reading/writing files.
@@ -47,9 +47,9 @@ public class ResizeDatabaseTool {
 		// First count the number of lines of data in the file
 		double lineOfDataCount = 0;
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
-		BufferedReader myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		BufferedReader myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String thisLine;
-		myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		// for each line (transaction) until the end of file
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a
@@ -72,8 +72,8 @@ public class ResizeDatabaseTool {
 		// Then read the file again, to write the output file
 		int lineOfDataWritten = 0;
 		writer = new BufferedWriter(new FileWriter(output)); 
-		myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
-		myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
+		myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		// for each line (transaction) until the end of file
 		while ((thisLine = myInput.readLine()) != null) {
 			// if the line is  a comment, is  empty or is a

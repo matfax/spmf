@@ -22,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -94,7 +95,12 @@ public class AlgoTopKRules {
 		tableItemTids = new BitSet[database.maxItem + 1]; // id item, count
 		tableItemCount = new int[database.maxItem + 1];
 		kRules = new PriorityQueue<RuleG>();
-		candidates = new PriorityQueue<RuleG>();
+		candidates = new PriorityQueue<RuleG>(new Comparator<RuleG>(){
+			// BUG FIX 2017
+			@Override
+			public int compare(RuleG o1, RuleG o2) {
+				return - (o1.compareTo(o2));
+			}});
 
 		// record the start time
 		timeStart = System.currentTimeMillis(); 
@@ -520,7 +526,7 @@ public class AlgoTopKRules {
 	 * Print statistics about the last algorithm execution.
 	 */
 	public void printStats() {
-		System.out.println("=============  TOP-K RULES - STATS =============");
+		System.out.println("=============  TOP-K RULES SPMF v.2.10 - STATS =============");
 		System.out.println("Minsup : " + minsuppRelative);
 		System.out.println("Rules count: " + kRules.size());
 		System.out.println("Memory : " + MemoryLogger.getInstance().getMaxMemory() + " mb");

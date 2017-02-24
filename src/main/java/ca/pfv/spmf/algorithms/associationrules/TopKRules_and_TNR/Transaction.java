@@ -20,10 +20,10 @@ import java.util.List;
 
 /**
  * This class represents a  transaction 
- * optimized for the TNR and TopKRules ca.pfv.spmf.algorithms for top-k
+ * optimized for the TNR and TopKRules algorithms for top-k
  * association rule mining.  In particular transactions
  * are implemented as LinkedList for efficient removal of infrequent 
- * items as done by these ca.pfv.spmf.algorithms.
+ * items as done by these algorithms.
  * 
  * @see AlgoTNR
  * @see AlgoTopKRules

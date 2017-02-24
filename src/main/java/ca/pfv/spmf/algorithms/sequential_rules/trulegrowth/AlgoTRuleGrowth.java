@@ -1,17 +1,24 @@
 package ca.pfv.spmf.algorithms.sequential_rules.trulegrowth;
 
-import ca.pfv.spmf.algorithms.ArraysAlgos;
-import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
-import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
-import ca.pfv.spmf.output.Rule;
-import ca.pfv.spmf.output.RuleSet;
-import ca.pfv.spmf.tools.MemoryLogger;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import ca.pfv.spmf.algorithms.ArraysAlgos;
+import ca.pfv.spmf.input.sequence_database_list_integers.Sequence;
+import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
+import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * This is the original implementation of the TRULEGROWTH algorithm for mining sequential rules 
@@ -46,7 +53,7 @@ public class AlgoTRuleGrowth {
 	 // minimum support which will be raised dynamically
 	int minsuppRelative; 
 	
-	// The number of ca.pfv.spmf.patterns found
+	// The number of patterns found
 	int ruleCount;
 	
 	// object to write the output file
@@ -64,8 +71,6 @@ public class AlgoTRuleGrowth {
 	// the maximum size of the consequent of rules (optional)
 	int maxConsequentSize = Integer.MAX_VALUE;
 
-	private RuleSet rules = new RuleSet();
-
 
 	/**
 	 * Default constructor
@@ -77,14 +82,14 @@ public class AlgoTRuleGrowth {
 	 * Run the algorithm.  
 	 * @param minSupport  Minsup as a percentage (ex: 0.05 = 5 %)
 	 * @param minConfidence minimum confidence (a value between 0 and 1).
-	 * @param input  the ca.pfv.spmf.input file path
+	 * @param input  the input file path
 	 * @param output the output file path
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
 	 */
 	public void runAlgorithm(double minSupport, double minConfidence, String input, String output, int windowSize ) throws IOException{
 		
-		// load the ca.pfv.spmf.input file into memory
+		// load the input file into memory
 		try {
 			this.database = new SequenceDatabase();
 			database.loadFile(input);
@@ -102,7 +107,7 @@ public class AlgoTRuleGrowth {
 	 * Run the algorithm.
 	 * @param relativeMinSupport  the minsup parameter as a a relative value (integer)
 	 * @param minConfidence minimum confidence (a value between 0 and 1).
-	 * @param input  the ca.pfv.spmf.input file path
+	 * @param input  the input file path
 	 * @param output the output file path
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
@@ -308,7 +313,7 @@ public class AlgoTRuleGrowth {
 	 * @throws IOException  exception if error while writing output file
 	 */
     private void expandLeft(int[] itemsetI, int[] itemsetJ,
-    						Collection<Integer> tidsI,
+    						Collection<Integer> tidsI, 
     						Collection<Integer> tidsIJ // ,
 //    						Map<Integer, Occurence> mapOccurencesJ
     						) throws IOException {    	
@@ -598,7 +603,7 @@ public class AlgoTRuleGrowth {
 	 */
     private void expandRight(int[] itemsetI, int[] itemsetJ, 
 							Set<Integer> tidsI, 
-    						Collection<Integer> tidsJ,
+    						Collection<Integer> tidsJ, 
     						Collection<Integer> tidsIJ //,
 //    						Map<Integer, Occurence> occurencesI,
 //    						Map<Integer, Occurence> occurencesJ
@@ -898,11 +903,36 @@ public class AlgoTRuleGrowth {
 	private void saveRule(Set<Integer> tidsIJ, double confIJ, int[] itemsetI, int[] itemsetJ) throws IOException {
 		// increase the number of rule found
 		ruleCount++;
-
-		Rule rule = new Rule(tidsIJ.size(), confIJ, itemsetI, itemsetJ);
-
-		rules.addRule(rule);
-
+		
+		// create a string buffer
+		StringBuilder buffer = new StringBuilder();
+		
+		// write itemset 1 (antecedent)
+		for(int i=0; i<itemsetI.length; i++){
+			buffer.append(itemsetI[i]);
+			if(i != itemsetI.length -1){
+				buffer.append(",");
+			}
+		}
+		
+		// write separator
+		buffer.append(" ==> ");
+		
+		// write itemset 2  (consequent)
+		for(int i=0; i<itemsetJ.length; i++){
+			buffer.append(itemsetJ[i]);
+			if(i != itemsetJ.length -1){
+				buffer.append(",");
+			}
+		}
+		// write support
+		buffer.append(" #SUP: ");
+		buffer.append(tidsIJ.size());
+		// write confidence
+		buffer.append(" #CONF: ");
+		buffer.append(confIJ);
+		writer.write(buffer.toString());
+		writer.newLine();
 	}
 	
 
@@ -942,9 +972,5 @@ public class AlgoTRuleGrowth {
 	 */
 	public double getTotalTime(){
 		return timeEnd - timeStart;
-	}
-
-	public RuleSet getRules() {
-		return rules;
 	}
 }

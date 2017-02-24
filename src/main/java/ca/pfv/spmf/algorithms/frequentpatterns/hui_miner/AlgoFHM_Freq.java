@@ -108,7 +108,7 @@ public class AlgoFHM_Freq {
 
 	/**
 	 * Run the algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtility the minimum utility threshold
 	 * @param minsupp the minsup threshold as a percentage
@@ -139,7 +139,7 @@ public class AlgoFHM_Freq {
 		String thisLine;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
@@ -179,7 +179,7 @@ public class AlgoFHM_Freq {
 				}
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -314,7 +314,7 @@ public class AlgoFHM_Freq {
 
 			}
 		} catch (Exception e) {
-			// to catch error while reading the ca.pfv.spmf.input file
+			// to catch error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){

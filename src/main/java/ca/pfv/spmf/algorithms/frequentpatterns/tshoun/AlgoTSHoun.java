@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
@@ -66,7 +67,7 @@ public class AlgoTSHoun {
 	// writer to write the output file 
 	BufferedWriter writer = null;  
 	
-	boolean debug = true;
+	boolean DEBUG = false ;
 	
 	/**
 	 * Default constructor
@@ -101,15 +102,21 @@ public class AlgoTSHoun {
 		periodUtilities = database.getPeriodUtilities();	
 		mapItemExactEstUtility = database.getMapItemExactEstUtility();
 		
+		// If in debugging mode, we will print the period utilities
+		if(DEBUG){
+			System.out.println("===== PERIOD UTILITIES =====");
+			for (int i = 0; i < database.periodCount; i++) {
+				int periodUtility = database.getPeriodUtility(i);
+				System.out.println(" period " + i + "  utility: " + periodUtility);
+				
+			}
+		}
+		
+		
 		// ======== FIND  1-ITEMSET THAT ARE HIGH ON-SHELF UTILITY  AND 1-CANDIDATES
 		for(Entry<Integer, Pair> entry: database.getMapItemExactEstUtility().entrySet()) {
 			int item = entry.getKey();
 			Pair pair = entry.getValue();
-			
-			// If a negative item, it cannot be a high on shelf utility itemset
-//			if(negativeItems.contains(item)) {
-//				continue;
-//			}
 		
 			BitSet periodsOfItem = mapItemPeriod.get(item);
 			boolean isPromisingInAtLeastOnePeriod = false;
@@ -119,7 +126,7 @@ public class AlgoTSHoun {
 					i = periodsOfItem.nextSetBit(i+1)) {
 			    int periodUtility = periodUtilities.get(i);
 				if(isPromisingInAtLeastOnePeriod == false) {
-					if(pair.estimatedUtility[i] / Math.abs((double) periodUtility) >= minUtilityRatio) {
+					if(calculateRelativeUtility(periodUtility, pair.estimatedUtility[i]) >= minUtilityRatio) {
 						isPromisingInAtLeastOnePeriod = true;
 					}
 				}
@@ -130,8 +137,11 @@ public class AlgoTSHoun {
 //			// IF IT IS NOT A CANDIDATE THEN WE WILL NOT CONSIDER THIS ITEM ANYMORE
 			if(isPromisingInAtLeastOnePeriod == false) {
 				database.getAllItems().remove(item);
-			}else if(pair.exactUtility / Math.abs((double) sumPeriodUtility) >= minUtilityRatio) {
-					writeOutItem(item, pair.exactUtility);
+			}else{
+				double relativeUtility = calculateRelativeUtility(sumPeriodUtility, pair.exactUtility);
+				if(relativeUtility>= minUtilityRatio) {
+					writeOutItem(item, pair.exactUtility,relativeUtility);
+				}
 			}
 		}
 		
@@ -149,7 +159,7 @@ public class AlgoTSHoun {
 		// =====  OPTIMIZATION: Scan the database once more to remove unpromising items  AND
 		// === delete transactions containing only unpromising items AND
 		// ==== adjust the transaction utilities by removing utility of unpromising items ===/
-		if(debug) {
+		if(DEBUG) {
 			System.out.println("REMOVE UNPROMISING ITEMS");
 		}
 		Iterator<TransactionWithPeriod> iterTrans = database.getTransactions().iterator();
@@ -170,7 +180,7 @@ public class AlgoTSHoun {
 				iterTrans.remove();
 			}
 		}
-		if(debug) {
+		if(DEBUG) {
 			System.out.println("END REMOVING UNPROMISING ITEMS");
 		}
 		
@@ -219,7 +229,7 @@ public class AlgoTSHoun {
 			if(currentPeriod == database.getPeriodCount() -1) {
 				endIndex = database.getTransactions().size()-1;
 			}else {
-				endIndex = binarySearch(currentPeriod, database.getTransactions(), startIndex);
+				endIndex = binarySearch(currentPeriod, database.getTransactions(), startIndex) -1;
 			}
 			
 			// save where the period starts and end
@@ -233,11 +243,11 @@ public class AlgoTSHoun {
 //			}
 			//			
 			// set the start index to the begining of the next period
-			startIndex = endIndex;
+			startIndex = endIndex + 1;
 		}
 		// ==========================================================
 
-		if(debug) {
+		if(DEBUG) {
 			System.out.println("START CALCULATING TU OF 2-candidates");
 		}
 		
@@ -289,7 +299,7 @@ public class AlgoTSHoun {
 			}
 		}
 		
-		if(debug) {
+		if(DEBUG) {
 			System.out.println(" Removing unpromising 2-itemsets ");
 			System.out.println(" and output HOU 2-itemsets ");
 		}
@@ -324,8 +334,7 @@ public class AlgoTSHoun {
 					if(estimatedUtilityIJ[i] != null) {
 						int twuIJ =0;
 						if(isPromisingInAtLeastOnePeriod == false) {
-							if(estimatedUtilityIJ[i] 
-									/ Math.abs((double) periodUtilities.get(i)) >= minUtilityRatio) {
+							if(calculateRelativeUtility(periodUtilities.get(i), estimatedUtilityIJ[i]) >= minUtilityRatio) {
 								isPromisingInAtLeastOnePeriod = true;
 							}
 						}
@@ -344,8 +353,9 @@ public class AlgoTSHoun {
 					
 					int exactUtilityIJ = entryJ.getValue().exactUtility;
 					// if HIGH ON SHELF 2-ITEMSET, THEN OUTPUT IT
-					if(exactUtilityIJ / Math.abs((double)sumOfPeriodUtility) >= minUtilityRatio) {
-						writeOut(array, exactUtilityIJ);
+					double relativeUtility = calculateRelativeUtility(sumOfPeriodUtility, exactUtilityIJ);
+					if(relativeUtility >= minUtilityRatio) {
+						writeOut(array, exactUtilityIJ, relativeUtility);
 					}
 				}
 			}
@@ -360,7 +370,7 @@ public class AlgoTSHoun {
 		
 		// Sort candidates of size 2 by lexicographical order.
 		// Important because they were not ordered in the map used previously. 
-		// If we avoid this step, we will miss some ca.pfv.spmf.patterns.
+		// If we avoid this step, we will miss some patterns.
 		Collections.sort(candidates2, new Comparator<ItemsetTP>(){
 			public int compare(ItemsetTP o1, ItemsetTP o2) {
 				if(o1.items[0] < o2.items[0]) {
@@ -380,7 +390,7 @@ public class AlgoTSHoun {
 		});
 		
 		MemoryLogger.getInstance().checkMemory();
-		if(debug) {
+		if(DEBUG) {
 			System.out.println("FINISHED CALCULATING TU of 2-candidates  (" + candidate2count + ")");
 			System.out.println("START MINING PERIODS FOR ALL CANDIDATES");
 		}
@@ -390,12 +400,20 @@ public class AlgoTSHoun {
 			startIndex = periodsStart[currentPeriod];
 			endIndex = periodsEnd[currentPeriod];
 			
-			if(debug) {
+			if(DEBUG) {
 				System.out.println("PERIOD " + currentPeriod);
 			}
 			
 			List<TransactionWithPeriod> periodDB = database.getTransactions().subList(startIndex, endIndex+1);
 			int periodUtility = periodUtilities.get(currentPeriod);
+			
+			if(DEBUG){
+				System.out.println("TRANSACTIONS IN THIS PERIOD");
+				for(TransactionWithPeriod trans : periodDB){
+					System.out.println(trans.toString());
+				}
+				System.out.println();
+			}
 
 			performMiningOnPeriod(periodDB, periodUtility, candidates2, currentPeriod);
 			 	
@@ -408,7 +426,7 @@ public class AlgoTSHoun {
 			startIndex = endIndex+1;
 		}
 		
-		if(debug) {
+		if(DEBUG) {
 			System.out.println("ENDED MINING PERIODS FOR ALL CANDIDATES");
 		}
 		MemoryLogger.getInstance().checkMemory();
@@ -423,6 +441,12 @@ public class AlgoTSHoun {
 				BitSet periods = (BitSet)mapItemPeriod.get(itemset.items[0]).clone();
 				for(int i=1; i< itemset.items.length; i++) {
 					periods.and(mapItemPeriod.get(itemset.items[i]));
+				}
+				
+				if(DEBUG){
+					// To show the itemsets for debugging
+					System.out.println(Arrays.toString(itemset.items));
+					System.out.println();
 				}
 				
 				int exactUtility = 0;
@@ -456,8 +480,10 @@ public class AlgoTSHoun {
 				}
 				
 				// if the itemset IS A HIGH ON SHELF UTILITY ITEMSET
-				if(exactUtility / Math.abs((double)sumPeriodUtility) >= minUtilityRatio) {
-					writeOut(itemset.items, exactUtility);
+				double relativeUtility = calculateRelativeUtility(sumPeriodUtility, exactUtility);
+				if(relativeUtility >= minUtilityRatio) {
+//					System.out.println(Arrays.toString(itemset.items) + " " + exactUtility);
+					writeOut(itemset.items, exactUtility, relativeUtility);
 				}
 			}
 			
@@ -470,7 +496,14 @@ public class AlgoTSHoun {
 		writer.close();
 	}
 
-	private void writeOut(int[] prefix, int exactUtility) throws IOException {
+	/**
+	 * Write an itemset to the output file
+	 * @param prefix the itemset
+	 * @param exactUtility the utility
+	 * @param relativeUtility the relative utility
+	 * @throws IOException exception if error writing to file
+	 */
+	private void writeOut(int[] prefix, int exactUtility, double relativeUtility) throws IOException {
 		//Create a string buffer
 		StringBuilder buffer = new StringBuilder();
 		// append the prefix
@@ -480,14 +513,28 @@ public class AlgoTSHoun {
 		}
 		buffer.append("#UTIL: ");
 		buffer.append(exactUtility);
+		// append the relative utility value
+		buffer.append(" #RUTIL: ");
+		buffer.append(relativeUtility);
 		writer.write(buffer.toString());
 		writer.newLine();
 		resultCount++;
 	}
 
-	private void writeOutItem(int item, int exactUtility) throws IOException {
+	/**
+	 * Write an itemset containing a single item to the output file
+	 * @param prefix the itemset
+	 * @param exactUtility the utility
+	 * @param relativeUtility the relative utility
+	 * @throws IOException exception if error writing to file
+	 */
+	private void writeOutItem(int item, int exactUtility, double relativeUtility) throws IOException {
 		writer.write(item + " #UTIL: " + exactUtility);
 		writer.newLine();
+
+		// append the relative utility value
+		writer.append(" #RUTIL: ");
+		writer.append("" + relativeUtility);
 		resultCount++;
 	}
 	
@@ -537,7 +584,7 @@ public class AlgoTSHoun {
 	}
 	
 	/**
-	 * Mine high utility periodical ca.pfv.spmf.patterns from a given period
+	 * Mine high utility periodical patterns from a given period
 	 * @param database  the transactions of the period
 	 * @param periodUtility  the total utility of the period
 	 * @param candidates2 the candidates of size 2 that should be used for starting the mining
@@ -556,8 +603,8 @@ public class AlgoTSHoun {
 			
 			for(int j=i+1; j < candidates2.size(); j++) {
 				ItemsetTP itemset2 = candidates2.get(j);
-//				
-//				if(itemset1.items[0] == 3 && itemset1.items[1] == 5 
+				
+//				if(itemset1.items[0] == 3 && itemset1.items[1] ==  
 //						&& itemset2.items[0] == 3 && itemset2.items[1] == 7) {
 //					System.out.println("TEST2222");
 //				}
@@ -578,7 +625,7 @@ public class AlgoTSHoun {
 		}
 		
 		MemoryLogger.getInstance().checkMemory();
-		if(debug) {
+		if(DEBUG) {
 			System.out.println(" CANDIDATE size 3 count " + candidatesSize3.size());
 		}
 		//==================================================================================
@@ -598,20 +645,32 @@ public class AlgoTSHoun {
 		MemoryLogger.getInstance().checkMemory();
 	}
 
+	/**
+	 * Calculate the exact and estimated utility of each candidate in the list of candidates
+	 * @param database the database
+	 * @param periodUtility the utility of the period
+	 * @param period the period id
+	 * @param candidates a list of candidate itemsets
+	 */
 	private void pruneCandidatesAndCalculateExactUtility(
 			List<TransactionWithPeriod> database, int periodUtility, short period, List<int[]> candidates) {
-		
+
 		Iterator<int[]> iter = candidates.iterator();
 		while (iter.hasNext()) {
 			int[] itemset = iter.next();
 			
+//			System.out.println(Arrays.toString(itemset));
+//			System.out.println();
+//			
 			
-			if(itemset.length == 3 && itemset[0] == 3 && itemset[1] == 5 && itemset[2] == 7 ) {
-				System.out.println();
-			}
+			// DEBUGING
+//			if(itemset.length == 3 && itemset[0] == 3 && itemset[1] == 4 && itemset[2] == 5 ) {
+//				System.out.println();
+//			}
 			
 			int estimatedUtility = 0;
 			int exactUtility = 0;
+			
 			for(TransactionWithPeriod trans : database) {
 				// MAJOR OPTIMIZATION
 				if(trans.getItems().get(0).item > itemset[0] ) {
@@ -619,10 +678,17 @@ public class AlgoTSHoun {
 					break;
 				}
 				
+//				System.out.print(" TRANS " );
+//				for(int i = 0; i < trans.getItems().size(); i++){
+//					System.out.print("   " + trans.getItems().get(i).item + " " + "");
+//				}
+//				System.out.println();
+				
+				
 				
 				// check if the itemset is contained in the transaction
 				int utilityInThatTransaction = containsOrEquals(trans.getItems(), itemset);
-				if(utilityInThatTransaction >= 0) {
+				if(utilityInThatTransaction > 0) {
 					estimatedUtility += trans.transactionUtility;
 					exactUtility += utilityInThatTransaction;
 				}
@@ -637,10 +703,16 @@ public class AlgoTSHoun {
 			if(exactUtility / Math.abs((double)periodUtility) >= minUtilityRatio) {
 				int hashcode = hashtable.hashCode(itemset);
 				ItemsetTP itemsetRetrieved = hashtable.retrieveItemset(itemset, hashcode);
+				
+				
+				
 				if(itemsetRetrieved == null) {
 					itemsetRetrieved = new ItemsetTP(itemset);
 					hashtable.put(itemsetRetrieved, hashcode);
 				}
+				
+
+				
 				itemsetRetrieved.setPeriodUtility(period, exactUtility);
 			}
 		}
@@ -680,46 +752,6 @@ loop1:		for(int i =0; i < items.length; i++){
 	 		return utility;
 	}
 
-//	/**
-//	 * Compare two itemsets and return -1,0 and 1 if the second itemset 
-//	 * is larger, equal or smaller than the first itemset according to the lexical order.
-//	 */
-//	public int compare(int[] itemset1, List<ItemUtility> list) {
-//		int pos1 = 0;
-//		int pos2 = 0;
-//		while(pos1 < itemset1.length && pos2 < list.size()) {
-//			System.out.println(itemset1[pos1] + " " + list.get(pos2).item);
-//			if(itemset1[pos1] < list.get(pos2).item) {
-//				return 1;
-//			}else if (itemset1[pos1] > list.get(pos2).item) {
-//				pos2++;
-//			}else {
-//				pos1++;
-//				pos2++;
-//			}
-//			
-//		}
-//		return -1;
-////		boolean 0;
-////		
-////		
-////		
-////		int size = itemset1IsShorter ? itemset1.length: list.size();
-////		for(int i=0; i< size; i++) {
-////			if(itemset1[i] < list.get(i).item ) {
-////				return -1;
-////			}
-////			if(itemset1[i]  > list.get(i).item ) {
-////				return 1;
-////			}
-////		}
-////		if(itemset1.length == list.size()) {
-////			return 0;
-////		}
-////		return itemset1IsShorter ? -1 : 1;
-//		
-//	}
-	
 	
 	/**
 	 * Generate candidate HWTUI of size K by using HWTUIs of size k-1
@@ -769,12 +801,25 @@ loop1:		for(int i =0; i < items.length; i++){
 		// return candidates HTWUIs of size K
 		return candidatesK;
 	}
+	
+	/**
+	 * Calculate the relative utility 
+	 * @param sumPeriodUtility the sum of the period utilities
+	 * @param utility  the utility value
+	 * @return the relative utility
+	 */
+	private double calculateRelativeUtility(int sumPeriodUtility, double utility) {
+		if(sumPeriodUtility == 0){
+			return 0;
+		}
+		return utility / Math.abs(sumPeriodUtility);
+	}
 
 	/**
 	 * Print statistics about the latest algorithm execution to System out.
 	 */
 	public void printStats() {
-		System.out.println("=============  TS-HOUN ALGORITHM - STATS =============");
+		System.out.println("=============  TS-HOUN ALGORITHM v2.02 - STATS =============");
 		System.out.println(" Transactions count from database : "+ database.size());
 		System.out.println(" Candidates count : " + candidatesCount); 
 		System.out.println(" Memory : " + MemoryLogger.getInstance().getMaxMemory() + " MB"); 

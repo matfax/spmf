@@ -60,7 +60,7 @@ public class SparseTriangularMatrix implements AbstractTriangularMatrix {
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#toString()
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#toString()
 	 */
 	public String toString() {
 		// create a string buffer
@@ -80,7 +80,7 @@ public class SparseTriangularMatrix implements AbstractTriangularMatrix {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#incrementCount(int, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#incrementCount(int, int)
 	 */
 	public void incrementCount(int i, int j) {
 		if(i < j) {
@@ -119,7 +119,7 @@ public class SparseTriangularMatrix implements AbstractTriangularMatrix {
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#getSupportForItems(int, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#getSupportForItems(int, int)
 	 */
 	public int getSupportForItems(int i, int j){
 		if(i < j) {
@@ -154,7 +154,7 @@ public class SparseTriangularMatrix implements AbstractTriangularMatrix {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#setSupport(java.lang.Integer, java.lang.Integer, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#setSupport(java.lang.Integer, java.lang.Integer, int)
 	 */
 	public void setSupport(Integer i, Integer j, int support) {
 		if(i < j) {

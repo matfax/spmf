@@ -33,7 +33,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /*** 
  * This is an implementation of the PrefixSpan algorithm by Pei et al. 2001 modfied to take
- * sequences of strings as ca.pfv.spmf.input instead of sequences of integers.
+ * sequences of strings as input instead of sequences of integers.
  * <br/><br/>
  * 
  * NOTE: This implementation saves the pattern  to a file as soon 
@@ -42,8 +42,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
 <br/><br/>
 
  *  In future a version of SPMF, it is planned to remove this package and to provide a more general
- *  mechanism for handling strings in sequences that would work for all ca.pfv.spmf.algorithms
- *  that take sequences as ca.pfv.spmf.input. But this has not been done yet.
+ *  mechanism for handling strings in sequences that would work for all algorithms 
+ *  that take sequences as input. But this has not been done yet.
  *  
   @see Sequence
   @see SequenceDatabase
@@ -69,7 +69,7 @@ public class AlgoPrefixSpan_with_Strings{
 	// writer to write output file
 	BufferedWriter writer = null;
 	
-	// The sequential ca.pfv.spmf.patterns that are found
+	// The sequential patterns that are found 
 	// (if the user want to keep them into memory)
 	private SequentialPatterns patterns = null;
 	
@@ -128,8 +128,8 @@ public class AlgoPrefixSpan_with_Strings{
 			writer = new BufferedWriter(new FileWriter(outputFilePath)); 
 		}
 		
-		// We have to scan the database to find all frequent ca.pfv.spmf.patterns of size 1.
-		// We note the sequences in which these ca.pfv.spmf.patterns appear.
+		// We have to scan the database to find all frequent patterns of size 1.
+		// We note the sequences in which these patterns appear.
 		Map<String, Set<Integer>> mapSequenceID = findSequencesContainingItems(database);
 		
 		// WE CONVERT THE DATABASE ITON A PSEUDO-DATABASE, AND REMOVE
@@ -223,7 +223,7 @@ public class AlgoPrefixSpan_with_Strings{
 	private Map<String, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
+		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
 		// for each sequence in the current database
 		for(Sequence sequence : contexte.getSequences()){
 			// for each itemset in this sequence

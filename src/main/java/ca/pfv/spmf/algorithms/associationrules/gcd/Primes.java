@@ -18,9 +18,7 @@
 
 package ca.pfv.spmf.algorithms.associationrules.gcd;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 
 public class Primes {
@@ -32,12 +30,10 @@ public class Primes {
 	
 	private Primes(){
         try {
-        	InputStream inStream = Primes.class.getResourceAsStream("primes.bin");
-            ObjectInputStream obInStream = new ObjectInputStream(inStream);
+            ObjectInputStream obInStream = new ObjectInputStream(this.getClass().getClassLoader().getResourceAsStream("primes.bin"));
             primesArray = (int[]) obInStream.readObject();
 			obInStream.close();
-			inStream.close();
-		} catch (IOException e) {} catch (ClassNotFoundException e) {}
+		} catch (IOException | ClassNotFoundException ignored) {}
 	}
 	
 	public static Primes getInstance(){

@@ -5,6 +5,7 @@ import java.util.List;
 
 import ca.pfv.spmf.datastructures.kdtree.KNNPoint;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
+import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 
 /* This file is copyright (c) 2008-2015 Philippe Fournier-Viger
 * 
@@ -28,7 +29,7 @@ import ca.pfv.spmf.patterns.cluster.DoubleArray;
 * 
  * @author Philippe Fournier-Viger
  */
-public class DoubleArrayOPTICS extends DoubleArray implements Comparable<DoubleArrayOPTICS>{
+public class DoubleArrayOPTICS extends DoubleArrayInstance implements Comparable<DoubleArrayOPTICS>{
 	
 	boolean visited = false;
 	public double reachabilityDistance = Double.POSITIVE_INFINITY; // undefined
@@ -38,8 +39,8 @@ public class DoubleArrayOPTICS extends DoubleArray implements Comparable<DoubleA
 	 * Constructor
 	 * @param data an array of double values
 	 */
-	public DoubleArrayOPTICS(double[] data) {
-		super(data);
+	public DoubleArrayOPTICS(double[] data, String name) {
+		super(data, name);
 	}
 
 	/**
@@ -71,6 +72,14 @@ public class DoubleArrayOPTICS extends DoubleArray implements Comparable<DoubleA
 	 */
 	public int compareTo(DoubleArrayOPTICS point2) {
 		return Double.compare(this.reachabilityDistance, point2.reachabilityDistance);
+	}
+	
+	/**
+	 * Obtain a string representation of this instance
+	 * @return a String representation
+	 */
+	public String toString() {
+		return  super.toString();
 	}
 
 }

@@ -44,7 +44,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * See this article for details about ECLAT:
  * <br/><br/>
  * 
- * Zaki, M. J. (2000). Scalable ca.pfv.spmf.algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
+ * Zaki, M. J. (2000). Scalable algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
  * <br/><br/>
  * 
  * This  version  saves the result to a file
@@ -70,12 +70,12 @@ public class AlgoEclat_Bitset {
 	protected long endTime; 
 	
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets frequentItemsets;
 	/** object to write the output file */
 	BufferedWriter writer = null; 
-	/** the number of ca.pfv.spmf.patterns found */
+	/** the number of patterns found */
 	protected int itemsetCount; 
 	
 	/** For optimization with a triangular matrix for counting 
@@ -87,6 +87,10 @@ public class AlgoEclat_Bitset {
 	final int BUFFERS_SIZE = 2000;
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
+
 
 	/**
 	 * Default constructor
@@ -542,6 +546,13 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			// as well as its support
 			buffer.append(" #SUP: ");
 			buffer.append(tidset.support);
+			if(showTransactionIdentifiers) {
+				BitSet bitset = tidset.bitset;
+				buffer.append(" #TID:");
+	        	for (int tid = bitset.nextSetBit(0); tid != -1; tid = bitset.nextSetBit(tid + 1)) {
+	        		buffer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
@@ -570,11 +581,25 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			buffer.append(item);
 			buffer.append(" #SUP: ");
 			buffer.append(support);
+			if(showTransactionIdentifiers) {
+	        	writer.append(" #TID:");
+	        	for (int tid = tidset.nextSetBit(0); tid != -1; tid = tidset.nextSetBit(tid + 1)) {
+	        		writer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
 	}
-
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
 
 	/**
 	 * Print statistics about the algorithm execution to System.out.

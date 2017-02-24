@@ -31,7 +31,7 @@ import ca.pfv.spmf.patterns.cluster.DoubleArray;
  * <br/><br/>
  * 
  * This implementation uses the  Randomized-Select algorithm described in the 
- *  book "Introduction to ca.pfv.spmf.algorithms" book by Cormen et al. (2001) as suggested
+ *  book "Introduction to algorithms" book by Cormen et al. (2001) as suggested
  *  by Heineman.
  * <br/><br/>
  * 
@@ -135,7 +135,7 @@ public class KDTree {
 	/**
 	 * Method to select the ith smallest integer of an array in average linear
 	 * time. It is  based on the pseudo-code of the Randomized-Select algorithm in
-	 * the book "Introduction to ca.pfv.spmf.algorithms" by Cormen et al. (2001), with some
+	 * the book "Introduction to algorithms" by Cormen et al. (2001), with some
 	 * modifications such as using a while loop instead of recursive calls.
 	 * 
 	 * @param a: array of integers

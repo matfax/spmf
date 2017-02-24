@@ -37,7 +37,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
 public class Sequences {
 
     /**
-     * List of lists, where each list contains the frequent ca.pfv.spmf.patterns of a concrete
+     * List of lists, where each list contains the frequent patterns of a concrete
      * length
      */
     public List<List<Pattern>> levels = new ArrayList<List<Pattern>>();
@@ -145,8 +145,8 @@ public class Sequences {
 
     /**
      * It obtains a list of pattern lists, being each pattern list the frequent sequences with a concrete length
-     * For example, at position 1, it is the list of ca.pfv.spmf.patterns of size 1.
-     *              at position 2, it is the list of ca.pfv.spmf.patterns of size 2
+     * For example, at position 1, it is the list of patterns of size 1.
+     *              at position 2, it is the list of patterns of size 2
      *              ...
      *              etc.
      * @return the list of pattern lists.

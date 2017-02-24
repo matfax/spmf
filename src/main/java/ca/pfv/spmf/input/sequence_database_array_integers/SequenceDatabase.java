@@ -17,8 +17,6 @@ package ca.pfv.spmf.input.sequence_database_array_integers;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -45,15 +43,14 @@ public class SequenceDatabase {
 
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.
-	 * @param path  the ca.pfv.spmf.input file path.
+	 * @param path  the input file path.
 	 * @throws IOException exception if error while reading the file.
 	 */
 	public void loadFile(String path) throws IOException {
 		String thisLine; // variable to read each line.
 		BufferedReader myInput = null;
 		try {
-			FileInputStream fin = new FileInputStream(new File(path));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(path)));
 			// for each line until the end of the file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
@@ -77,7 +74,7 @@ public class SequenceDatabase {
 //	
 
 	/**
-	 * Method to process a line from the ca.pfv.spmf.input file
+	 * Method to process a line from the input file
 	 * @param tokens A list of tokens from the line (which were separated by spaces in the original file).
 	 */
 	public void addSequence(String[] tokens) { 
@@ -89,7 +86,7 @@ public class SequenceDatabase {
 		// for each token in this line
 		for (String token : tokens) {
 			// if the token start with "<", it indicates a timestamp. 
-			// We just ignore it because ca.pfv.spmf.algorithms that use this class
+			// We just ignore it because algorithms that use this class
 			// don't need it.
 			if (token.codePointAt(0) == '<') { 
 				// we just ignore

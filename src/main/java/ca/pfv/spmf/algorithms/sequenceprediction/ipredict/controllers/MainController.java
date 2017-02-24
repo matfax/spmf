@@ -1,16 +1,16 @@
 package ca.pfv.spmf.algorithms.sequenceprediction.ipredict.controllers;
 
-import java.io.IOException;
-
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.helpers.StatsLogger;
-import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.Evaluator;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.CPT.CPT.CPTPredictor;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.CPT.CPTPlus.CPTPlusPredictor;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.DG.DGPredictor;
+import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.Evaluator;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.LZ78.LZ78Predictor;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.Markov.MarkovAllKPredictor;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.Markov.MarkovFirstOrderPredictor;
 import ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.TDAG.TDAGPredictor;
+
+import java.io.IOException;
 /*
  * This file is copyright (c) Ted Gueniche 
  * <ted.gueniche@gmail.com>

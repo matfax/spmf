@@ -44,7 +44,7 @@ public class FrequentPatternEnumerationFacade implements Callable<Void> {
      */
     private boolean dfs;
     /**
-     * Flag indicating if we want to keep the different ca.pfv.spmf.patterns that we find.
+     * Flag indicating if we want to keep the different patterns that we find.
      */
     private boolean keepPatterns;
     /**
@@ -55,12 +55,12 @@ public class FrequentPatternEnumerationFacade implements Callable<Void> {
     /**
      * Standard constructor.
      * @param frequentPatternEnumeration the FrequentPatternEnumeration object
-     * through which we search for the ca.pfv.spmf.patterns.
+     * through which we search for the patterns.
      * @param equivalenceClass Equivalence class from which we start the search.
-     * @param dfs Flag indicating if we want to keep the different ca.pfv.spmf.patterns that
+     * @param dfs Flag indicating if we want to keep the different patterns that
      * we find.
      * @param keepPatterns Flag indicating if we want to keep the different 
-     * ca.pfv.spmf.patterns that we find.
+     * patterns that we find.
      * @param verbose Flag for debugging purposes.
      * @param saver Object that is in charge of saving the output either in a 
      * file or in the main memory.

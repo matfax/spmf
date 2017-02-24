@@ -104,9 +104,9 @@ public class AlgoSkyMine {
 	 * Method to run the algorithm
 	 * 
 	 * @param transactionFile
-	 *            path to an ca.pfv.spmf.input file containing transactions with quantities
+	 *            path to an input file containing transactions with quantities
 	 * @param utilityTableFile
-	 *            path to an ca.pfv.spmf.input file containing a utility table indicating the internal utility of each item
+	 *            path to an input file containing a utility table indicating the internal utility of each item
 	 * @param outputFilePath
 	 *            path for writing the output file (if null the result is kept in memory and not saved to file)
 	 * @param minUtility
@@ -286,7 +286,7 @@ public class AlgoSkyMine {
 			orderCountArray(countArray);
 			// ===========================================
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		} finally {
 			if (myInput != null) {
@@ -394,7 +394,7 @@ public class AlgoSkyMine {
 			endTimestamp = System.currentTimeMillis();
 
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		} finally {
 			if (myInput != null) {
@@ -403,7 +403,7 @@ public class AlgoSkyMine {
 		}
 
 		// Verification process starts
-		// Adding candidate ca.pfv.spmf.patterns to PHUI Itemset list and will compute its
+		// Adding candidate patterns to PHUI Itemset list and will compute its
 		// exact utility by scanning the database again
 		for (int j = candidateSet.utilities.size() - 1; j >= 1; j--) {
 			ArrayList<int[]> itemsets = candidateSet.getUtilities().get(j).getItemSets();
@@ -1120,11 +1120,11 @@ public class AlgoSkyMine {
 		buffer.append("=============  SkyMine ALGORITHM - STATS =============\n");
 		buffer.append("Total time: " + (this.endTimestamp - this.startTimestamp)+ " ms \n");
 		buffer.append("Memory: " + MemoryLogger.getInstance().getMaxMemory() + " MB \n");
-		buffer.append("Number of inserted ca.pfv.spmf.patterns in candidate set: "
+		buffer.append("Number of inserted patterns in candidate set: "
 				+ this.numberInsertedPatterns+ "\n");
-		buffer.append("Number of ca.pfv.spmf.patterns to be verified: "
+		buffer.append("Number of patterns to be verified: "
 				+ this.numberVerifiedPatterns+ "\n");
-		buffer.append("Number of skyline ca.pfv.spmf.patterns: " + this.numberOfSkylineItemsets+ "\n");
+		buffer.append("Number of skyline patterns: " + this.numberOfSkylineItemsets+ "\n");
 		buffer.append("===================================================\n\n \n");
 		System.out.println(buffer.toString());
 	}

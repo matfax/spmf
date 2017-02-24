@@ -4,7 +4,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clospan_AGP.items.patterns.Patt
 
 /**
  * This is the definition of a interface in order to decide where the user wants
- * to keep the ca.pfv.spmf.patterns. The implementer classes will refer to the place for
+ * to keep the patterns. The implementer classes will refer to the place for
  * keeping them
  *
  * Copyright Antonio Gomariz Peñalver 2013

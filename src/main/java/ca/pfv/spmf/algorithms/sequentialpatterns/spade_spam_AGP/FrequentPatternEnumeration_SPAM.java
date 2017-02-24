@@ -43,11 +43,11 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.savers.Saver;
 public class FrequentPatternEnumeration_SPAM{
     /**
      * The absolute minimum support threshold, i.e. the minimum number of
-     * sequences where the ca.pfv.spmf.patterns have to be
+     * sequences where the patterns have to be
      */
     private double minSupportAbsolute;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm. Initially set to zero.
+     * Number of frequent patterns found by the algorithm. Initially set to zero.
      */
     private int frequentPatterns = 0;
     /**
@@ -73,9 +73,9 @@ public class FrequentPatternEnumeration_SPAM{
     }
 
     /**
-     * Execution of the search of frequent ca.pfv.spmf.patterns.
+     * Execution of the search of frequent patterns.
      * @param equivalenceClass The equivalence class from we start to search for.
-     * @param keepPatterns Flag to indicate if we want to keep the ca.pfv.spmf.patterns found.
+     * @param keepPatterns Flag to indicate if we want to keep the patterns found.
      * @param verbose Flag for debugging purposes
      */
     public void execute(EquivalenceClass equivalenceClass, boolean keepPatterns, boolean verbose) {
@@ -89,7 +89,7 @@ public class FrequentPatternEnumeration_SPAM{
     }
 
     /**
-     * Main method of SPAM algorithm. For each processed ca.pfv.spmf.patterns, the algorithm
+     * Main method of SPAM algorithm. For each processed patterns, the algorithm
      * tries to make a s-extension first, and then, once it found all the possible
      * s-extension, it tries to make an i-extension. The method receives two set
      * of equivalence classes, one with the frequent items that can be used for
@@ -104,10 +104,10 @@ public class FrequentPatternEnumeration_SPAM{
      * @param beginning The beginning index from where we can use the elements of
      * itemsetsExtensions set
      * @param keepPatterns Flag indicating if we are interesting in saving the 
-     * frequent ca.pfv.spmf.patterns that we find.
+     * frequent patterns that we find.
      */
     private void dfs_pruning(EquivalenceClass currentClass, List<EquivalenceClass> sequenceExtensions, List<EquivalenceClass> itemsetsExtensions,int beginning, boolean keepPatterns) {
-        //We start increasing the number of frequent ca.pfv.spmf.patterns
+        //We start increasing the number of frequent patterns
         frequentPatterns++;
         
         //We get the class identifier
@@ -129,7 +129,7 @@ public class FrequentPatternEnumeration_SPAM{
             extension.add(newPair);
 
             /*
-             * We make the join operation between both ca.pfv.spmf.patterns in order to know
+             * We make the join operation between both patterns in order to know 
              * the appearances of the new pattern and its support.
              */
             IDList newIdList = currentClass.getIdList().join(eq.getIdList(), false, (int) minSupportAbsolute);
@@ -153,7 +153,7 @@ public class FrequentPatternEnumeration_SPAM{
                  *set of sequence extensions the same eq class that we used for
                  * obtaining the new pattern. The problem with this is that if we
                  * do it, the Idlist it remains the same. Since a IdList is denser
-                 * (with more values) with shorter ca.pfv.spmf.patterns (because is easier to
+                 * (with more values) with shorter patterns (because is easier to
                  * find an appearance in a sequence), we can put to the pattern
                  * of the equivalence class of eq, the new idlist generated. Note
                  * that for the items in future s-extensions of this new pattern,
@@ -183,7 +183,7 @@ public class FrequentPatternEnumeration_SPAM{
              * make the i-extensions, but beginning from the (i+1)-th element
              */
             dfs_pruning(newClass, new_sequenceExtension, new_sequenceExtension,i+1, keepPatterns);
-            /* Once we had finished the search for this ca.pfv.spmf.patterns and their children,
+            /* Once we had finished the search for this patterns and their children,
              * we can to remove that class (and its desdendants) from the memory
              */
             newClass.clear();
@@ -207,7 +207,7 @@ public class FrequentPatternEnumeration_SPAM{
             extension.add(newPair);
 
             /*
-             * We make the join operation between both ca.pfv.spmf.patterns in order to know
+             * We make the join operation between both patterns in order to know 
              * the appearances of the new pattern and its support.
              */
             IDList newIdList = currentClass.getIdList().join(eq.getIdList(), true, (int) minSupportAbsolute);
@@ -231,7 +231,7 @@ public class FrequentPatternEnumeration_SPAM{
                  *set of itemset extensions the same eq class that we used for
                  * obtaining the new pattern. The problem with this is that if we
                  * do it, the Idlist it remains the same. Since a IdList is denser
-                 * (with more values) with shorter ca.pfv.spmf.patterns (because is easier to
+                 * (with more values) with shorter patterns (because is easier to
                  * find an appearance in a sequence), we can put to the pattern
                  * of the equivalence class of eq, the new idlist generated. Note
                  * that for the items in future i-extensions of this new pattern,
@@ -266,9 +266,9 @@ public class FrequentPatternEnumeration_SPAM{
     }
 
     /**
-     * It returns the number of frequent ca.pfv.spmf.patterns found by the last execution of
+     * It returns the number of frequent patterns found by the last execution of
      * the algorithm.
-     * @return the number of frequent ca.pfv.spmf.patterns found.
+     * @return the number of frequent patterns found.
      */
     public int getFrequentPatterns() {
         return frequentPatterns;

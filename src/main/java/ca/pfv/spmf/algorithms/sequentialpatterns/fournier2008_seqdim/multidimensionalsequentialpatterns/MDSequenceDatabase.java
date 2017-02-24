@@ -16,23 +16,15 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimen
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.*;
+import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPattern;
+import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPatternsDatabase;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.ItemSimple;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.ItemValued;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.Itemset;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.Sequence;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.SequenceDatabase;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPattern;
-import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalpatterns.MDPatternsDatabase;
 
 /**
  * Implementation of a "Multi-Dimensional Sequence Database"
@@ -50,7 +42,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimens
 public class MDSequenceDatabase {
 	/** List of md-sequences*/
 	private final List<MDSequence> sequences = new ArrayList<MDSequence>();
-	/** We also keep the sequences and ca.pfv.spmf.patterns in some separate databases.
+	/** We also keep the sequences and patterns in some separate databases.
 	// the sequence database*/
 	private final SequenceDatabase sequenceDatabase = new SequenceDatabase();
 	/** the mdpattern database*/
@@ -109,7 +101,7 @@ public class MDSequenceDatabase {
 	}
 	
 	/**
-	 * Process a line of the ca.pfv.spmf.input file representing a MDSequence
+	 * Process a line of the input file representing a MDSequence
 	 * @param tokens a list of tokens from the line as String[]
 	 */
 	private void processMDSequence(String[] tokens) {	

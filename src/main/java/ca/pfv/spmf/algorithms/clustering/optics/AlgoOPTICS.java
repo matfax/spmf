@@ -17,16 +17,6 @@ package ca.pfv.spmf.algorithms.clustering.optics;
  * SPMF. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
-
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceEuclidian;
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
 import ca.pfv.spmf.datastructures.kdtree.KDTree;
@@ -34,6 +24,11 @@ import ca.pfv.spmf.datastructures.kdtree.KNNPoint;
 import ca.pfv.spmf.patterns.cluster.Cluster;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /* This file is copyright (c) 2008-2015 Philippe Fournier-Viger
  * 
@@ -90,6 +85,10 @@ public class AlgoOPTICS {
 	 * There is two buffers because the algorithm need to use two at the same time. */
 	List<KNNPoint> neighboorsBuffer1 = new ArrayList<KNNPoint>();
 	List<KNNPoint> neighboorsBuffer2 = new ArrayList<KNNPoint>();
+	
+
+	/** The names of the attributes **/
+	private List<String> attributeNames = null;
 
 	/**
 	 * Default constructor
@@ -102,7 +101,7 @@ public class AlgoOPTICS {
 	 * Run the OPTICS algorithm
 	 * 
 	 * @param inputFile
-	 *            an ca.pfv.spmf.input file path containing a list of vectors of double
+	 *            an input file path containing a list of vectors of double
 	 *            values
 	 * @param minPts
 	 *            the minimum number of points (see DBScan article)
@@ -110,7 +109,7 @@ public class AlgoOPTICS {
 	 *            the epsilon distance (see DBScan article)
 	 * @param seaparator
 	 *            the string that is used to separate double values on each line
-	 *            of the ca.pfv.spmf.input file (default: single space)
+	 *            of the input file (default: single space)
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException
 	 *             exception if an error while writing the file occurs
@@ -125,18 +124,40 @@ public class AlgoOPTICS {
 
 		// Structure to store the vectors from the file
 		List<DoubleArray> points = new ArrayList<DoubleArray>();
+		
+		// The list of attribute names
+		attributeNames = new ArrayList<String>();
 
-		// read the vectors from the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+		// read the vectors from the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(inputFile)));
 		String line;
+		String currentInstanceName = null;
 		// for each line until the end of the file
 		while (((line = reader.readLine()) != null)) {
 			// if the line is a comment, is empty or is a
 			// kind of metadata
-			if (line.isEmpty() == true || line.charAt(0) == '#'
-					|| line.charAt(0) == '%' || line.charAt(0) == '@') {
+			if (line.isEmpty() == true ||
+					line.charAt(0) == '#' || line.charAt(0) == '%') {
 				continue;
 			}
+			
+			// Read the name of the instance from the file
+			if(line.charAt(0) == '@'){
+				// if it is the name of the instance
+				if(line.startsWith("@NAME=")){
+					currentInstanceName = line.substring(6, line.length());
+				}
+				// if it is the name of an attribute   // @ATTRIBUTEDEF=Y
+				if(line.startsWith("@ATTRIBUTEDEF=")){
+					String attributeName = line.substring(14, line.length());
+					attributeNames.add(attributeName);
+				}
+				continue;
+			}
+			// if no name in the file, then we generate one
+			String nameToUse = currentInstanceName == null ?  "Instance" + points.size() : currentInstanceName;			
+			currentInstanceName = null;
+
 			line = line.trim();
 			// split the line by spaces
 			String[] lineSplited = line.split(separator);
@@ -150,10 +171,18 @@ public class AlgoOPTICS {
 				vector[i] = value;
 			}
 			// add the vector to the list of vectors
-			points.add(new DoubleArrayOPTICS(vector));
+			points.add(new DoubleArrayOPTICS(vector, nameToUse));
 		}
 		// close the file
 		reader.close();
+		
+		// If the file did not contain attribute names, we will generate some
+		if(attributeNames.size() == 0 && points.size() > 0){
+			int dimensionCount = points.get(0).data.length;
+			for(int i = 0; i < dimensionCount; i++){
+				attributeNames.add("Attribute"+i);
+			}
+		}
 
 		// build kd-tree
 		kdtree = new KDTree();
@@ -354,6 +383,13 @@ public class AlgoOPTICS {
 	 */
 	public void saveToFile(String output) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+		
+		// First, we will print the attribute names
+		for(String attributeName : attributeNames){
+			writer.write("@ATTRIBUTEDEF=" + attributeName);
+			writer.newLine();
+		}
+		
 		// for each cluster
 		for (int i = 0; i < clusters.size(); i++) {
 			// if the cluster is not empty
@@ -381,10 +417,7 @@ public class AlgoOPTICS {
 		// for each cluster
 		// Print the cluster-ordering of points to the console (for debugging)
 		for(DoubleArrayOPTICS arrayOP : clusterOrdering) {
-			writer.write(" ");
-			writer.write(Arrays.toString(arrayOP.data));
-			writer.write(" -  ");
-			writer.write(Double.toString(arrayOP.reachabilityDistance));
+			writer.write(arrayOP.toString() + " " + arrayOP.reachabilityDistance);
 			writer.newLine();
 		}
 		// close the file
@@ -395,7 +428,7 @@ public class AlgoOPTICS {
 	 * Print statistics of the latest execution to System.out.
 	 */
 	public void printStatistics() {
-		System.out.println("========== OPTICS 98d - STATS ============");
+		System.out.println("========== OPTICS  SPMF 2.09 - STATS ============");
 		System.out.println(" Time ExtractClusterOrdering() ~: "
 				+ timeExtractClusterOrdering + " ms");
 		System.out.println(" Max memory:"

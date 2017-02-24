@@ -1,12 +1,10 @@
 package ca.pfv.spmf.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-
+import ca.pfv.spmf.NoExceptionAssertion;
 import ca.pfv.spmf.algorithms.frequentpatterns.lcm.AlgoLCMFreq;
 import ca.pfv.spmf.algorithms.frequentpatterns.lcm.Dataset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
+import org.junit.Test;
 /* This file is copyright (c) 2012-2014 Alan Souza
 * 
 * This file is part of the SPMF DATA MINING SOFTWARE
@@ -22,30 +20,30 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
+
 /**
  * Example of how to use LCMFreq algorithm from the source code.
- * @author Alan Souza <apsouza@inf.ufrgs.br> 
+ *
+ * @author Alan Souza <apsouza@inf.ufrgs.br>
  */
 public class MainTestLCMFreq_saveToMemory {
 
-	public static void main(String [] arg) throws IOException{
+    @Test
+    public void main() {
+        NoExceptionAssertion.assertDoesNotThrow(() -> {
 
-		String input = fileToPath("contextPasquier99.txt");
-		
-		double minsup = 0.4; // means a minsup of 2 transaction (we used a relative support)
-		Dataset dataset = new Dataset(input);
-		
-		// Applying the algorithm
-		AlgoLCMFreq algo = new AlgoLCMFreq();
-		// if true in next line it will find only closed itemsets, otherwise, all frequent itemsets
-		Itemsets itemsets = algo.runAlgorithm(minsup, dataset, null);
-		algo.printStats();
+            String input = "contextPasquier99.txt";
 
-		itemsets.printItemsets(dataset.getTransactions().size());
-	}
-	
-	public static String fileToPath(String filename) throws UnsupportedEncodingException{
-		URL url = MainTestLCMFreq_saveToMemory.class.getResource(filename);
-		 return java.net.URLDecoder.decode(url.getPath(),"UTF-8");
-	}
+            double minsup = 0.4; // means a minsup of 2 transaction (we used a relative support)
+            Dataset dataset = new Dataset(input);
+
+            // Applying the algorithm
+            AlgoLCMFreq algo = new AlgoLCMFreq();
+            // if true in next line it will find only closed itemsets, otherwise, all frequent itemsets
+            Itemsets itemsets = algo.runAlgorithm(minsup, dataset, null);
+            algo.printStats();
+
+            itemsets.printItemsets(dataset.getTransactions().size());
+        });
+    }
 }

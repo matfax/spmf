@@ -109,14 +109,14 @@ public class AlgoCMDeogun {
 	
 	/**
 	 * Run the algorithm with an absolute minimum support (double).
-	 * @param input ca.pfv.spmf.input file containing a sequence database.
+	 * @param input input file containing a sequence database.
 	 * @param output the file path for writing the result
 	 * @param absoluteMinSupport   the minsup is a percentage value (ex.: 0.05 =  5 % of all sequences in the database)
 	 * @param minConfidence  the minimum confidence threshold
 	 * @throws IOException exception if error while writing the output file.
 	 */
 	public void runAlgorithm(String input, String output, double absoluteMinSupport, double minConfidence) throws IOException {
-		// load the sequence database from the ca.pfv.spmf.input file
+		// load the sequence database from the input file
 		database = new SequenceDatabase();
 		database.loadFile(input);
 		
@@ -131,7 +131,7 @@ public class AlgoCMDeogun {
 
 	/**
 	 * Run the algorithm with a relative minimum support (integer)
-	 * @param input ca.pfv.spmf.input file containing a sequence database.
+	 * @param input input file containing a sequence database.
 	 * @param output the file path for writing the result
 	 * @param relativeSupport   the minsup is a number of sequences (ex.: 5 =  5 sequences of the database)
 	 * @param minConfidence  the minimum confidence threshold
@@ -151,7 +151,7 @@ public class AlgoCMDeogun {
 		}
 		
 		// It the sequence database has not been loaded yet, then load it from
-		// the ca.pfv.spmf.input file
+		// the input file
 		if(database == null){
 			database = new SequenceDatabase();
 			database.loadFile(input);

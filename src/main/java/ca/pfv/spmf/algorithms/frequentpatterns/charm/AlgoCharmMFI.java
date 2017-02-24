@@ -19,6 +19,7 @@ package ca.pfv.spmf.algorithms.frequentpatterns.charm;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemsets;
 
 /**
  * This is an implementation of the CHARM-MFI algorithm (thesis of L. Szathmary, 2006) 
- * that is a simple extension that takes the output of CHARM as ca.pfv.spmf.input and
+ * that is a simple extension that takes the output of CHARM as input and 
  * do post-processing to keep only maximal itemsets. <br/><br/>
  * 
  * But it was found that the Charm-MFI algorithm is actually incorrect so
@@ -59,11 +60,15 @@ public class AlgoCharmMFI {
 	private long endTimestamp; 
 
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets maximalItemsets;
+	
 	/** object to write the output file */
 	BufferedWriter writer = null; 
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 	
 	/**
 	 * Default constructor
@@ -128,6 +133,13 @@ public class AlgoCharmMFI {
 					Itemset itemset = level.get(i);
 					// save the itemset an its support
 					writer.write(itemset.toString() + " #SUP: "	+ itemset.getAbsoluteSupport());
+					if(showTransactionIdentifiers) {
+						BitSet bitset = itemset.getTransactionsIds();
+			        	writer.append(" #TID:");
+			        	for (int tid = bitset.nextSetBit(0); tid != -1; tid = bitset.nextSetBit(tid + 1)) {
+			        		writer.append(" " + tid); 
+			        	}
+					}
 					writer.newLine();
 				}
 			}
@@ -167,6 +179,15 @@ public class AlgoCharmMFI {
 				}	
 			}
 		}
+	}
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
 	}
 
 	/**

@@ -1,17 +1,17 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.itemsettree;
 
+import ca.pfv.spmf.algorithms.ArraysAlgos;
+import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
+import ca.pfv.spmf.tools.MemoryLogger;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
-import ca.pfv.spmf.algorithms.ArraysAlgos;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
-import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * This is the original implementation of the Memory Efficient Itemset-tree as
@@ -59,8 +59,8 @@ public class MemoryEfficientItemsetTree extends AbstractItemsetTree implements S
 	}
 
 	/**
-	 * Build the itemset-tree based on an ca.pfv.spmf.input file containing transactions
-	 * @param input an ca.pfv.spmf.input file
+	 * Build the itemset-tree based on an input file containing transactions
+	 * @param input an input file
 	 * @throws IOException exception if error while reading the file
 	 */
 	public void buildTree(String input)
@@ -75,7 +75,7 @@ public class MemoryEfficientItemsetTree extends AbstractItemsetTree implements S
 		root = new ItemsetTreeNode(null, 0);
 
 		// Scan the database to read the transactions
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		 // for each line (transaction) until the end of file
 		while (((line = reader.readLine()) != null)) {
@@ -105,7 +105,7 @@ public class MemoryEfficientItemsetTree extends AbstractItemsetTree implements S
 			construct(null, root, itemset, null);
 //			System.out.println(".");
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// check the memory usage

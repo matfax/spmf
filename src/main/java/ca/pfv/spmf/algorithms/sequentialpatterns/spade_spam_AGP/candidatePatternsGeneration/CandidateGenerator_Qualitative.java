@@ -67,19 +67,19 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
     }
 
     /**
-     * It generates a list of candidate ca.pfv.spmf.patterns from the two ca.pfv.spmf.patterns given as
+     * It generates a list of candidate patterns from the two patterns given as
      * parameters
      *
      * @param pattern1 The first pattern from which a new candidate is generated
      * @param pattern2 The second pattern from which a new candidate is
      * generated
      * @param minSupport The mininum relative support
-     * @return A list of candidate ca.pfv.spmf.patterns created from pattern1 and pattern2
+     * @return A list of candidate patterns created from pattern1 and pattern2
      */
     @Override
     public List<Pattern> generateCandidates(Pattern pattern1, Pattern pattern2, int minSupport, boolean doNotExploreXY, boolean doNotExploreYX, boolean doNotExploreX_Y, boolean doNotExploreY_X) {
 
-        //New list where we keep the new candidate ca.pfv.spmf.patterns
+        //New list where we keep the new candidate patterns
         List<Pattern> candidates = new ArrayList<Pattern>();
 
         /* We check if just taking the intersection of sequence appearances we 
@@ -94,7 +94,7 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
             ItemAbstractionPairCreator pairCreator = ItemAbstractionPairCreator.getInstance();
             AbstractionCreator_Qualitative qualitativeCreator = AbstractionCreator_Qualitative.getInstance();
 
-            /* We get the last two items of the last ca.pfv.spmf.patterns as well as their
+            /* We get the last two items of the last patterns as well as their 
              * qualitative relations
              */
             ItemAbstractionPair lastPairOfPattern1 = pattern1.getElements().get(pattern1.size() - 1);
@@ -108,14 +108,14 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
              */
             if (!abstractionOfLastPairOfPattern1.hasEqualRelation() && !abstractionOfLastPairOfPattern2.hasEqualRelation()) {
                 //Both pattern1 and pattern2 has as last element and item occurring in a different itemset to the previous one (last but one)
-                //And if the last item of both ca.pfv.spmf.patterns is not the same
+                //And if the last item of both patterns is not the same
                 if (!lastPairOfPattern1.getItem().equals(lastPairOfPattern2.getItem())) {
-                    //we have to create three candidate ca.pfv.spmf.patterns
+                    //we have to create three candidate patterns
 
                     /* EXAMPLE: if the first pattern is (P < x), being x the last item,
                      * and the second pattern is (P < y), being y its last item,
                      * 
-                     * We have three possible candidate ca.pfv.spmf.patterns:
+                     * We have three possible candidate patterns:
                      * C1 = (P < x < y), with x before y
                      * C2 = (P < y < x), with y before x
                      * C3 = (P < (x y)), with x and y at the same time
@@ -150,7 +150,7 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
                 }
 
                 /*
-                 * if the items of both ca.pfv.spmf.patterns have an equal relation
+                 * if the items of both patterns have an equal relation
                  */
             } else if (abstractionOfLastPairOfPattern1.hasEqualRelation() && abstractionOfLastPairOfPattern2.hasEqualRelation()) {
                 //We only create a candidate
@@ -181,14 +181,14 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
                 /* EXAMPLE: if the first pattern is (P x), being x the last item,
                  * and the second pattern is (P < y), being y its last item,
                  * 
-                 * We have three possible candidate ca.pfv.spmf.patterns:
+                 * We have three possible candidate patterns:
                  * C1 = (P x < y), with y appearing after x
                  * 
                  * Conversely,
                  * if the first pattern is (P < x), being x the last item,
                  * and the second pattern is (P y), being y its last item,
                  * 
-                 * We have three possible candidate ca.pfv.spmf.patterns:
+                 * We have three possible candidate patterns:
                  * C1 = (P y < x), with x appearing after y
                  */
                 Pattern newCandidate_BeforeRelation = null;
@@ -215,7 +215,7 @@ public class CandidateGenerator_Qualitative implements CandidateGenerator {
      * that we know that lead to infrequent results.
      *
      * @param extension The candidate pattern previously made from the extension
-     * of two frequent ca.pfv.spmf.patterns
+     * of two frequent patterns
      * @param equivalenceClass_i Equivalence class from the pattern1 that
      * allowed creating the candidate extension
      * @param equivalenceClass_j Equivalence class from the pattern2 that

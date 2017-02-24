@@ -50,6 +50,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * @author Philippe Fournier-Viger
  */
 public class AlgoDEclat extends AlgoEclat{
+	
+	
 
 	/**
 	 * Print statistics about the algorithm execution to System.out.

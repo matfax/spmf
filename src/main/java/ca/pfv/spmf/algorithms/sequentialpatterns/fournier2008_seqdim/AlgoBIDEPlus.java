@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * This is an implementation of the BIDE+ algorithm by Wang et al. 2007 to be used
  * with the SeqDim algorithm. This implementation is optimized to be used with SeqDim.
- * If you wish to use BIDE+ without SeqDIM, please see the package:ï¿½<br/>
+ * If you wish to use BIDE+ without SeqDIM, please see the package: <br/>
  *   ca.pfv.spmf.sequential_patterns.bide_and_prefixspan.<br/><br/>
  *   
  * BIDE+ is described in: <br/>
@@ -39,7 +39,7 @@ import java.util.Set;
 
 public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	
-	// The sequential ca.pfv.spmf.patterns that are found
+	// The sequential patterns that are found
 	private Sequences patterns = null;
 	
 	// for statistics
@@ -73,10 +73,10 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 	/**
 	 * Run the algorithm
 	 * @param database  a sequence database
-	 * @return the sequential ca.pfv.spmf.patterns found in a Sequences structure.
+	 * @return the sequential patterns found in a Sequences structure.
 	 */
 	public Sequences runAlgorithm(SequenceDatabase database) {
-		// initialize set of ca.pfv.spmf.patterns
+		// initialize set of patterns
 		patterns = new Sequences("FREQUENT CLOSED SEQUENTIAL PATTERNS");
 		// convert minsup from a percentage to an integer representing
 		// a number of sequences
@@ -91,7 +91,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 		bide(database);
 		// save the end time
 		endTime = System.currentTimeMillis();
-		// return ca.pfv.spmf.patterns found
+		// return patterns found
 		return patterns;
 	}
 	
@@ -135,7 +135,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 				// set the sequence IDS of this prefix
 				prefix.setSequencesID(entry.getValue());
 				
-				// variable to store the largest support of ca.pfv.spmf.patterns
+				// variable to store the largest support of patterns
 				// that will be found starting with this prefix
 				int successorSupport =0;
 				
@@ -365,7 +365,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 		Sequence lastSequence = null;
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<ItemSimple, Set<Integer>> mapSequenceID = new HashMap<ItemSimple, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
+		Map<ItemSimple, Set<Integer>> mapSequenceID = new HashMap<ItemSimple, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
 		
 		
 		// for each sequence
@@ -455,7 +455,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 		// find frequent items of size 1.
 		Set<Pair> pairs = findAllFrequentPairs(prefix, contexte.getPseudoSequences());
 		
-		// we will keep track of the maximum support of ca.pfv.spmf.patterns
+		// we will keep track of the maximum support of patterns
 		// that can be found with this prefix, to check
 		// for forward extension when this method returns.
 		int maxSupport = 0;
@@ -487,8 +487,8 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 				// Apply the "backscan pruning" strategy (see BIDE+ paper)
 				if(checkBackScanPruning(newPrefix) == false){
 					// make a recursive call to extend the prefix with this item
-					// and generate other ca.pfv.spmf.patterns starting with that prefix + item
-					maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // rï¿½cursion
+					// and generate other patterns starting with that prefix + item
+					maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // récursion
 				}		
 				
 				// check the forward extension for the prefix
@@ -500,7 +500,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 						patterns.addSequence(newPrefix, newPrefix.size());  // it is a closed sequence
 					}
 				}
-				// record the largest support of ca.pfv.spmf.patterns found starting
+				// record the largest support of patterns found starting
 				// with this prefix until now
 				if(newPrefix.getAbsoluteSupport() > maxSupport){
 					maxSupport = newPrefix.getAbsoluteSupport();
@@ -590,7 +590,7 @@ public class AlgoBIDEPlus extends AbstractAlgoPrefixSpan {
 		r.append("=============  Algorithm - STATISTICS =============\n Total time ~ ");
 		r.append(endTime - startTime);
 		r.append(" ms\n");
-		r.append(" Closed sequential ca.pfv.spmf.patterns count : ");
+		r.append(" Closed sequential patterns count : ");
 		r.append(patterns.sequenceCount);
 		r.append('\n');
 		r.append(patterns.toString(databaseSize));

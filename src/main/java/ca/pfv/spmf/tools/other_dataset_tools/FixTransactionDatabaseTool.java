@@ -33,7 +33,7 @@ import java.util.Set;
  * In particular: (1) the tool removes items that appears more than once in a transaction.
  * (2) it sort transactions according to the lexicographical ordering.
  * The reason for performing this is that many itemset and association rule mining 
- * ca.pfv.spmf.algorithms assumes that items cannot appear more than once in a transaction
+ * algorithms assumes that items cannot appear more than once in a transaction 
  * and that transactions are sorted.
  * 
  * @author Philippe Fournier-Viger, 2014
@@ -42,7 +42,7 @@ public class FixTransactionDatabaseTool {
 	
 	/**
 	 * Fix the transaction database
-	 * @param input the ca.pfv.spmf.input file path (a transaction database in SPMF format)
+	 * @param input the input file path (a transaction database in SPMF format)
 	 * @param output the output file path (the fixed trnasactoin database in SPMF format)
 	 * @throws IOException if an error while reading/writting files.
 	 * @throws NumberFormatException 
@@ -51,7 +51,7 @@ public class FixTransactionDatabaseTool {
 
 		// for stats
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
-		BufferedReader myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		BufferedReader myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		// for each line (transaction) until the end of file
 		String thisLine;
 		while ((thisLine = myInput.readLine()) != null) {

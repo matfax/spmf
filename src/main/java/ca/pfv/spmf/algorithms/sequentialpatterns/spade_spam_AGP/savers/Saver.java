@@ -6,7 +6,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.p
 
 /**
  * This is the definition of a interface in order to decide where the user wants
- * to keep the ca.pfv.spmf.patterns. The implementer classes will refer to the place for
+ * to keep the patterns. The implementer classes will refer to the place for
  * keeping them
  *
  * Copyright Antonio Gomariz Peñalver 2013
@@ -31,7 +31,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.p
 public interface Saver {
 
     /**
-     * Save ca.pfv.spmf.patterns to file
+     * Save patterns to file
      * @param p a pattern
      */
     public void savePattern(Pattern p);
@@ -41,14 +41,14 @@ public interface Saver {
     public void clear();
 
     /**
-     * Print ca.pfv.spmf.patterns
+     * Print patterns
      * @return a string
      */
     public String print();
 
     /**
-     * Save ca.pfv.spmf.patterns to file
-     * @param patterns a list of ca.pfv.spmf.patterns
+     * Save patterns to file
+     * @param patterns a list of patterns
      */
     public void savePatterns(Collection<Pattern> patterns);
 

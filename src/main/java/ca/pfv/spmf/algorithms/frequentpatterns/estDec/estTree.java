@@ -44,7 +44,7 @@ public class estTree {
 	// itemset count
 	int patternCount =0;
 
-	// Hashtable for storing frequent ca.pfv.spmf.patterns into memory
+	// Hashtable for storing frequent patterns into memory
 	Hashtable<int[], Double> patterns;
 
 	// writer used if result is saved to file
@@ -377,7 +377,7 @@ public class estTree {
 	}
 
 	/********************************************************************
-	 * Recursive method for finding frequent ca.pfv.spmf.patterns.
+	 * Recursive method for finding frequent patterns.
 	 * @param root root of the current subtree
 	 * @param pattern current pattern
 	 * @throws IOException
@@ -411,29 +411,29 @@ public class estTree {
 					// then we add the pattern to the result set
 					patterns.put(patt2, s);
 				}
-				// recursive call to find larger ca.pfv.spmf.patterns
+				// recursive call to find larger patterns
 				patternMining(node, pattern, newPatternLength);
 			}
 		}
 	}
 
 	/********************************************************************
-	 * Method for finding frequent ca.pfv.spmf.patterns and save them into memory
+	 * Method for finding frequent patterns and save them into memory
 	 * @param root root of the current subtree
 	 ********************************************************************/
 	Hashtable<int[], Double> patternMining_saveToMemory() throws IOException {
-		// Initialize hashtable for storing frequent ca.pfv.spmf.patterns into memory
+		// Initialize hashtable for storing frequent patterns into memory
 		patterns = new Hashtable<int[], Double>();
 		patternCount = 0;
 
 		// recursive method for pattern mining
 		patternMining(root, itemsetBuffer, 0);
 
-		return patterns; // return ca.pfv.spmf.patterns found
+		return patterns; // return patterns found
 	}
 
 	/********************************************************************
-	 * Method for finding frequent ca.pfv.spmf.patterns and save them into file
+	 * Method for finding frequent patterns and save them into file
 	 * @param root the root of the curent subtree
 	 * @param outputPath the output file path
 	 * @throws IOException
@@ -450,7 +450,7 @@ public class estTree {
 	}
 
 	/********************************************************************
-	 * Method for writing frequent ca.pfv.spmf.patterns in output file
+	 * Method for writing frequent patterns in output file
 	 * @param itemset the pattern to be saved
 	 * @param support a double value
 	 ********************************************************************/

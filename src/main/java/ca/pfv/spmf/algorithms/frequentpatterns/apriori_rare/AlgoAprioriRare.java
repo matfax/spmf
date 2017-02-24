@@ -15,23 +15,15 @@ package ca.pfv.spmf.algorithms.frequentpatterns.apriori_rare;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import ca.pfv.spmf.algorithms.ArraysAlgos;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an implementation of the AprioriRare algorithm as described by :<br/><br/>
@@ -74,7 +66,7 @@ public class AlgoAprioriRare {
 	// Each position in the list represents a transaction
 	private List<int[]> database = null;
 	
-	// The  ca.pfv.spmf.patterns that are found
+	// The  patterns that are found 
 	// (if the user want to keep them into memory)
 	protected Itemsets patterns = null;
 
@@ -91,11 +83,11 @@ public class AlgoAprioriRare {
 	/**
 	 * Method to run the algorithm
 	 * @param minsup  a minimum support value as a percentage
-	 * @param input  the path of an ca.pfv.spmf.input file
-	 * @param output the path of an ca.pfv.spmf.input if the result should be saved to a file. If null,
+	 * @param input  the path of an input file
+	 * @param output the path of an input if the result should be saved to a file. If null,
 	 *               the result will be kept into memory and this
 	 *               method will return the result.
-	 * @throws IOException exception if error while writting or reading the ca.pfv.spmf.input/output file
+	 * @throws IOException exception if error while writting or reading the input/output file
 	 */
 	public Itemsets runAlgorithm(double minsup, String input, String output) throws IOException {
 		
@@ -128,7 +120,7 @@ public class AlgoAprioriRare {
 		database = new ArrayList<int[]>(); // the database in memory (intially empty)
 		
 		// scan the database to load it into memory and count the support of each single item at the same time
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transactions) until the end of the file
 		while (((line = reader.readLine()) != null)) { 
@@ -165,7 +157,7 @@ public class AlgoAprioriRare {
 			// increase the number of transaction
 			databaseSize++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// conver the minimum support as a percentage to a 

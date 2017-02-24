@@ -37,15 +37,15 @@ public class MDSequences {
 	// For example, the position i is the list of MDSequences of 
 	// size i.
 	private final List<List<MDSequence>> levels = new ArrayList<List<MDSequence>>();  // itemset sorted by size
-	// the number of ca.pfv.spmf.patterns stored in this structure
+	// the number of patterns stored in this structure
 	private int sequencesCount=0;
 	
-	// a name given to the ca.pfv.spmf.patterns
+	// a name given to the patterns
 	private final String name;
 	
 	/**
 	 * Constructor.
-	 * @param name a name for the ca.pfv.spmf.patterns that will be contained in this
+	 * @param name a name for the patterns that will be contained in this
 	 *    structure (String).
 	 */
 	public MDSequences(String name){
@@ -54,7 +54,7 @@ public class MDSequences {
 	}
 	
 	/**
-	 * Print the ca.pfv.spmf.patterns contained in this structure to System.out.
+	 * Print the patterns contained in this structure to System.out.
 	 * @param sequenceCount the number of MDSequences in the MDSequences database.
 	 */
 	
@@ -120,7 +120,7 @@ public class MDSequences {
 		}
 		// add the pattern to this level
 		levels.get(k).add(sequence);
-		// increase the number of ca.pfv.spmf.patterns found.
+		// increase the number of patterns found.
 		sequencesCount++;
 	}
 	

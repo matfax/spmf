@@ -1,12 +1,12 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.estDec;
 
+import ca.pfv.spmf.tools.MemoryLogger;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Hashtable;
-
-import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * This is an implementation of the estDecPlus algorithm 
@@ -89,19 +89,19 @@ public class Algo_estDecPlus {
 	}
 
 	/**
-	 * Run the algorithm by loading the transactions from an ca.pfv.spmf.input file.
+	 * Run the algorithm by loading the transactions from an input file.
 	 * 
-	 * @param input   the ca.pfv.spmf.input file path
+	 * @param input   the input file path
 	 * @param output  the output file path for saving the result
 	 * @param mins    the minsup threshold as a double value in [0, 1]
-	 * @throws FileNotFoundException  if error opening the ca.pfv.spmf.input file
+	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input)
 			throws FileNotFoundException, IOException {
 
-		// read the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		// read the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 //		int n=0;
 
@@ -130,20 +130,20 @@ public class Algo_estDecPlus {
 	}
 
 	/**
-	 * Run the algorithm by loading the transactions from an ca.pfv.spmf.input file.
+	 * Run the algorithm by loading the transactions from an input file.
 	 * 
-	 * @param input   the ca.pfv.spmf.input file path
+	 * @param input   the input file path
 	 * @param output  the output file path for saving the result
 	 * @param mins    the minsup threshold as a double value in [0, 1]
 	 * @param lineCount the number of lines to be read
-	 * @throws FileNotFoundException  if error opening the ca.pfv.spmf.input file
+	 * @throws FileNotFoundException  if error opening the input file
 	 * @throws IOException if error reading/writing files
 	 */
 	public void processTransactionFromFile(String input, int numberOfLines)
 			throws FileNotFoundException, IOException {
 
-		// read the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		// read the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		int n=0;
 

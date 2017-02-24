@@ -17,21 +17,14 @@ package ca.pfv.spmf.input.sequence_database_list_strings;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implementation of a sequence database as list of strings. 
  * Each sequence should have a unique id.
- * See examples in /test/ directory for the format of ca.pfv.spmf.input files.
+ * See examples in /test/ directory for the format of input files.
 * @see Sequence
  * @author Philipe-Fournier-Viger
  */
@@ -42,15 +35,14 @@ public class SequenceDatabase {
 
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.
-	 * @param path  the ca.pfv.spmf.input file path.
+	 * @param path  the input file path.
 	 * @throws IOException exception if error while reading the file.
 	 */
 	public void loadFile(String path) throws IOException {
 		String thisLine; // variable to read each line.
 		BufferedReader myInput = null;
 		try {
-			FileInputStream fin = new FileInputStream(new File(path));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(path)));
 			// for each line until the end of the file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other
@@ -72,7 +64,7 @@ public class SequenceDatabase {
 	}
 	
 	/**
-	 * Method to process a line from the ca.pfv.spmf.input file
+	 * Method to process a line from the input file
 	 * @param tokens A list of tokens from the line (which were separated by spaces in the original file).
 	 */
 	void addSequence(String[] tokens) { 
@@ -83,7 +75,7 @@ public class SequenceDatabase {
 		// for each token in this line
 		for (String item : tokens) {
 			// if the token start with "<", it indicates a timestamp. 
-			// We just ignore it because ca.pfv.spmf.algorithms that use this class
+			// We just ignore it because algorithms that use this class
 			// don't need it.
 			if (item.codePointAt(0) == '<') { 
  				//nothing to do
@@ -91,7 +83,7 @@ public class SequenceDatabase {
 			// if the token is -1, it means that we reached the end of an itemset.
 			else if (item.equals("-1")) { 
 				// We sort the itemset to make sure that it is sorted
-				// (it is important for several ca.pfv.spmf.algorithms)
+				// (it is important for several algorithms)
 				Collections.sort(itemset, new Comparator<String>() {
 					public int compare(String arg0, String arg1) {
 						return arg0.hashCode() - arg1.hashCode();

@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -100,6 +101,9 @@ public class AlgoVMSP {
 	
 	/** Optional parameter to decide whether sequence identifiers should be shown in the output for each pattern found */
 	private boolean outputSequenceIdentifiers; 
+	
+	/** DEBUG mode for debugging **/
+	private boolean DEBUG = false;
 
     /**
      * Default constructor
@@ -110,7 +114,7 @@ public class AlgoVMSP {
     /**
      * Method to run the algorithm
      *
-     * @param input path to an ca.pfv.spmf.input file
+     * @param input path to an input file
      * @param outputFilePath path for writing the output file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException exception if error while writing the file or reading
@@ -119,7 +123,7 @@ public class AlgoVMSP {
         Bitmap.INTERSECTION_COUNT = 0;
         // create an object to write the file
         writer = new BufferedWriter(new FileWriter(outputFilePath));
-        // initialize the number of ca.pfv.spmf.patterns found
+        // initialize the number of patterns found
         patternCount = 0;
         // to log the memory used
         MemoryLogger.getInstance().reset();
@@ -150,7 +154,7 @@ public class AlgoVMSP {
     /**
      * This is the main method for the VMSP algorithm
      *
-     * @param an ca.pfv.spmf.input file
+     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -166,6 +170,11 @@ public class AlgoVMSP {
 
         // structure to store the horizontal database
         List<int[]> inMemoryDB = new ArrayList<int[]>();
+        
+        // If in debugging mode
+        if(DEBUG){
+        	System.out.println(" == HORIZONTAL DATABASE ==");
+        }
 
         // STEP 0: SCAN THE DATABASE TO STORE THE FIRST BIT POSITION OF EACH SEQUENCE 
         // AND CALCULATE THE TOTAL NUMBER OF BIT FOR EACH BITMAP
@@ -195,6 +204,7 @@ public class AlgoVMSP {
                 int[] transactionArray = new int[tokens.length];
                 inMemoryDB.add(transactionArray);
 
+
                 for (int i = 0; i < tokens.length; i++) {
                     int item = Integer.parseInt(tokens[i]);
                     transactionArray[i] = item;
@@ -204,10 +214,16 @@ public class AlgoVMSP {
                         bitIndex++;
                     }
                 }
+                
+                
+                // If in debugging mode, print the transaction
+                if(DEBUG){
+                	System.out.println(" " + Arrays.toString(transactionArray));
+                }
             }
             // record the last bit position for the bitmaps
             lastBitIndex = bitIndex - 1;
-            reader.close(); // close the ca.pfv.spmf.input file
+            reader.close(); // close the input file
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,7 +244,7 @@ public class AlgoVMSP {
             int sid = 0; // to know which sequence we are scanning
             int tid = 0;  // to know which itemset we are scanning
 
-            // for each line (sequence) from the ca.pfv.spmf.input file
+            // for each line (sequence) from the input file
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
@@ -278,12 +294,20 @@ public class AlgoVMSP {
             } else {
                 // otherwise, we save this item as a frequent
                 // sequential pattern of size 1
-            	// CHANGED
                 // and we add this item to a list of frequent items
                 // that we will use later.
                frequentItems.add(entry.getKey());
-                // END CHANGED
             }
+        }
+        
+        // If in debugging mode, we will show the bitmaps
+        if(DEBUG){
+        	System.out.println(" == VERTICAL DATABASE ==");
+        	for(Entry<Integer, Bitmap> itemBitmap : verticalDB.entrySet()){
+        		System.out.print(" item " + itemBitmap.getKey());
+        		System.out.println(" bitmap " + itemBitmap.getValue().bitmap);
+        	}
+        	System.out.println(" =======================");
         }
         
         // SET 2.1  SORT ITEMS BY DESCENDING SUPPORT
@@ -295,6 +319,13 @@ public class AlgoVMSP {
 			}
         	
         });
+        
+        // if in debug mode, print the order of items
+        if(DEBUG){
+        	System.out.println(" == Order of items ==");
+        	System.out.println(frequentItems);
+        	System.out.println(" ====================");
+        }
 
         // STEP 3.1  CREATE CMAP
         coocMapEquals = new HashMap<Integer, Map<Integer, Integer>>(frequentItems.size());
@@ -392,7 +423,7 @@ public class AlgoVMSP {
         }
 
         // STEP3: WE PERFORM THE RECURSIVE DEPTH FIRST SEARCH
-        // to find longer sequential ca.pfv.spmf.patterns recursively
+        // to find longer sequential patterns recursively
 
         
         // for each frequent item
@@ -419,7 +450,7 @@ public class AlgoVMSP {
             
             // We call the depth first search method with that prefix
             // and the list of frequent items to try to find
-            // larger sequential ca.pfv.spmf.patterns by appending some of these
+            // larger sequential patterns by appending some of these
             // items.
 //            if(!isSubsumedAndNonClosed) {
             	//            }
@@ -442,8 +473,17 @@ public class AlgoVMSP {
      */
     boolean dfsPruning(PrefixVMSP prefix, Bitmap prefixBitmap, List<Integer> sn, List<Integer> in, int hasToBeGreaterThanForIStep, int m, Integer lastAppendedItem) throws IOException {
     	boolean atLeastOneFrequentExtension = false;
-//    	System.out.println(prefix.toString());
-
+    	
+    	if(DEBUG){
+    		System.out.println("PREFIX: " + prefix.toString()  + "  sn=" + sn + " in="+in);
+    		
+//    		if(prefix.itemsets.size() == 1 
+//    				&& prefix.get(0).size() == 1 
+//    				&& prefix.get(0).get(0) == 2552547 ){
+//    			System.out.println(" 2552547 -1 ");
+//    		}
+    	}
+    	
         //  ======  S-STEPS ======
         // Temporary variables (as described in the paper)
         List<Integer> sTemp = new ArrayList<Integer>();
@@ -481,8 +521,6 @@ public class AlgoVMSP {
         }
         // for each pattern recorded for the s-step
         for (int k = 0; k < sTemp.size(); k++) {
-        	// STRATEGY: NEWWW
-            atLeastOneFrequentExtension = true;
             
             int item = sTemp.get(k);
             // create the new prefix
@@ -502,6 +540,7 @@ public class AlgoVMSP {
 
             // save the pattern to the file
             if(newBitmap.getSupport() >= minsup) {
+
 	         	   
 	           boolean hasFrequentExtension = false;
 	            // recursively try to extend that pattern
@@ -510,6 +549,8 @@ public class AlgoVMSP {
 	            }
 	            
 	            if(hasFrequentExtension == false) {
+	                // STRATEGY: NEWWW
+	                atLeastOneFrequentExtension = true;
 	                savePatternMultipleItems(prefixSStep, newBitmap, m);
 	            }
             }
@@ -559,8 +600,7 @@ public class AlgoVMSP {
             }
         }
         // for each pattern recorded for the i-step
-        for (int k = 0; k < iTemp.size(); k++) {// STRATEGY: NEWWW
-            atLeastOneFrequentExtension = true;
+        for (int k = 0; k < iTemp.size(); k++) {
             
             int item = iTemp.get(k);
             // create the new prefix
@@ -583,6 +623,8 @@ public class AlgoVMSP {
             }
             
             if(hasFrequentExtension == false) {
+            	// STRATEGY: NEWWW
+                atLeastOneFrequentExtension = true;
                 // save the pattern
                 savePatternMultipleItems(prefixIStep, newBitmap, m);
             }
@@ -604,8 +646,9 @@ public class AlgoVMSP {
      * @return true if is subsumed
      */
     private boolean savePatternSingleItem(Integer item, Bitmap bitmap, boolean itemIsEven) throws IOException {
-//    	System.out.println("prefix :" + prefix);
-    	
+    	if(DEBUG){
+    		System.out.println("Trying to save : " + item);
+    	}
         // FOR THE CASE OF SINGLE ITEM, WE DON'T NEED TO DO SUB-PATTERN CHECKING:
         // WE JUST NEED TO DO SUPER-PATTERN CHECKING
     	// #################
@@ -667,6 +710,10 @@ public class AlgoVMSP {
         // save the pattern
 //        System.out.println(" ADD: " + item);
         maxPatterns.get(1).add(pattern);
+        
+        if(DEBUG){
+        	System.out.println(" saved");
+        }
 		
 		return false;
 
@@ -685,7 +732,17 @@ public class AlgoVMSP {
      */
     private boolean savePatternMultipleItems(PrefixVMSP prefix, Bitmap bitmap, int length) throws IOException {
         // CHANGED ------
-//    	System.out.println("prefix :" + prefix);
+    	if(DEBUG){
+    		System.out.println("*Trying to save : " +  prefix);
+    		
+//    		if(prefix.itemsets.size() == 2){
+//    			if(prefix.itemsets.get(0).get(0)== 2552547 &&
+//    				prefix.itemsets.get(1).get(0)== 2552548){
+//    				System.out.println("HERE:   2552547 -1 2552548 -1");
+//    			}
+//    		}
+    		
+    	}
 //    	if(true == true) return false;
         // WE COMPARE WITH LARGER PATTERNS FOR SUPER-PATTERN CHECKING
     	// #################
@@ -731,6 +788,9 @@ public class AlgoVMSP {
 	     			   bitmap.getSupport() <= pPrime.support
 	        		&& strictlyContains(prefix, pPrime.prefix)) {
 		        		patternCount--;  // DECREASE COUNT
+		        		if(DEBUG){
+		        			System.out.println("REMOVE : " + pPrime.prefix);
+		        		}
 		        		iter.remove();
 	        	}
 			}
@@ -754,6 +814,11 @@ public class AlgoVMSP {
         }
         // save the pattern
         patternsOfSizeM.add(pattern);
+        
+        // if in debug mode
+        if(DEBUG){
+        	System.out.println(" saved");
+        }
 
 //        if(patternCount % 200 == 0) {
 //        	System.out.println(patternCount);
@@ -871,7 +936,7 @@ public class AlgoVMSP {
     }
 
     /**
-     * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Get the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @return the maximumPatternLength
@@ -881,7 +946,7 @@ public class AlgoVMSP {
     }
 
     /**
-     * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Set the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @param maximumPatternLength the maximumPatternLength to set
@@ -932,8 +997,8 @@ public class AlgoVMSP {
 	
 	/**
 	 * This method allows to specify the maximum gap 
-	 * between itemsets of ca.pfv.spmf.patterns found by the algorithm.
-	 * If set to 1, only ca.pfv.spmf.patterns of contiguous itemsets
+	 * between itemsets of patterns found by the algorithm. 
+	 * If set to 1, only patterns of contiguous itemsets
 	*  will be found (no gap).
 	 * @param maxGap the maximum gap (an integer)
 	 */

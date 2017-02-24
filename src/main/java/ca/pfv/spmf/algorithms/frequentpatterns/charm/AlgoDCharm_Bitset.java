@@ -201,6 +201,13 @@ public class AlgoDCharm_Bitset extends AlgoCharm_Bitset{
 				// otherwise if the result should be saved to a file,
 				// then write it to the output file
 				writer.write(itemset.toString() + " #SUP: " + itemset.support);
+				if(showTransactionIdentifiers) {
+					BitSet bitset = tidset.bitset;
+		        	writer.append(" #TID:");
+		        	for (int tid = bitset.nextSetBit(0); tid != -1; tid = bitset.nextSetBit(tid + 1)) {
+		        		writer.append(" " + tid); 
+		        	}
+				}
 				writer.newLine();
 			}
 			// add the itemset to the hashtable

@@ -68,12 +68,12 @@ public class AlgoDefMe {
 	private long endTime; 
 	
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets generators;
 	/** object to write the output file */
 	BufferedWriter writer = null; 
-	/** the number of ca.pfv.spmf.patterns found */
+	/** the number of patterns found */
 	private int itemsetCount;
 	
 	/** A map containing the tidset (i.e. cover) of each item represented as a bitset */
@@ -201,7 +201,7 @@ public class AlgoDefMe {
 	}
 
 	/**
-	 * This is the main procedure of DefMe, which is called recursively to grow ca.pfv.spmf.patterns
+	 * This is the main procedure of DefMe, which is called recursively to grow patterns
 	 * @param itemsetX The itemset X.
 	 * @param itemsetLength  the length of itemset X
 	 * @param tidsetX  The tidset (cover) of X.
@@ -267,7 +267,7 @@ public class AlgoDefMe {
 				critItemsetY[j].and(tidsetE.bitset);
 			}
 				
-			// recursive call to explore ca.pfv.spmf.patterns by extending XU{e} with items from "tail"
+			// recursive call to explore patterns by extending XU{e} with items from "tail"
 			defme(itemsetX, newItemsetLength, tidsetXe, supportXe, frequentItems, i+1, critItemsetY);
 		}
 	}

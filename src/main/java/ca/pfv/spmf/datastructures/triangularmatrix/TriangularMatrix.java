@@ -33,7 +33,7 @@ import ca.pfv.spmf.algorithms.frequentpatterns.eclat.AlgoEclat_Bitset;
  * 3: [0]
  * <br/><br/>
  * 
- * This structure is used by various data mining ca.pfv.spmf.algorithms such as CHARM
+ * This structure is used by various data mining algorithms such as CHARM
  * and ECLAT.
  * 
  * @see AbstractTriangularMatrix
@@ -98,7 +98,7 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#toString()
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#toString()
 	 */
 	public String toString() {
 		// print the number of elements
@@ -120,7 +120,7 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#incrementCount(int, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#incrementCount(int, int)
 	 */
 	public void incrementCount(int i, int j) {
 		if(j < i){
@@ -131,7 +131,7 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#getSupportForItems(int, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#getSupportForItems(int, int)
 	 */
 	public int getSupportForItems(int i, int j){
 		if(j < i){
@@ -142,7 +142,7 @@ public class TriangularMatrix implements AbstractTriangularMatrix {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#setSupport(java.lang.Integer, java.lang.Integer, int)
+	 * @see ca.pfv.spmf.datastructures.triangularmatrix.AbstractTriangularMatrix#setSupport(java.lang.Integer, java.lang.Integer, int)
 	 */
 	public void setSupport(Integer i, Integer j, int support) {
 		if(j < i){

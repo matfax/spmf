@@ -16,23 +16,9 @@ package ca.pfv.spmf.algorithms.associationrules.fhsar;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Set;
-
-import ca.pfv.spmf.datastructures.redblacktree.RedBlackTree;
 
 /**
  * An implementation of the FHSAR algorithm for hiding sensitive association rules in a
@@ -81,10 +67,10 @@ public class AlgoFHSAR {
 		// Read the database into memory.
 		// At the same time, we will calculate the wi for each transaction in the database
 		String line;
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		tidcount=0; // to count the number of transaction
 		
-		// for each line (transaction) of the ca.pfv.spmf.input file until the end of the file
+		// for each line (transaction) of the input file until the end of the file
 		while( ((line = reader.readLine())!= null)){
 			// if the line is not a comment, is not empty or is not other
 			// kind of metadata
@@ -194,7 +180,7 @@ loop:			for(int i=0; i<lineSplited.length; i++){
 			tidcount++; // increase the number of transaction
 			transactions.add(transaction); // add the transaction to the list of transactions
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// We transform the minsup parameter into a relative value.
@@ -324,8 +310,8 @@ loop:			for(int i=0; i<lineSplited.length; i++){
 	 */
 	private void readSensitiveRulesIntoMemory(String inputSAR, List<Rule> rules)
 			throws IOException {
-		// open the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(inputSAR));
+		// open the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(inputSAR)));
 		String line;
 		// for each line (rule) until the end of the file
 		while( ((line = reader.readLine())!= null)){ 
@@ -355,7 +341,7 @@ loop:			for(int i=0; i<lineSplited.length; i++){
 			// add the rule to the set of rules
 			rules.add(rule);
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 	}
 

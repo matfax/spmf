@@ -21,7 +21,7 @@ import java.io.IOException;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalsequentialpatterns.AlgoSeqDim;
 
 /**
- * This class is an abstract class for PrefixSpan based ca.pfv.spmf.algorithms that are used with the multi-dimensional
+ * This class is an abstract class for PrefixSpan based algorithms that are used with the multi-dimensional
  * sequential pattern mining algorithm SeqDim.
  * 
  * @see AlgoSeqDim
@@ -32,7 +32,7 @@ public abstract class AbstractAlgoPrefixSpan {
 	/**
 	 * Run the algorithm.
 	 * @param database a sequence database
-	 * @return some sequential ca.pfv.spmf.patterns
+	 * @return some sequential patterns
 	 * @throws IOException if error writing to output file (if user wants to write results to output file)
 	 */
 	public abstract Sequences runAlgorithm(SequenceDatabase database) throws IOException;

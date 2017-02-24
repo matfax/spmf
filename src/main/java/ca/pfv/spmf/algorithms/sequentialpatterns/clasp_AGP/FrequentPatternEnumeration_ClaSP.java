@@ -56,18 +56,18 @@ public class FrequentPatternEnumeration_ClaSP {
     private AbstractionCreator abstractionCreator;
     /**
      * The absolute minimum support threshold, i.e. the minimum number of
-     * sequences where the ca.pfv.spmf.patterns have to be
+     * sequences where the patterns have to be
      */
     private double minSupAbsolute;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm. Initially set to
+     * Number of frequent patterns found by the algorithm. Initially set to
      * zero.
      */
     private int numberOfFrequentPatterns = 0, numberOfFrequentClosedPatterns = 0;
     /**
-     * Map in which we store the different ca.pfv.spmf.patterns in order to know which ones
+     * Map in which we store the different patterns in order to know which ones
      * can be skipped because can be summarized by other ones (the closed
-     * ca.pfv.spmf.patterns)
+     * patterns)
      */
     private Map<Integer, Map<Integer, List<Entry<Pattern, Trie>>>> matchingMap;
     /**
@@ -109,11 +109,11 @@ protected List<TrieNode>  firstSequenceExtensions;
     }
 
     /**
-     * Execution of the search of frequent ca.pfv.spmf.patterns.
+     * Execution of the search of frequent patterns.
      *
      * @param equivalenceClass The equivalence class from we start to search
      * for.
-     * @param keepPatterns Flag to indicate if we want to keep the ca.pfv.spmf.patterns
+     * @param keepPatterns Flag to indicate if we want to keep the patterns
      * found.
      * @param verbose Flag for debugging purposes
      * @param coocMapBefore
@@ -143,7 +143,7 @@ firstSequenceExtensions = trie.getNodes();
         //We get the curretn trie
         Trie currentTrie = currentNode.getChild();
         /*
-         * And if we are interested in find the closed ca.pfv.spmf.patterns, we check if the
+         * And if we are interested in find the closed patterns, we check if the 
          * generation of the Trie of the current pattern can be avoided
          */
 /*
@@ -156,7 +156,7 @@ isAvoidable = isAvoidable(pattern, currentTrie);
             
         }
 
-        //We start increasing the number of frequent ca.pfv.spmf.patterns
+        //We start increasing the number of frequent patterns
         numberOfFrequentPatterns++;
 
         //Initialization of new sets
@@ -198,7 +198,7 @@ if (!isAvoidable) {
             extension.add(newPair);
 
             /*
-             * We make the join operation between the tries of both ca.pfv.spmf.patterns in
+             * We make the join operation between the tries of both patterns in 
              * order to know the appearances of the new pattern and its support.
              */
             joinCount++;
@@ -217,7 +217,7 @@ if (!isAvoidable) {
 
                 /*
                  * Finally we add the new pattern and nodeTrie to the sets that 
-                 * are needed for future ca.pfv.spmf.patterns
+                 * are needed for future patterns
                  */
                 newPatterns.add(extension);
                 newNodesToExtends.add(newTrieNode);
@@ -280,7 +280,7 @@ if (!isAvoidable) {
             extension.add(newPair);
 
             /*
-             * We make the join operation between the tries of both ca.pfv.spmf.patterns in
+             * We make the join operation between the tries of both patterns in 
              * order to know the appearances of the new pattern and its support.
              */
             joinCount++;
@@ -304,7 +304,7 @@ currentTrie.mergeWithTrie_i(newTrieNode);
 
                 /*
                  * Finally we add the new pattern and nodeTrie to the sets that 
-                 * are needed for future ca.pfv.spmf.patterns
+                 * are needed for future patterns
                  */
                 newPatterns.add(extension);
                 newNodesToExtends.add(newTrieNode);
@@ -349,7 +349,7 @@ if (isAvoidable) new_sequenceExtension = firstSequenceExtensions;
     }
 
     /**
-     * It returns the number of frequent ca.pfv.spmf.patterns found by the last execution of
+     * It returns the number of frequent patterns found by the last execution of
      * the algorithm.
      *
      * @return
@@ -369,7 +369,7 @@ if (isAvoidable) new_sequenceExtension = firstSequenceExtensions;
     /**
      * Method that checks if the prefix given as parameter can be skipped by
      * means of prune methods backward subpattern or backward superpattern. The
-     * method uses a map where the different ca.pfv.spmf.patterns are kept in order to check
+     * method uses a map where the different patterns are kept in order to check
      * both pruning methods. The hash keys used can vary, and we give some
      * aproaches by the methods:
      *
@@ -404,9 +404,9 @@ if (isAvoidable) new_sequenceExtension = firstSequenceExtensions;
         Entry<Pattern, Trie> newEntry = new AbstractMap.SimpleEntry<Pattern, Trie>(prefix, trie);
 
         /* 
-         * Map where there appear all the ca.pfv.spmf.patterns with the same key1 of the
+         * Map where there appear all the patterns with the same key1 of the 
          * current prefix, that makes a correspondence between a value given by
-         * key2 and all the ca.pfv.spmf.patterns that have it
+         * key2 and all the patterns that have it
          */
         Map<Integer, List<Entry<Pattern, Trie>>> associatedMap = matchingMap.get(key1);
         /* 
@@ -425,7 +425,7 @@ List<Entry<Pattern, Trie>> entryList = new ArrayList<Entry<Pattern, Trie>>();
             matchingMap.put(key1, associatedMap);
         } else {
             /* 
-             * If, conversely, there are some ca.pfv.spmf.patterns with the same key2 value
+             * If, conversely, there are some patterns with the same key2 value 
              * (and extensively with the same key1 value) we check if we can apply
              * backward subpattern or backward superpattern pruning
              */
@@ -569,26 +569,26 @@ List<Entry<Pattern, Trie>> entryList = new ArrayList<Entry<Pattern, Trie>>();
     }
 
     /**
-     * It removes the non closed ca.pfv.spmf.patterns from the list of ca.pfv.spmf.patterns given as
+     * It removes the non closed patterns from the list of patterns given as
      * parameter
      *
-     * @param frequentPatterns List of ca.pfv.spmf.patterns from which we want to remove the
-     * non-closed ca.pfv.spmf.patterns
+     * @param frequentPatterns List of patterns from which we want to remove the
+     * non-closed patterns
      * @param keepPatterns Flag indicating if we want to keep the final output
      */
     void removeNonClosedPatterns(List<Entry<Pattern, Trie>> frequentPatterns, boolean keepPatterns) {
-        System.err.println("Before removing NonClosed ca.pfv.spmf.patterns there are " + numberOfFrequentPatterns + "ca/pfv/spmf/patterns");
+        System.err.println("Before removing NonClosed patterns there are " + numberOfFrequentPatterns + " patterns");
 /*
 * Tin modifies:        
 */
 numberOfFrequentClosedPatterns = 0;
 
         /* 
-         * We make a map to match group of ca.pfv.spmf.patterns linked by their addition of
+         * We make a map to match group of patterns linked by their addition of 
          * sequence identifiers
          */
         Map<Integer, List<Pattern>> totalPatterns = new HashMap<Integer, List<Pattern>>();
-        //and we classify the ca.pfv.spmf.patterns there by their sumIdSequences number
+        //and we classify the patterns there by their sumIdSequences number
         for (Entry<Pattern, Trie> entrada : frequentPatterns) {
             Pattern p = entrada.getKey();
             Trie t = entrada.getValue();
@@ -603,12 +603,12 @@ numberOfFrequentClosedPatterns = 0;
 
         //For all the list associated with de different sumSequencesIDs values
         for (List<Pattern> lista : totalPatterns.values()) {
-            //For all their ca.pfv.spmf.patterns
+            //For all their patterns
             for (int i = 0; i < lista.size(); i++) {
                 for (int j = i + 1; j < lista.size(); j++) {
                     Pattern p1 = lista.get(i);
                     Pattern p2 = lista.get(j);
-                    //If the ca.pfv.spmf.patterns has the same support:
+                    //If the patterns has the same support:
 /*
  * Tin modifies:        
  */
@@ -637,7 +637,7 @@ if (p1.getAppearingIn().cardinality() == p2.getAppearingIn().cardinality()) {
             }
         }
         /*
-         * We calcule the number of frequent ca.pfv.spmf.patterns and we store in the chosen
+         * We calcule the number of frequent patterns and we store in the chosen 
          * output if the flag is activated
          */
         for (List<Pattern> list : totalPatterns.values()) {

@@ -356,40 +356,46 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 	 * @param lastInstancePair 
 	 * @return
 	 */
-	protected Position getIthLastInLastApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair lastInstancePair){
+	protected Position getIthLastInLastApearanceWithRespectToPrefix(List<Itemset> prefix, int i, PseudoSequencePair lastInstancePair){ 
 
 		// ith item of prefix id is :
- 		int iditem = getIthItem(prefix,i);
-		
-		if(i == getItemOccurencesTotalCount(prefix)-1){
-			// return the last occurence of that item:
-			for(int j=lastInstancePair.pseudoSequence.size()-1; j>=0; j--){
-				int sizeItemsetJ = lastInstancePair.pseudoSequence.getItemset(j).size();
-				for(int k=sizeItemsetJ-1; k>=0; k--){
-					int item = lastInstancePair.pseudoSequence.getItemAtInItemsetAt(k, j);
-					if(item == iditem){
-						return new Position(j, k);
-					}else if(item < iditem) {
-						break;
+		int iditem = getIthItem(prefix, i);
+		if (lastInstancePair != null) {
+			if (i == getItemOccurencesTotalCount(prefix) - 1) {
+				// return the last occurence of that item:
+				for (int j = lastInstancePair.pseudoSequence.size() - 1; j >= 0; j--) {
+					int sizeItemsetJ = lastInstancePair.pseudoSequence
+							.getItemset(j).size();
+					for (int k = sizeItemsetJ - 1; k >= 0; k--) {
+						int item = lastInstancePair.pseudoSequence
+								.getItemAtInItemsetAt(k, j);
+						if (item == iditem) {
+							return new Position(j, k);
+						} else if (item < iditem) {
+							break;
+						}
 					}
 				}
-			}
-		}else{
-			// return the last before LLi+1
-			Position LLiplus1 = getIthLastInLastApearanceWithRespectToPrefix(prefix, i+1, lastInstancePair);  // RecursiveCALL
-			for(int j=LLiplus1.itemset; j>=0; j--){
-				for(int k=lastInstancePair.pseudoSequence.getItemset(j).size()-1; k>=0; k--){
-					if(j == LLiplus1.itemset && k >= LLiplus1.item){
-						continue;
-					}
-					if(lastInstancePair.pseudoSequence.getItemAtInItemsetAt(k, j) == iditem){
-						return new Position(j, k);
+			} else {
+				// return the last before LLi+1
+				Position LLiplus1 = getIthLastInLastApearanceWithRespectToPrefix(
+						prefix, i + 1, lastInstancePair); // RecursiveCALL
+				for (int j = LLiplus1.itemset; j >= 0; j--) {
+					for (int k = lastInstancePair.pseudoSequence.getItemset(j)
+							.size() - 1; k >= 0; k--) {
+						if (j == LLiplus1.itemset && k >= LLiplus1.item) {
+							continue;
+						}
+						if (lastInstancePair.pseudoSequence
+								.getItemAtInItemsetAt(k, j) == iditem) {
+							return new Position(j, k);
+						}
 					}
 				}
 			}
 		}
 		return null; // should not happen!
-		
+
 	}
 
 	/**
@@ -425,7 +431,16 @@ public class PseudoSequenceBIDE extends PseudoSequence {
 		//      It is because the parameter i is used by getLastInstanceOfPrefixSequence(...). (???)
 // y
 		PseudoSequencePair firstInstance = this.getFirstInstanceOfPrefixSequenceNEW(prefix, i); 
+		
+		// added lines to fix bug (proposed by N. Mord - 2017)
+		if (firstInstance == null || firstInstance.list.isEmpty()){ 
+			return trimBeginingAndEnd(null, ithlastlast); 
+		} 
+		// end of the added lines 
+		
 		Position lastOfFirstInstance = firstInstance.list.get(i-1); 
+		
+		
 		
 		return trimBeginingAndEnd(lastOfFirstInstance, ithlastlast);
 	}

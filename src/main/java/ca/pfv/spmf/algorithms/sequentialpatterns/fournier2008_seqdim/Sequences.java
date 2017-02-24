@@ -22,8 +22,8 @@ import java.util.List;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalsequentialpatterns.AlgoSeqDim;
 
 /**
- * Implementation of a set of sequential ca.pfv.spmf.patterns, grouped by their size (how many items they have) as
- * used by the SeqDim and Fournier-Viger(2008) ca.pfv.spmf.algorithms. Level i = ca.pfv.spmf.patterns containing i items.
+ * Implementation of a set of sequential patterns, grouped by their size (how many items they have) as
+ * used by the SeqDim and Fournier-Viger(2008) algorithms. Level i = patterns containing i items.
  * 
  * @see AlgoFournierViger08
  * @see AlgoSeqDim
@@ -33,16 +33,16 @@ public class Sequences {
 	/** Sequences are organized into levels.
 	 In the following list,  the position i (level i) is the
 	 list of sequential containing i items. **/
-	final List<List<Sequence>> levels = new ArrayList<List<Sequence>>();  // itemset classï¿½ par taille
-	/** the number of sequential ca.pfv.spmf.patterns */
+	final List<List<Sequence>> levels = new ArrayList<List<Sequence>>();  // itemset classé par taille
+	/** the number of sequential patterns */
 	int sequenceCount=0;
 	
-	/** the name of this group of sequential ca.pfv.spmf.patterns */
+	/** the name of this group of sequential patterns */
 	private final String name;
 	
 	/**
 	 * Constructor
-	 * @param name a name to be given to this group of sequential ca.pfv.spmf.patterns
+	 * @param name a name to be given to this group of sequential patterns
 	 */
 	public Sequences(String name){
 		this.name = name;
@@ -50,7 +50,7 @@ public class Sequences {
 	}
 	
 	/**
-	 * Print the seq. ca.pfv.spmf.patterns to System.out.
+	 * Print the seq. patterns to System.out.
 	 * @param databaseSize the number of sequences in the database.
 	 */
 	public void printSequentialPatterns(int databaseSize){
@@ -107,7 +107,7 @@ public class Sequences {
 	 * @param k the number of items in the seq. pattern
 	 */
 	void addSequence(Sequence sequence, int k){
-		// create lists for storing seq. ca.pfv.spmf.patterns until size k
+		// create lists for storing seq. patterns until size k
 		while(levels.size() <= k){
 			levels.add(new ArrayList<Sequence>());
 		}
@@ -118,9 +118,9 @@ public class Sequences {
 	}
 	
 	/**
-	 * Get all sequential ca.pfv.spmf.patterns with a given number of items.
+	 * Get all sequential patterns with a given number of items.
 	 * @param index  a given number of items.
-	 * @return a List of sequential ca.pfv.spmf.patterns
+	 * @return a List of sequential patterns
 	 */
 	public List<Sequence> getLevel(int index){
 		return levels.get(index);

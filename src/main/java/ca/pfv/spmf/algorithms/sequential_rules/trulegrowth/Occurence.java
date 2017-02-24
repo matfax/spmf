@@ -26,7 +26,7 @@ import ca.pfv.spmf.input.sequence_database_list_integers.SequenceDatabase;
  * This class represent a set of occurences in a sequence, as defined 
  * in the TRuleGrowth algorithm.
  * 
- * Note that unlike the RuleGrowth ca.pfv.spmf.algorithms, all occurences in a sequence are kept instead of just
+ * Note that unlike the RuleGrowth algorithms, all occurences in a sequence are kept instead of just
  * the first and last one. This is the main difference between the two implementations of "Occurence".
  * 
  * @see AlgoTRuleGrowth

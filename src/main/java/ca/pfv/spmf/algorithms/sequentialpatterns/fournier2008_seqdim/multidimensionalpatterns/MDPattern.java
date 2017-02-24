@@ -35,13 +35,13 @@ public class MDPattern {
 	List<Integer> values = new ArrayList<Integer>();
 	
 	/** a code representing the special value "*" that can be
-	 found in md-ca.pfv.spmf.patterns*/
+	 found in md-patterns*/
 	public final static int WILDCARD = 9999;
 	
 	/** a unique id corresponding to this MD-Pattern*/
 	private int id; 
 	
-	/**a list of the IDs of all the ca.pfv.spmf.patterns that contain this one. */
+	/**a list of the IDs of all the patterns that contain this one. */
 	protected Set<Integer> patternsID = null;
 	
 	/**
@@ -219,16 +219,16 @@ public class MDPattern {
 	}
 	
 	/**
-	 * Get the set of ca.pfv.spmf.patterns ID containing this pattern.
-	 * @return  a set of ca.pfv.spmf.patterns ID
+	 * Get the set of patterns ID containing this pattern.
+	 * @return  a set of patterns ID
 	 */
 	public Set<Integer> getPatternsID() {
 		return patternsID;
 	}
 
 	/**
-	 * Set the set of ca.pfv.spmf.patterns ID containing this pattern.
-	 * @param patternsID  a set of ca.pfv.spmf.patterns ID
+	 * Set the set of patterns ID containing this pattern.
+	 * @param patternsID  a set of patterns ID
 	 */
 	public void setPatternsIDList(Set<Integer> patternsID) {
 		this.patternsID = patternsID;
@@ -237,7 +237,7 @@ public class MDPattern {
 	/**
 	 * This method check if this MD-pattern strictly contains
 	 * a given MD-pattern.
-	 * Note that this method is only good for ca.pfv.spmf.patterns having the same size.
+	 * Note that this method is only good for patterns having the same size.
 	 * @param mdpattern2 the given MD-pattern.
 	 * @return Return 1 if this mdpattern STRICTLY contains mdpattern2  *AND HAVE THE SAME SUPPORT*
 	 * Return 2 if this mdpattern is exactly the same as mdpattern2  *AND HAVE THE SAME SUPPORT*
@@ -252,7 +252,7 @@ public class MDPattern {
 		boolean allthesame = true;
 		// for each dimension
 		for(int i=0; i< values.size(); i++){
-			// if not the same values for both ca.pfv.spmf.patterns, then we note it
+			// if not the same values for both patterns, then we note it
 			if(values.get(i) != mdpattern2.getValue(i)){
 				allthesame = false;
 			}

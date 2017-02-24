@@ -87,8 +87,8 @@ public class AlgoVGEN {
     boolean useCMAPPruning = true;
     
     //  =========  VARIABLES THAT ARE SPECIFIC TO VGEN ===================
-    /** GENERATOR PATTERNS -  The list contains ca.pfv.spmf.patterns of size k at position k in the list.
-    * A map has the sum of sids as key and lists of ca.pfv.spmf.patterns as value. */
+    /** GENERATOR PATTERNS -  The list contains patterns of size k at position k in the list.
+    * A map has the sum of sids as key and lists of patterns as value. */
     List<Map<Integer, List<PatternVGEN>>> generatorPatterns = null; 
     
     /** activate the backward checking strategy */
@@ -97,7 +97,7 @@ public class AlgoVGEN {
 	/** activate the backward pruning strategy */
 	private boolean useBackwardPruning = false;
 	
-	/** if enabled, the result will be verified to see if some ca.pfv.spmf.patterns found are not generators. */
+	/** if enabled, the result will be verified to see if some patterns found are not generators. */
 	boolean DEBUG_MODE = false;  	
 	
     /** the number of transaction in the database (to calculate the support of the empty set) */
@@ -120,7 +120,7 @@ public class AlgoVGEN {
     /**
      * Method to run the algorithm
      *
-     * @param input path to an ca.pfv.spmf.input file
+     * @param input path to an input file
      * @param outputFilePath path for writing the output file
      * @param minsupRel the minimum support as a relative value
      * @return 
@@ -135,7 +135,7 @@ public class AlgoVGEN {
         Bitmap.INTERSECTION_COUNT = 0;
         // create an object to write the file
         writer = new BufferedWriter(new FileWriter(outputFilePath));
-        // initialize the number of ca.pfv.spmf.patterns found
+        // initialize the number of patterns found
         patternCount = 0;
         // to log the memory used
         MemoryLogger.getInstance().reset();
@@ -176,7 +176,7 @@ public class AlgoVGEN {
         			System.out.println("NOT A GENERATOR !!!!!!!!!  "  + pat1.prefix + "    sup: " + pat1.bitmap.getSupport() + " because of empty set");
         		}
         		
-        		// otherwise we have to compare with every other ca.pfv.spmf.patterns.
+        		// otherwise we have to compare with every other patterns.
         		for(PatternVGEN pat2 : listPatterns) {
             		if(pat1 == pat2) {
             			continue;
@@ -199,7 +199,7 @@ public class AlgoVGEN {
     /**
      * This is the main method for the VGEN algorithm
      *
-     * @param an ca.pfv.spmf.input file
+     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -256,7 +256,7 @@ public class AlgoVGEN {
             }
             // record the last bit position for the bitmaps
             lastBitIndex = bitIndex - 1;
-            reader.close(); // close the ca.pfv.spmf.input file
+            reader.close(); // close the input file
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -279,7 +279,7 @@ public class AlgoVGEN {
             int sid = 0; // to know which sequence we are scanning
             int tid = 0;  // to know which itemset we are scanning
 
-            // for each line (sequence) from the ca.pfv.spmf.input file
+            // for each line (sequence) from the input file
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
@@ -432,7 +432,7 @@ public class AlgoVGEN {
         }
 
         // STEP3: WE PERFORM THE RECURSIVE DEPTH FIRST SEARCH
-        // to find longer sequential ca.pfv.spmf.patterns recursively
+        // to find longer sequential patterns recursively
 
 
         
@@ -770,7 +770,7 @@ public class AlgoVGEN {
     }
     
     /**
-     * Check if there is a backward extension by comparing the bitmap of two ca.pfv.spmf.patterns
+     * Check if there is a backward extension by comparing the bitmap of two patterns
      * P1 and P2, such that P1 is a superset of P2
      * @param bitmap  bitmap of P1
      * @param bitmap2 bitmap of P2
@@ -870,7 +870,7 @@ public class AlgoVGEN {
     }
 
     /**
-     * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Get the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @return the maximumPatternLength
@@ -880,7 +880,7 @@ public class AlgoVGEN {
     }
 
     /**
-     * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Set the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @param maximumPatternLength the maximumPatternLength to set
@@ -897,7 +897,7 @@ public class AlgoVGEN {
 	public void writeResultTofile(String path) throws IOException {
 		// for each level (pattern having a same size)
 		for(Map<Integer, List<PatternVGEN>> level : generatorPatterns) {
-			// for each list of ca.pfv.spmf.patterns having the same hash value
+			// for each list of patterns having the same hash value
 			for(List<PatternVGEN> patterns : level.values()) {
 				// for each pattern
 				for(PatternVGEN pattern : patterns) {
@@ -929,8 +929,8 @@ public class AlgoVGEN {
 	
 	/**
 	 * This method allows to specify the maximum gap 
-	 * between itemsets of ca.pfv.spmf.patterns found by the algorithm.
-	 * If set to 1, only ca.pfv.spmf.patterns of contiguous itemsets
+	 * between itemsets of patterns found by the algorithm. 
+	 * If set to 1, only patterns of contiguous itemsets
 	*  will be found (no gap).
 	 * @param maxGap the maximum gap (an integer)
 	 */

@@ -77,7 +77,7 @@ public class StatsLogger {
 			
 		}
 		else {
-			//Display the header row (name of ca.pfv.spmf.algorithms)
+			//Display the header row (name of algorithms)
 			output += "\t\t";
 			for(Algo algo : algorithms) {
 				output += "" + algo.name + "\t";
@@ -110,8 +110,8 @@ public class StatsLogger {
 			
 		}
 		else {
-			//The list of ca.pfv.spmf.algorithms. ca.pfv.spmf.algorithms: ['CPT', 'AKOM',...]
-			output += "\"ca.pfv.spmf.algorithms\": [";
+			//The list of algorithms. algorithms: ['CPT', 'AKOM',...]
+			output += "\"algorithms\": [";
 			for(Algo algo : algorithms) {
 				output += "\"" + algo.name + "\",";
 			}

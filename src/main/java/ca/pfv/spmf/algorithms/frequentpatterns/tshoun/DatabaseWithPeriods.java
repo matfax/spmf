@@ -176,7 +176,7 @@ public class DatabaseWithPeriods {
 		try {
 			FileInputStream fin = new FileInputStream(new File(path));
 			myInput = new BufferedReader(new InputStreamReader(fin));
-			// for each transaction (line) in the ca.pfv.spmf.input file
+			// for each transaction (line) in the input file
 			int tid =0;
 			while ((thisLine = myInput.readLine()) != null && tid < maxSEQUENCECOUNT) {
 				// if the line is  a comment, is  empty or is a
@@ -203,17 +203,39 @@ public class DatabaseWithPeriods {
 	}
 	
 	/**
-	 * Process a line (transaction) from the ca.pfv.spmf.input file
+	 * Process a line (transaction) from the input file
 	 * @param line  a line
 	 */
 	private void processTransaction(String line[]){
 		String[] items = line[0].split(" ");
-		// get the transaction utility
-		int transactionUtility = Integer.parseInt(line[1]);
 		String[] utilities = line[2].split(" ");
 		// == code for handling period ==
 		int period = Integer.parseInt(line[3]);
 		// ============================
+		
+		//****** BUG FIX 2016 *****
+		// We will not trust the transaction utility value in the input file.
+		// We will calculate it again.
+		// First, we will convert the utility values to integer
+		// and calculate the transaction utility WITH negative values
+		//   (this is necessary to calculate the relative utility of itemsets)
+		// and the transaction utility WITH only positive values
+		//   (this is necessary to calculate the 
+		//      RTWU upper-bound on the utility of itemsets
+		int[] utilityValuesInt = new int[utilities.length];
+		int transactionUtilityWithNegativeAndPositive = 0;
+		int transactionUtilityWithPositive = 0;
+		for(int j=0; j< utilities.length; j++){
+			utilityValuesInt[j] = Integer.parseInt(utilities[j]);
+			transactionUtilityWithNegativeAndPositive += utilityValuesInt[j];
+			if(utilityValuesInt[j] > 0){
+				transactionUtilityWithPositive += utilityValuesInt[j];
+			}
+		}
+		
+		//****** END BUG FIX 2016 *****
+		
+		
 				
 		// Create a list for storing items
 		List<ItemUtility> itemUtilityObjects = new ArrayList<ItemUtility>();
@@ -249,19 +271,19 @@ public class DatabaseWithPeriods {
 				pair.exactUtility += utility;
 			}
 			if(pair.estimatedUtility[period] == null){ 
-				pair.estimatedUtility[period] = transactionUtility;
+				pair.estimatedUtility[period] = transactionUtilityWithPositive;
 			}else {
-				pair.estimatedUtility[period] += transactionUtility;
+				pair.estimatedUtility[period] += transactionUtilityWithPositive;
 			}
 			
 			addPeriodToListOfPeriodsOfItem(period, item);
 		}
 
 		// add the transaction to the list of transactions
-		transactions.add(new TransactionWithPeriod(itemUtilityObjects, transactionUtility, period));
+		transactions.add(new TransactionWithPeriod(itemUtilityObjects, transactionUtilityWithPositive, period));
 		
 		//====  code for periods =====
-		incrementPeriodUtility(period, transactionUtility);
+		incrementPeriodUtility(period, transactionUtilityWithNegativeAndPositive);
 		
 		//==== end code for periods =====
 	}

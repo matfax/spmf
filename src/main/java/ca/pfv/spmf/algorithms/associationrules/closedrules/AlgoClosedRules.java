@@ -37,7 +37,7 @@ import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemsets;
  * al. 1994, IBM Research Report RJ9839, June 1994.
  * Here it is adapted for mining closed rules.
  * The main difference with AlgoAgrawalFaster94.java, is that this implementation takes
- * a different type of Itemset object as ca.pfv.spmf.input. Moreover, the method CALCULATESUPPORT() is
+ * a different type of Itemset object as input. Moreover, the method CALCULATESUPPORT() is 
  * different because if an itemset is not closed, we must find its closure to determine
  * its support. To avoid redundancy as much
  * as possible, this class is a subclass of AlgoAgrawalFaster94.java and share
@@ -308,17 +308,17 @@ public class AlgoClosedRules extends AlgoAgrawalFaster94{
 	}
 	
 	/**
-	 * Calculate the support of an itemset by looking at the frequent ca.pfv.spmf.patterns
+	 * Calculate the support of an itemset by looking at the frequent patterns
 	 * of the same size.
-	 * Because ca.pfv.spmf.patterns are sorted by lexical order, we use a binary search.
-	 * This is MUCH MORE efficient than just browsing the full list of ca.pfv.spmf.patterns.
-	 * An alternative would be to use a trie to store ca.pfv.spmf.patterns but it may require a bit more memory.
+	 * Because patterns are sorted by lexical order, we use a binary search.
+	 * This is MUCH MORE efficient than just browsing the full list of patterns.
+	 * An alternative would be to use a trie to store patterns but it may require a bit more memory.
 	 * 
 	 * @param itemset the itemset.
 	 * @return the support of the itemset
 	 */
 	private int calculateSupport(int[] itemset) {
-		// We first get the list of ca.pfv.spmf.patterns having the same size as "itemset"
+		// We first get the list of patterns having the same size as "itemset"
 		List<Itemset> patternsSameSize = patterns.getLevels().get(itemset.length);
 //		
 		// We perform a binary search to find the position of itemset in this list
@@ -357,7 +357,7 @@ public class AlgoClosedRules extends AlgoAgrawalFaster94{
         		int[] patternArray = pattern.getItems();
         		
         		// If the first item of the pattern is larger than the first item of the itemset,
-        		// we don't need to compare with following ca.pfv.spmf.patterns.
+        		// we don't need to compare with following patterns.
         		if(patternArray[0] > itemset[0]) {
         			continue loop;
         		}

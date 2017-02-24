@@ -16,6 +16,10 @@ package ca.pfv.spmf.algorithms.associationrules.agrawal94_association_rules;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
+import ca.pfv.spmf.algorithms.ArraysAlgos;
+import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
+import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,10 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import ca.pfv.spmf.algorithms.ArraysAlgos;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
 
 /**
  * This is an implementation of the "faster algorithm" for generating association rules,
@@ -315,16 +315,16 @@ public class AlgoAgrawalFaster94{
 	}
 	
 	/**
-	 * Calculate the support of an itemset by looking at the frequent ca.pfv.spmf.patterns
+	 * Calculate the support of an itemset by looking at the frequent patterns
 	 * of the same size.
-	 * Because ca.pfv.spmf.patterns are sorted by lexical order, we use a binary search.
-	 * This is MUCH MORE efficient than just browsing the full list of ca.pfv.spmf.patterns.
+	 * Because patterns are sorted by lexical order, we use a binary search.
+	 * This is MUCH MORE efficient than just browsing the full list of patterns.
 	 * 
 	 * @param itemset the itemset.
 	 * @return the support of the itemset
 	 */
 	private int calculateSupport(int[] itemset) {
-		// We first get the list of ca.pfv.spmf.patterns having the same size as "itemset"
+		// We first get the list of patterns having the same size as "itemset"
 		List<Itemset> patternsSameSize = patterns.getLevels().get(itemset.length);
 //		
 		// We perform a binary search to find the position of itemset in this list
@@ -349,7 +349,7 @@ public class AlgoAgrawalFaster94{
             }
         }
         // The following line will not happen because in the context of this algorithm, we will
-        // always search for itemsets that are frequent and thus will be in the list of ca.pfv.spmf.patterns.
+        // always search for itemsets that are frequent and thus will be in the list of patterns.
         // We just put the following line to avoid compilation error and detect if the error if this
         // case was ever to happen.
         return 0;

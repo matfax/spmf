@@ -50,7 +50,7 @@ public class AlgoFEAT{
 	// relative minimum support
 	public int minsuppRelative;
 	
-	// The set of all sequential ca.pfv.spmf.patterns that are found
+	// The set of all sequential patterns that are found 
 	private List<SequentialPattern> generators = null;
 	
 	// maximum pattern length in terms of item count
@@ -59,7 +59,7 @@ public class AlgoFEAT{
 	//number of prefix pruned
 	public int prefixPrunedCount = 0;
 	
-	// if enabled, the result will be verified to see if some ca.pfv.spmf.patterns found are not generators.
+	// if enabled, the result will be verified to see if some patterns found are not generators.
 	boolean DEBUG_MODE = false;  	
 	
 	// the initial database after removing infrequent items
@@ -117,7 +117,7 @@ public class AlgoFEAT{
         			System.out.println("NOT A GENERATOR !!!!!!!!!  "  + pat1 + "    sup: " + pat1.getAbsoluteSupport() + " because of empty set");
         		}
         		
-        		// otherwise we have to compare with every other ca.pfv.spmf.patterns.
+        		// otherwise we have to compare with every other patterns.
         		for(SequentialPattern pat2 : generators) {
             		if(pat1 == pat2) {
             			continue;
@@ -172,7 +172,7 @@ public class AlgoFEAT{
 	}
 
 	/**
-	 * Get the number of generator ca.pfv.spmf.patterns found.
+	 * Get the number of generator patterns found.
 	 * Note that this method does not count the empty sequence.
 	 * @return the number of generators.
 	 */
@@ -238,7 +238,7 @@ public class AlgoFEAT{
 		// if the user want to keep the result into memory
 		generators = new ArrayList<SequentialPattern>();
 		
-		// We have to scan the database to find all frequent sequential ca.pfv.spmf.patterns of size 1.
+		// We have to scan the database to find all frequent sequential patterns of size 1.
 		// We note the sequences in which the items appear.
 		Map<Integer, Set<Integer>> mapSequenceID = findSequencesContainingItems(database);
 		
@@ -286,7 +286,7 @@ public class AlgoFEAT{
 				}
 				
 				// if we cannot prune, then we should check backwardPruning(newprefix, projectedDB, canprune, isgenerator)
-				// For ca.pfv.spmf.patterns of size 1, we don't need to check the backward pruning,
+				// For patterns of size 1, we don't need to check the backward pruning,
 				// so we do nothing.
 
 				// The prefix is a generator
@@ -296,7 +296,7 @@ public class AlgoFEAT{
 				}
 				
 				// We make a recursive call to try to find larger sequential
-				// ca.pfv.spmf.patterns starting with this prefix
+				// patterns starting with this prefix
 				if((performPruning == false || !canPrune) && maximumPatternLength >1){
 					featRecursion(prefix, projectedDatabase, 2); 
 				}else {
@@ -945,7 +945,7 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 	}
 	
 	/**
-	 * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Get the maximum length of patterns to be found (in terms of item count)
 	 * @return the maximumPatternLength
 	 */
 	public int getMaximumPatternLength() {
@@ -953,7 +953,7 @@ loop:	for(int j = 1; j < prefixTotalSize; j++) {
 	}
 
 	/**
-	 * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Set the maximum length of patterns to be found (in terms of item count)
 	 * @param maximumPatternLength the maximumPatternLength to set
 	 */
 	public void setMaximumPatternLength(int maximumPatternLength) {

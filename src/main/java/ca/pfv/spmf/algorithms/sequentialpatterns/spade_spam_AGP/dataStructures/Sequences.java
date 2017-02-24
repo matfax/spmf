@@ -61,7 +61,7 @@ public class Sequences {
     }
     
     /**
-     * Get ca.pfv.spmf.patterns as string
+     * Get patterns as string
      * @param outputSequenceIdentifiers if true, the sequential identifiers will be shown
      * @return a string
      */

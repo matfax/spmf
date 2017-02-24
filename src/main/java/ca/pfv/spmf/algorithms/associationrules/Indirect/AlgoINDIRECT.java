@@ -17,23 +17,11 @@ package ca.pfv.spmf.algorithms.associationrules.Indirect;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids.Itemset;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /**
@@ -102,7 +90,7 @@ public class AlgoINDIRECT {
 
 	/**
 	 * Run the algorithm.
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path 
 	 * @param minsup the minimum support threshold
 	 * @param ts the ts threshold
@@ -122,10 +110,10 @@ public class AlgoINDIRECT {
 		//     key =  item   
 		//     value = set of transactions ids of transactions containing that item
 		mapItemTIDS = new HashMap<Integer, Set<Integer>>(); // id item, count
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		tidcount=0; // variable used to know the line number that we are reading
-		// for each line (transactions) of the ca.pfv.spmf.input file
+		// for each line (transactions) of the input file
 		while( ((line = reader.readLine())!= null)){
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
@@ -152,7 +140,7 @@ public class AlgoINDIRECT {
 			}
 			tidcount++; // increase the transaction id 
 		}
-		reader.close(); // close ca.pfv.spmf.input file
+		reader.close(); // close input file
 		
 		// Convert the absolute minimum support and absolute ts value
 		// to relative value by multiplying by the number of transactions

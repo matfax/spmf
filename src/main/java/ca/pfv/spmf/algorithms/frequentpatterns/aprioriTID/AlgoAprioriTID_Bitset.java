@@ -15,23 +15,13 @@ package ca.pfv.spmf.algorithms.frequentpatterns.aprioriTID;
 * You should have received a copy of the GNU General Public License along with
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import ca.pfv.spmf.patterns.itemset_array_integers_with_tids_bitset.Itemset;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an implementation of the AprioriTID algorithm. This version is very fast 
@@ -51,27 +41,33 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoAprioriTID_Bitset {
 
-	// the current level
+	/** the current level */
 	protected int k; 
 
-	// variables for counting support of items
+	/** variables for counting support of items */
 	Map<Integer, BitSet> mapItemTIDS = new HashMap<Integer, BitSet>();
 
-	// the minimum support threshold
+	/** the minimum support threshold */
 	int minSuppRelative;
 
-	// Special parameter to set the maximum size of itemsets to be discovered
+	/** Special parameter to set the maximum size of itemsets to be discovered */
 	int maxItemsetSize = Integer.MAX_VALUE;
 
-	long startTimestamp = 0; // start time of latest execution
-	long endTimeStamp = 0; // end time of latest execution
+	/** start time of latest execution */
+	long startTimestamp = 0; 
 	
-	// object to write the output file
+	/** end time of latest execution */
+	long endTimeStamp = 0; 
+	
+	/**  object to write the output file */
 	BufferedWriter writer = null;
 
-	// the number of frequent itemsets found
+	/** the number of frequent itemsets found */
 	private int itemsetCount;
 	private int tidcount = 0;
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -92,12 +88,12 @@ public class AlgoAprioriTID_Bitset {
 		// initialize variable to count the number of transactions
 		tidcount = 0;
 
-		// read the ca.pfv.spmf.input file line by line until the end of the file
+		// read the input file line by line until the end of the file
 		// (each line is a transaction)
 		mapItemTIDS = new HashMap<Integer, BitSet>(); 
 		// key : item   value: tidset of the item as a bitset
 		
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of file
 		while (((line = reader.readLine()) != null)) { 
@@ -129,7 +125,7 @@ public class AlgoAprioriTID_Bitset {
 			// increase the transaction count
 			tidcount++;
 		}
-		reader.close(); // close the ca.pfv.spmf.input file
+		reader.close(); // close the input file
 
 		// convert the support from a relative minimum support (%) to an 
 		// absolute minimum support
@@ -268,22 +264,36 @@ public class AlgoAprioriTID_Bitset {
 	 */
 	void saveItemsetToFile(Itemset itemset) throws IOException {
 		writer.write(itemset.toString() + " #SUP: " + itemset.cardinality);
+		if(showTransactionIdentifiers) {
+        	writer.append(" #TID:");
+        	BitSet transactionIDs = itemset.getTransactionsIds();
+        	for (int tid = transactionIDs.nextSetBit(0); tid != -1; tid = transactionIDs.nextSetBit(tid + 1)) {
+        		writer.append(" " + tid); 
+        	}
+		}
 		writer.newLine();
 		itemsetCount++; // increase frequent itemset count
+	}
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
 	}
 
 	/**
 	 * Print statistics about the algorithm execution to System.out.
 	 */
 	public void printStats() {
-		System.out.println("=============  APRIORI - STATS =============");
+		System.out.println("=============  APRIORI TID BITSET v2.12 - STATS =============");
 		System.out.println(" Transactions count from database : " + tidcount);
 		System.out.println(" Frequent itemsets count : " + itemsetCount);
 		System.out.println(" Maximum memory usage : " + 
 				MemoryLogger.getInstance().getMaxMemory() + " mb");
-		System.out.println(" Total time ~ " + (endTimeStamp - startTimestamp)
-				+ " ms");
-		System.out
-				.println("===================================================");
+		System.out.println(" Total time ~ " + (endTimeStamp - startTimestamp)	+ " ms");
+		System.out.println("===================================================");
 	}
 }

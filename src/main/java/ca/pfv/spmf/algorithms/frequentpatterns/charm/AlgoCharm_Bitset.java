@@ -72,12 +72,14 @@ public class AlgoCharm_Bitset {
 	protected long endTime; 
 	
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets closedItemsets;
+	
 	/** object to write the output file */
 	BufferedWriter writer = null; 
-	/** the number of ca.pfv.spmf.patterns found */
+	
+	/** the number of patterns found */
 	protected int itemsetCount; 
 	
 	/** For optimization with a triangular matrix for counting 
@@ -90,8 +92,13 @@ public class AlgoCharm_Bitset {
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
 	final int BUFFERS_SIZE = 2000;
+	
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
+
 	
 	/**
 	 * Default constructor
@@ -569,6 +576,15 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 		// we check the memory usage
 		MemoryLogger.getInstance().checkMemory();
 	}
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
 
 	/**
 	 * Print statistics about the algorithm execution to System.out.
@@ -646,6 +662,13 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 				// otherwise if the result should be saved to a file,
 				// then write it to the output file
 				writer.write(itemset.toString() + " #SUP: " + itemset.support);
+				if(showTransactionIdentifiers) {
+					BitSet bitset = tidset.bitset;
+		        	writer.append(" #TID:");
+		        	for (int tid = bitset.nextSetBit(0); tid != -1; tid = bitset.nextSetBit(tid + 1)) {
+		        		writer.append(" " + tid); 
+		        	}
+				}
 				writer.newLine();
 			}
 			// add the itemset to the hashtable

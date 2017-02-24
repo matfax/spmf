@@ -8,7 +8,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.IDList;
 
 /**
  * Interface for a candidate generator class. If we are interested in having 
- * several types of ca.pfv.spmf.patterns, we can define them by implementing the methods
+ * several types of patterns, we can define them by implementing the methods 
  * here exposed.
  *
  * Copyright Antonio Gomariz Peñalver 2013
@@ -33,14 +33,14 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.IDList;
 public interface CandidateGenerator {
 
     /**
-     * It generates a list of candidate ca.pfv.spmf.patterns from the two ca.pfv.spmf.patterns given as
+     * It generates a list of candidate patterns from the two patterns given as
      * parameters
      * @param pattern1 The first pattern from which a new candidate is generated
      * @param pattern2 The second pattern from which a new candidate is generated
      * @param minSupport The mininum relative support
      * @param doNotExploreYX 
      * @param doNotExploreXY 
-     * @return A list of candidate ca.pfv.spmf.patterns created from pattern1 and pattern2
+     * @return A list of candidate patterns created from pattern1 and pattern2
      */
     public List<Pattern> generateCandidates(Pattern pattern1, Pattern pattern2, int minSupport, boolean doNotExploreXY, boolean doNotExploreYX,boolean doNotExploreX_Y, boolean doNotExploreY_X);
 
@@ -52,7 +52,7 @@ public interface CandidateGenerator {
      * that we know that lead to infrequent results.
      * 
      * @param extension The candidate pattern previously made from the extension
-     * of two frequent ca.pfv.spmf.patterns
+     * of two frequent patterns
      * @param equivalenceClass_i Equivalence class from the pattern1 that allowed
      * creating the candidate extension
      * @param equivalenceClass_j Equivalence class from the pattern2 that allowed

@@ -80,7 +80,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
     }
 
     /**
-     * It finds all the frequent 2-ca.pfv.spmf.patterns in the original database. This method
+     * It finds all the frequent 2-patterns in the original database. This method
      * is specially useful if we think of parallelizing the execution of the Spade
      * algorithm.
      * @param sequences the list of sequences
@@ -129,7 +129,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
     /**
      * Helper method for getFrequentSize2Sequence, useful for making the pattern
      * and the IdList from two given pairs <item, abstraction>.
-     * @param totalMap Correspondences between ca.pfv.spmf.patterns and equivalence classes
+     * @param totalMap Correspondences between patterns and equivalence classes
      * @param pair1 First element of the pattern to create
      * @param pair2 Second element of the pattern to create
      * @param sid Sequence identifier

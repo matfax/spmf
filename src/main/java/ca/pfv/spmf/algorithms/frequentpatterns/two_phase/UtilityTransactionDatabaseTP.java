@@ -55,7 +55,7 @@ public class UtilityTransactionDatabaseTP {
 		try {
 			FileInputStream fin = new FileInputStream(new File(path));
 			myInput = new BufferedReader(new InputStreamReader(fin));
-			// for each transaction (line) in the ca.pfv.spmf.input file
+			// for each transaction (line) in the input file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
@@ -80,7 +80,7 @@ public class UtilityTransactionDatabaseTP {
 	}
 	
 	/**
-	 * Process a line (transaction) from the ca.pfv.spmf.input file
+	 * Process a line (transaction) from the input file
 	 * @param line  a line
 	 */
 	private void processTransaction(String line[]){

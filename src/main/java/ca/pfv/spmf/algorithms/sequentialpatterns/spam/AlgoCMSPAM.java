@@ -59,7 +59,7 @@ public class AlgoCMSPAM {
 	/** end time of last algorithm execution */
 	private long endTime;   
 	
-	/** number of ca.pfv.spmf.patterns */
+	/** number of patterns */
     public int patternCount;
     
     /** minsup */
@@ -82,7 +82,7 @@ public class AlgoCMSPAM {
     /** maximum pattern length in terms of item count */
     private int maximumPatternLength = Integer.MAX_VALUE;
 	   
-	/** items that need to appear in ca.pfv.spmf.patterns found by the algorithm
+	/** items that need to appear in patterns found by the algorithm 
 	* (or any items if the array is empty) */
 	int[] mustAppearItems; 
     
@@ -112,7 +112,7 @@ public class AlgoCMSPAM {
     /**
      * Method to run the algorithm
      *
-     * @param input path to an ca.pfv.spmf.input file
+     * @param input path to an input file
      * @param outputFilePath path for writing the output file
      * @param minsupRel the minimum support as a relative value
      * @param outputSequenceIdentifiers  if true, sequence ids will be shown with each output pattern
@@ -124,7 +124,7 @@ public class AlgoCMSPAM {
     	Bitmap.INTERSECTION_COUNT = 0;
         // create an object to write the file
         writer = new BufferedWriter(new FileWriter(outputFilePath));
-        // initialize the number of ca.pfv.spmf.patterns found
+        // initialize the number of patterns found
         patternCount = 0;
         // to log the memory used
         MemoryLogger.getInstance().reset();
@@ -142,7 +142,7 @@ public class AlgoCMSPAM {
     /**
      * This is the main method for the SPAM algorithm
      *
-     * @param an ca.pfv.spmf.input file
+     * @param an input file
      * @param minsupRel the minimum support as a relative value
      * @throws IOException
      */
@@ -193,7 +193,7 @@ public class AlgoCMSPAM {
                         bitIndex++;
                     }
                     
-					// check if this item must appear in ca.pfv.spmf.patterns (optional)
+					// check if this item must appear in patterns (optional)
 					if(itemMustAppearInPatterns(item)) {
 						containsAMustAppearItem = true;
 					}
@@ -208,7 +208,7 @@ public class AlgoCMSPAM {
             }
             // record the last bit position for the bitmaps
             lastBitIndex = bitIndex - 1;
-            reader.close(); // close the ca.pfv.spmf.input file
+            reader.close(); // close the input file
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,7 +228,7 @@ public class AlgoCMSPAM {
             int sid = 0; // to know which sequence we are scanning
             int tid = 0;  // to know which itemset we are scanning
 
-            // for each line (sequence) from the ca.pfv.spmf.input file
+            // for each line (sequence) from the input file
             while ((thisLine = reader.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata
@@ -387,7 +387,7 @@ public class AlgoCMSPAM {
         }
 
         // STEP3: WE PERFORM THE RECURSIVE DEPTH FIRST SEARCH
-        // to find longer sequential ca.pfv.spmf.patterns recursively
+        // to find longer sequential patterns recursively
 
         // for each frequent item
         for (Entry<Integer, Bitmap> entry : verticalDB.entrySet()) {
@@ -396,7 +396,7 @@ public class AlgoCMSPAM {
             prefix.addItemset(new Itemset(entry.getKey()));
             // We call the depth first search method with that prefix
             // and the list of frequent items to try to find
-            // larger sequential ca.pfv.spmf.patterns by appending some of these
+            // larger sequential patterns by appending some of these
             // items.
             dfsPruning(prefix, entry.getValue(), frequentItems, frequentItems, entry.getKey(), 2, entry.getKey());
         }
@@ -564,7 +564,7 @@ public class AlgoCMSPAM {
     private void savePattern(Integer item, Bitmap bitmap) throws IOException {
     	// First, we check if the pattern contains the desired items (optional)
 		// We only do that if the user has specified some items that must appear in
-		// ca.pfv.spmf.patterns.
+		// patterns.
 		if(mustAppearItems != null) {
 			
 			// if the pattern does not contains all required items, then return
@@ -601,13 +601,13 @@ public class AlgoCMSPAM {
     private void savePattern(Prefix prefix, Bitmap bitmap) throws IOException {
 		// First, we check if the pattern contains the desired items (optional)
 		// We only do that if the user has specified some items that must appear in
-		// ca.pfv.spmf.patterns.
+		// patterns.
 		if(mustAppearItems != null) {
 			Set<Integer> itemsFound = new HashSet<Integer>();
 			// for each item in the pattern
 loop:		for(Itemset itemset : prefix.getItemsets()){
 				for(Integer item : itemset.getItems()) {
-					// if the user required that this item must appear in all ca.pfv.spmf.patterns
+					// if the user required that this item must appear in all patterns 
 					if(itemMustAppearInPatterns(item)) {
 						// we note it
 						itemsFound.add(item);
@@ -669,7 +669,7 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
     }
 
     /**
-     * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Get the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @return the maximumPatternLength
@@ -679,7 +679,7 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
     }
 
     /**
-     * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset
+     * Set the maximum length of patterns to be found (in terms of itemset
      * count)
      *
      * @param maximumPatternLength the maximumPatternLength to set
@@ -689,7 +689,7 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
     }
     
 	/**
-	 * Set the minimum length of ca.pfv.spmf.patterns to be found (in terms of itemset count)
+	 * Set the minimum length of patterns to be found (in terms of itemset count)
 	 * @param minimumPatternLength the minimum pattern length to set
 	 */
 	public void setMinimumPatternLength(int minimumPatternLength) {
@@ -697,7 +697,7 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
 	}
 	
 	/**
-	 * Optional method to specify the items that must appears in ca.pfv.spmf.patterns found by TKS
+	 * Optional method to specify the items that must appears in patterns found by TKS
 	 * @param mustAppearItems an array of items
 	 */
 	public void setMustAppearItems(int[] mustAppearItems) {
@@ -720,8 +720,8 @@ loop:		for(Itemset itemset : prefix.getItemsets()){
 	
 	/**
 	 * This method allows to specify the maximum gap 
-	 * between itemsets of ca.pfv.spmf.patterns found by the algorithm.
-	 * If set to 1, only ca.pfv.spmf.patterns of contiguous itemsets
+	 * between itemsets of patterns found by the algorithm. 
+	 * If set to 1, only patterns of contiguous itemsets
 	*  will be found (no gap).
 	 * @param maxGap the maximum gap (an integer)
 	 */

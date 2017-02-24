@@ -1,18 +1,16 @@
 package ca.pfv.spmf.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-
+import ca.pfv.spmf.NoExceptionAssertion;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.AlgoSPAM_AGP;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.creators.AbstractionCreator;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.creators.AbstractionCreator_Qualitative;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.database.SequenceDatabase;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators.IdListCreator;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators.IdListCreator_FatBitmap;
+import org.junit.Test;
 
 /**
- * Example of how to use the algorithm SPAM, saving the results in the 
+ * Example of how to use the algorithm SPAM, saving the results in the
  * main memory
  *
  * @author agomariz
@@ -20,43 +18,40 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators
 public class MainTestSPAM_AGP_FatBitMap_saveToFile {
 
     /**
-     * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
-    	
-    	String outputPath = ".//output.txt";
-    	
-        // Load a sequence database
-        double support = 0.5;
+    @Test
+    public void main() {
+        NoExceptionAssertion.assertDoesNotThrow(() -> {
 
-        boolean keepPatterns = true;
-        boolean verbose = false;
-        
-        // if you set the following parameter to true, the sequence ids of the sequences where
-        // each pattern appears will be shown in the result
-        boolean outputSequenceIdentifiers = false; 
+            String outputPath = ".//output.txt";
 
-        AbstractionCreator abstractionCreator = AbstractionCreator_Qualitative.getInstance();
+            // Load a sequence database
+            double support = 0.5;
 
-        IdListCreator idListCreator = IdListCreator_FatBitmap.getInstance();
+            boolean keepPatterns = true;
+            boolean verbose = false;
 
-        SequenceDatabase sequenceDatabase = new SequenceDatabase(abstractionCreator, idListCreator);
+            // if you set the following parameter to true, the sequence ids of the sequences where
+            // each pattern appears will be shown in the result
+            boolean outputSequenceIdentifiers = false;
 
-        sequenceDatabase.loadFile(fileToPath("contextPrefixSpan.txt"), support);
+            AbstractionCreator abstractionCreator = AbstractionCreator_Qualitative.getInstance();
 
-        System.out.println(sequenceDatabase.toString());
+            IdListCreator idListCreator = IdListCreator_FatBitmap.getInstance();
 
-        AlgoSPAM_AGP algorithm = new AlgoSPAM_AGP(support);
+            SequenceDatabase sequenceDatabase = new SequenceDatabase(abstractionCreator, idListCreator);
 
-        algorithm.runAlgorithm(sequenceDatabase, keepPatterns, verbose, outputPath,outputSequenceIdentifiers);
-        System.out.println("Minimum support (relative) = "+support);
-        System.out.println(algorithm.getNumberOfFrequentPatterns() + " frequent ca.pfv.spmf.patterns.");
+            sequenceDatabase.loadFile("contextPrefixSpan.txt", support);
 
-        System.out.println(algorithm.printStatistics());
-    }
+            System.out.println(sequenceDatabase.toString());
 
-    public static String fileToPath(String filename) throws UnsupportedEncodingException {
-        URL url = MainTestSPADE_AGP_FatBitMap_saveToFile.class.getResource(filename);
-        return java.net.URLDecoder.decode(url.getPath(), "UTF-8");
+            AlgoSPAM_AGP algorithm = new AlgoSPAM_AGP(support);
+
+            algorithm.runAlgorithm(sequenceDatabase, keepPatterns, verbose, outputPath, outputSequenceIdentifiers);
+            System.out.println("Minimum support (relative) = " + support);
+            System.out.println(algorithm.getNumberOfFrequentPatterns() + " frequent patterns.");
+
+            System.out.println(algorithm.printStatistics());
+        });
     }
 }

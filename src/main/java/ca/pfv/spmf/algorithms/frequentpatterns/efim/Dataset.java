@@ -1,8 +1,8 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.efim;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 /* This file is copyright (c) 2012-2015 Souleymane Zida, Philippe Fournier-Viger, Alan Souza
@@ -37,7 +37,7 @@ public class Dataset {
 	/**
 	 * Constructor
 	 * @param datasetPath the path of the file containing the dataset
-	 * @param maximumTransactionCount the number of transaction to be read from the ca.pfv.spmf.input file
+	 * @param maximumTransactionCount the number of transaction to be read from the input file
 	 * @throws IOException exception if error reading the file
 	 */
     public Dataset(String datasetPath, int maximumTransactionCount) throws IOException {
@@ -45,8 +45,8 @@ public class Dataset {
     	// Initialize a list to store transactions in memory
         transactions = new ArrayList<Transaction>();
         
-        // Create a buffered reader to read the ca.pfv.spmf.input file
-        BufferedReader br = new BufferedReader(new FileReader(datasetPath));
+        // Create a buffered reader to read the input file
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(datasetPath)));
         String line;
         int i=0;
         // iterate over the lines to build the transaction
@@ -71,8 +71,8 @@ public class Dataset {
     }
 
     /**
-     * Create a transaction object from a line from the ca.pfv.spmf.input file
-     * @param line a line from ca.pfv.spmf.input file
+     * Create a transaction object from a line from the input file
+     * @param line a line from input file
      * @return a transaction
      */
     private Transaction createTransaction(String line) {

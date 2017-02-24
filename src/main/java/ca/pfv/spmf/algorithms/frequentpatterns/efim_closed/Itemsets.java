@@ -48,7 +48,7 @@ public class Itemsets{
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#printItemsets(int)
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#printItemsets(int)
 	 */
 	public void printItemsets() {
 		System.out.println(" ------- " + name + " -------");
@@ -76,7 +76,7 @@ public class Itemsets{
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#addItemset(ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset, int)
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#addItemset(ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset, int)
 	 */
 	public void addItemset(Itemset itemset, int k) {
 		while (levels.size() <= k) {
@@ -87,28 +87,28 @@ public class Itemsets{
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#getLevels()
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#getLevels()
 	 */
 	public List<List<Itemset>> getLevels() {
 		return levels;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#getItemsetsCount()
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#getItemsetsCount()
 	 */
 	public int getItemsetsCount() {
 		return itemsetsCount;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#setName(java.lang.String)
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#setName(java.lang.String)
 	 */
 	public void setName(String newName) {
 		name = newName;
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.pfv.spmf.ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#decreaseItemsetCount()
+	 * @see ca.pfv.spmf.patterns.itemset_array_integers_with_count.AbstractItemsets#decreaseItemsetCount()
 	 */
 	public void decreaseItemsetCount() {
 		itemsetsCount--;

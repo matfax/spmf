@@ -65,7 +65,7 @@ public class COPY{
 	/** writer to write output file */
 	BufferedWriter writer = null;
 	
-	/** The sequential ca.pfv.spmf.patterns that are found  (if the user want to keep them into memory) */
+	/** The sequential patterns that are found  (if the user want to keep them into memory) */
 	private SequentialPatterns patterns = null;
 	
 	/** maximum pattern length in terms of item count */
@@ -167,7 +167,7 @@ public class COPY{
 	
 	/**
 	 * Run the algorithm
-	 * @param inputFile : the file path to the ca.pfv.spmf.input file
+	 * @param inputFile : the file path to the input file
 	 * @param minsup  :  the minimum support as an integer
 	 * @param outputFilePath : the path of the output file to save the result
 	 *                         or null if you want the result to be saved into memory
@@ -228,7 +228,7 @@ public class COPY{
 //		System.out.println(sequenceDatabase.toString());
 		
 		//============== CALCULATE FREQUENCY OF EACH SINGLE ITEMS BY SCANNING THE DATABASE =============
-		// We have to scan the database to find all frequent sequential ca.pfv.spmf.patterns containing 1 item.
+		// We have to scan the database to find all frequent sequential patterns containing 1 item.
 		// We note the sequences where each item appears.
 		Map<Integer, List<Integer>> mapSequenceID = findSequencesContainingItems();
 
@@ -246,7 +246,7 @@ public class COPY{
 	
 	/**
 	 * Remove infrequent items from the sequence database, then save each pattern of length 1 having a frequency no less than 
-	 * minsup, then recursively explore larger ca.pfv.spmf.patterns.
+	 * minsup, then recursively explore larger patterns.
 	 *  Important: this method is optimized for the case where all sequences in the database contains a single item per itemset.
 	 * @param mapSequenceID the set of items (Integer) with the corresponding IDs of sequence where they appears (List<Integer>)
 	 * @throws IOException if error writing to file
@@ -321,7 +321,7 @@ public class COPY{
 					// build the projected database for that item
 					List<PseudoSequence> projectedDatabase  = buildProjectedDatabaseSingleItems(item, entry.getValue());
 					
-					// Make a recursive exploration of ca.pfv.spmf.patterns by trying to extend the current pattern
+					// Make a recursive exploration of patterns by trying to extend the current pattern
 					// This method returns the highest support of extensions found by this depth-first search
 					int maxSupportExtensions = 0;
 					 
@@ -351,7 +351,7 @@ public class COPY{
 	/**
 	 * This method checks if the current pattern respects the backscan pruning condition of the BIDE+ algorithm (if it
 	 * should not be pruned).
-	 * It is optimized for ca.pfv.spmf.patterns containing a single item.
+	 * It is optimized for patterns containing a single item.
 	 * @param the item the pattern consisting of a single item
 	 * @param sequenceIDs the identifiers of the sequences containing this pattern
 	 * @return true if there is no backward extension. Otherwise, false.
@@ -410,7 +410,7 @@ public class COPY{
 							// if this extension has the same support as the sequential pattern that
 							// we want to check for a backward extension
 							if(itemSupport == sequenceIDs.size()){
-								// return false because it means that the current sequential ca.pfv.spmf.patterns has a backward extension
+								// return false because it means that the current sequential patterns has a backward extension
 								return false;
 							}
 
@@ -434,7 +434,7 @@ public class COPY{
 	
 	/**
 	 * This method checks if the current pattern has a backward extension.
-	 * This method is optimized for ca.pfv.spmf.patterns containing a single item.
+	 * This method is optimized for patterns containing a single item.
 	 * @param the item a pattern consisting of a single item
 	 * @param sequenceIDs the identifiers of the sequences containing this pattern
 	 * @return true if there is no backward extension. Otherwise false.
@@ -515,7 +515,7 @@ public class COPY{
 
 	/**
 	 * Remove infrequent items from the sequence database. Then save each frequent items as a sequential pattern of length 1.
-	 * Then, recursively explore extensions of ca.pfv.spmf.patterns of length 1 using a depth first search.
+	 * Then, recursively explore extensions of patterns of length 1 using a depth first search.
 	 * This method is designed for the case where the sequence database contains sequences having multiple items per itemsets.
 	 * @param mapSequenceID a map where the key is an item and the value is the list of identifiers of sequences containing that item
 	 * @throws IOException if there is an error while writing the result to the output file.
@@ -610,7 +610,7 @@ public class COPY{
 					// build the projected database for that item
 					List<PseudoSequence> projectedDatabase  = buildProjectedDatabaseFirstTimeMultipleItems(item, entry.getValue());
 					
-					// Recursively try to extend this pattern to find larger ca.pfv.spmf.patterns if the
+					// Recursively try to extend this pattern to find larger patterns if the 
 					// maximum pattern length set by the user is greater than 1 (an optional parameter).
 					int maxSupportExtensions =0;
 					if(maximumPatternLength >1){
@@ -638,7 +638,7 @@ public class COPY{
 	
 	/**
 	 * Check if a sequential pattern has has a backward extension. 
-	 * This method is optimized for ca.pfv.spmf.patterns containing a single item and sequence databases containing multiple
+	 * This method is optimized for patterns containing a single item and sequence databases containing multiple
 	 * items per itemsets.
 	 * @param item the item
 	 * @param sequenceIDs the list of sequence ids where this item appears
@@ -780,7 +780,7 @@ public class COPY{
 
 	/**
 	 * Check if the current item and its extensions should be pruned using the backscan pruning
-	 * This method is optimized for ca.pfv.spmf.patterns containing a single item, and is designed for sequences
+	 * This method is optimized for patterns containing a single item, and is designed for sequences 
 	 *  where multiple items may appear in itemsets.
 	 * @param item the current pattern, consisting of a single item
 	 * @param sequenceIDs the list of sequence ids where this pattern appears
@@ -937,7 +937,7 @@ public class COPY{
 			pattern.addItemset(new Itemset(item));
 			pattern.setSequenceIDs(sequenceIDs);
 			
-			// Store in a structure to store ca.pfv.spmf.patterns
+			// Store in a structure to store patterns
 			patterns.addSequence(pattern, 1);
 		}
 	}
@@ -1022,7 +1022,7 @@ public class COPY{
         	}
 			pattern.setSequenceIDs(sequencesIDs);
 			
-			// add the pattern to the set of ca.pfv.spmf.patterns found until now, stored in memory
+			// add the pattern to the set of patterns found until now, stored in memory
 			patterns.addSequence(pattern, itemsetCount);
 		}
 	}
@@ -2650,7 +2650,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 	}
 	
 	/**
-	 * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Get the maximum length of patterns to be found (in terms of item count)
 	 * @return the maximumPatternLength
 	 */
 	public int getMaximumPatternLength() {
@@ -2658,7 +2658,7 @@ loopi:	for(int i=0; i <= lastBufferPosition; i++){
 	}
 
 	/**
-	 * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Set the maximum length of patterns to be found (in terms of item count)
 	 * @param maximumPatternLength the maximumPatternLength to set
 	 */
 	public void setMaximumPatternLength(int maximumPatternLength) {

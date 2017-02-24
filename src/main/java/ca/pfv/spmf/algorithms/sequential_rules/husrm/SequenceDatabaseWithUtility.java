@@ -43,7 +43,7 @@ public class SequenceDatabaseWithUtility {
 
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.
-	 * @param path  the ca.pfv.spmf.input file path.
+	 * @param path  the input file path.
 	 * @param maximumNumberOfSequences the maximum number of sequences to be read
 	 * @throws IOException exception if error while reading the file.
 	 */
@@ -82,7 +82,7 @@ public class SequenceDatabaseWithUtility {
 	}
 	
 	/**
-	 * Method to process a line from the ca.pfv.spmf.input file
+	 * Method to process a line from the input file
 	 * @param tokens A list of tokens from the line (which were separated by spaces in the original file).
 	 */
 	void addSequence(String[] tokens) { 

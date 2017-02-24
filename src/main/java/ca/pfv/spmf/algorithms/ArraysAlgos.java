@@ -197,7 +197,7 @@ loop1:		for(int i =0; i < itemset2.length; i++){
 	/**
 	 * Method to compare two sorted list of integers and see if they are the same,
 	 * while ignoring an item from the second list of integer.
-	 * This methods is used by some Apriori ca.pfv.spmf.algorithms.
+	 * This methods is used by some Apriori algorithms.
 	 * @param itemset1 the first itemset
 	 * @param itemsets2 the second itemset
 	 * @param posRemoved  the position of an item that should be ignored from "itemset2" to perform the comparison.
@@ -378,7 +378,7 @@ loop1:		for(int i =0; i < itemset2.length; i++){
 		}
 	};
 
-	/**
+	/** 
 	 * Append an integer at the end of an array of integers.
 	 * @param array the array
 	 * @param integer the integer
@@ -389,6 +389,22 @@ loop1:		for(int i =0; i < itemset2.length; i++){
 		System.arraycopy(array, 0, newgen, 0, array.length);
 		newgen[array.length] = integer;
 		return newgen;
+	}
+	
+	/**
+	 * Convert a string array to a double array
+	 * @param tokens a string array
+	 * @return a double array
+	 */
+	public static double[] convertStringArrayToDoubleArray(String[] tokens) {
+		double[] numbers = new double[tokens.length];
+		
+		// for each item, we update its support
+		for(int i=0; i <tokens.length; i++){
+			String token = tokens[i];
+			numbers[i] = Double.parseDouble(token);
+		}
+		return numbers;
 	}
 
 

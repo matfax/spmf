@@ -16,23 +16,8 @@ package ca.pfv.spmf.tools.dataset_converter;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import ca.pfv.spmf.input.sequence_database_array_integers.Sequence;
-import ca.pfv.spmf.input.sequence_database_array_integers.SequenceDatabase;
+import java.io.*;
+import java.util.*;
 
 /**
 * This class is for converting transaction databases from various formats
@@ -43,16 +28,16 @@ import ca.pfv.spmf.input.sequence_database_array_integers.SequenceDatabase;
 */
 public class TransactionDatabaseConverter {
 	
-	String input;  // the path of the ca.pfv.spmf.input file
+	String input;  // the path of the input file
 	String output; // the path of the file to be written to disk in SPMF format
-	int lineCount =0; // the number of sequences in the ca.pfv.spmf.input file
+	int lineCount =0; // the number of sequences in the input file
 
 	/**
 	 * This method converts a transaction database from a given format to the SPMF format.
-	 * @param input  the path of the ca.pfv.spmf.input file
+	 * @param input  the path of the input file
 	 * @param output the path of the file to be written to disk in SPMF format
-	 * @param inputFileformat  the format of the ca.pfv.spmf.input file
-	 * @param lineCount  the number of lines from the ca.pfv.spmf.input file that should be converted
+	 * @param inputFileformat  the format of the input file
+	 * @param lineCount  the number of lines from the input file that should be converted
 	 * @throws IOException  an exception is thrown if there is an error reading/writing files Otherwise, null.
 	 */
 	public void convert(String input, String output, Formats inputFileformat, int lineCount) throws IOException {
@@ -62,7 +47,7 @@ public class TransactionDatabaseConverter {
 		this.lineCount = lineCount;
 
 		// we call the appropriate method for converting a database
-		// according to the format of the ca.pfv.spmf.input file
+		// according to the format of the input file
 		if(inputFileformat.equals(Formats.CSV_INTEGER)){
 			convertCSV();
 		}else if(inputFileformat.equals(Formats.ARFF)){
@@ -82,8 +67,8 @@ public class TransactionDatabaseConverter {
 	 * between item IDs and attribute value in memory to avoid an extra database scan.
 	 * @param inputFile the path of the file to be converted
 	 * @param outputFile the path for saving the converted file
-	 * @param lineCount the number of lines of the ca.pfv.spmf.input file to be converted
-	 * @return a map of entry (key : itemID, value: attribute-value) if the ca.pfv.spmf.input format is ARFF.
+	 * @param lineCount the number of lines of the input file to be converted
+	 * @return a map of entry (key : itemID, value: attribute-value) if the input format is ARFF.
 	 * @throws IOException  if an error while reading/writing files
 	 */
 	public Map<Integer, String> convertARFFandReturnMap(String inputFile, String outputFile,
@@ -547,64 +532,116 @@ public class TransactionDatabaseConverter {
 	 * This method convert a file from the SPMF sequence database format 
 	 * to the SPMF transaction database format.
 	 * Note that this code could be further optimized if performance is really an issue.
+	 * @throws IOException if error while reading/writing files
 	 */
 	private void convertSequenceDB() throws IOException {
-		SequenceDatabase database = new SequenceDatabase();
-		database.loadFile(input);
 		
+		// we create an object for writing the output file
+		BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
+		//writer.write("@CONVERTED_FROM_ARFF");
+		
+		// We create objects for reading the input file
+		String thisLine; // variable to read each line.
 		BufferedReader myInput = null;
-		try {
-			// we create an object for writing the output file
-			BufferedWriter writer = new BufferedWriter(new FileWriter(output)); 
+		
+		// We read the file
+		myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 
-			for(int i=0; i < database.getSequences().size(); i++) {
-				Sequence sequence = database.getSequences().get(i);
+		// a set for the items that we have already seen in a transaction
+		Set<Integer> alreadySeen = new HashSet<Integer>();
+		
+		// a variable to store the current transaction
+		List<Integer> transaction;
+		
+		// Variable to count the number of sequences read until now
+		int numberOfSequences = 0;
+		
+		// flag to remember if this is the first line written to output file
+		boolean isFirstLineWritten = true;
+		
+		// for each line of the input file 
+		while ((thisLine = myInput.readLine()) != null) {
+
+			// If the line starts with @  we just copy the line 
+			// because it is some kind of special metadata
+			if(thisLine.charAt(0) == '@'){
+				// if it is  the first line in the file
+				// we do nothing
+				if(isFirstLineWritten == true){
+					isFirstLineWritten = false;
+				}else{
+					// otherwise we change line
+					writer.newLine();
+				}
 				
-				// ==== Read the sequence and keep all distinct items ======
-				// Create a set to remember with items have been seen already
-				Set<Integer> itemsInSequence = new HashSet<Integer>();
-				// Create a list of integers to store the transaction corresponding to this sequence
-				List<Integer> transaction = new ArrayList<Integer>();
+				// we just copy the line
+				writer.write(thisLine);
+			}
+			
+			// if the line is not a comment, is or   other 
+			// kind of metadata, it is a sequence, so we will
+			// convert it to a transaction
+			else if (thisLine.isEmpty() == false && 	thisLine.charAt(0) != '#' && thisLine.charAt(0) != '%') {
+				// split this line according to spaces and process the line
+				String[] sequence = thisLine.split(" ");
 				
-				// for each itemset in this sequence
-				for(Integer[] itemset : sequence.getItemsets()) {
-					for(Integer item : itemset) {
-						// if we have not seen this item yet, add it to the transaction
-						if(itemsInSequence.contains(item) == false) {
-							transaction.add(item);
-							itemsInSequence.add(item);
-						}
+				
+				// if it is  the first line in the file
+				// we do nothing
+				if(isFirstLineWritten == true){
+					isFirstLineWritten = false;
+				}else{
+					// otherwise we change line
+					writer.newLine();
+				}
+
+				
+				// for each symbol in this sequence
+				for(String item : sequence) {
+					// convert it to an integer
+					Integer itemInt = new Integer(item);
+					
+					// if the item is not a separator and we have not seen it yet
+					if(itemInt >=0 && alreadySeen.contains(item) == false){
+						// remember that we have seen it
+						alreadySeen.add(itemInt);
 					}
 				}
 				
-				// === Sort the set of items in lexical order
-				Collections.sort(transaction);
+				// copy all the items that we have seen to a list
+				transaction = new ArrayList<Integer>(alreadySeen);
 				
+			
+				// === Sort the list of items in lexical order to obtain the transaction
+				Collections.sort(transaction);
 				
 				// ==== write the transaction
 				for(int j=0; j < transaction.size(); j++) {
-					writer.write(transaction.get(j) + " ");
-				}
-
-				// if we have read enough sequences, we stop.
-				if(i+1 == lineCount){
-					break;
+					writer.write(transaction.get(j).toString());
+					if(j != transaction.size() - 1){
+						writer.write(' ');
+					}
 				}
 				
-				// if not the last sequence, we move to next line
-				if(i != database.size() -1) {
-					writer.newLine();
+				// Forgot the items that we have already seen
+				alreadySeen.clear();
+				transaction.clear();
+				
+				// Increase the number of sequences
+				numberOfSequences++;
+				
+				// If the number of lines that we want has been read we stop
+				if(numberOfSequences == lineCount){
+					break;
 				}
 			}
-			// close the output file
-			writer.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (myInput != null) {
-				myInput.close();
-			}
-		}
+
+		} 
+		// close the output file
+		writer.close();
+		
+		// closed input file
+		myInput.close();
 	}
 
 

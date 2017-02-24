@@ -51,7 +51,7 @@ public class AlgoFSGP{
 	// relative minimum support
 	public int minsuppRelative;
 	
-	// The set of all sequential ca.pfv.spmf.patterns that are found
+	// The set of all sequential patterns that are found 
 	private SequentialPatterns patterns = null;
 	List<SequentialPattern> generators =  null;  // NOTE : DOES NOT INCLUDE EMPTY SEQUENCE
 	
@@ -64,7 +64,7 @@ public class AlgoFSGP{
 	// indicate if the pruning will be activated or not
 	private boolean performPruning = true;  // Note: set by runAlgorithm(..)
 	
-	// if enabled, the result will be verified to see if some ca.pfv.spmf.patterns found are not generators.
+	// if enabled, the result will be verified to see if some patterns found are not generators.
 	boolean DEBUG_MODE = false; 
 	
 	
@@ -102,7 +102,7 @@ public class AlgoFSGP{
 		// run the algorithm
 		fsgp(database);
 		
-		// filter non generator ca.pfv.spmf.patterns
+		// filter non generator patterns
 		filterNonGenerator(database);  // GeneratorCheck(...)
 		
 		// record end time
@@ -118,7 +118,7 @@ public class AlgoFSGP{
         			System.out.println("NOT A GENERATOR !!!!!!!!!  "  + pat1 + "    sup: " + pat1.getAbsoluteSupport() + " because of empty set");
         		}
         		
-        		// otherwise we have to compare with every other ca.pfv.spmf.patterns.
+        		// otherwise we have to compare with every other patterns.
         		for(SequentialPattern pat2 : generators) {
             		if(pat1 == pat2) {
             			continue;
@@ -168,7 +168,7 @@ public class AlgoFSGP{
 		// run the algorithm
 		fsgp(database);
 				
-		// filter non generator ca.pfv.spmf.patterns
+		// filter non generator patterns
 		filterNonGenerator(database);  // GeneratorCheck(...)
 		
 		// record end time
@@ -179,7 +179,7 @@ public class AlgoFSGP{
 	
 	
 	/**
-	 * This method remove all the ca.pfv.spmf.patterns that are not generators from the set of ca.pfv.spmf.patterns found.
+	 * This method remove all the patterns that are not generators from the set of patterns found.
 	 * @param database 
 	 */
 	private List<SequentialPattern> filterNonGenerator(SequenceDatabase database) {
@@ -194,7 +194,7 @@ public class AlgoFSGP{
 			// IF THE PRUNING IS  ACTIVATED, WE  NEED TO COMPARE EACH PATTERN OF SIZE i  WITH
 			// EVERY OTHER PATTERNS OF SIZE < i WITH THE SAME SUPPORT
 			
-			// for ca.pfv.spmf.patterns of size i=0 to the maximum size
+			// for patterns of size i=0 to the maximum size
 			for(int i=1; i< patterns.levels.size(); i++){
 				// for each pattern of size i
 	patLoop: for(SequentialPattern pattern : patterns.levels.get(i)) {
@@ -233,7 +233,7 @@ public class AlgoFSGP{
 			// IF THE PRUNING IS NOT ACTIVATED, WE ONLY NEED TO COMPARE EACH PATTERN OF SIZE i WITH
 			// PATTERNS OF SIZE i-1 WITH THE SAME SUPPORT
 			
-			// for ca.pfv.spmf.patterns of size i=0 to the maximum size
+			// for patterns of size i=0 to the maximum size
 			for(int i=1; i< patterns.levels.size(); i++){
 				// for each pattern of size i
 	patLoop: for(SequentialPattern pattern : patterns.levels.get(i)) {
@@ -304,11 +304,11 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	}
 
 	/**
-	 * Check if two ca.pfv.spmf.patterns have the same projection for a given sequence.
+	 * Check if two patterns have the same projection for a given sequence.
 	 * @param originalSequence  the sequence
 	 * @param pattern1 the first pattern
 	 * @param pattern2 the second pattern, which is a sub-pattern of the first one
-	 * @return true if the ca.pfv.spmf.patterns have the same pseudo-projection.
+	 * @return true if the patterns have the same pseudo-projection.
 	 */
 	private boolean sameProjection(Sequence originalSequence,
 			SequentialPattern pattern1, SequentialPattern pattern2) {
@@ -414,7 +414,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 		// if the user want to keep the result into memory
 		patterns = new SequentialPatterns("SEQUENTIAL GENERATOR PATTERNS");
 		
-		// We have to scan the database to find all frequent sequential ca.pfv.spmf.patterns of size 1.
+		// We have to scan the database to find all frequent sequential patterns of size 1.
 		// We note the sequences in which the items appear.
 		Map<Integer, Set<Integer>> mapSequenceID = findSequencesContainingItems(database);
 		
@@ -454,7 +454,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 				   = buildProjectedDatabaseForSingleItem(item, initialDatabase, entry.getValue());
 		
 				// We make a recursive call to try to find larger sequential
-				// ca.pfv.spmf.patterns starting with this prefix
+				// patterns starting with this prefix
 				if(maximumPatternLength >1){
 					recursion(prefix, projectedContext, 2); 
 				}
@@ -776,7 +776,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	}
 	
 	/**
-	 * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Get the maximum length of patterns to be found (in terms of item count)
 	 * @return the maximumPatternLength
 	 */
 	public int getMaximumPatternLength() {
@@ -784,7 +784,7 @@ loop: for(SequentialPattern pattern2 : patterns.levels.get(i-1)) {
 	}
 
 	/**
-	 * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Set the maximum length of patterns to be found (in terms of item count)
 	 * @param maximumPatternLength the maximumPatternLength to set
 	 */
 	public void setMaximumPatternLength(int maximumPatternLength) {

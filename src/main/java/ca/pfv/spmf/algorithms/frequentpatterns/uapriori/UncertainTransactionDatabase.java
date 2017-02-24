@@ -54,7 +54,7 @@ public class UncertainTransactionDatabase {
 		try {
 			FileInputStream fin = new FileInputStream(new File(path));
 			myInput = new BufferedReader(new InputStreamReader(fin));
-			// for each transaction (line) in the ca.pfv.spmf.input file
+			// for each transaction (line) in the input file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
 				// kind of metadata

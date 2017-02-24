@@ -18,30 +18,19 @@
  */
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
+ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
+ import ca.pfv.spmf.tools.MemoryLogger;
 
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
-import ca.pfv.spmf.tools.MemoryLogger;
+ import java.io.*;
+ import java.util.*;
 
 /** 
  * This is an implementation of the FPClose algorithm (Grahne et al., 2004).
  * FPGrowth is described here:
  * <br/><br/>
  * 
- * Grahne, G., & Zhu, J. (2005). Fast ca.pfv.spmf.algorithms for frequent itemset mining using
+ * Grahne, G., & Zhu, J. (2005). Fast algorithms for frequent itemset mining using 
  * fp-trees. Knowledge and Data Engineering, IEEE Transactions on, 17(10), 1347-1362. 
  * * <br/><br/>
  * 
@@ -70,7 +59,7 @@ public class AlgoFPClose {
 	
 	BufferedWriter writer = null; // object to write the output file
 	
-	// The  ca.pfv.spmf.patterns that are found
+	// The  patterns that are found 
 	// (if the user want to keep them into memory)
 	protected Itemsets patterns = null;
 		
@@ -117,7 +106,7 @@ public class AlgoFPClose {
 
 	/**
 	 * Method to run the FPGRowth algorithm.
-	 * @param input the path to an ca.pfv.spmf.input file containing a transaction database.
+	 * @param input the path to an input file containing a transaction database.
 	 * @param output the output file path for saving the result (if null, the result 
 	 *        will be returned by the method instead of being saved).
 	 * @param minsupp the minimum support threshold.
@@ -163,7 +152,7 @@ public class AlgoFPClose {
 		FPTree tree = new FPTree();
 		
 		// read the file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of the file
 		while( ((line = reader.readLine())!= null)){ 
@@ -190,7 +179,7 @@ public class AlgoFPClose {
 			// add the sorted transaction to the fptree.
 			tree.addTransaction(transaction);
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// We create the header table for the tree using the calculated support of single items
@@ -519,8 +508,8 @@ public class AlgoFPClose {
 
 
 	/**
-	 * This method scans the ca.pfv.spmf.input database to calculate the support of single items
-	 * @param input the path of the ca.pfv.spmf.input file
+	 * This method scans the input database to calculate the support of single items
+	 * @param input the path of the input file
 	 * @throws IOException  exception if error while writing the file
 	 * @return a map for storing the support of each item (key: item, value: support)
 	 */
@@ -528,8 +517,8 @@ public class AlgoFPClose {
 			throws FileNotFoundException, IOException {
 		// a map for storing the support of each item (key: item, value: support)
 		 Map<Integer, Integer> mapSupport = new HashMap<Integer, Integer>();
-		//Create object for reading the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		//Create object for reading the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of file
 		while( ((line = reader.readLine())!= null)){ 
@@ -556,7 +545,7 @@ public class AlgoFPClose {
 			// increase the transaction count
 			transactionCount++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		return mapSupport;

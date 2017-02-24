@@ -14,7 +14,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.prefixSpan_AGP.items.patterns.P
 
 /**
  * This is an implementation of a class implementing the Saver interface. By
- * means of these lines, the user choose to keep his ca.pfv.spmf.patterns in a file whose
+ * means of these lines, the user choose to keep his patterns in a file whose
  * path is given to this class.
  *
  * Copyright Antonio Gomariz Peñalver 2013

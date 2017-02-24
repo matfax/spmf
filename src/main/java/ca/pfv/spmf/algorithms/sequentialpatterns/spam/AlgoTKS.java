@@ -25,7 +25,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /*** 
  * This is the original implementation of the TKS algorithm
- * for top-k sequential ca.pfv.spmf.patterns.
+ * for top-k sequential patterns. 
  * <br/><br/>
  * 
  * Copyright (c) 2013 Philippe Fournier-Viger, Antonio Gomariz
@@ -85,7 +85,7 @@ public class AlgoTKS{
 	/**  the last bit position that is used in bitmaps */
 	int lastBitIndex = 0;  
 	
-	/**  the top k ca.pfv.spmf.patterns found until now  */
+	/**  the top k patterns found until now  */
 	PriorityQueue<PatternTKS> kPatterns;  
 	
 	/** the candidates for expansion */
@@ -131,7 +131,7 @@ public class AlgoTKS{
 	/** minimum pattern length in terms of item count */
 	private int maximumPatternLength = Integer.MAX_VALUE;
 	
-	/** items that need to appear in ca.pfv.spmf.patterns found by TKS
+	/** items that need to appear in patterns found by TKS 
 	* (or any items if the array is empty) */
 	int[] mustAppearItems;
 	
@@ -151,7 +151,7 @@ public class AlgoTKS{
 
 	/**
 	 * Method to run the algorithm
-	 * @param input  path to an ca.pfv.spmf.input file
+	 * @param input  path to an input file
 	 * @param outputFilePath path for writing the output file
 	 * @param k the number of sequential pattern to be found
 	 */
@@ -165,14 +165,14 @@ public class AlgoTKS{
 		// record end time
 		endTime = System.currentTimeMillis(); 
 		
-		// return the top-ca.pfv.spmf.patterns
+		// return the top-patterns
 		return kPatterns;
 	}
 	
 	/**
 	 * This is the main method for the TKS algorithm
-	 * @param an ca.pfv.spmf.input file
-	 * @param k the number of ca.pfv.spmf.patterns to be found
+	 * @param an input file
+	 * @param k the number of patterns to be found
 	 * @throws IOException 
 	 */
 	private PriorityQueue<PatternTKS> tks(String input, int k) throws IOException{
@@ -183,7 +183,7 @@ public class AlgoTKS{
 		
 		candidateExplored = 0;
 		
-		// the sets that will contain the top-k ca.pfv.spmf.patterns and the candidates
+		// the sets that will contain the top-k patterns and the candidates
 		kPatterns = new PriorityQueue<PatternTKS>();
 		candidates = new PriorityQueue<Candidate>();
 		discardedItems = new HashSet<Integer>();
@@ -232,7 +232,7 @@ public class AlgoTKS{
 						// increase the number of bits that we will need for each bitmap
 						bitIndex++;
 					}
-					// check if this item must appear in ca.pfv.spmf.patterns (optional)
+					// check if this item must appear in patterns (optional)
 					if(itemMustAppearInPatterns(item)) {
 						containsAMustAppearItem = true;
 					}
@@ -247,7 +247,7 @@ public class AlgoTKS{
 			}
 			// record the last bit position for the bitmaps
 			lastBitIndex = bitIndex -1;
-			reader.close(); // close the ca.pfv.spmf.input file
+			reader.close(); // close the input file
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -259,7 +259,7 @@ public class AlgoTKS{
 		int sid =0; // to know which sequence we are scanning
 		int tid =0;  // to know which itemset we are scanning
 		
-		// for each line (sequence) from the ca.pfv.spmf.input file
+		// for each line (sequence) from the input file
 		for(int[] transaction : inMemoryDB){
 			// split the sequence according to spaces into tokens
 			for(Integer item : transaction){
@@ -447,7 +447,7 @@ public class AlgoTKS{
 			minsupAfterPreProcessing = minsup; // for stats
 	
 			// STEP3: WE PERFORM THE RECURSIVE DEPTH FIRST SEARCH
-			// to find longer sequential ca.pfv.spmf.patterns recursively
+			// to find longer sequential patterns recursively
 	
 			startMiningTime = System.currentTimeMillis();
 			
@@ -496,13 +496,13 @@ public class AlgoTKS{
 	private void save(PatternTKS pattern) {
 		// First, we check if the pattern contains the desired items (optional)
 		// We only do that if the user has specified some items that must appear in
-		// ca.pfv.spmf.patterns.
+		// patterns.
 		if(mustAppearItems != null) {
 			Set<Integer> itemsFound = new HashSet<Integer>();
 			// for each item in the pattern
 loop:		for(Itemset itemset : pattern.prefix.getItemsets()){
 				for(Integer item : itemset.getItems()) {
-					// if the user required that this item must appear in all ca.pfv.spmf.patterns
+					// if the user required that this item must appear in all patterns 
 					if(itemMustAppearInPatterns(item)) {
 						// we note it
 						itemsFound.add(item);
@@ -783,7 +783,7 @@ loop2:	for(Integer i : in){
 	}
 	
 	/**
-	 * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of itemset count)
+	 * Set the maximum length of patterns to be found (in terms of itemset count)
 	 * @param maximumPatternLength the maximumPatternLength to set
 	 */
 	public void setMaximumPatternLength(int maximumPatternLength) {
@@ -791,7 +791,7 @@ loop2:	for(Integer i : in){
 	}
 	
 	/**
-	 * Set the minimum length of ca.pfv.spmf.patterns to be found (in terms of itemset count)
+	 * Set the minimum length of patterns to be found (in terms of itemset count)
 	 * @param minimumPatternLength the minimum pattern length to set
 	 */
 	public void setMinimumPatternLength(int minimumPatternLength) {
@@ -800,7 +800,7 @@ loop2:	for(Integer i : in){
 	
 	
 	/**
-	 * Optional method to specify the items that must appears in ca.pfv.spmf.patterns found by TKS
+	 * Optional method to specify the items that must appears in patterns found by TKS
 	 * @param mustAppearItems an array of items
 	 */
 	public void setMustAppearItems(int[] mustAppearItems) {
@@ -818,8 +818,8 @@ loop2:	for(Integer i : in){
 
 	/**
 	 * This method allows to specify the maximum gap 
-	 * between itemsets of ca.pfv.spmf.patterns found by the algorithm.
-	 * If set to 1, only ca.pfv.spmf.patterns of contiguous itemsets
+	 * between itemsets of patterns found by the algorithm. 
+	 * If set to 1, only patterns of contiguous itemsets
 	*  will be found (no gap).
 	 * @param maxGap the maximum gap (an integer)
 	 */

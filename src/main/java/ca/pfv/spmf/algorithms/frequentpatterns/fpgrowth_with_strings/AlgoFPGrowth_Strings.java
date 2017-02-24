@@ -18,27 +18,17 @@ package ca.pfv.spmf.algorithms.frequentpatterns.fpgrowth_with_strings;
 */
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /** 
  * This is an implementation of the FPGROWTH algorithm (Han et al., 2004) that take
- * as ca.pfv.spmf.input a transaction database where items are represented by strings rather
+ * as input a transaction database where items are represented by strings rather
  * than integers.
  * FPGrowth is described here:
  * <br/><br/>
  * 
- * Han, J., Pei, J., & Yin, Y. (2000, May). Mining frequent ca.pfv.spmf.patterns without candidate generation. In ACM SIGMOD Record (Vol. 29, No. 2, pp. 1-12). ACM
+ * Han, J., Pei, J., & Yin, Y. (2000, May). Mining frequent patterns without candidate generation. In ACM SIGMOD Record (Vol. 29, No. 2, pp. 1-12). ACM
  * <br/><br/>
  * 
  * This is an optimized version that saves the result to a file.
@@ -71,7 +61,7 @@ public class AlgoFPGrowth_Strings {
 
 	/**
 	 * Run the algorithm.
-	 * @param input the file path of an ca.pfv.spmf.input transaction database.
+	 * @param input the file path of an input transaction database.
 	 * @param output the path of the desired output file
 	 * @param minsupp minimum support threshold as a percentage (double)
 	 * @throws IOException exception if error while writing the file
@@ -104,9 +94,9 @@ public class AlgoFPGrowth_Strings {
 		FPTree_Strings tree = new FPTree_Strings();
 		
 		
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
-		// for each line (transaction) in the ca.pfv.spmf.input file until the end of file
+		// for each line (transaction) in the input file until the end of file
 		while( ((line = reader.readLine())!= null)){ 
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
@@ -144,7 +134,7 @@ public class AlgoFPGrowth_Strings {
 			// add the sorted transaction to the fptree.
 			tree.addTransaction(transaction);
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// We create the header table for the tree
@@ -173,16 +163,16 @@ public class AlgoFPGrowth_Strings {
 //	}
 
 	/**
-	 * This method scans the ca.pfv.spmf.input database to calculate the support of single items
-	 * @param input the path of the ca.pfv.spmf.input file
+	 * This method scans the input database to calculate the support of single items
+	 * @param input the path of the input file
 	 * @param mapSupport a map for storing the support of each item (key: item, value: support)
 	 * @throws IOException  exception if error while writing the file
 	 */
 	private void scanDatabaseToDetermineFrequencyOfSingleItems(String input,
 			final Map<String, Integer> mapSupport)
 			throws FileNotFoundException, IOException {
-		//Create object for reading the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		//Create object for reading the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of file
 		while( ((line = reader.readLine())!= null)){ 
@@ -209,7 +199,7 @@ public class AlgoFPGrowth_Strings {
 			// increase the transaction count
 			transactionCount++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 	}
 
@@ -225,7 +215,7 @@ public class AlgoFPGrowth_Strings {
 		// We need to check if there is a single path in the prefix tree or not.
 		if(tree.hasMoreThanOnePath == false){
 			// That means that there is a single path, so we 
-			// add all combinations of this path, concatenated with the prefix "alpha", to the set of ca.pfv.spmf.patterns found.
+			// add all combinations of this path, concatenated with the prefix "alpha", to the set of patterns found.
 			addAllCombinationsForPathAndPrefix(tree.root.childs.get(0), prefixAlpha); // CORRECT?
 			
 		}else{ // There is more than one path
@@ -251,7 +241,7 @@ public class AlgoFPGrowth_Strings {
 				continue;
 			}
 			// Create Beta by concatening Alpha with the current item
-			// and add it to the list of frequent ca.pfv.spmf.patterns
+			// and add it to the list of frequent patterns
 			String [] beta = new String[prefixAlpha.length+1];
 			System.arraycopy(prefixAlpha, 0, beta, 0, prefixAlpha.length);
 			beta[prefixAlpha.length] = item;
@@ -329,7 +319,7 @@ public class AlgoFPGrowth_Strings {
 
 	/**
 	 * This method is for adding recursively all combinations of nodes in a path, concatenated with a given prefix,
-	 * to the set of ca.pfv.spmf.patterns found.
+	 * to the set of patterns found.
 	 * @param nodeLink the first node of the path
 	 * @param prefix  the prefix
 	 * @param minsupportForNode the support of this path.

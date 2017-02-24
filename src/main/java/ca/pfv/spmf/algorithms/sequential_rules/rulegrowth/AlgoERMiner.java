@@ -81,13 +81,13 @@ public class AlgoERMiner {
 	 * The main method to run the algorithm
 	 * @param minSupport : the minimum support (percentage as a double value)
 	 * @param minConfidence : the minimum confidence threshold
-	 * @param input : an ca.pfv.spmf.input file path of a seq   uence database
+	 * @param input : an input file path of a seq   uence database
 	 * @param output : a file path for writing the output file containing the seq. rules.
 	 * @exception IOException if error reading/writing files
 	 */
 	public void runAlgorithm(double minSupport, double minConfidence, String input, String output) throws IOException {
 		try {
-			// read the ca.pfv.spmf.input database
+			// read the input database
 			database = new SequenceDatabase(); 
 			database.loadFile(input);
 		} catch (Exception e) {
@@ -104,7 +104,7 @@ public class AlgoERMiner {
 	 * The main method to run the algorithm
 	 * @param relativeMinsup : the minimum support as an integer value (a relative minimum support)
 	 * @param minConfidence : the minimum confidence threshold
-	 * @param input : an ca.pfv.spmf.input file path of a sequence database
+	 * @param input : an input file path of a sequence database
 	 * @param output : a file path for writing the output file containing the seq. rules.
 	 * @exception IOException if error reading/writing files
 	 */

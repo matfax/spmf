@@ -1,10 +1,8 @@
 package ca.pfv.spmf.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-
+import ca.pfv.spmf.NoExceptionAssertion;
 import ca.pfv.spmf.tools.dataset_generator.SequenceDatabaseGenerator;
+import org.junit.Test;
 
 /**
  * Example of how to use the random sequence database generator to
@@ -12,18 +10,14 @@ import ca.pfv.spmf.tools.dataset_generator.SequenceDatabaseGenerator;
  */
 public class MainTestGenerateSequenceDatabase {
 
-	public static void main(String [] arg) throws IOException{
+    @Test
+    public void main() {
+        NoExceptionAssertion.assertDoesNotThrow(() -> {
 
-		String outputFile = ".//output.txt";
-		
-		SequenceDatabaseGenerator generator = new SequenceDatabaseGenerator();
-		generator.generateDatabase(5, 500, 2, 8, outputFile, false);
-	}
+            String outputFile = ".//output.txt";
 
-	
-
-	public static String fileToPath(String filename) throws UnsupportedEncodingException{
-		URL url = MainTestGenerateSequenceDatabase.class.getResource(filename);
-		 return java.net.URLDecoder.decode(url.getPath(),"UTF-8");
-	}
+            SequenceDatabaseGenerator generator = new SequenceDatabaseGenerator();
+            generator.generateDatabase(5, 500, 2, 8, outputFile, false);
+        });
+    }
 }

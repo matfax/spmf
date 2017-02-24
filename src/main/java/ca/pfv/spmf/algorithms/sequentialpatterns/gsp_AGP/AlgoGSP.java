@@ -39,8 +39,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * and Agrawal 1996.
  *<br/><br/>
  *
- * NOTE: This implementation saves the ca.pfv.spmf.patterns to a file as soon as a level of
- * ca.pfv.spmf.patterns is found or can keep the ca.pfv.spmf.patterns into memory if no output path is provided by the user.
+ * NOTE: This implementation saves the patterns to a file as soon as a level of
+ * patterns is found or can keep the patterns into memory if no output path is provided by the user.
  * 
  * @author Antonio Gomariz Peñalver 
  */
@@ -59,7 +59,7 @@ public class AlgoGSP {
      */
     protected double minSupAbsolute;
     /**
-     * Set of frequent ca.pfv.spmf.patterns. Whether the user chooses a to save in a file or
+     * Set of frequent patterns. Whether the user chooses a to save in a file or
      * in the memory we use it to keep the different k-levels of frequent
      * sequences
      */
@@ -71,7 +71,7 @@ public class AlgoGSP {
     private AbstractionCreator abstractionCreator;
     //Flag indicanting if the output is sorted or not
     private boolean isSorted;
-    //counter for the frequent ca.pfv.spmf.patterns already found
+    //counter for the frequent patterns already found
     private int numberOfFrequentPatterns;
     // writer to write output file
     BufferedWriter writer = null;
@@ -97,7 +97,7 @@ public class AlgoGSP {
      *
      * @param database a sequence database
      * @param keepPatterns flag activated if we want to keep the resulting
-     * ca.pfv.spmf.patterns or not
+     * patterns or not
      * @param verbose flat activated for debugging purposes
      * @param outputFilePath an output file path
      * @param outputSequenceIdentifiers if true output sequence identifiers with each pattern
@@ -148,14 +148,14 @@ public class AlgoGSP {
      * @param candidateGenerator a CandidateGenerator
      * @param supportCounter a supportCounting element
      * @param keepPatterns flag activated if we want to keep the resulting
-     * ca.pfv.spmf.patterns or not
+     * patterns or not
      * @param verbose flat activated for debugging purposes
      * @throws IOException
      */
     protected void runGsp(SequenceDatabase database, CandidateGeneration candidateGenerator, SupportCounting supportCounter, boolean keepPatterns, boolean verbose) throws IOException {
         //we get the frequent items found in the original database
         frequentItems = database.frequentItems();
-        /* And we add the sequences as the 1-level of ca.pfv.spmf.patterns. NOTE: we need them
+        /* And we add the sequences as the 1-level of patterns. NOTE: we need them
          * for generating the candidates
          */
         patterns.addSequences(frequentItems, 1);
@@ -202,14 +202,14 @@ public class AlgoGSP {
             
             frequentSet = supportCounter.countSupport(candidateSet, k, minSupAbsolute);
             if (verbose) {
-                System.out.println(frequentSet.size() + " frequent ca.pfv.spmf.patterns\n");
+                System.out.println(frequentSet.size() + " frequent patterns\n");
             }
             
             
             // check the memory usage for statistics
             MemoryLogger.getInstance().checkMemory();
 
-           //We update the number of frequent ca.pfv.spmf.patterns, adding the number (k+1)-frequent ca.pfv.spmf.patterns found
+           //We update the number of frequent patterns, adding the number (k+1)-frequent patterns found
             numberOfFrequentPatterns += frequentSet.size();
             /*And we prepare the next iteration, updating the indexation map and
              * the frequent level capable of generating the new candidates
@@ -218,7 +218,7 @@ public class AlgoGSP {
             indexationMap = supportCounter.getIndexationMap();
             patterns.addSequences(new ArrayList<Pattern>(frequentSet), k);
             /*Finally, we remove the previous level if we are not interested in
-             * keeping the frequent ca.pfv.spmf.patterns in memory
+             * keeping the frequent patterns in memory
              */
             int level = k - 1;  
             if (!keepPatterns) {
@@ -311,7 +311,7 @@ public class AlgoGSP {
 
     /**
      * 
-     * @return the frequent ca.pfv.spmf.patterns found by the last execution of GSP. It only
+     * @return the frequent patterns found by the last execution of GSP. It only
      * works under a Save_To_Memory option.
      */
     public String getPatterns() {

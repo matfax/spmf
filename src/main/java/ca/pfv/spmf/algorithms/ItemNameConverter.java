@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * This class is used to rename items in a datasets.
- * It is used by several ca.pfv.spmf.algorithms that use a total order, which
+ * It is used by several algorithms that use a total order, which
  * is different from the alphabetical or lexicographical order. 
  * By renaming items with consecutive names, it allows several optimization
  * such as faster comparison between items by using the > < == operators.

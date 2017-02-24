@@ -35,7 +35,7 @@ import java.net.URL;
  * characters are not supported.
  * <br/><br/>
  * 
- * For example, the following ca.pfv.spmf.input file (example.arff) is in ARFF format and
+ * For example, the following input file (example.arff) is in ARFF format and
  * can be converted to SPMF format by the tool. This file defines a table named
  * "sunburn" having 6 attributes. The first five attributes have a limited set
  * of possible values. For example, the attribute "weight" is an enumeration
@@ -128,8 +128,8 @@ import java.net.URL;
  *                   attribute "col_17".
  * 
  *                   Note that all lines starting with "@" are metadata that are
- *                   not used by the ca.pfv.spmf.algorithms in SPMF". But this data is kept
- *                   so that the results found by the ca.pfv.spmf.algorithms can be
+ *                   not used by the algorithms in SPMF". But this data is kept
+ *                   so that the results found by the algorithms can be
  *                   interpreted.
  */
 class MainTestConvertTransactionDatabaseARFFtoSPMF {
@@ -138,12 +138,12 @@ class MainTestConvertTransactionDatabaseARFFtoSPMF {
 
 		String inputFile = fileToPath("example.arff"); // the file to be converted in ARFF format
 		String outputFile = ".//output.txt"; // the resulting converted file in SPMF format
-		Formats inputFileformat = Formats.ARFF;  // the format of the ca.pfv.spmf.input file (ARFF)
-		int transactionCount = Integer.MAX_VALUE;  // the number of transaction from the ca.pfv.spmf.input file to be converted
+		Formats inputFileformat = Formats.ARFF;  // the format of the input file (ARFF)
+		int transactionCount = Integer.MAX_VALUE;  // the number of transaction from the input file to be converted
 
 		// Create a converter
 		TransactionDatabaseConverter converter = new TransactionDatabaseConverter();
-		// Call the method to convert the ca.pfv.spmf.input file from ARFF to the SPMF format
+		// Call the method to convert the input file from ARFF to the SPMF format
 		converter.convert(inputFile, outputFile, inputFileformat, transactionCount);
 	}
 

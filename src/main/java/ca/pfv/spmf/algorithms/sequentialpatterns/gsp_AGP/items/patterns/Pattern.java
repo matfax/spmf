@@ -37,7 +37,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.abstractions.Item
 public class Pattern implements Comparable<Pattern> {
 
     /**
-     * List of elements of a ca.pfv.spmf.patterns. Concretely it is a list of pairs <abstraction, item>
+     * List of elements of a patterns. Concretely it is a list of pairs <abstraction, item>
      */
     private List<ItemAbstractionPair> elements;
     /**
@@ -141,7 +141,7 @@ public class Pattern implements Comparable<Pattern> {
     }
 
     /**
-     * It gets the components of the ca.pfv.spmf.patterns in a list of pairs
+     * It gets the components of the patterns in a list of pairs
      * @return the list of pairs
      */
     public List<ItemAbstractionPair> getElements() {

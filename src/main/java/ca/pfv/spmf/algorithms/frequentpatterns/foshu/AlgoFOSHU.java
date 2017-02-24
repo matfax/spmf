@@ -62,7 +62,7 @@ public class AlgoFOSHU {
 	// the number of join operations performed by the algorithm
 	public int joinCount =0;
 	
-	// the ca.pfv.spmf.input file path
+	// the input file path
 	public String input;
 	
 	// Map to remember the TWU of each item
@@ -78,7 +78,7 @@ public class AlgoFOSHU {
 	boolean debug = false;
 	
 	//======================== FOR SCALABILITY EXPERIMENTS =====
-	// The following line allows to specify how many lines from the ca.pfv.spmf.input file should
+	// The following line allows to specify how many lines from the input file should
 	// be read. By default this parameter is set to Integer.MAX_VALUE (read the whole file).
 	public int maxSEQUENCECOUNT = Integer.MAX_VALUE;
 	
@@ -123,7 +123,7 @@ public class AlgoFOSHU {
 
 	/**
 	 * Run the algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtilityRatio the minimum utility ratio threshold
 	 * @throws IOException exception if error while writing the file
@@ -132,7 +132,7 @@ public class AlgoFOSHU {
 		// reset maximum
 		maxMemory =0;
 		
-		// keep the ca.pfv.spmf.input file path
+		// keep the input file path
 		this.input = input;
 		
 		//  keep the minimum utility ratio
@@ -163,7 +163,7 @@ public class AlgoFOSHU {
 		String thisLine;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null
 					&& transactionCount <= maxSEQUENCECOUNT) {
@@ -186,11 +186,34 @@ public class AlgoFOSHU {
 				// get the list of utility values corresponding to each item
 				// for that transaction
 				String utilityValues[] = split[2].split(" ");
+				
+				//****** BUG FIX 2016 *****
+				// We will not trust the transaction utility value in the input file.
+				// We will calculate it again.
+				// First, we will convert the utility values to integer
+				// and calculate the transaction utility WITH negative values
+				//   (this is necessary to calculate the relative utility of itemsets)
+				// and the transaction utility WITH only positive values
+				//   (this is necessary to calculate the 
+				//      RTWU upper-bound on the utility of itemsets
+				int[] utilityValuesInt = new int[utilityValues.length];
+				int transactionUtilityWithNegativeAndPositive = 0;
+				int transactionUtilityWithPositive = 0;
+				for(int j=0; j< utilityValues.length; j++){
+					utilityValuesInt[j] = Integer.parseInt(utilityValues[j]);
+					transactionUtilityWithNegativeAndPositive += utilityValuesInt[j];
+					if(utilityValuesInt[j] > 0){
+						transactionUtilityWithPositive += utilityValuesInt[j];
+					}
+				}
+				//****** END BUG FIX 2016 *****
+				
 				// get the period id
 				int period = Integer.parseInt(split[3]);
 				//===============================================
 				// the second part is the transaction utility
-				int transactionUtility = Integer.parseInt(split[1]);  
+//				int transactionUtility = Integer.parseInt(split[1]);  
+				int transactionUtility = transactionUtilityWithPositive;
 				// for each item, we add the transaction utility to its TWU
 				for(int i=0; i <items.length; i++){
 					// convert item to integer
@@ -198,7 +221,7 @@ public class AlgoFOSHU {
 					
 					//===================== FOSHU ===========================
 					// get the profit of the item in that transaction
-					Integer itemUtility = Integer.parseInt(utilityValues[i]);
+					Integer itemUtility = utilityValuesInt[i];
 					// if the profit is negative, we add the item to the set of negative items
 					if(itemUtility < 0) {
 						negativeItems.add(item);
@@ -215,11 +238,11 @@ public class AlgoFOSHU {
 
 				//===================== FOSHU ===========================
 				// update period utility
-				incrementPeriodUtility(period, transactionUtility);
+				incrementPeriodUtility(period, transactionUtilityWithNegativeAndPositive);
 				//==================================
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -356,7 +379,7 @@ public class AlgoFOSHU {
 
 			}
 		} catch (Exception e) {
-			// to catch error while reading the ca.pfv.spmf.input file
+			// to catch error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -385,7 +408,7 @@ public class AlgoFOSHU {
 					}
 					// if the TWU divided by the period utility is 
 					// no less than the minutil ratio for that period
-					if(twuX / Math.abs(((double) periodUtilities.get(z))) >= minUtilityRatio) {
+					if(calculateRelativeUtilityInPeriod(z, twuX) >= minUtilityRatio) {
 						// than X is promising and we do not need to continue checking X
 						isPromisingInAtLeastAPeriod = true;
 						break;
@@ -408,6 +431,35 @@ public class AlgoFOSHU {
 		writer.close();
 		// record end time
 		endTimestamp = System.currentTimeMillis();
+	}
+
+	/**
+	 * Calculate the relative utility in a period
+	 * @param z the period number
+	 * @param utility  the utility value
+	 * @return the relative utility
+	 */
+	private double calculateRelativeUtilityInPeriod(int z, double utility) {
+		double x = Math.abs(((double) periodUtilities.get(z)));
+		if(x == 0){
+			return 0;
+		}
+		return utility / Math.abs(((double) periodUtilities.get(z)));
+	}
+	
+	
+	
+	/**
+	 * Calculate the relative utility 
+	 * @param sumPeriodUtility the sum of the period utilities
+	 * @param utility  the utility value
+	 * @return the relative utility
+	 */
+	private double calculateRelativeUtility(int sumPeriodUtility, double utility) {
+		if(sumPeriodUtility == 0){
+			return 0;
+		}
+		return utility / Math.abs(sumPeriodUtility);
 	}
 	
 
@@ -469,15 +521,16 @@ public class AlgoFOSHU {
 					// We calculate the upper bound which is the sum
 					// of utility and remaining utility and check if it is greater
 					// than minutil. If yes, than X is promising.
-					if(X.getSumIRUtilsInPeriod(z)  
-							/ Math.abs(((double) periodUtilities.get(z))) >= minUtilityRatio) {
+					if(calculateRelativeUtilityInPeriod(z, X.getSumIRUtilsInPeriod(z)) >= minUtilityRatio) {
 						isPromisingInAtLeastOnePeriod = true;
 					}
 				}
 			}
 			
 			// Calculate the relative utility of p U {X}.
-			double ru = (X.sumIutilP + X.sumIutilN) / ((double) Math.abs(sumPeriodUtility));
+			double ru = 
+					calculateRelativeUtility(sumPeriodUtility, (X.sumIutilP + X.sumIutilN));
+
 			// if X is a on-shelf high utility itemset 
 			// (if its relative utility is no less than minUtil)
 			if(ru >= minUtilityRatio) {
@@ -524,7 +577,7 @@ public class AlgoFOSHU {
 						}
 						
 						// if the itemset p U {X,Y} is promising in that period
-						if(twuXY / Math.abs(((double) periodUtilities.get(z))) >= minUtilityRatio) {
+						if(calculateRelativeUtilityInPeriod(z, twuXY) >= minUtilityRatio) {
 							// we take note of that and stop this loop
 							isPromisingInAtLeastAPeriod = true;
 							break;
@@ -543,7 +596,7 @@ public class AlgoFOSHU {
 			foshu(newPrefix, X, exULs); 
 		}
 	}
-	
+
 
 	/**
 	 * Method to write a high utility itemset to the output file.
@@ -617,7 +670,7 @@ public class AlgoFOSHU {
 	 * @throws IOException 
 	 */
 	public void printStats() throws IOException {
-		System.out.println("=============  FOSHU ALGORITHM - STATS =============");
+		System.out.println("=============  FOSHU ALGORITHM v2.02 - STATS =============");
 		System.out.println("Dataset : " + input);
 		System.out.println(" Total time ~ "                  + (endTimestamp - startTimestamp) + " ms");
 		System.out.println(" Memory ~ "                      + maxMemory+ " MB");

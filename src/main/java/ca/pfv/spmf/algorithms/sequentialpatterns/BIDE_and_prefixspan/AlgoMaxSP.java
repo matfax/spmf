@@ -19,8 +19,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * This is the MaxSP algorithm that discovers
- * the set of maximal sequential ca.pfv.spmf.patterns instead of the set of all
- * closed sequential ca.pfv.spmf.patterns. It is described in the following paper:
+ * the set of maximal sequential patterns instead of the set of all
+ * closed sequential patterns. It is described in the following paper:
  * 
  * Fournier-Viger, P., Wu, C.-W., Tseng, V.-S. (2013). Mining Maximal Sequential 
  * Patterns without Candidate Maintenance. Proc. 9th International Conference 
@@ -51,7 +51,7 @@ public class AlgoMaxSP {
 	long startTime;
 	long endTime;
 	
-	// the number of ca.pfv.spmf.patterns found
+	// the number of patterns found
 	int patternCount = 0;
 		
 	// absolute minimum support
@@ -63,7 +63,7 @@ public class AlgoMaxSP {
 	// we have to keep a pointer to the original database
 	private Map<Integer, PseudoSequenceBIDE> initialDatabase = null;  // sid, sequence
 	
-	// The sequential ca.pfv.spmf.patterns that are found
+	// The sequential patterns that are found 
 	// (if the user want to keep them into memory)
 	private SequentialPatterns patterns = null;
 
@@ -95,7 +95,7 @@ public class AlgoMaxSP {
 
 		// save minsup
 		this.minsuppAbsolute = minsup;
-		// reset the counter for the number of ca.pfv.spmf.patterns found
+		// reset the counter for the number of patterns found
 		patternCount = 0; 
 		// reset the stats about memory usage
 		MemoryLogger.getInstance().reset();
@@ -170,7 +170,7 @@ loop1:	for(Entry<Integer, Set<Integer>> entry : mapSequenceID.entrySet()){
 				// set the sequence IDS of this prefix
 				prefix.setSequenceIDs(entry.getValue());
 				
-				// variable to store the largest support of ca.pfv.spmf.patterns
+				// variable to store the largest support of patterns
 				// that will be found starting with this prefix
 				if(projectedContext.size() >= minsuppAbsolute) {
 					int successorSupport = 0;
@@ -619,7 +619,7 @@ loop1:	for(PseudoSequenceBIDE sequence : database){
 		// find frequent items of size 1 in the current projected database.
 		Set<PairBIDE> pairs = findAllFrequentPairs(prefix, contexte);
 		
-		// we will keep tract of the maximum support of ca.pfv.spmf.patterns
+		// we will keep tract of the maximum support of patterns
 		// that can be found with this prefix, to check
 		// for forward extension when this method returns.
 		int maxSupport = 0;
@@ -673,7 +673,7 @@ loop1:	for(PseudoSequenceBIDE sequence : database){
 					}
 				}
 
-				// record the largest support of ca.pfv.spmf.patterns found starting
+				// record the largest support of patterns found starting
 				// with this prefix until now
 				if(newPrefix.getAbsoluteSupport() > maxSupport){
 					maxSupport = newPrefix.getAbsoluteSupport();

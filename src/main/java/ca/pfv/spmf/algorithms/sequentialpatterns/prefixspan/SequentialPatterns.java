@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A set of sequential ca.pfv.spmf.patterns grouped by their size (how many items they have).
+ * A set of sequential patterns grouped by their size (how many items they have).
  *
  * Copyright (c) 2008-2013 Philippe Fournier-Viger
  * 
@@ -26,29 +26,29 @@ import java.util.List;
  */
 public class SequentialPatterns {
 	
-	// A list of list is used to stored the sequential ca.pfv.spmf.patterns.
-	// At position i, a list of sequential ca.pfv.spmf.patterns contains
-	// all sequential ca.pfv.spmf.patterns of size i.
-	public final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset classï¿½ par taille
-	// the total number of sequential ca.pfv.spmf.patterns
+	// A list of list is used to stored the sequential patterns.
+	// At position i, a list of sequential patterns contains
+	// all sequential patterns of size i.
+	public final List<List<SequentialPattern>> levels = new ArrayList<List<SequentialPattern>>();  // itemset classé par taille
+	// the total number of sequential patterns
 	public int sequenceCount=0;
 	
-	// a name that is given to this set of sequential ca.pfv.spmf.patterns
+	// a name that is given to this set of sequential patterns
 	private final String name;
 	
 	/**
 	 * Constructor
-	 * @param name a name to give to this set of ca.pfv.spmf.patterns
+	 * @param name a name to give to this set of patterns
 	 */
 	public SequentialPatterns(String name){
 		this.name = name; // save the name
 		// initialize the list of list with an empty list
-		// for ca.pfv.spmf.patterns of size 0.
+		// for patterns of size 0.
 		levels.add(new ArrayList<SequentialPattern>()); 
 	}
 	
 	/**
-	 * Print all sequential ca.pfv.spmf.patterns to System.out.
+	 * Print all sequential patterns to System.out.
 	 * @param nbObject the size of the original database in terms of sequences.
 	 * @param showSequenceIdentifiers  if true, sequence identifiers will be output for each pattern
 	 */
@@ -57,8 +57,8 @@ public class SequentialPatterns {
 	}
 	
 	/**
-	 * Get a string representation of this set of sequential ca.pfv.spmf.patterns.
-	 * @param nbObject  the number of sequences in the database where these ca.pfv.spmf.patterns were found.
+	 * Get a string representation of this set of sequential patterns.
+	 * @param nbObject  the number of sequences in the database where these patterns were found.
 	 * @param showSequenceIdentifiers  if true, sequence identifiers will be output for each pattern
 	 * @return a string
 	 */
@@ -104,7 +104,7 @@ public class SequentialPatterns {
 	}
 	
 	/**
-	 * Add a sequential pattern to this set of sequential ca.pfv.spmf.patterns.
+	 * Add a sequential pattern to this set of sequential patterns.
 	 * @param sequence the sequential pattern
 	 * @param k the size of the sequential pattern in temrs of itemset.
 	 */
@@ -117,16 +117,16 @@ public class SequentialPatterns {
 	}
 	
 	/**
-	 * Get all the sequential ca.pfv.spmf.patterns of a given size.
+	 * Get all the sequential patterns of a given size.
 	 * @param index the size in terms of items.
-	 * @return a list of sequential ca.pfv.spmf.patterns.
+	 * @return a list of sequential patterns.
 	 */
 	public List<SequentialPattern> getLevel(int index){
 		return levels.get(index);
 	}
 	
 	/**
-	 * Get the maximum size of sequential ca.pfv.spmf.patterns + 1.
+	 * Get the maximum size of sequential patterns + 1.
 	 * @return the maximum size.
 	 */
 	public int getLevelCount(){
@@ -134,8 +134,8 @@ public class SequentialPatterns {
 	}
 
 	/**
-	 * Get a list of list of sequential ca.pfv.spmf.patterns such that
-	 * at position i, there is a list of sequential ca.pfv.spmf.patterns
+	 * Get a list of list of sequential patterns such that
+	 * at position i, there is a list of sequential patterns
 	 * containing i items.
 	 * @return
 	 */

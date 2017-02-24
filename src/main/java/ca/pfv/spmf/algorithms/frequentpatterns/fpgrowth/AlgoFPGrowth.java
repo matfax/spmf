@@ -18,30 +18,19 @@
  */
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
+ import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
+ import ca.pfv.spmf.tools.MemoryLogger;
 
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
-import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
-import ca.pfv.spmf.tools.MemoryLogger;
+ import java.io.*;
+ import java.util.*;
 
 /** 
  * This is an implementation of the FPGROWTH algorithm (Han et al., 2004).
  * FPGrowth is described here:
  * <br/><br/>
  * 
- * Han, J., Pei, J., & Yin, Y. (2000, May). Mining frequent ca.pfv.spmf.patterns without candidate generation. In ACM SIGMOD Record (Vol. 29, No. 2, pp. 1-12). ACM
+ * Han, J., Pei, J., & Yin, Y. (2000, May). Mining frequent patterns without candidate generation. In ACM SIGMOD Record (Vol. 29, No. 2, pp. 1-12). ACM
  * <br/><br/>
  * 
  * This is an optimized version that saves the result to a file
@@ -66,12 +55,12 @@ public class AlgoFPGrowth {
 	
 	BufferedWriter writer = null; // object to write the output file
 	
-	// The  ca.pfv.spmf.patterns that are found
+	// The  patterns that are found 
 	// (if the user want to keep them into memory)
 	protected Itemsets patterns = null;
 		
 	// This variable is used to determine the size of buffers to store itemsets.
-	// A value of 50 is enough because it allows up to 2^50 ca.pfv.spmf.patterns!
+	// A value of 50 is enough because it allows up to 2^50 patterns!
 	final int BUFFERS_SIZE = 2000;
 	
 	// buffer for storing the current itemset that is mined when performing mining
@@ -94,7 +83,7 @@ public class AlgoFPGrowth {
 
 	/**
 	 * Method to run the FPGRowth algorithm.
-	 * @param input the path to an ca.pfv.spmf.input file containing a transaction database.
+	 * @param input the path to an input file containing a transaction database.
 	 * @param output the output file path for saving the result (if null, the result 
 	 *        will be returned by the method instead of being saved).
 	 * @param minsupp the minimum support threshold.
@@ -137,7 +126,7 @@ public class AlgoFPGrowth {
 		FPTree tree = new FPTree();
 		
 		// read the file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of the file
 		while( ((line = reader.readLine())!= null)){ 
@@ -176,7 +165,7 @@ public class AlgoFPGrowth {
 			// add the sorted transaction to the fptree.
 			tree.addTransaction(transaction);
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// We create the header table for the tree using the calculated support of single items
@@ -392,8 +381,8 @@ public class AlgoFPGrowth {
 	
 
 	/**
-	 * This method scans the ca.pfv.spmf.input database to calculate the support of single items
-	 * @param input the path of the ca.pfv.spmf.input file
+	 * This method scans the input database to calculate the support of single items
+	 * @param input the path of the input file
 	 * @throws IOException  exception if error while writing the file
 	 * @return a map for storing the support of each item (key: item, value: support)
 	 */
@@ -401,8 +390,8 @@ public class AlgoFPGrowth {
 			throws FileNotFoundException, IOException {
 		// a map for storing the support of each item (key: item, value: support)
 		 Map<Integer, Integer> mapSupport = new HashMap<Integer, Integer>();
-		//Create object for reading the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		//Create object for reading the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of file
 		while( ((line = reader.readLine())!= null)){ 
@@ -429,7 +418,7 @@ public class AlgoFPGrowth {
 			// increase the transaction count
 			transactionCount++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		return mapSupport;
@@ -469,7 +458,7 @@ public class AlgoFPGrowth {
 			
 		}// otherwise the result is kept into memory
 		else{
-			// create an object Itemset and add it to the set of ca.pfv.spmf.patterns
+			// create an object Itemset and add it to the set of patterns 
 			// found.
 			int[] itemsetArray = new int[itemsetLength];
 			System.arraycopy(itemset, 0, itemsetArray, 0, itemsetLength);

@@ -17,10 +17,10 @@ package ca.pfv.spmf.algorithms.sort;
 */
 
 /**
- * Implementation of a few sorting ca.pfv.spmf.algorithms (merge sort, insertion sort, etc.).
+ * Implementation of a few sorting algorithms (merge sort, insertion sort, etc.).
  * based on description from the book "Introduction to Algorithms" from MIT Press.
  * 
- * Please refer to that book for details about the ca.pfv.spmf.algorithms and proofs that
+ * Please refer to that book for details about the algorithms and proofs that
  * they are correct.
  */
 public class Sort {

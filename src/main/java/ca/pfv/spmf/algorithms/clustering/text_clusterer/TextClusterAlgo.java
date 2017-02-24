@@ -154,7 +154,7 @@ public void runAlgorithm(String inputPath,String outputPath)
 	}
 	else
 	{
-		System.out.println("Please pass the path of the ca.pfv.spmf.input");
+		System.out.println("Please pass the path of the input");
 	}
 	}
 	catch(Exception e)
@@ -191,8 +191,8 @@ private double calculateSimilarity(double[] tfIdfVector1,
 
 	}
 /**
- * load the ca.pfv.spmf.input as objects of records
- * @param inputReader the reader object to read ca.pfv.spmf.input
+ * load the input as objects of records
+ * @param inputReader the reader object to read input
  * @param stemFlag if true, do the stemming; else, do not stem.
  * @param stopWordFlag if true, do the stop word removal; else, do not remove stop words.
  * @return the list of records
@@ -247,9 +247,9 @@ private  ArrayList<Record> loadInput(BufferedReader inputReader, boolean stemFla
 }
 /**
  * To find the TFIDF value for a given document and a given term in the whole set of documents
- * @param document The Text record in the ca.pfv.spmf.input file.
+ * @param document The Text record in the input file.
  * @param term The term in the allWords
- * @param records The whole record collection of the ca.pfv.spmf.input file.
+ * @param records The whole record collection of the input file.
  * @return tfidf value of the given document and the term
  */
 private  double FindTFIDF(String document, String term, ArrayList<Record> records)
@@ -263,7 +263,7 @@ private  double FindTFIDF(String document, String term, ArrayList<Record> record
  * i.e.; log of the ratio of  total no of document in the collection to the no. of document containing the term
  * we can also use Math.Log(occurance/(1+documentCollection.size)) to deal with divide by zero case; 
  *@param term The term in the allWords
- *@param records The whole record collection of the ca.pfv.spmf.input file.
+ *@param records The whole record collection of the input file.
  *@return the inverse document frequency
  */
 
@@ -282,7 +282,7 @@ private  float FindInverseDocumentFrequency(String term,
 
 /**
  * To find the ratio of no of occurance of term t in document d to the total no of terms in the document
- *@param document The Text record in the ca.pfv.spmf.input file
+ *@param document The Text record in the input file
  *@param term The term in the allWords
  *@return the term frequency of term in the document
  */

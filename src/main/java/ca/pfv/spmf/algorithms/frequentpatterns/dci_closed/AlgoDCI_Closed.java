@@ -16,20 +16,8 @@ package ca.pfv.spmf.algorithms.frequentpatterns.dci_closed;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 /**
  * This is a basic implementation of the "DCI_Closed" algorithm (see AlgoDCI_Closed_Optimized 
@@ -87,7 +75,7 @@ public class AlgoDCI_Closed {
 
 	/**
 	 * Run the algorithm.
-	 * @param input the path of an ca.pfv.spmf.input file (transaction database).
+	 * @param input the path of an input file (transaction database).
 	 * @param output the path of the output file for writing the result
 	 * @param minsup a minimum support threshold
 	 * @throws IOException exception if error while writing/reading files
@@ -353,13 +341,13 @@ public class AlgoDCI_Closed {
 	}
 
 	/**
-	 * Create the in-memory vertical database by reading the ca.pfv.spmf.input file.
-	 * @param input an ca.pfv.spmf.input file path.
+	 * Create the in-memory vertical database by reading the input file.
+	 * @param input an input file path.
 	 * @throws IOException exception if an error while reading the file
 	 */
 	private void createVerticalDatabase(String input) throws IOException {
-		// Prepare object to read the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		// Prepare object to read the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// variable to count the number of transactions
 		tidCount =0;
@@ -399,7 +387,7 @@ public class AlgoDCI_Closed {
 			//increase the number of transactions read until now
 			tidCount++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 	}
 }

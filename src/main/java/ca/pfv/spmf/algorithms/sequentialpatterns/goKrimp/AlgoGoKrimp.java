@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * * This is an implementation of the GoKrimp and SedKrimp ca.pfv.spmf.algorithms. GoKrimp:
- * direct look for compressing sequential ca.pfv.spmf.patterns from a database of sequences
- * SeqKrimp: read a set of candidate ca.pfv.spmf.patterns and find a good subset of
- * compressing sequential ca.pfv.spmf.patterns For more information please refer to the
+ * * This is an implementation of the GoKrimp and SedKrimp algorithms. GoKrimp:
+ * direct look for compressing sequential patterns from a database of sequences
+ * SeqKrimp: read a set of candidate patterns and find a good subset of
+ * compressing sequential patterns For more information please refer to the
  * paper Mining Compressing Sequential Patterns in the Journal Statistical
  * Analysis and Data Mining * <br/>
  * <br/>
@@ -50,7 +50,7 @@ public class AlgoGoKrimp {
 	ArrayList<Integer> characters; // map from characters to its indices in the
 									// dictionary
 	ArrayList<ArrayList<Event>> data; // a database of sequences
-	ArrayList<MyPattern> patterns; // the set of ca.pfv.spmf.patterns, the dictionary in
+	ArrayList<MyPattern> patterns; // the set of patterns, the dictionary in
 									// this implementation
 	public ArrayList<MyPattern> candidates; // the set of candidates
 	HashMap<Integer, String> labels; // event labels
@@ -64,17 +64,17 @@ public class AlgoGoKrimp {
 						// (representation by the Huffman codes)
 	static final int NSTART = 1000; // the maximum number of candidate events as
 									// starting points for extending to find
-									// compressing ca.pfv.spmf.patterns
+									// compressing patterns
 	static final int NRELATED = 1000; // the maximum number of candidate events
 										// as starting points for extending to
-										// find compressing ca.pfv.spmf.patterns
+										// find compressing patterns
 
 	BufferedWriter writer; // object to write output file. If null, result is
 							// printed to console. Otherwise, the result is
 							// written to a file.
 
 	/**
-	 * find compressing ca.pfv.spmf.patterns by greedily extending initial candidate events
+	 * find compressing patterns by greedily extending initial candidate events
 	 * 
 	 * @throws IOException
 	 */
@@ -220,7 +220,7 @@ public class AlgoGoKrimp {
 	 * add a new pattern to the dictionary
 	 * 
 	 * @param pattern
-	 *            the ca.pfv.spmf.input pattern
+	 *            the input pattern
 	 */
 	void addPattern(MyPattern pattern) {
 		Nword = Nword - (pattern.freq - 1) * pattern.ids.size()
@@ -250,7 +250,7 @@ public class AlgoGoKrimp {
 			}
 		}
 		for (int i = 0; i < patterns.size(); i++) { // update the frequency of
-													// the existing ca.pfv.spmf.patterns
+													// the existing patterns
 			if (patterns.get(i).ids.size() == 1
 					&& hm.containsKey(patterns.get(i).ids.get(0))) {// singleton
 																	// among the
@@ -299,9 +299,9 @@ public class AlgoGoKrimp {
 	}
 
 	/**
-	 * get the set of initial ca.pfv.spmf.patterns
+	 * get the set of initial patterns
 	 * 
-	 * @return return a set of initial ca.pfv.spmf.patterns
+	 * @return return a set of initial patterns
 	 */
 	ArrayList<MyPattern> get_Initial_Patterns() {
 		ArrayList<MyPattern> ie = new ArrayList();
@@ -339,7 +339,7 @@ public class AlgoGoKrimp {
 	}
 
 	/**
-	 * get the best ca.pfv.spmf.patterns among the set of candidates
+	 * get the best patterns among the set of candidates
 	 * 
 	 * @return index of the best pattern in the candidates ArrayList
 	 */
@@ -592,8 +592,8 @@ public class AlgoGoKrimp {
 	 * these events
 	 * 
 	 * @param e
-	 *            the ca.pfv.spmf.input event
-	 * @return the set of related events to the ca.pfv.spmf.input event @param e
+	 *            the input event
+	 * @return the set of related events to the input event @param e
 	 */
 	ArrayList<Integer> getRelatedEvents(Integer e) {
 		HashMap<Integer, SignTest> me = new HashMap();// statistics
@@ -678,8 +678,8 @@ public class AlgoGoKrimp {
 	 * *
 	 * 
 	 * @param a
-	 *            in ca.pfv.spmf.input integer
-	 * @return the number of bits in the binary representation of the ca.pfv.spmf.input
+	 *            in input integer
+	 * @return the number of bits in the binary representation of the input
 	 *         integer a using the Elias code
 	 */
 	int bits(Integer a) {
@@ -697,7 +697,7 @@ public class AlgoGoKrimp {
 	/**
 	 * 
 	 * @param x
-	 *            an ca.pfv.spmf.input number
+	 *            an input number
 	 * @return the lower round value of x
 	 */
 	int lowround(double x) {
@@ -711,7 +711,7 @@ public class AlgoGoKrimp {
 	 * check if pattern p is occurred in the sequence index
 	 * 
 	 * @param index
-	 * @return true if the pattern p is found in the sequence with the ca.pfv.spmf.input
+	 * @return true if the pattern p is found in the sequence with the input
 	 *         index
 	 */
 	boolean isOccurred(MyPattern p, int index) {

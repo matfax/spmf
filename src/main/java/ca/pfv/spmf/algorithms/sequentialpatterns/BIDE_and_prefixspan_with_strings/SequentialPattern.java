@@ -26,7 +26,7 @@ import java.util.Set;
 
 /**
  * This class represents a sequential pattern found by the PrefixSpan or BIDE algorithm.
- * A sequential pattern is represented by these ca.pfv.spmf.algorithms as a list of itemsets with an associated
+ * A sequential pattern is represented by these algorithms as a list of itemsets with an associated
  * hash set indicating the IDS of the sequence containing this sequential pattern.
 
 @see AlgoPrefixSpan_with_Strings
@@ -41,7 +41,7 @@ public class SequentialPattern{
 	/** sequence id */
 	private int id; 
 	
-	/** List of IDS of all ca.pfv.spmf.patterns that contains this one. */
+	/** List of IDS of all patterns that contains this one. */
 	private Set<Integer> sequencesID = null;
 	
 	/**

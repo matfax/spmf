@@ -164,7 +164,7 @@ public class MDSequence {
 	 * @return true if it strictly contains the given md-sequence, otherwise false.
 	 */
 	boolean strictlyContains(MDSequence sequence2) {
-		// check if the md ca.pfv.spmf.patterns contains the other one
+		// check if the md patterns contains the other one
 		int patternContains = getMdpattern().strictlyContains(sequence2.getMdpattern());
 		// check if the sequence contains the other one
 		int sequenceContains = getSequence().strictlyContains(sequence2.getSequence());
@@ -189,7 +189,7 @@ public class MDSequence {
 	 */
 	boolean contains(MDSequence sequence2) {
 
-		// check if the md ca.pfv.spmf.patterns contains the other one
+		// check if the md patterns contains the other one
 		int patternContains = getMdpattern().strictlyContains(sequence2.getMdpattern());
 		// check if the sequence contains the other one
 		int sequenceContains = getSequence().strictlyContains(sequence2.getSequence());

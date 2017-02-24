@@ -16,31 +16,20 @@ package ca.pfv.spmf.algorithms.frequentpatterns.cfpgrowth;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemset;
 import ca.pfv.spmf.patterns.itemset_array_integers_with_count.Itemsets;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is an implementation of the CFPGrowth++ algorithm. CFPGrowth++ was proposed in this paper:
  * <br/><br/>
  *
  * Kiran, R. U., & Reddy, P. K. (2011). Novel techniques to reduce search space 
- * in multiple minimum supports-based frequent pattern mining ca.pfv.spmf.algorithms.
+ * in multiple minimum supports-based frequent pattern mining algorithms. 
  * In Proceedings of the 14th International Conference on Extending Database 
  * Technology, ACM (pp. 11-20). 
  *
@@ -71,7 +60,7 @@ public class AlgoCFPGrowth {
 	// object to write the output file
 	BufferedWriter writer = null;
 	
-	// The  ca.pfv.spmf.patterns that are found
+	// The  patterns that are found 
 	// (if the user want to keep them into memory)
 	protected Itemsets patterns = null;
 
@@ -107,7 +96,7 @@ public class AlgoCFPGrowth {
 	
 	/**
 	 * Run the algorithm.
-	 * @param input the path to an ca.pfv.spmf.input file containing a transaction database.
+	 * @param input the path to an input file containing a transaction database.
 	 * @param output the output file path for saving the result (if null, the result 
 	 *        will be returned by the method instead of being saved).
 	 * @param MISIn path to a file containing the MIS thresholds.
@@ -151,7 +140,7 @@ public class AlgoCFPGrowth {
 		// by decreasing order of MIS.
 		MISTree tree = new MISTree();
 
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// read the transaction database line (transaction) by line
 		// until the end of file
@@ -192,7 +181,7 @@ public class AlgoCFPGrowth {
 			tree.addTransaction(transaction);
 			
 		}// while
-		reader.close();  // close the ca.pfv.spmf.input file
+		reader.close();  // close the input file
 		
 		// tree.print(tree.root);
 
@@ -253,7 +242,7 @@ public class AlgoCFPGrowth {
 	private void initMISfromFile(String input) throws FileNotFoundException,
 			IOException {
 		// create object to read the file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		minMIS = Integer.MAX_VALUE;  // to store the minimum MIS value
 		int maxItemID = 0;  // to store the largest item id
@@ -305,7 +294,7 @@ public class AlgoCFPGrowth {
 //	 * using the function presented in the article of MISApriori  
 //	 * (This method is an alternative to initMISfromFile() and is not used
 //	 * by default).
-//	 * @param ca.pfv.spmf.input  the ca.pfv.spmf.input file
+//	 * @param input  the input file
 //	 * @param mapSupport  a
 //	 * @param beta
 //	 * @param LS
@@ -313,11 +302,11 @@ public class AlgoCFPGrowth {
 //	 * @throws FileNotFoundException
 //	 * @throws IOException
 //	 */
-//	private int initMISfromFrequency(String ca.pfv.spmf.input,
+//	private int initMISfromFrequency(String input,
 //			final Map<Integer, Integer> mapSupport, double beta, double LS)
 //			throws FileNotFoundException, IOException {
 //		int maxItemID = 0;
-//		BufferedReader reader = new BufferedReader(new FileReader(ca.pfv.spmf.input));
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 //		String line;
 //		// for each transaction
 //		while (((line = reader.readLine()) != null)) { 
@@ -548,7 +537,7 @@ public class AlgoCFPGrowth {
 			
 			Arrays.sort(itemsetWithLastItem); // ADDED TO FIX ASSOCIATION RULE BUG FOR CFPGROWTH+
 			
-			// create an object Itemset and add it to the set of ca.pfv.spmf.patterns
+			// create an object Itemset and add it to the set of patterns 
 			// found.
 			Itemset itemsetObj = new Itemset(itemsetWithLastItem);
 			itemsetObj.setAbsoluteSupport(support);

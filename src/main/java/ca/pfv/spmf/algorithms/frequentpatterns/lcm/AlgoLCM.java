@@ -34,7 +34,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * T. Uno, such as: <br/><br/>
  * 
  * T. Uno, M. Kiyomi, and H. Arimura. Lcm ver. 2:
-  * Efficient mining ca.pfv.spmf.algorithms for
+  * Efficient mining algorithms for
  * frequent/closed/maximal itemsets. In FIMI, 2004
  * 
  * This implementation of LCM was made by Alan Souza and was

@@ -75,12 +75,12 @@ public class AlgoCORI {
 	protected long endTime; 
 	
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected ItemsetsCORI frequentItemsets;
 	/** object to write the output file */
 	BufferedWriter writer = null; 
-	/** the number of ca.pfv.spmf.patterns found */
+	/** the number of patterns found */
 	protected int itemsetCount; 
 	
 	/** For optimization with a triangular matrix for counting 
@@ -90,8 +90,12 @@ public class AlgoCORI {
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
 	final int BUFFERS_SIZE = 2000;
+	
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
+
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -603,6 +607,13 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 			// as well as its bond
 			buffer.append(" #BOND: ");
 			buffer.append(bond);
+			if(showTransactionIdentifiers) {
+				buffer.append(" #TID:");
+				BitSet bitset = tidset.bitset;
+	        	for (int tid = bitset.nextSetBit(0); tid != -1; tid = bitset.nextSetBit(tid + 1)) {
+	        		buffer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
@@ -634,6 +645,13 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 			buffer.append(support);
 			buffer.append(" #BOND: ");
 			buffer.append(1d);
+
+			if(showTransactionIdentifiers) {
+				buffer.append(" #TID:");
+	        	for (int tid = tidset.nextSetBit(0); tid != -1; tid = tidset.nextSetBit(tid + 1)) {
+	        		buffer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
@@ -663,6 +681,15 @@ loopJ:		for(int j=i+1; j < singleItems.size(); j++) {
 		return frequentItemsets;
 	}
 
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
+	
 	/**
 	 * Anonymous inner class to store a bitset and its cardinality
 	 * (an itemset's tidset and its support).

@@ -181,7 +181,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
     }
 
     /**
-     * Method that check if for the two ca.pfv.spmf.patterns given as parameters, the
+     * Method that check if for the two patterns given as parameters, the
      * shortest one is a subpattern of the longest one
      * @param shorter The pattern which we check if is a subpattern of another
      * longer than it
@@ -232,7 +232,7 @@ public class AbstractionCreator_Qualitative extends AbstractionCreator {
                      * is a subpattern of longer
                      */
                     boolean output = isSubpattern(shorter, larger, index + 1, positions);
-                    //If we have found a matching between both ca.pfv.spmf.patterns
+                    //If we have found a matching between both patterns
                     if (output) {
                         //we return a true answer
                         return true;

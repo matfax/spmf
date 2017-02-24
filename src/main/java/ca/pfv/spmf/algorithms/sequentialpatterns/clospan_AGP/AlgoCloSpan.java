@@ -49,12 +49,12 @@ public class AlgoCloSpan {
     protected double minSupRelative;
     protected double minSupAbsolute;
     /**
-     * original sequential data set to be used for sequential ca.pfv.spmf.patterns
+     * original sequential data set to be used for sequential patterns
      * extraction
      */
     protected SequenceDatabase originalDataset;
     /**
-     * all generated frequent sequences, i.e. sequential ca.pfv.spmf.patterns
+     * all generated frequent sequences, i.e. sequential patterns
      */
     /**
      * Saver variable to decide where the user want to save the results, if it
@@ -81,7 +81,7 @@ public class AlgoCloSpan {
      */
     private AbstractionCreator abstractionCreator;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm
+     * Number of frequent patterns found by the algorithm
      */
     private int numberOfFrequentPatterns = 0;
     /**
@@ -116,10 +116,10 @@ public class AlgoCloSpan {
      *
      * @param database The original database in which we apply PrefixSpan
      * @param keepPatterns Flag indicating if the user want to keep the frequent
-     * ca.pfv.spmf.patterns or he just want the amount of them
+     * patterns or he just want the amount of them
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path pointing out to the file where the output,
-     * composed of frequent ca.pfv.spmf.patterns, has to be kept. If, conversely, this
+     * composed of frequent patterns, has to be kept. If, conversely, this
      * parameter is null, we understand that the user wants the output in the
      * main memory
      * @param outputSequenceIdentifiers if true, sequence identifiers will be output for each pattern
@@ -139,7 +139,7 @@ public class AlgoCloSpan {
         cloSpan(database, keepPatterns, verbose, findClosedPatterns, executePruningMethods, outputFilePath, outputSequenceIdentifiers);
         //keeping the ending time
         overallEnd = System.currentTimeMillis();
-        //Search for frequent ca.pfv.spmf.patterns: Finished
+        //Search for frequent patterns: Finished
         saver.finish();
     }
 
@@ -150,12 +150,12 @@ public class AlgoCloSpan {
      * that appeared in the original dabase
      * @param database The original database
      * @param keepPatterns Flag indicating if the user want to keep the frequent 
-     * ca.pfv.spmf.patterns or he just want the amount of them
+     * patterns or he just want the amount of them
      * @param verbose Flag for debugging purposes
      * @param findClosedPatterns flag to indicate if we are interesting in only
      * finding the closed sequences
      * @param outputFilePath Path pointing out to the file where the output, 
-     * composed of frequent ca.pfv.spmf.patterns, has to be kept. If, conversely, this
+     * composed of frequent patterns, has to be kept. If, conversely, this 
      * parameter is null, we understand that the user wants the output in the main memory
      * @param outputSequenceIdentifiers  if true, sequence identifiers will be output for each pattern
      * @throws IOException 
@@ -193,16 +193,16 @@ public class AlgoCloSpan {
 
         long timeForMainMethod = (mainMethodEnd - mainMethodStart) / 1000;
 
-        //Finally we update the number of frequent ca.pfv.spmf.patterns that we found
+        //Finally we update the number of frequent patterns that we found
         numberOfFrequentPatterns = algorithm.numberOfFrequentPatterns();
         
         // check the memory usage for statistics
 	MemoryLogger.getInstance().checkMemory();
         
         if (verbose) {
-            System.out.println("CLOSPAN: The algorithm takes " + timeForMainMethod + " seconds and finds " + numberOfFrequentPatterns + "ca/pfv/spmf/patterns");
+            System.out.println("CLOSPAN: The algorithm takes " + timeForMainMethod + " seconds and finds " + numberOfFrequentPatterns + " patterns");
         }
-        //If the we are interested in closed ca.pfv.spmf.patterns, we execute the post-processing step
+        //If the we are interested in closed patterns, we execute the post-processing step
         if (findClosedPatterns) {
             List<Pattern> outputPatternsFromMainMethod = algorithm.getFrequentPatterns();
 
@@ -213,7 +213,7 @@ public class AlgoCloSpan {
             long timeForPostProcessingStep = (postProcessingEnd - postProcessingStart) / 1000;
             numberOfFrequentPatterns = algorithm.numberOfFrequentPatterns();
             if (verbose) {
-                System.out.println("CLOSPAN: The post-processing algorithm to remove the non-Closed ca.pfv.spmf.patterns takes " + timeForPostProcessingStep + " seconds and finds " + numberOfFrequentPatterns + " Closed ca.pfv.spmf.patterns");
+                System.out.println("CLOSPAN: The post-processing algorithm to remove the non-Closed patterns takes " + timeForPostProcessingStep + " seconds and finds " + numberOfFrequentPatterns + " Closed patterns");
             }
         }else{
             if(keepPatterns){

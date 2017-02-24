@@ -278,7 +278,7 @@ public class CPTree {
 	}
 
 	/********************************************************************
-	 * Recursive method for finding frequent ca.pfv.spmf.patterns.
+	 * Recursive method for finding frequent patterns.
 	 * 
 	 * @param root   root of the current subtree
 	 * @param pattern    current pattern
@@ -287,7 +287,7 @@ public class CPTree {
 	void patternMining(CPTreeNode currentNode, int[] pattern) throws IOException {
 		if (currentNode.itemIDList != null && currentNode.itemIDList.size() > 0) {
 			
-			// list of itemset of ca.pfv.spmf.patterns corresponding to each itemIdList item
+			// list of itemset of patterns corresponding to each itemIdList item
 			List<int[]> itemsetList = new ArrayList<int[]>();
 			
 			// Create a new pattern by concatening
@@ -347,13 +347,13 @@ public class CPTree {
 	}
 
 	/********************************************************************
-	 * Method for finding frequent ca.pfv.spmf.patterns and save them into memory
+	 * Method for finding frequent patterns and save them into memory
 	 * 
 	 * @param root
 	 *            root of the current subtree
 	 ********************************************************************/
 	Hashtable<int[], Double> patternMining_saveToMemory()	throws IOException {
-		// Initialize hashtable for storing frequent ca.pfv.spmf.patterns into memory
+		// Initialize hashtable for storing frequent patterns into memory
 		patterns = new Hashtable<int[], Double>();
 		patternCount = 0;
 
@@ -361,11 +361,11 @@ public class CPTree {
 		for (CPTreeNode node : root.children)
 			patternMining(node, new int[0]);
 
-		return patterns; // return ca.pfv.spmf.patterns found
+		return patterns; // return patterns found
 	}
 
 	/********************************************************************
-	 * Method for finding frequent ca.pfv.spmf.patterns and save them into file
+	 * Method for finding frequent patterns and save them into file
 	 * 
 	 * @param root
 	 *            the root of the curent subtree
@@ -386,7 +386,7 @@ public class CPTree {
 	}
 
 	/********************************************************************
-	 * Method for writing frequent ca.pfv.spmf.patterns in output file
+	 * Method for writing frequent patterns in output file
 	 * 
 	 * @param itemset
 	 *            the pattern to be saved

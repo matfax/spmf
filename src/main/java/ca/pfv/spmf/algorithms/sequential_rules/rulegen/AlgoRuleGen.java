@@ -28,10 +28,10 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * This is an implementation of the RuleGen algorithm proposed by Zaki et al to generate sequential rules where
- * the antecedent and consequent are sequential ca.pfv.spmf.patterns.  The RuleGen algorithm is described in:
+ * the antecedent and consequent are sequential patterns.  The RuleGen algorithm is described in: 
  * <br/><br/>
  * 
- *    M. J. Zaki, ï¿½SPADE: An Efficient Algorithm for Mining Frequent Se-quences,ï¿½Machine Learning, vol. 42, no.1-2, pp. 31-60, 2001.
+ *    M. J. Zaki, “SPADE: An Efficient Algorithm for Mining Frequent Se-quences,”Machine Learning, vol. 42, no.1-2, pp. 31-60, 2001.
  * <br/><br/>
  * 
  * However, note that instead of using the SPADE algorithm,  we use the PrefixSpan algorithm because at the time
@@ -66,7 +66,7 @@ public class AlgoRuleGen {
 	 * Run the algorithm
 	 * @param minsup  the minimum support threshold
 	 * @param minconf the minimum confidence threshold
-	 * @param input   the ca.pfv.spmf.input file path
+	 * @param input   the input file path
 	 * @param output  the output file path for saving the result
 	 * @throws IOException exception if there is an error reading/writing files
 	 */
@@ -77,12 +77,12 @@ public class AlgoRuleGen {
 		startTime = System.currentTimeMillis();
 		
 				
-		// STEP 1: Apply the PrefixSpan algorithm to generate frequent sequential ca.pfv.spmf.patterns
+		// STEP 1: Apply the PrefixSpan algorithm to generate frequent sequential patterns
 		AlgoPrefixSpan algo = new AlgoPrefixSpan();  
 		SequentialPatterns patternsLists = algo.runAlgorithm(input, null, minsup);    
 
 		// STEP 2: Generate  rules of the form    a ==> b, 
-		// where a and b are sequential ca.pfv.spmf.patterns
+		// where a and b are sequential patterns 
 		// such that a is a subsequence of b.
 		// For each rule
 		
@@ -115,7 +115,7 @@ public class AlgoRuleGen {
 	
 	
 	/**
-	 *  Try to generate a rule between two sequential ca.pfv.spmf.patterns. The rule is generated if the
+	 *  Try to generate a rule between two sequential patterns. The rule is generated if the
 	 *  pattern1 is included in pattern2 and if the confidence is high enough.
 	 * @param pattern1 a sequential pattern
 	 * @param pattern2 another sequential pattern

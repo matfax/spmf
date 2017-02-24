@@ -10,8 +10,8 @@ import java.util.List;
 import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.abstractions.ItemAbstractionPair;
 
 /**
- * This class is the implementation of a creator of ca.pfv.spmf.patterns.
- * By means this class, different kind of ca.pfv.spmf.patterns can be used for this algorithm.
+ * This class is the implementation of a creator of patterns.
+ * By means this class, different kind of patterns can be used for this algorithm.
  * 
  * Copyright Antonio Gomariz Peñalver 2013
  * 

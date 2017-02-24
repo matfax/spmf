@@ -49,7 +49,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * 
  * Pasquier, N., Bastide, Y., Taouil, R., & Lakhal, L. (1999). 
  * Discovering frequent closed itemsets for association rules. 
- * In Database Theory—ICDT’99 (pp. 398-416). Springer Berlin Heidelberg.<br/><br/>
+ * In Database Theoryï¿½ICDTï¿½99 (pp. 398-416). Springer Berlin Heidelberg.<br/><br/>
  * 
  * This implementation can save the result to a file or keep
  * it into memory if no output path is provided to the runAlgorithm() method.
@@ -60,31 +60,38 @@ import ca.pfv.spmf.tools.MemoryLogger;
  */
 public class AlgoAprioriTIDClose {
 
-	// object for writing to file if the user choose to write to a file
+	/** object for writing to file if the user choose to write to a file */
 	BufferedWriter writer = null;
 	
-	// variable to store the result if the user choose to save to memory instead of a file
+	/** variable to store the result if the user choose to save to memory instead of a file */
 	protected Itemsets patterns = null;
 
-	// the number of transactions
+	/** the number of transactions */
 	private int databaseSize = 0;
 	
-	// the current level
+	/** the current level */
 	protected int k; 
 
-	// variables for counting support of items
+	/** variables for counting support of items */
 	Map<Integer, Set<Integer>> mapItemTIDS = new HashMap<Integer, Set<Integer>>();
 
-	// the minimum support threshold
+	/** the minimum support threshold */
 	int minSuppRelative;
 
-	// Special parameter to set the maximum size of itemsets to be discovered
+	/** Special parameter to set the maximum size of itemsets to be discovered */
 	int maxItemsetSize = Integer.MAX_VALUE;
 
-	long startTimestamp = 0; // start time of latest execution
-	long endTimestamp = 0; // end time of latest execution
+	/** start time of latest execution */
+	long startTimestamp = 0; 
 	
-	int itemsetCount = 0; // number of closed itemset found
+	/** end time of latest execution */
+	long endTimestamp = 0; 
+	
+	/**  number of closed itemset found */
+	int itemsetCount = 0; 
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -294,9 +301,15 @@ public class AlgoAprioriTIDClose {
 		itemsetCount++;
 		
 		// if the result should be saved to a file
-		if(writer != null){
+ 		if(writer != null){
 			writer.write(itemset.toString() + " #SUP: "
 					+ itemset.getTransactionsIds().size() );
+			if(showTransactionIdentifiers) {
+	        	writer.append(" #TID:");
+	        	for (Integer tid: itemset.getTransactionsIds()) {
+	        		writer.append(" " + tid); 
+	        	}
+			}
 			writer.newLine();
 		}// otherwise the result is kept into memory
 		else{
@@ -384,6 +397,16 @@ public class AlgoAprioriTIDClose {
 	public void setMaxItemsetSize(int maxItemsetSize) {
 		this.maxItemsetSize = maxItemsetSize;
 	}
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
+	
 	
 	/**
 	 * Print statistics about the algorithm execution to System.out.

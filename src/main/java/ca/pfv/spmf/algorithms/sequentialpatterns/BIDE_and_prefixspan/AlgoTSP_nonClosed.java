@@ -22,10 +22,10 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /*** 
  * This is an implementation of the "PrefixSpanWithSupportRising" algorithm, described
- * in this article (the TSP algorithm for mining all sequential ca.pfv.spmf.patterns
- * instead of only closed sequential ca.pfv.spmf.patterns).
+ * in this article (the TSP algorithm for mining all sequential patterns
+ * instead of only closed sequential patterns).
  * 
- * Petre Tzvetkov, Xifeng Yan, Jiawei Han: TSP: Mining top-k closed sequential ca.pfv.spmf.patterns.
+ * Petre Tzvetkov, Xifeng Yan, Jiawei Han: TSP: Mining top-k closed sequential patterns. 
  * Knowl. Inf. Syst. 7(4): 438-457 (2005)
  * 
  * NOTE: The TSP original algorithm uses a minimum length constraint
@@ -58,10 +58,10 @@ public class AlgoTSP_nonClosed{
 	// absolute minimum support
 	private int minsupAbsolute;
 	
-	// the number of ca.pfv.spmf.patterns to be found
+	// the number of patterns to be found
 	private int k = 0;
 
-	// the top k ca.pfv.spmf.patterns found until now
+	// the top k patterns found until now 
 	PriorityQueue<SequentialPattern> kPatterns;  	
 	// the candidates for expansion
 	RedBlackTree<Candidate> candidates;  
@@ -91,7 +91,7 @@ public class AlgoTSP_nonClosed{
 		// save k
 		this.k = k;
 
-		// the top k ca.pfv.spmf.patterns found until now
+		// the top k patterns found until now 
 		kPatterns = new PriorityQueue<SequentialPattern>(); 		
 		// the candidates for expansion
 		candidates = new RedBlackTree<Candidate>();  
@@ -108,7 +108,7 @@ public class AlgoTSP_nonClosed{
 		// save the end time
 		endTime = System.currentTimeMillis();
 
-		// return the top k ca.pfv.spmf.patterns
+		// return the top k patterns
 		return kPatterns;
 	}
 	
@@ -122,7 +122,7 @@ public class AlgoTSP_nonClosed{
 	 */
 	private void prefixSpan(SequenceDatabase database) throws IOException{
 		
-		// We have to scan the database to find all frequent sequential ca.pfv.spmf.patterns of size 1.
+		// We have to scan the database to find all frequent sequential patterns of size 1.
 		// We note the sequences in which the items appear.
 		Map<Integer, Set<Integer>> mapSequenceID = findSequencesContainingItems(database);
 		
@@ -197,14 +197,14 @@ public class AlgoTSP_nonClosed{
 //				   = buildProjectedDatabaseForSingleItem(item, initialDatabase, entry.getValue());
 //		
 //				// We make a recursive call to try to find larger sequential
-//				// ca.pfv.spmf.patterns starting with this prefix
+//				// patterns starting with this prefix
 //				recursion(prefix, projectedContext); 
 //			
 //			}
 //		}	
 		
 		// This next loop is to extend the most promising
-		// ca.pfv.spmf.patterns first.
+		// patterns first.
 		// For each candidate pattern that can be extended, 
 		// we take the one with the highest support for extension first
 		// because it is most likely to generate a top k pattern
@@ -224,7 +224,7 @@ public class AlgoTSP_nonClosed{
 				   = buildProjectedDatabaseForSingleItem(cand.item, cand.databaseBeforeProjection, cand.prefix.getSequenceIDs());
 		
 				// We make a recursive call to try to find larger sequential
-				// ca.pfv.spmf.patterns starting with this prefix
+				// patterns starting with this prefix
 				recursion(cand.prefix, projectedContext); 
 				
 			}else{
@@ -244,21 +244,21 @@ public class AlgoTSP_nonClosed{
 	 * @param pattern the pattern to be saved
 	 */
 	private void save(SequentialPattern pattern) {
-		// We add the pattern to the set of top-k ca.pfv.spmf.patterns
+		// We add the pattern to the set of top-k patterns
 		kPatterns.add(pattern);
 		// if the size becomes larger than k
 		if (kPatterns.size() > k) {
 			// if the support of the pattern that we haved added is higher than
 			// the minimum support, we will need to take out at least one pattern
 			if (pattern.getAbsoluteSupport() > this.minsupAbsolute) {
-				// we recursively remove the pattern having the lowest support, until only k ca.pfv.spmf.patterns are left
+				// we recursively remove the pattern having the lowest support, until only k patterns are left
 				do {
 					kPatterns.poll();
 
 				} while (kPatterns.size() > k);
 			}
 			// we raise the minimum support to the lowest support in the 
-			// set of top-k ca.pfv.spmf.patterns
+			// set of top-k patterns
 			this.minsupAbsolute = kPatterns.peek().getAbsoluteSupport();
 		}
 	}

@@ -45,7 +45,7 @@ public class SignTest {
     double Nplus; // the number of pairs (X,Y) such that X>Y
     /**
      * the cdf function of the Standard Normal distribution 
-     * @param xx ca.pfv.spmf.input value
+     * @param xx input value
      * @return cdf of standard normal distribution
      */
     double standard_normal_cdf(double xx){

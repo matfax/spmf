@@ -117,14 +117,14 @@ public class AlgoCMRules {
 	
 	/**
 	 * Run the algorithm with the minsup parameter as a percentage value (double).
-	 * @param input ca.pfv.spmf.input file containing a sequence database.
+	 * @param input input file containing a sequence database.
 	 * @param output the file path for writing the result
 	 * @param absoluteMinSupport   the minsup is a percentage value (ex.: 0.05 =  5 % of all sequences in the database)
 	 * @param minConfidence  the minimum confidence threshold
 	 * @throws IOException exception if error while writing the output file.
 	 */
 	public void runAlgorithm(String input, String output, double absoluteMinSupport, double minConfidence) throws IOException {
-		// load the sequence database from the ca.pfv.spmf.input file
+		// load the sequence database from the input file
 		sequences = new SequenceDatabase();
 		sequences.loadFile(input);
 		
@@ -136,7 +136,7 @@ public class AlgoCMRules {
 
 	/**
 	 * Run the algorithm with the minsup parameter as a number of sequences (integer).
-	 * @param input ca.pfv.spmf.input file containing a sequence database.
+	 * @param input input file containing a sequence database.
 	 * @param output the file path for writing the result
 	 * @param relativeSupport   the minsup is a number of sequences (ex.: 5 =  5 sequences of the database)
 	 * @param minConfidence  the minimum confidence threshold
@@ -156,7 +156,7 @@ public class AlgoCMRules {
 		}
 		
 		// It the sequence database has not been loaded yet, then load it from
-		// the ca.pfv.spmf.input file
+		// the input file
 		if(sequences == null){
 			sequences = new SequenceDatabase();
 			sequences.loadFile(input);
@@ -231,7 +231,7 @@ public class AlgoCMRules {
 		// except that the sequential measures are calculated for each rule
 		// to see if it is a valid sequential rule
 		
-		//System.out.println("STEP3 " + ca.pfv.spmf.patterns.getItemsetsCount());
+		//System.out.println("STEP3 " + patterns.getItemsetsCount());
 		generateRules(patterns);
 		
 		// check memory usage
@@ -610,14 +610,14 @@ public class AlgoCMRules {
 	}
 
 	/**
-	 * Calculate the support of an itemset by looking at the frequent ca.pfv.spmf.patterns
+	 * Calculate the support of an itemset by looking at the frequent patterns
 	 * of the same size.
 	 * 
 	 * @param itemset_Lk_minus_hm_P_1
 	 *            The itemset.
 	 */
 	private void calculateSupport(Itemset itemset_Lk_minus_hm_P_1) {
-		// loop over all the ca.pfv.spmf.patterns of the same size.
+		// loop over all the patterns of the same size.
 		for(Itemset itemset : patterns.getLevels().get(itemset_Lk_minus_hm_P_1.size())){
 			// If the pattern is found
 			if(itemset.isEqualTo(itemset_Lk_minus_hm_P_1)){

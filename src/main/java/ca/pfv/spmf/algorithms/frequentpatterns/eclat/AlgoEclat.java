@@ -45,7 +45,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * See this article for details about ECLAT:
  * <br/><br/>
  * 
- * Zaki, M. J. (2000). Scalable ca.pfv.spmf.algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
+ * Zaki, M. J. (2000). Scalable algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
  * <br/><br/>
  * 
  * This  version  saves the result to a file
@@ -62,6 +62,7 @@ public class AlgoEclat {
 
 	/** relative minimum support **/
 	private int minsupRelative;  
+	
 	/** the transaction database **/
 	protected TransactionDatabase database; 
 
@@ -71,12 +72,14 @@ public class AlgoEclat {
 	protected long endTime; 
 	
 	/** 
-	 The  ca.pfv.spmf.patterns that are found
+	 The  patterns that are found 
 	 (if the user want to keep them into memory) */
 	protected Itemsets frequentItemsets;
+	
 	/** object to write the output file */
 	BufferedWriter writer = null; 
-	/** the number of ca.pfv.spmf.patterns found */
+	
+	/** the number of patterns found */
 	protected int itemsetCount; 
 	
 	/** For optimization with a triangular matrix for counting 
@@ -86,8 +89,12 @@ public class AlgoEclat {
 	/**  buffer for storing the current itemset that is mined when performing mining
 	  the idea is to always reuse the same buffer to reduce memory usage. */
 	final int BUFFERS_SIZE = 2000;
+	
 	/** size of the buffer*/
 	private int[] itemsetBuffer = null;
+	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
 
 	/**
 	 * Default constructor
@@ -139,6 +146,7 @@ public class AlgoEclat {
 		// This map will contain the tidset of each item
 		// Key: item   Value :  tidset
 		final Map<Integer, Set<Integer>> mapItemCount = new HashMap<Integer, Set<Integer>>();
+		
 		// for each transaction
 		int maxItemId = calculateSupportSingleItems(database, mapItemCount);
 
@@ -566,6 +574,12 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			// as well as its support
 			buffer.append(" #SUP: ");
 			buffer.append(support);
+			if(showTransactionIdentifiers) {
+				buffer.append(" #TID:");
+	        	for (Integer tid: tidset) {
+	        		buffer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
@@ -593,9 +607,24 @@ loopJ:		for(int j=i+1; j < frequentItems.size(); j++) {
 			buffer.append(item);
 			buffer.append(" #SUP: ");
 			buffer.append(support);
+			if(showTransactionIdentifiers) {
+				buffer.append(" #TID:");
+	        	for (Integer tid: tidset) {
+	        		buffer.append(" " + tid); 
+	        	}
+			}
 			writer.write(buffer.toString());
 			writer.newLine();
 		}
+	}
+	
+	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
 	}
 
 	/**

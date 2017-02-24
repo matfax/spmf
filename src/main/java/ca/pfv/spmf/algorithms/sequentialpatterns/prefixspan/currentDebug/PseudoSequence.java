@@ -4,7 +4,7 @@ package ca.pfv.spmf.algorithms.sequentialpatterns.prefixspan.currentDebug;
  * This represents a sequence from a projected database (as based in PrefixSpan).
  * Since it is a projected sequence, it makes reference to the original sequence.
  * 
- * This class is used by the PrefixSpan and BIDE+ ca.pfv.spmf.algorithms.
+ * This class is used by the PrefixSpan and BIDE+ algorithms.
  *
  * Copyright (c) 2008-2012 Philippe Fournier-Viger
  * 

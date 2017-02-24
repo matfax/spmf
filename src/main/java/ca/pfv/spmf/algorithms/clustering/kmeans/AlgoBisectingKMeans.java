@@ -33,7 +33,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * "A comparison of document clustering techniques", M. Steinbach, G. Karypis 
  * and V. Kumar. Workshop on Text Mining, KDD, 2000.<br/><br/>
  * 
- * The Bisecting K-Means algorithm is a variation of the regular K-Means ca.pfv.spmf.algorithms.
+ * The Bisecting K-Means algorithm is a variation of the regular K-Means algorithms.
  * It consists of the following steps:
  * (1) pick a cluster, (2) find 2-subclusters using the basic K-Means algorithm 
  * (bisecting step), (3) repeat step 2, the bisecting step, for ITER times and take
@@ -65,19 +65,19 @@ public class AlgoBisectingKMeans extends AlgoKMeans{
 	
 	/**
 	 * Run the K-Means algorithm
-	 * @param inputFile an ca.pfv.spmf.input file path containing a list of vectors of double values
+	 * @param inputFile an input file path containing a list of vectors of double values
 	 * @param k the parameter k
 	 * @param distanceFunction  a distance function
 	 * @param iter the number times a split should be repeated to choose the best one
+	 * @param separator the character used to separate double values in the input file
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException exception if an error while writing the file occurs
 	 */
 	public List<ClusterWithMean> runAlgorithm(String inputFile, int k, 
-			DistanceFunction distanceFunction, int iter) throws NumberFormatException, IOException {
+			DistanceFunction distanceFunction, int iter, String separator) throws NumberFormatException, IOException {
 		this.iter = iter;
 		
-		
-		return runAlgorithm(inputFile, k, distanceFunction);
+		return runAlgorithm(inputFile, k, distanceFunction, separator);
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class AlgoBisectingKMeans extends AlgoKMeans{
 	 * Print statistics of the latest execution to System.out.
 	 */
 	public void printStatistics() {
-		System.out.println("========== BISECTING KMEANS - STATS ============");
+		System.out.println("========== BISECTING KMEANS - SPMF 2.09 - STATS ============");
 		System.out.println(" Distance function: " + distanceFunction.getName());
 		System.out.println(" Total time ~: " + (endTimestamp - startTimestamp)
 				+ " ms");

@@ -21,7 +21,7 @@ import java.util.Stack;
 
 /**
  * This is an implementation of a "red-black tree" based on the chapter 13 of the
- * book: "Introductions to ca.pfv.spmf.algorithms" by Cormen et al. (2001).
+ * book: "Introductions to algorithms" by Cormen et al. (2001).
  * Most of the code is based on the pseudo-code from this book.
  * To understand the details of this implementation, please refer to the book.
  * <br/><br/>
@@ -289,7 +289,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.left.color == BLACK && w.right.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A Vï¿½RIFIER....
+					x = x.parent;   // A VÉRIFIER....
 				}else{
 					if(w.right.color == BLACK){
 						w.left.color = BLACK;
@@ -314,7 +314,7 @@ public class RedBlackTree<T extends Comparable<T>> implements Iterable<T> {
 				}
 				if(w.right.color == BLACK && w.left.color == BLACK){
 					w.color = RED;
-					x = x.parent;   // A Vï¿½RIFIER....
+					x = x.parent;   // A VÉRIFIER....
 				}else{
 					if(w.left.color == BLACK){
 						w.right.color = BLACK;

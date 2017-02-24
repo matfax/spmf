@@ -38,18 +38,18 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.AlgoFournie
 public class MDPatterns {
 
 	/** a list of list containing the MDPatterns by size
-	 For example, the position i is the list of MD-ca.pfv.spmf.patterns of
+	 For example, the position i is the list of MD-patterns of 
 	 size i.*/
 	private final List<List<MDPattern>> levels = new ArrayList<List<MDPattern>>();  // sorted by size
-	/** the number of ca.pfv.spmf.patterns stored in this structure*/
+	/** the number of patterns stored in this structure*/
 	private int patternsCount=0;
 	
-	/** a name given to the ca.pfv.spmf.patterns*/
+	/** a name given to the patterns*/
 	private final String name;
 	
 	/**
 	 * Constructor.
-	 * @param name a name for the ca.pfv.spmf.patterns that will be contained in this
+	 * @param name a name for the patterns that will be contained in this
 	 *    structure (String).
 	 */
 	public MDPatterns(String name){
@@ -58,8 +58,8 @@ public class MDPatterns {
 	}
 	
 	/**
-	 * Print the ca.pfv.spmf.patterns contained in this structure to System.out.
-	 * @param databaseSize the number of MD-ca.pfv.spmf.patterns in the MD-Pattern database.
+	 * Print the patterns contained in this structure to System.out.
+	 * @param databaseSize the number of MD-patterns in the MD-Pattern database.
 	 */
 	public void printPatterns(int databaseSize){
 		// create a string buffer
@@ -68,7 +68,7 @@ public class MDPatterns {
 		r.append(name);
 		r.append(" -------\n");
 		int levelCount=0;
-		// for each level (ca.pfv.spmf.patterns of the same size) in this
+		// for each level (patterns of the same size) in this
 		// structure
 		for(List<MDPattern> level : levels){
 			r.append("  L");
@@ -113,7 +113,7 @@ public class MDPatterns {
 		}
 		// add the pattern to this level
 		levels.get(k).add(pattern);
-		// increase the number of ca.pfv.spmf.patterns found.
+		// increase the number of patterns found.
 		patternsCount++;
 	}
 	
@@ -130,7 +130,7 @@ public class MDPatterns {
 	}
 	
 	/**
-	 * Get the MD-ca.pfv.spmf.patterns of a given size in terms of number of dimensions.
+	 * Get the MD-patterns of a given size in terms of number of dimensions.
 	 * @param k  the size
 	 * @return a list of MDPatterns
 	 */
@@ -139,7 +139,7 @@ public class MDPatterns {
 	}
 
 	/**
-	 * Get the number of md-ca.pfv.spmf.patterns stored in this structure
+	 * Get the number of md-patterns stored in this structure
 	 * @return a int value.
 	 */
 	public int size() {
@@ -147,7 +147,7 @@ public class MDPatterns {
 	}
 
 	/**
-	 * Get the size of the largest MD-ca.pfv.spmf.patterns stored in this structure.
+	 * Get the size of the largest MD-patterns stored in this structure.
 	 * @return an int value.
 	 */
 	public int getLevelCount() {

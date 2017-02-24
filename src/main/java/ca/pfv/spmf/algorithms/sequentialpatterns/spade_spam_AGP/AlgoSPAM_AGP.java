@@ -48,7 +48,7 @@ public class AlgoSPAM_AGP {
     protected double minSupRelative;
     /**
      * The absolute minimum support threshold, i.e. the minimum number of
-     * sequences where the ca.pfv.spmf.patterns have to be
+     * sequences where the patterns have to be
      */
     protected double minSupAbsolute;
     /**
@@ -66,7 +66,7 @@ public class AlgoSPAM_AGP {
      */
     protected List<EquivalenceClass> frequentItems;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm
+     * Number of frequent patterns found by the algorithm
      */
     private int numberOfFrequentPatterns;
 
@@ -81,15 +81,15 @@ public class AlgoSPAM_AGP {
 
     /**
      * Actual call to SPAM algorithm. The output can be either kept or ignore.
-     * Whenever we choose to keep the ca.pfv.spmf.patterns found, we can keep them in a file
+     * Whenever we choose to keep the patterns found, we can keep them in a file
      * or in the main memory
      *
      * @param database Original database in where we want to search for the
-     * frequent ca.pfv.spmf.patterns.
+     * frequent patterns.
      * @param keepPatterns Flag indicating if we want to keep the output or not
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path of the file in which we want to store the
-     * frequent ca.pfv.spmf.patterns. If this value is null, we keep the ca.pfv.spmf.patterns in the
+     * frequent patterns. If this value is null, we keep the patterns in the
      * main memory. This argument is taken into account just when keepPatterns
      * is activated.
      * @param outputSequenceIdentifiers if true, sequence identifiers will be output for each pattern found
@@ -117,7 +117,7 @@ public class AlgoSPAM_AGP {
         runSPAM(database, (long) minSupAbsolute, keepPatterns, verbose);
         //keeping the ending time
         end = System.currentTimeMillis();
-        //Search for frequent ca.pfv.spmf.patterns: Finished
+        //Search for frequent patterns: Finished
         saver.finish();
     }
 
@@ -131,14 +131,14 @@ public class AlgoSPAM_AGP {
      */
     protected void runSPAM(SequenceDatabase database, long minSupportAbsolute, boolean keepPatterns, boolean verbose) {
 
-        //We get the equivalence classes formed by the frequent 1-ca.pfv.spmf.patterns
+        //We get the equivalence classes formed by the frequent 1-patterns
         frequentItems = database.frequentItems();
-        //We extract their ca.pfv.spmf.patterns
+        //We extract their patterns
         Collection<Pattern> size1sequences = getPatterns(frequentItems);
         //If we want to keep the output
         if (keepPatterns) {
             for (Pattern atom : size1sequences) {
-                //We keep all the frequent 1-ca.pfv.spmf.patterns
+                //We keep all the frequent 1-patterns
                 saver.savePattern(atom);
             }
         }
@@ -148,24 +148,24 @@ public class AlgoSPAM_AGP {
         //We define the root class
         EquivalenceClass rootClass = new EquivalenceClass(null);
         /*And we insert the equivalence classes corresponding to the frequent
-        1-ca.pfv.spmf.patterns as its members*/
+        1-patterns as its members*/
         for (EquivalenceClass atom : frequentItems) {
             rootClass.addClassMember(atom);
         }
         
-        //Inizialitation of the class that is in charge of find the frequent ca.pfv.spmf.patterns
+        //Inizialitation of the class that is in charge of find the frequent patterns
         FrequentPatternEnumeration_SPAM frequentPatternEnumeration = new FrequentPatternEnumeration_SPAM(minSupAbsolute, saver);
         //We execute the search
         frequentPatternEnumeration.execute(rootClass, keepPatterns, verbose);
 
-        //Once we had finished, we keep the number of frequent ca.pfv.spmf.patterns that we found
+        //Once we had finished, we keep the number of frequent patterns that we found
         numberOfFrequentPatterns = frequentPatternEnumeration.getFrequentPatterns();
         // check the memory usage for statistics
         MemoryLogger.getInstance().checkMemory();
     }
 
     /**
-     * It gets the ca.pfv.spmf.patterns that are the identifiers of the given equivalence classes
+     * It gets the patterns that are the identifiers of the given equivalence classes
      * @param equivalenceClasses The set of equivalence classes from where we want
      * to obtain their class identifiers
      * @return 

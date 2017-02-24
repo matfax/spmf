@@ -56,7 +56,7 @@ public class AlgoSPADE {
     protected double minSup;
     /**
      * The minimum support relative threshold, i.e. the minimum number of
-     * sequences where the ca.pfv.spmf.patterns have to be
+     * sequences where the patterns have to be
      */
     protected double minSupRelative;
     /**
@@ -83,7 +83,7 @@ public class AlgoSPADE {
      */
     private AbstractionCreator abstractionCreator;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm
+     * Number of frequent patterns found by the algorithm
      */
     private int numberOfFrequentPatterns;
 
@@ -103,17 +103,17 @@ public class AlgoSPADE {
 
     /**
      * Actual call to SPADE algorithm. The output can be either kept or ignore.
-     * Whenever we choose to keep the ca.pfv.spmf.patterns found, we can keep them in a file
+     * Whenever we choose to keep the patterns found, we can keep them in a file
      * or in the main memory
      *
      * @param database Original database in where we want to search for the
-     * frequent ca.pfv.spmf.patterns.
+     * frequent patterns.
      * @param candidateGenerator The candidate generator used by the algorithm
      * SPADE
      * @param keepPatterns Flag indicating if we want to keep the output or not
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path of the file in which we want to store the
-     * frequent ca.pfv.spmf.patterns. If this value is null, we keep the ca.pfv.spmf.patterns in the
+     * frequent patterns. If this value is null, we keep the patterns in the
      * main memory. This argument is taken into account just when keepPatterns
      * is activated.
       * @param outputSequenceIdentifiers if true, sequence identifiers will be output for each pattern
@@ -143,23 +143,23 @@ public class AlgoSPADE {
 
         //keeping the ending time
         end = System.currentTimeMillis();
-        //Search for frequent ca.pfv.spmf.patterns: Finished
+        //Search for frequent patterns: Finished
         saver.finish();
     }
     
     /**
      * Actual call to SPADE algorithm. The output can be either kept or ignore.
-     * Whenever we choose to keep the ca.pfv.spmf.patterns found, we can keep them in a file
+     * Whenever we choose to keep the patterns found, we can keep them in a file
      * or in the main memory. The algorithm SPADE is executed in a parallel way.
      *
      * @param database Original database in where we want to search for the
-     * frequent ca.pfv.spmf.patterns.
+     * frequent patterns.
      * @param candidateGenerator The candidate generator used by the algorithm
      * SPADE
      * @param keepPatterns Flag indicating if we want to keep the output or not
      * @param verbose Flag for debugging purposes
      * @param outputFilePath Path of the file in which we want to store the
-     * frequent ca.pfv.spmf.patterns. If this value is null, we keep the ca.pfv.spmf.patterns in the
+     * frequent patterns. If this value is null, we keep the patterns in the
      * main memory. This argument is taken into account just when keepPatterns
      * is activated.
      * @param outputSequenceIdentifiers if true, sequence identifiers will be output for each pattern
@@ -189,7 +189,7 @@ public class AlgoSPADE {
 
         //keeping the ending time
         end = System.currentTimeMillis();
-        //Search for frequent ca.pfv.spmf.patterns: Finished
+        //Search for frequent patterns: Finished
         saver.finish();
     }
 
@@ -208,14 +208,14 @@ public class AlgoSPADE {
      * @param verbose Flag for debugging purposes
      */
     protected void runSPADE(SequenceDatabase database, CandidateGenerator candidateGenerator, long minSupportCount, boolean dfs, boolean keepPatterns, boolean verbose) {
-        //We get the equivalence classes formed by the frequent 1-ca.pfv.spmf.patterns
+        //We get the equivalence classes formed by the frequent 1-patterns
         frequentItems = database.frequentItems();
-        //We extract their ca.pfv.spmf.patterns
+        //We extract their patterns
         Collection<Pattern> size1sequences = getPatterns(frequentItems);
         //If we want to keep the output
         if (keepPatterns) {
             for (Pattern atom : size1sequences) {
-                //We keep all the frequent 1-ca.pfv.spmf.patterns
+                //We keep all the frequent 1-patterns
                 saver.savePattern(atom);
             }
         }
@@ -228,12 +228,12 @@ public class AlgoSPADE {
         //We define the root class
         EquivalenceClass rootClass = new EquivalenceClass(null);
         /*And we insert the equivalence classes corresponding to the frequent
-        1-ca.pfv.spmf.patterns as its members*/
+        1-patterns as its members*/
         for (EquivalenceClass atom : frequentItems) {
             rootClass.addClassMember(atom);
         }
         
-        //Inizialitation of the class that is in charge of find the frequent ca.pfv.spmf.patterns
+        //Inizialitation of the class that is in charge of find the frequent patterns
         FrequentPatternEnumeration frequentPatternEnumeration = new FrequentPatternEnumeration(candidateGenerator, minSupRelative, saver);
         //We set the number of frequent items to the number of frequent items
         frequentPatternEnumeration.setFrequentPatterns(frequentItems.size());
@@ -241,7 +241,7 @@ public class AlgoSPADE {
         //We execute the search
         frequentPatternEnumeration.execute(rootClass, dfs, keepPatterns, verbose, null,null);
 
-        /* Once we had finished, we keep the number of frequent ca.pfv.spmf.patterns that we
+        /* Once we had finished, we keep the number of frequent patterns that we 
          * finally found
          */
         numberOfFrequentPatterns = frequentPatternEnumeration.getFrequentPatterns();
@@ -254,7 +254,7 @@ public class AlgoSPADE {
     /**
      *
      * The actual method for extracting frequent sequences. This method it starts
-     * with both the frequent 1-ca.pfv.spmf.patterns and 2-ca.pfv.spmf.patterns already found.
+     * with both the frequent 1-patterns and 2-patterns already found.
      *
      * @param database The original database
      * @param candidateGenerator The candidate generator used by the algorithm
@@ -297,7 +297,7 @@ public class AlgoSPADE {
             frequentPatternEnumeration.execute(frequentAtomClass, dfs, keepPatterns, verbose, null,null);
             frequentItems.remove(frequentItems.size() - 1);
             if (verbose) {
-                System.out.println("\tWe found " + frequentPatternEnumeration.getFrequentPatterns() + " frequent ca.pfv.spmf.patterns so far.");
+                System.out.println("\tWe found " + frequentPatternEnumeration.getFrequentPatterns() + " frequent patterns so far.");
             }
             
             
@@ -308,7 +308,7 @@ public class AlgoSPADE {
     }
 
     /**
-     * It gets the ca.pfv.spmf.patterns that are the identifiers of the given equivalence classes
+     * It gets the patterns that are the identifiers of the given equivalence classes
      * @param equivalenceClasses The set of equivalence classes from where we want
      * to obtain their class identifiers
      * @return 
@@ -377,8 +377,8 @@ public class AlgoSPADE {
     /**
      *
      * The actual method for extracting frequent sequences. This method it starts
-     * with both the frequent 1-ca.pfv.spmf.patterns and 2-ca.pfv.spmf.patterns already found. Besides, it
-     * resolves each equivalence class formed by the 1-ca.pfv.spmf.patterns independently.
+     * with both the frequent 1-patterns and 2-patterns already found. Besides, it
+     * resolves each equivalence class formed by the 1-patterns independently.
      * 
      * @param database The original database
      * @param candidateGenerator The candidate generator used by the algorithm
@@ -456,8 +456,8 @@ public class AlgoSPADE {
     /**
      *
      * The actual method for extracting frequent sequences. This method it starts
-     * with both the frequent 1-ca.pfv.spmf.patterns and 2-ca.pfv.spmf.patterns already found. Besides, it
-     * resolves each equivalence class formed by the 1-ca.pfv.spmf.patterns independently.
+     * with both the frequent 1-patterns and 2-patterns already found. Besides, it
+     * resolves each equivalence class formed by the 1-patterns independently.
      * 
      * @param database The original database
      * @param candidateGenerator The candidate generator used by the algorithm

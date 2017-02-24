@@ -24,7 +24,7 @@ import java.util.Set;
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.kmeans_for_fournier08.Cluster;
 
 /**
- * This class represents a projected database as used by SeqDim and Fournier-Viger (2008) ca.pfv.spmf.algorithms.
+ * This class represents a projected database as used by SeqDim and Fournier-Viger (2008) algorithms.
  * A projected database is a list of pseudoSequences (projected sequences).
  * 
  * @see PseudoSequence

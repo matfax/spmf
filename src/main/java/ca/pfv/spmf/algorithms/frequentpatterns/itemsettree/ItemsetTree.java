@@ -1,12 +1,12 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.itemsettree;
 
+import ca.pfv.spmf.tools.MemoryLogger;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.HashSet;
-
-import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * An implementation of the Itemset-tree
@@ -45,8 +45,8 @@ public class ItemsetTree extends AbstractItemsetTree implements Serializable{
 	}
 
 	/**
-	 * Build the itemset-tree based on an ca.pfv.spmf.input file containing transactions
-	 * @param input an ca.pfv.spmf.input file
+	 * Build the itemset-tree based on an input file containing transactions
+	 * @param input an input file
 	 * @throws IOException exception if error while reading the file
 	 */
 	public void buildTree(String input)
@@ -61,7 +61,7 @@ public class ItemsetTree extends AbstractItemsetTree implements Serializable{
 		root = new ItemsetTreeNode(null, 0);
 
 		// Scan the database to read the transactions
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		 // for each line (transaction) until the end of file
 		while (((line = reader.readLine()) != null)) {
@@ -86,7 +86,7 @@ public class ItemsetTree extends AbstractItemsetTree implements Serializable{
 			// call the method "construct" to add the transaction to the tree
 			construct(null, root, itemset);
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 		
 		// check the memory usage

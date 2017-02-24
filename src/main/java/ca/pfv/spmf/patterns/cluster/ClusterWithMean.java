@@ -66,7 +66,7 @@ public class ClusterWithMean extends Cluster {
 	}
 
 	/**
-	 * This method is called by clustering ca.pfv.spmf.algorithms to recompute the mean
+	 * This method is called by clustering algorithms to recompute the mean
 	 * of the cluster.
 	 */
 	public void recomputeClusterMean() {

@@ -44,7 +44,7 @@ public class SequenceDatabase {
 	
 	/**
 	 * Method to load a sequence database from a text file in SPMF format.
-	 * @param path  the ca.pfv.spmf.input file path.
+	 * @param path  the input file path.
 	 * @throws IOException exception if error while reading the file.
 	 */
 	public void loadFile(String path) throws IOException {

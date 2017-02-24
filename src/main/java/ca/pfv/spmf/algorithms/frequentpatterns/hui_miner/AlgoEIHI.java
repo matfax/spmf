@@ -94,7 +94,7 @@ public class AlgoEIHI {
 	/** The minimum utility threshold */
 	int minUtility;
 	
-	/** The first line to be read from the ca.pfv.spmf.input file*/
+	/** The first line to be read from the input file*/
 	int firstLine;
 	
 	/** A buffer for storing the current itemset that is mined when performing mining
@@ -403,7 +403,7 @@ public class AlgoEIHI {
 
 	/**
 	 * Run the algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param minUtility the minimum utility threshold
 	 * @param firstline the first line to be read
 	 * @param lastline the last line to be read
@@ -459,7 +459,7 @@ public class AlgoEIHI {
 		String thisLine;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			int tid =0;
 			while ((thisLine = myInput.readLine()) != null && tid < lastLine) {
@@ -502,7 +502,7 @@ public class AlgoEIHI {
 				tid++;
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -633,7 +633,7 @@ public class AlgoEIHI {
 
 			}
 		} catch (Exception e) {
-			// to catch error while reading the ca.pfv.spmf.input file
+			// to catch error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){

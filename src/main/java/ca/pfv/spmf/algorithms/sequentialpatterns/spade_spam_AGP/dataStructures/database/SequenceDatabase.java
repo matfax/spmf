@@ -27,7 +27,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators
 
 /**
  * Inspired in SPMF. Implementation of a sequence database. Each sequence should
- * have a unique id. See examples in /test/ directory for the format of ca.pfv.spmf.input
+ * have a unique id. See examples in /test/ directory for the format of input
  * files.
  *
  * Copyright Antonio Gomariz Peñalver 2013

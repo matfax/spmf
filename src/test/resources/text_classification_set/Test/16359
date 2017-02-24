@@ -61,7 +61,7 @@ share, which Eve doesn't know. She finds them out (effectively) by
 knowing some P and the corresponding C. It is the fact that they
 CORRESPOND that causes the problem. If a message authentication code was to
 be created using some one-time-pad operation such that Eve could not
-know which parts of the MAC were affected by which parts of the ca.pfv.spmf.input,
+know which parts of the MAC were affected by which parts of the input,
 she would be unable to forge a MAC to correspond.
 
 What is required is a non-linear combiner of parts of the message.

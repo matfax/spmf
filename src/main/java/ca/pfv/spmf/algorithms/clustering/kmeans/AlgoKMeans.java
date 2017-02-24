@@ -16,20 +16,19 @@ package ca.pfv.spmf.algorithms.clustering.kmeans;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
+import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
+import ca.pfv.spmf.algorithms.clustering.instancereader.AlgoInstanceFileReader;
+import ca.pfv.spmf.patterns.cluster.ClusterWithMean;
+import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
+import ca.pfv.spmf.patterns.cluster.DoubleArray;
+import ca.pfv.spmf.tools.MemoryLogger;
+
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
-import ca.pfv.spmf.patterns.cluster.ClusterWithMean;
-import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
-import ca.pfv.spmf.patterns.cluster.DoubleArray;
-import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
  * An implementation of the K-means algorithm (J. MacQueen, 1967). 
@@ -60,6 +59,9 @@ public class AlgoKMeans {
 	
 	/* The distance function to be used for clustering */
 	protected DistanceFunction distanceFunction = null;
+	
+	/** The names of the attributes **/
+	private List<String> attributeNames = null;
 
 	/**
 	 * Default constructor
@@ -70,13 +72,14 @@ public class AlgoKMeans {
 	
 	/**
 	 * Run the K-Means algorithm
-	 * @param inputFile an ca.pfv.spmf.input file path containing a list of vectors of double values
+	 * @param inputFile an input file path containing a list of vectors of double values
 	 * @param k the parameter k
 	 * @param distanceFunction 
+	 * @param separator the character used to separate double values in the input file
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException exception if an error while writing the file occurs
 	 */
-	public List<ClusterWithMean> runAlgorithm(String inputFile, int k, DistanceFunction distanceFunction) throws NumberFormatException, IOException {
+	public List<ClusterWithMean> runAlgorithm(String inputFile, int k, DistanceFunction distanceFunction, String separator) throws NumberFormatException, IOException {
 		// record the start time
 		startTimestamp =  System.currentTimeMillis();
 		// reset the number of iterations
@@ -85,57 +88,39 @@ public class AlgoKMeans {
 		this.distanceFunction = distanceFunction;
 		
 		// Structure to store the vectors from the file
-		List<DoubleArray> vectors = new ArrayList<DoubleArray>();
+		List<DoubleArray> instances;
 		
 		// variables to store the minimum and maximum values in vectors
 		double minValue = Integer.MAX_VALUE;
 		double maxValue = 0;
 		
-		// read the vectors from the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-		String line;
-		// for each line until the end of the file
-		while (((line = reader.readLine()) != null)) {
-			// if the line is  a comment, is  empty or is a
-			// kind of metadata
-			if (line.isEmpty() == true ||
-					line.charAt(0) == '#' || line.charAt(0) == '%'
-							|| line.charAt(0) == '@') {
-				continue;
-			}
-			// split the line by spaces
-			String[] lineSplited = line.split(" ");
-			// create a vector of double
-			double [] vector = new double[lineSplited.length];
-			// for each value of the current line
-			for (int i=0; i< lineSplited.length; i++) { 
-				// convert to double
-				double value = Double.parseDouble(lineSplited[i]);
-				// check if it is the min or max
+		// Read the input file
+		AlgoInstanceFileReader reader = new AlgoInstanceFileReader();
+		instances = reader.runAlgorithm(inputFile, separator);
+		int dimensionCount = reader.getAttributeNames().size();
+		attributeNames = reader.getAttributeNames();
+		
+		// For each instance
+		for(DoubleArray instance : instances){
+			for(double value : instance.data){
 				if(value < minValue){
 					minValue = value;
 				}
 				if(value > maxValue){
 					maxValue = value;
 				}
-				// add the value to the current vector
-				vector[i] = value;
 			}
-			// add the vector to the list of vectors
-			vectors.add(new DoubleArray(vector));
 		}
-		// close the file
-		reader.close();
 		
 		// Get the size of vectors
-		int vectorsSize = vectors.get(0).data.length;
+		int vectorsSize = instances.get(0).data.length;
 		
 		// if the user ask for only one cluster!
 		if(k == 1) {
 			// Create a single cluster and return it 
 			clusters = new ArrayList<ClusterWithMean>();
 			ClusterWithMean cluster = new ClusterWithMean(vectorsSize);
-			for(DoubleArray vector : vectors) {
+			for(DoubleArray vector : instances) {
 				cluster.addVector(vector);
 			}
 			cluster.setMean(new DoubleArray(new double[vectorsSize]));
@@ -151,10 +136,10 @@ public class AlgoKMeans {
 		}
 		
 		// SPECIAL CASE: If only one vector
-		if (vectors.size() == 1) {
+		if (instances.size() == 1) {
 			// Create a single cluster and return it 
 			clusters = new ArrayList<ClusterWithMean>();
-			DoubleArray vector = vectors.get(0);
+			DoubleArray vector = instances.get(0);
 			ClusterWithMean cluster = new ClusterWithMean(vectorsSize);
 			cluster.addVector(vector);
 			cluster.recomputeClusterMean();
@@ -171,11 +156,11 @@ public class AlgoKMeans {
 		
 		// if the user asks for more cluster then there is data,
 		// we set k to the number of data points.
-		if(k > vectors.size()) {
-			k = vectors.size();
+		if(k > instances.size()) {
+			k = instances.size();
 		}
 
-		applyAlgorithm(k, distanceFunction, vectors, minValue, maxValue,
+		applyAlgorithm(k, distanceFunction, instances, minValue, maxValue,
 				vectorsSize); 
 
 		// check memory usage
@@ -324,6 +309,13 @@ public class AlgoKMeans {
 	 */
 	public void saveToFile(String output) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+		
+		// First, we will print the attribute names
+		for(String attributeName : attributeNames){
+			writer.write("@ATTRIBUTEDEF=" + attributeName);
+			writer.newLine();
+		}
+		
 		// for each cluster
 		for(int i=0; i< clusters.size(); i++){
 			// if the cluster is not empty
@@ -344,7 +336,7 @@ public class AlgoKMeans {
 	 * Print statistics of the latest execution to System.out.
 	 */
 	public void printStatistics() {
-		System.out.println("========== KMEANS - STATS ============");
+		System.out.println("========== KMEANS - SPMF 2.09 - STATS ============");
 		System.out.println(" Distance function: " + distanceFunction.getName());
 		System.out.println(" Total time ~: " + (endTimestamp - startTimestamp)
 				+ " ms");

@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * This class represents an itemset (a list of items where items are strings) as used by the TRuleGrowth
- * implementation that takes strings as ca.pfv.spmf.input.
+ * implementation that takes strings as input.
  * 
  * @see AlgoTRuleGrowth_withStrings
  *

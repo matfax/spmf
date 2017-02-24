@@ -64,7 +64,7 @@ public class Sequences {
     }
 
     /**
-     * Get a string representation of these sequential ca.pfv.spmf.patterns
+     * Get a string representation of these sequential patterns
      * @param outputSequenceIdentifiers  if true, sequences ids containing each pattern will be shown
      * @return a string
      */

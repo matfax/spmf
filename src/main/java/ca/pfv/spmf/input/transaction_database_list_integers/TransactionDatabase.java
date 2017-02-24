@@ -58,8 +58,7 @@ public class TransactionDatabase {
 		String thisLine; // variable to read each line
 		BufferedReader myInput = null; // object to read the file
 		try {
-			FileInputStream fin = new FileInputStream(new File(path));
-			myInput = new BufferedReader(new InputStreamReader(fin));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(path)));
 			// for each line
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is not a comment, is not empty or is not other

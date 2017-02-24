@@ -33,7 +33,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
 
 /*** 
  * This is an implementation of the BIDE+ algorithm that is optimized to take
- * sequences of strings as ca.pfv.spmf.input instead of sequences of integers.
+ * sequences of strings as input instead of sequences of integers.
  * <br/><br/>
  * 
  * In this file, I have tried to put some comments about how the algorithm works.
@@ -42,8 +42,8 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * <br/><br/>
  * 
  *  In future a version of SPMF, it is planned to remove this package and to provide a more general
- *  mechanism for handling strings in sequences that would work for all ca.pfv.spmf.algorithms
- *  that take sequences as ca.pfv.spmf.input. But this has not been done yet.
+ *  mechanism for handling strings in sequences that would work for all algorithms 
+ *  that take sequences as input. But this has not been done yet.
  *  
   @see Sequence
   @see SequenceDatabase
@@ -60,7 +60,7 @@ public class AlgoBIDEPlus_withStrings {
 	private long startTime;
 	private long endTime;
 	
-	// the number of ca.pfv.spmf.patterns found
+	// the number of patterns found
 	private int patternCount = 0;
 		
 	// absolute minimum support
@@ -144,7 +144,7 @@ public class AlgoBIDEPlus_withStrings {
 				prefix.addItemset(new Itemset(item));
 				prefix.setSequencesID(entry.getValue());
 				
-				// variable to store the largest support of ca.pfv.spmf.patterns
+				// variable to store the largest support of patterns
 				// that will be found starting with this prefix
 				int supportSuccessors =0;
 				
@@ -357,7 +357,7 @@ public class AlgoBIDEPlus_withStrings {
 	private Map<String, Set<Integer>> findSequencesContainingItems(SequenceDatabase contexte) {
 		// We use a map to store the sequence IDs where an item appear
 		// Key : item   Value :  a set of sequence IDs
-		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des sï¿½quences: <Id Item, Set d'id de sï¿½quences>
+		Map<String, Set<Integer>> mapSequenceID = new HashMap<String, Set<Integer>>(); // pour conserver les ID des séquences: <Id Item, Set d'id de séquences>
 		// for each sequence
 		for(Sequence sequence : contexte.getSequences()){
 			// for each itemset
@@ -434,7 +434,7 @@ public class AlgoBIDEPlus_withStrings {
 		// find frequent items of size 1 in the current projected database.
 		Set<PairBIDE> pairs = findAllFrequentPairs(prefix, contexte);
 		
-		// we will keep tract of the maximum support of ca.pfv.spmf.patterns
+		// we will keep tract of the maximum support of patterns
 		// that can be found with this prefix, to check
 		// for forward extension when this method returns.
 		int maxSupport = 0;
@@ -466,8 +466,8 @@ public class AlgoBIDEPlus_withStrings {
 				// Apply the "backscan pruning" strategy (see BIDE+ paper)
 				if(checkBackScanPruning(newPrefix) == false){
 					// make a recursive call to extend the prefix with this item
-					// and generate other ca.pfv.spmf.patterns starting with that prefix + item
-					 maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // rï¿½cursion
+					// and generate other patterns starting with that prefix + item
+					 maxSupportOfSuccessors = recursion(newPrefix, projectedContext); // récursion
 				}	
 				
 				// check the forward extension for the prefix
@@ -480,7 +480,7 @@ public class AlgoBIDEPlus_withStrings {
 						savePattern(newPrefix);
 					}
 				}
-				// record the largest support of ca.pfv.spmf.patterns found starting
+				// record the largest support of patterns found starting
 				// with this prefix until now
 				if(newPrefix.getAbsoluteSupport() > maxSupport){
 					maxSupport = newPrefix.getAbsoluteSupport();
@@ -531,7 +531,7 @@ public class AlgoBIDEPlus_withStrings {
 	 */
 	private SequentialPattern appendItemToSequence(SequentialPattern prefix, String item) {
 		SequentialPattern newPrefix = prefix.cloneSequence();  // isSuffix
-		newPrefix.addItemset(new Itemset(item));  // crï¿½ï¿½ un nouvel itemset   + decalage
+		newPrefix.addItemset(new Itemset(item));  // créé un nouvel itemset   + decalage
 		return newPrefix;
 	}
 	
@@ -558,7 +558,7 @@ public class AlgoBIDEPlus_withStrings {
 	 * @throws IOException exception if error while writing the output file.
 	 */
 	private void savePattern(SequentialPattern prefix) throws IOException {
-		// increase the number of ca.pfv.spmf.patterns found
+		// increase the number of patterns found
 		patternCount++;
 		
 		StringBuilder r = new StringBuilder("");
@@ -595,7 +595,7 @@ public class AlgoBIDEPlus_withStrings {
 		r.append("=============  Algorithm - STATISTICS =============\n Total time ~ ");
 		r.append(endTime - startTime);
 		r.append(" ms\n");
-		r.append(" Closed sequential ca.pfv.spmf.patterns count : ");
+		r.append(" Closed sequential patterns count : ");
 		r.append(patternCount);
 		r.append('\n');
 		r.append(" Max memory (mb):");

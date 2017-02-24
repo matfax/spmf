@@ -18,7 +18,7 @@ package ca.pfv.spmf.datastructures.binarytree;
 
 /**
  * This is an implementation of a "binary tree" based on the chapter 12 of the
- * book: "Introductions to ca.pfv.spmf.algorithms" by Cormen et al. (2001).
+ * book: "Introductions to algorithms" by Cormen et al. (2001).
  * Most of the code is based on the pseudo-code from this book.
  * <br/><br/>
  * 

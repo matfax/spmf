@@ -116,7 +116,7 @@ public class AlgoEFIMClosed {
 	 * @param minUtil
 	 *            the minimum utility threshold (a positive integer)
 	 * @param inputPath
-	 *            the ca.pfv.spmf.input file path
+	 *            the input file path
 	 * @param outputPath
 	 *            the output file path to save the result or null if to be kept
 	 *            in memory
@@ -145,7 +145,7 @@ public class AlgoEFIMClosed {
 		// record the start time
 		startTimestamp = System.currentTimeMillis();
 
-		// read the ca.pfv.spmf.input file
+		// read the input file
 		Dataset dataset = new Dataset(inputPath, maximumTransactionCount);
 
 		// save the minUtil value selected by the user

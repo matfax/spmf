@@ -94,7 +94,7 @@ class RecursionPrefixSpan_AGP {
     /**
      * It executes the actual PrefixSpan Algorithm
      * @param keepPatterns Flag indicating if the user wants to keep the results
-     * or he is just interested in the number of frequent ca.pfv.spmf.patterns
+     * or he is just interested in the number of frequent patterns
      * @param verbose Flag for debugging purposes
      */
     public void execute(boolean keepPatterns, boolean verbose) {
@@ -120,10 +120,10 @@ class RecursionPrefixSpan_AGP {
             //And we insert it its appearances
             prefix.setAppearingIn((BitSet) ((mapSequenceID.get(item).clone())));
             if (keepPatterns) {
-                //We keep the 1-ca.pfv.spmf.patterns if the flag is active
+                //We keep the 1-patterns if the flag is active
                 saver.savePattern(prefix);
             }
-            //We update the number of frequent ca.pfv.spmf.patterns
+            //We update the number of frequent patterns
             numberOfFrequentPatterns++;
             if (projectedContext != null && projectedContext.size() >= minSupportAbsolute) {
                 //And we call the main loop
@@ -244,14 +244,14 @@ class RecursionPrefixSpan_AGP {
     }
 
     /**
-     * Method that executes the main loop of prefixSpan for all the ca.pfv.spmf.patterns
+     * Method that executes the main loop of prefixSpan for all the patterns
      * with a size greater than 1
      * @param prefix prefix from which we made the projected database and where
      * the frequent items that we find will be added
-     * @param k size of ca.pfv.spmf.patterns that are going to be generated
+     * @param k size of patterns that are going to be generated
      * @param context prefix-projected databases
      * @param keepPatterns flag indicating if we want to keep the output or we 
-     * are interesting in just the number of frequent ca.pfv.spmf.patterns
+     * are interesting in just the number of frequent patterns
      * @param verbose flag for debuggin purposes
      */
     private void prefixSpanLoop(Pattern prefix, int k, PseudoSequenceDatabase context, boolean keepPatterns, boolean verbose) {
@@ -278,11 +278,11 @@ class RecursionPrefixSpan_AGP {
                 PseudoSequenceDatabase projection = makePseudoProjections(pair.getPair().getItem(), context, pair.getPair().getAbstraction(), false);
                 // We add its set of sequences where the prefix appear
                 newPrefix.setAppearingIn((BitSet) (pair.getSequencesID().clone()));
-                // if the flag of keeping ca.pfv.spmf.patterns if active, we keep this new pattern
+                // if the flag of keeping patterns if active, we keep this new pattern
                 if (keepPatterns) {
                     saver.savePattern(newPrefix);
                 }
-                //update the number of frequent ca.pfv.spmf.patterns
+                //update the number of frequent patterns
                 numberOfFrequentPatterns++;
                 //If the projection exists and has more sequences than the absolute minimum  support
                 if (projection != null && projection.size() >= minSupportAbsolute) {
@@ -294,8 +294,8 @@ class RecursionPrefixSpan_AGP {
     }
 
     /**
-     * It returns the number of frequent ca.pfv.spmf.patterns.
-     * @return the number of frequent ca.pfv.spmf.patterns.
+     * It returns the number of frequent patterns.
+     * @return the number of frequent patterns.
      */
     public int numberOfFrequentPatterns() {
         return numberOfFrequentPatterns;

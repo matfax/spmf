@@ -67,7 +67,7 @@ public class AlgoUPGrowth {
 	/**
 	 * Method to run the algorithm
 	 * 
-	 * @param input path to an ca.pfv.spmf.input file
+	 * @param input path to an input file
 	 * @param output  path for writing the output file
 	 * @param minUtility  the minimum utility threshold
 	 * @throws IOException  exception if error while reading or writing the file
@@ -119,7 +119,7 @@ public class AlgoUPGrowth {
 				}
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		} finally {
 			if (myInput != null) {
@@ -218,7 +218,7 @@ public class AlgoUPGrowth {
 			checkMemory();
 
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		} finally {
 			if (myInput != null) {

@@ -7,7 +7,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.p
 
 /**
  * This is an implementation of a class implementing the Saver interface. By 
- * means of these lines, the user choose to keep his ca.pfv.spmf.patterns in the memory.
+ * means of these lines, the user choose to keep his patterns in the memory.
  * 
  * NOTE: This implementation saves the pattern  to a file as soon 
  * as they are found or can keep the pattern into memory, depending
@@ -52,7 +52,7 @@ public class SaverIntoMemory implements Saver{
     
     /**
      * Constructor
-     * @param name the name of these ca.pfv.spmf.patterns
+     * @param name the name of these patterns
     * @param outputSequenceIdentifiers if true, the sequential identifiers will be shown
     */
     public SaverIntoMemory(String name,boolean outputSequenceIdentifiers){
@@ -61,7 +61,7 @@ public class SaverIntoMemory implements Saver{
     }
     
     /**
-     * Save ca.pfv.spmf.patterns to file
+     * Save patterns to file
      * @param p a pattern
      */
     @Override
@@ -81,7 +81,7 @@ public class SaverIntoMemory implements Saver{
     }
     
     /**
-     * Print ca.pfv.spmf.patterns
+     * Print patterns
      * @return a string
      */
     @Override
@@ -90,8 +90,8 @@ public class SaverIntoMemory implements Saver{
     }
     
     /**
-     * Save ca.pfv.spmf.patterns to file
-     * @param patterns a list of ca.pfv.spmf.patterns
+     * Save patterns to file
+     * @param patterns a list of patterns
      */
     @Override
     public void savePatterns(Collection<Pattern> patterns) {

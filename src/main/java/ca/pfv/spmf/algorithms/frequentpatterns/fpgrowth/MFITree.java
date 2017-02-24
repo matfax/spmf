@@ -143,7 +143,7 @@ public class MFITree {
 			}
 		}
 		
-		// OTHERWISE, WE NEED TO COMPARE "headwithP" with all the ca.pfv.spmf.patterns in the MFI-tree.
+		// OTHERWISE, WE NEED TO COMPARE "headwithP" with all the patterns in the MFI-tree.
 		MFINode node = mapItemNodes.get(lastItem);
 		// if that last item is not yet in the MFI-tree, it means that "itemset" is not a subset 
 		// of some itemset already in the tree

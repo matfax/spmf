@@ -83,7 +83,7 @@ public class AlgoLAPIN_LCI{
 	// Used to count the support of 2-itemsets
 	private AbstractTriangularMatrix matrixPairCount;
 	
-	// ca.pfv.spmf.input file path
+	// input file path
 	String input;
 		
 	/**
@@ -95,7 +95,7 @@ public class AlgoLAPIN_LCI{
 
 	/**
 	 * Main method to run the algorithm
-	 * @param input an ca.pfv.spmf.input file path
+	 * @param input an input file path
 	 * @param outputFilePath an output file path
 	 * @param minsupRel the minimum support threshold as a percentage
 	 * @throws IOException exception when writting result to a file
@@ -119,7 +119,7 @@ public class AlgoLAPIN_LCI{
 	
 	/**
 	 * Run the LAPIN algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param minsupRel the minsup threshold as a percentage
 	 */
 	private void lapin(String input, double minsupRel) throws IOException{
@@ -138,10 +138,10 @@ public class AlgoLAPIN_LCI{
 		// sequence where it appears (value)
 		Map<Integer, List<Position>> mapItemFirstOccurrences = new HashMap<Integer,List<Position>>();
 		try {
-			// Read the ca.pfv.spmf.input file
+			// Read the input file
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(input))));
 			String thisLine;
-			// for each sequence of the ca.pfv.spmf.input fiel
+			// for each sequence of the input fiel
 			while ((thisLine = reader.readLine()) != null) {
 				
 				if (thisLine.charAt(0) == '#' || thisLine.charAt(0) == '%'
@@ -185,7 +185,7 @@ public class AlgoLAPIN_LCI{
 						}
 					}
 				}
-				// Increase the count of sequences from the ca.pfv.spmf.input file
+				// Increase the count of sequences from the input file
 				sequenceCount++;
 			}
 			reader.close();
@@ -483,7 +483,7 @@ public class AlgoLAPIN_LCI{
 			System.out.println("=== Starting sequential pattern generation ===");
 		}
 		
-		// For each frequent item,  call the recursive method to explore larger ca.pfv.spmf.patterns
+		// For each frequent item,  call the recursive method to explore larger patterns
 		for(int i=0; i < frequentItems.size(); i++){
 			// Get the item
 			int item1 = frequentItems.get(i);
@@ -605,7 +605,7 @@ public class AlgoLAPIN_LCI{
 //			if(DEBUG) {
 //				if(seqDB == null) {
 //					seqDB = new SequenceDatabase();
-//					seqDB.loadFile(ca.pfv.spmf.input);
+//					seqDB.loadFile(input);
 //				}
 //				// FOR DEBUGGING  = WORK ONLY FOR SEQUENCE WITH SINGLE ITEMS IN EACH ITEMSET
 //				System.out.println("Checking if the border of " + prefix + " is correct");
@@ -700,7 +700,7 @@ public class AlgoLAPIN_LCI{
 				if(support >= minsup){
 
 					// recalculate the border
-					// in this case, the method takes the prefix border as ca.pfv.spmf.input
+					// in this case, the method takes the prefix border as input
 					List<Position> newBorder = recalculateBorderForIExtension(lastItemset, prefixBorder, hasToBeGreaterThanForIStep, item, willAddSecondItem);
 					
 					
@@ -924,7 +924,7 @@ loop:			for(short pos : listPositions) {
 	 * @throws IOException if error while writing to file
 	 */
 	private void savePattern(Integer item, int support) throws IOException {
-		// increase the number of ca.pfv.spmf.patterns found
+		// increase the number of patterns found
 		patternCount++;
 		// create a string buffer to store the string reprensentation of this pattern
 		StringBuilder r = new StringBuilder("");
@@ -951,7 +951,7 @@ loop:			for(short pos : listPositions) {
 	 * @throws IOException if error ocurrs when writing to file
 	 */
 	private void savePattern(Prefix prefix, int support) throws IOException {
-		// increase the number of ca.pfv.spmf.patterns found
+		// increase the number of patterns found
 		patternCount++;
 		
 		// Create a string buffer to store the pattern and its support as a string

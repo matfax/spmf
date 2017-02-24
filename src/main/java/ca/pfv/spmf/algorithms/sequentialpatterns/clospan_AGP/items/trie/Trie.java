@@ -24,7 +24,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clospan_AGP.items.patterns.Patt
  * until this one, passing by the different nodes in the way that are ancestors 
  * of the current trie. We do not keep any trace of the parent nodes since the 
  * whole trie will be run at the end of the algorithm, just before applying the
- * postprocessing step to remove the remaining non-closed frequent ca.pfv.spmf.patterns.
+ * postprocessing step to remove the remaining non-closed frequent patterns.
  *
  * Besides, in a trie we keep some information relative to that pattern that is
  * referred, such as the sequences where the pattern appears, its support, and
@@ -320,7 +320,7 @@ public class Trie implements Comparable<Trie> {
      * It makes a pre-order traversal from the Trie. The result is concatenate
      * to the prefix pattern given as parameter
      * @param p Prefix pattern
-     * @return the list of ca.pfv.spmf.patterns
+     * @return the list of patterns
      */
     public List<Pattern> preorderTraversal(Pattern p) {
         List<Pattern> result = new LinkedList<Pattern>();

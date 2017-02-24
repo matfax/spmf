@@ -19,10 +19,10 @@ package ca.pfv.spmf.algorithms.sort;
 import java.util.Random;
 
 /**
- * Implementation of a few selection ca.pfv.spmf.algorithms (randomized select, etc.).
+ * Implementation of a few selection algorithms (randomized select, etc.).
  * based on description from the book "Introduction to Algorithms" from MIT Press.
  * 
- * Please refer to that book for details about the ca.pfv.spmf.algorithms and proofs that
+ * Please refer to that book for details about the algorithms and proofs that
  * they are correct.
  */
 public class Select {
@@ -30,7 +30,7 @@ public class Select {
 	 
 	/**
 	 * Method to select the ith smallest integer of an array in average linear time.
-	 * Based on the Randomized-Select algorithm in "Introduction to ca.pfv.spmf.algorithms" book by Cormen et al. (2001).
+	 * Based on the Randomized-Select algorithm in "Introduction to algorithms" book by Cormen et al. (2001).
 	 * @param a   array of integers
 	 * @param i  the i value
 	 * @return the element of "a" that is larger than i elements.

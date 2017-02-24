@@ -21,8 +21,8 @@ package ca.pfv.spmf.algorithms.clustering.text_clusterer;
  *
  */
 public class Record {
-public int recordId; //record/Attribute Id in the ca.pfv.spmf.input file
-String attribute;	//the text record in the ca.pfv.spmf.input file
+public int recordId; //record/Attribute Id in the input file
+String attribute;	//the text record in the input file
 public double[] tfVector;
 public int getRecordId() {
 	return recordId;

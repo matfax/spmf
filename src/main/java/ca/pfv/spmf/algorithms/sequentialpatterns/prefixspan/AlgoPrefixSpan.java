@@ -60,7 +60,7 @@ public class AlgoPrefixSpan{
 	/** writer to write output file */
 	BufferedWriter writer = null;
 	
-	/** The sequential ca.pfv.spmf.patterns that are found  (if the user want to keep them into memory) */
+	/** The sequential patterns that are found  (if the user want to keep them into memory) */
 	private SequentialPatterns patterns = null;
 	
 	/** maximum pattern length in terms of item count */
@@ -184,7 +184,7 @@ public class AlgoPrefixSpan{
 		sequenceCount = sequenceDatabase.size();
 		
 		//============== CALCULATE FREQUENCY OF SINGLE ITEMS =============
-		// We have to scan the database to find all frequent sequential ca.pfv.spmf.patterns of size 1.
+		// We have to scan the database to find all frequent sequential patterns of size 1.
 		// We note the sequences in which the items appear.
 		Map<Integer, List<Integer>> mapSequenceID = findSequencesContainingItems();
 
@@ -264,7 +264,7 @@ public class AlgoPrefixSpan{
 				savePattern(item, support, entry.getValue());  
 
 				// We make a recursive call to try to find larger sequential
-				// ca.pfv.spmf.patterns starting with this prefix
+				// patterns starting with this prefix
 				if(maximumPatternLength >1){
 					
 					// Create the prefix for this projected database by copying the item in the buffer
@@ -360,7 +360,7 @@ public class AlgoPrefixSpan{
 				savePattern(item, support, entry.getValue());  
 
 				// We make a recursive call to try to find larger sequential
-				// ca.pfv.spmf.patterns starting with this prefix
+				// patterns starting with this prefix
 				if(maximumPatternLength >1){
 					
 					// Create the prefix for this projected database by copying the item in the buffer
@@ -962,7 +962,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	}
 	
 	/**
-	 * Get the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Get the maximum length of patterns to be found (in terms of item count)
 	 * @return the maximumPatternLength
 	 */
 	public int getMaximumPatternLength() {
@@ -970,7 +970,7 @@ loopSeq:for(int sequenceID : sequenceIDs){
 	}
 
 	/**
-	 * Set the maximum length of ca.pfv.spmf.patterns to be found (in terms of item count)
+	 * Set the maximum length of patterns to be found (in terms of item count)
 	 * @param maximumPatternLength the maximumPatternLength to set
 	 */
 	public void setMaximumPatternLength(int maximumPatternLength) {

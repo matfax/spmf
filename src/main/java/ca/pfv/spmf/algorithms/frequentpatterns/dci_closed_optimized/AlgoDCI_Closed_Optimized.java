@@ -16,17 +16,8 @@ package ca.pfv.spmf.algorithms.frequentpatterns.dci_closed_optimized;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * This is the optimized implementation of the "DCI_Closed" algorithm.  
@@ -68,27 +59,34 @@ import java.util.List;
  */
 public class AlgoDCI_Closed_Optimized {
 	
-	// number of closed itemsets found
+	/** number of closed itemsets found */
 	int closedCount =0;
-	// the number of transaction in the transaction database
+	
+	/** the number of transaction in the transaction database */
 	int tidsCount =0;
-	// the largest item in the transaction database
+	
+	/** the largest item in the transaction database */
 	int maxItemId =1;  
 	
-	// relative minimum support set by the user
+	/** relative minimum support set by the user */
 	private int minSuppRelative;
-	// object to write the output file
+	
+	/** object to write the output file */
 	BufferedWriter writer = null; 
 	
+	/** if true, transaction identifiers of each pattern will be shown*/
+	boolean showTransactionIdentifiers = false;
+
 	/**
 	 * Default constructor
 	 */
 	public AlgoDCI_Closed_Optimized() {
+		
 	}
 
 	/**
 	 * Run the algorithm.
-	 * @param input the path of an ca.pfv.spmf.input file (transaction database).
+	 * @param input the path of an input file (transaction database).
 	 * @param output the path of the output file for writing the result
 	 * @param minsup a minimum support threshold
 	 * @throws IOException exception if error while writing/reading files
@@ -161,14 +159,23 @@ public class AlgoDCI_Closed_Optimized {
 	}
 	
 	/**
+	 * Set that the transaction identifiers should be shown (true) or not (false) for each
+	 * pattern found, when writing the result to an output file.
+	 * @param showTransactionIdentifiers true or false
+	 */
+	public void setShowTransactionIdentifiers(boolean showTransactionIdentifiers) {
+		this.showTransactionIdentifiers = showTransactionIdentifiers;
+	}
+	
+	/**
 	 * Scan database to know the database size and  number of items to 
 	 * initialize the bit matrix.
-	 * @param input  the ca.pfv.spmf.input file
+	 * @param input  the input file
 	 * @throws IOException exception if error while reading the file
 	 */
 	private void firstScan(String input) throws NumberFormatException, IOException {
 		// Prepareobject  to read the file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		maxItemId = 0;
 		tidsCount =0; // variable to count the number of transaction.
@@ -238,7 +245,7 @@ public class AlgoDCI_Closed_Optimized {
 				newgen.add(i);
 				
 				// L5:  if newgen is not a duplicate
-				if(is_dup(newgenTIDs, preset, matrix) == false){
+				if(isDuplicate(newgenTIDs, preset, matrix) == false){
 					// L6: ClosedsetNew = newGen
 					List<Integer> closedsetNew = new ArrayList<Integer>();
 					closedsetNew.addAll(newgen);
@@ -274,7 +281,7 @@ public class AlgoDCI_Closed_Optimized {
 					
 					// L15 : write out closedsetNew and its support
 					int support = closedsetNewTIDs.cardinality();
-					writeOut(closedsetNew, support);
+					writeOut(closedsetNew, support, closedsetNewTIDs);
 					
 					// L16: recursive call
 					// FIXED: we have to make a copy of preset before the recursive call
@@ -308,8 +315,11 @@ public class AlgoDCI_Closed_Optimized {
 
 	/**
 	 * Write a frequent closed itemset that is found to the output file.
+	 * @param closedset a closed itemset
+	 * @param support the support of this itemset
+	 * @param closedsetNewTIDs the transactions ids of this itemset
 	 */
-	private void writeOut(List<Integer> closedset, int support) throws IOException {
+	private void writeOut(List<Integer> closedset, int support, BitSet closedsetNewTIDs) throws IOException {
 		// increase the number of closed itemsets
 		closedCount++;
 		
@@ -329,6 +339,15 @@ public class AlgoDCI_Closed_Optimized {
 		// append the support
 		buffer.append(" #SUP: ");
 		buffer.append(support);
+		
+		if(showTransactionIdentifiers) {
+			buffer.append(" #TID:");
+        	BitSet transactionIDs = closedsetNewTIDs;
+        	for (int tid = transactionIDs.nextSetBit(0); tid != -1; tid = transactionIDs.nextSetBit(tid + 1)) {
+        		buffer.append(" " + tid); 
+        	}
+		}
+		
 		// append the buffer
 		writer.write(buffer.toString());
 		writer.newLine();
@@ -340,7 +359,7 @@ public class AlgoDCI_Closed_Optimized {
 	 * @param preset      the itemset "preset"
 	 * @param matrix      the current transaction database as a bit matrix
 	 */
-	private boolean is_dup(BitSet newgenTIDs, List<Integer> preset, BitMatrix matrix) {
+	private boolean isDuplicate(BitSet newgenTIDs, List<Integer> preset, BitMatrix matrix) {
 		// L25
 		// For each item in preset
 		for(Integer j : preset){
@@ -389,13 +408,13 @@ public class AlgoDCI_Closed_Optimized {
 	
 
 	/**
-	 * Create the in-memory vertical database by reading the ca.pfv.spmf.input file.
-	 * @param input an ca.pfv.spmf.input file path.
+	 * Create the in-memory vertical database by reading the input file.
+	 * @param input an input file path.
 	 * @throws IOException exception if an error while reading the file
 	 */
 	private void createVerticalDatabase(String input, BitMatrix matrix) throws IOException {
-		// Prepare object to read the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		// Prepare object to read the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		int tidCount =0;
 		// for each line (transaction) until the end of the file

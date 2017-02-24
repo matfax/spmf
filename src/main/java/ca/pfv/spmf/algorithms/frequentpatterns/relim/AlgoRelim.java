@@ -17,20 +17,11 @@ package ca.pfv.spmf.algorithms.frequentpatterns.relim;
 */
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /**
@@ -75,7 +66,7 @@ public class AlgoRelim {
 	/**
 	 * Run the algorithm
 	 * @param minsupp minimum support threshold
-	 * @param input the file path of the ca.pfv.spmf.input file
+	 * @param input the file path of the input file
 	 * @param output the file path of the desired output file
 	 * @throws IOException exception if error reading/writing files
 	 */
@@ -97,7 +88,7 @@ public class AlgoRelim {
 		// for this map : key = item value = tidset
 		final Map<Integer, Integer> mapSupport = new HashMap<Integer, Integer>();
 		// scan the database
-		BufferedReader reader = new BufferedReader(new FileReader(input));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		String line;
 		// for each line (transaction) until the end of file
 		while (((line = reader.readLine()) != null)){ 
@@ -127,7 +118,7 @@ public class AlgoRelim {
 			// increase transaction count
 			transactionCount++;
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();
 
 		// transform the minimum support from absolute to relative value
@@ -177,7 +168,7 @@ public class AlgoRelim {
 		initialDatabase.initializeTransactions();
 		
 		// insert transactions into initial database structure...
-		reader = new BufferedReader(new FileReader(input));
+		reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		
 		// for each line (transaction) until the end of file
 		while (((line = reader.readLine()) != null)) { 
@@ -235,7 +226,7 @@ public class AlgoRelim {
 			// insert transaction in the data structure 
 			initialDatabase.transactions.get(indexArray).add(transaction.subList(1, transaction.size()));
 		}
-		// close the ca.pfv.spmf.input file
+		// close the input file
 		reader.close();	
 		
 		// (7) START RECURSION

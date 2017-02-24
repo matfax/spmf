@@ -299,7 +299,7 @@ public class IDListBitmap implements IDList {
 
     /**
      * It executes a join operation under the equal relation for a two sets of 
-     * appearances that correspond to a same sequence in two different ca.pfv.spmf.patterns
+     * appearances that correspond to a same sequence in two different patterns
      * @param thisBitmap Set of appearances of the the current IdList
      * @param otherBitmap Set of appearances of the given IdList
      * @return The resulting bitmap
@@ -320,7 +320,7 @@ public class IDListBitmap implements IDList {
 
     /**
      * It executes a join operation under the after relation for a two sets of 
-     * appearances that correspond to a same sequence in two different ca.pfv.spmf.patterns
+     * appearances that correspond to a same sequence in two different patterns
      * @param thisBitmap Set of appearances of the the current IdList
      * @param otherBitmap Set of appearances of the given IdList
      * @return The resulting bitmap

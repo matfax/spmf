@@ -86,7 +86,7 @@ public class MDPatternsDatabase {
 	
 	/**
 	 * Get the pattern count.
-	 * @return the number of ca.pfv.spmf.patterns (int)
+	 * @return the number of patterns (int)
 	 */
 	public int size(){
 		return patterns.size();

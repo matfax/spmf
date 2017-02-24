@@ -262,7 +262,7 @@ public class AlgoGHUIMINER {
 
 	/**
 	 * Run the algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtility the minimum utility threshold
 	 * @param closedItemsets 
@@ -301,7 +301,7 @@ public class AlgoGHUIMINER {
 		String thisLine;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a

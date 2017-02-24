@@ -1,59 +1,54 @@
 package ca.pfv.spmf.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-
+import ca.pfv.spmf.NoExceptionAssertion;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.AlgoSPAM_AGP;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.creators.AbstractionCreator;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.creators.AbstractionCreator_Qualitative;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.dataStructures.database.SequenceDatabase;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators.IdListCreator;
 import ca.pfv.spmf.algorithms.sequentialpatterns.spade_spam_AGP.idLists.creators.IdListCreator_FatBitmap;
+import org.junit.Test;
 
 /**
- * Example of how to use the algorithm SPAM, saving the results in the 
+ * Example of how to use the algorithm SPAM, saving the results in the
  * main  memory
- * 
+ *
  * @author agomariz
  */
 public class MainTestSPAM_AGP_FatBitMap_saveToMemory {
 
     /**
-     * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
-        // Load a sequence database
-        double support = 0.5;
+    @Test
+    public void main() {
+        NoExceptionAssertion.assertDoesNotThrow(() -> {
+            // Load a sequence database
+            double support = 0.5;
 
-        boolean keepPatterns = true;
-        boolean verbose = false;
-        
-        // if you set the following parameter to true, the sequence ids of the sequences where
-        // each pattern appears will be shown in the result
-        boolean outputSequenceIdentifiers = false; 
+            boolean keepPatterns = true;
+            boolean verbose = false;
 
-        AbstractionCreator abstractionCreator = AbstractionCreator_Qualitative.getInstance();
+            // if you set the following parameter to true, the sequence ids of the sequences where
+            // each pattern appears will be shown in the result
+            boolean outputSequenceIdentifiers = false;
 
-        IdListCreator idListCreator = IdListCreator_FatBitmap.getInstance();
+            AbstractionCreator abstractionCreator = AbstractionCreator_Qualitative.getInstance();
 
-        SequenceDatabase sequenceDatabase = new SequenceDatabase(abstractionCreator, idListCreator);
+            IdListCreator idListCreator = IdListCreator_FatBitmap.getInstance();
 
-        sequenceDatabase.loadFile(fileToPath("contextPrefixSpan.txt"), support);
+            SequenceDatabase sequenceDatabase = new SequenceDatabase(abstractionCreator, idListCreator);
 
-        System.out.println(sequenceDatabase.toString());
+            sequenceDatabase.loadFile("contextPrefixSpan.txt", support);
 
-        AlgoSPAM_AGP algorithm = new AlgoSPAM_AGP(support);
+            System.out.println(sequenceDatabase.toString());
 
-        algorithm.runAlgorithm(sequenceDatabase, keepPatterns, verbose, null,outputSequenceIdentifiers);
-        System.out.println("Minimum support (relative) = "+support);
-        System.out.println(algorithm.getNumberOfFrequentPatterns() + " frequent ca.pfv.spmf.patterns.");
+            AlgoSPAM_AGP algorithm = new AlgoSPAM_AGP(support);
 
-        System.out.println(algorithm.printStatistics());
-    }
+            algorithm.runAlgorithm(sequenceDatabase, keepPatterns, verbose, null, outputSequenceIdentifiers);
+            System.out.println("Minimum support (relative) = " + support);
+            System.out.println(algorithm.getNumberOfFrequentPatterns() + " frequent patterns.");
 
-    public static String fileToPath(String filename) throws UnsupportedEncodingException {
-        URL url = MainTestSPADE_AGP_FatBitMap_saveToFile.class.getResource(filename);
-        return java.net.URLDecoder.decode(url.getPath(), "UTF-8");
+            System.out.println(algorithm.printStatistics());
+        });
     }
 }

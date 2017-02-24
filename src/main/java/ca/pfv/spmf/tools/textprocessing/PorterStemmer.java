@@ -37,7 +37,7 @@ package ca.pfv.spmf.tools.textprocessing;
  *
  * Stemmer, implementing the Porter Stemming Algorithm
  *
- * The Stemmer class transforms a word into its root form.  The ca.pfv.spmf.input
+ * The Stemmer class transforms a word into its root form.  The input
  * word can be provided a character at time (by calling add()), or at once
  * by calling one of the various stem(something) methods.
  */
@@ -423,7 +423,7 @@ public class PorterStemmer
   }
 
   /** Stem a word contained in a char[].  Returns true if the stemming process
-   * resulted in a word different from the ca.pfv.spmf.input.  You can retrieve the
+   * resulted in a word different from the input.  You can retrieve the
    * result with getResultLength()/getResultBuffer() or toString().
    */
   public boolean stem(char[] word) {
@@ -432,7 +432,7 @@ public class PorterStemmer
 
   /** Stem a word contained in a portion of a char[] array.  Returns
    * true if the stemming process resulted in a word different from
-   * the ca.pfv.spmf.input.  You can retrieve the result with
+   * the input.  You can retrieve the result with
    * getResultLength()/getResultBuffer() or toString().
    */
   public boolean stem(char[] wordBuffer, int offset, int wordLen) {
@@ -448,7 +448,7 @@ public class PorterStemmer
 
   /** Stem a word contained in a leading portion of a char[] array.
    * Returns true if the stemming process resulted in a word different
-   * from the ca.pfv.spmf.input.  You can retrieve the result with
+   * from the input.  You can retrieve the result with
    * getResultLength()/getResultBuffer() or toString().
    */
   public boolean stem(char[] word, int wordLen) {
@@ -457,7 +457,7 @@ public class PorterStemmer
 
   /** Stem the word placed into the Stemmer buffer through calls to add().
    * Returns true if the stemming process resulted in a word different
-   * from the ca.pfv.spmf.input.  You can retrieve the result with
+   * from the input.  You can retrieve the result with
    * getResultLength()/getResultBuffer() or toString().
    */
   public boolean stem() {

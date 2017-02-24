@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * This class represents a  transaction database
- * optimized for the TNR and TopKRules ca.pfv.spmf.algorithms for top-k
+ * optimized for the TNR and TopKRules algorithms for top-k
  * association rule mining. 
  * <br/><br/>
  * 
@@ -57,7 +57,7 @@ public class Database {
 
 	/**
 	 * Load a file from a file path.
-	 * @param path the ca.pfv.spmf.input file path
+	 * @param path the input file path
 	 * @throws IOException exception if an error while writing the file
 	 */
 	public void loadFile(String path) throws IOException {

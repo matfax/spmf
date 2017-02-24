@@ -126,7 +126,7 @@ public class AlgoHUSRM {
 	/**
 	 * The main method to run the algorithm
 	 * 
-	 * @param input an ca.pfv.spmf.input file
+	 * @param input an input file
 	 * @param output an output file
 	 * @param minConfidence the minimum confidence threshold
 	 * @param minutil the minimum utility threshold

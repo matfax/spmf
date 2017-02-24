@@ -1,15 +1,9 @@
 package ca.pfv.spmf.algorithms.frequentpatterns.lcm;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.InputStreamReader;
+import java.util.*;
 import java.util.regex.Pattern;
 /* This file is copyright (c) 2012-2014 Alan Souza
 * 
@@ -46,7 +40,7 @@ public class Dataset {
 
         transactions = new ArrayList<Transaction>();
         
-        BufferedReader br = new BufferedReader(new FileReader(datasetPath));
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(datasetPath)));
         String items;
         while((items = br.readLine()) != null) { // iterate over the lines to build the transaction
 			// if the line is  a comment, is  empty or is  metadata
@@ -80,8 +74,8 @@ public class Dataset {
     }
 
     /**
-     * Create a transaction object from a line from the ca.pfv.spmf.input file
-     * @param line a line from ca.pfv.spmf.input file
+     * Create a transaction object from a line from the input file
+     * @param line a line from input file
      * @return a transaction
      */
     private Transaction createTransaction(String line) {

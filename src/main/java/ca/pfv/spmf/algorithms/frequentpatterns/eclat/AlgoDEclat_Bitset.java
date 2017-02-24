@@ -44,7 +44,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * See this article for details about ECLAT:
  * <br/><br/>
  * 
- * Zaki, M. J. (2000). Scalable ca.pfv.spmf.algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
+ * Zaki, M. J. (2000). Scalable algorithms for association mining. Knowledge and Data Engineering, IEEE Transactions on, 12(3), 372-390.
  * <br/><br/>
  * 
  * and: <br/><br/>

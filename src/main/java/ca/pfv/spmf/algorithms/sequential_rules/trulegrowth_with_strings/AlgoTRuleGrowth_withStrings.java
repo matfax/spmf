@@ -49,7 +49,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * <br/><br/>
  *  
  *  In future a version of SPMF, it is planned to remove this class and to provide a more general
- *  mechanism for handling strings that would work for all ca.pfv.spmf.algorithms that take sequences as ca.pfv.spmf.input.
+ *  mechanism for handling strings that would work for all algorithms that take sequences as input. 
  *  
  * @see Itemset
  * @see AlgoTRuleGrowth
@@ -75,7 +75,7 @@ public class AlgoTRuleGrowth_withStrings {
 	int minsuppRelative; // minimum support
 	int windowSize =0;  // window size
 
-	// The number of ca.pfv.spmf.patterns found
+	// The number of patterns found
 	int ruleCount;
 	
 	// object to write the output file
@@ -96,13 +96,13 @@ public class AlgoTRuleGrowth_withStrings {
 	 * Run the algorithm.  
 	 * @param minSupport  Minsup as a percentage (ex: 0.05 = 5 %)
 	 * @param minConfidence minimum confidence (a value between 0 and 1).
-	 * @param input  the ca.pfv.spmf.input file path
+	 * @param input  the input file path
 	 * @param output the output file path
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
 	 */
 	public void runAlgorithm(double minSupport, double minConfidence, String input, String output, int windowSize) throws IOException{
-		// load the ca.pfv.spmf.input file into memory
+		// load the input file into memory
 		try {
 			this.database = new SequenceDatabase();
 			database.loadFile(input);
@@ -119,7 +119,7 @@ public class AlgoTRuleGrowth_withStrings {
 	 * Run the algorithm.
 	 * @param relativeMinSupport  minsup as a a relative value (integer)
 	 * @param minConfidence minimum confidence (a value between 0 and 1).
-	 * @param input  the ca.pfv.spmf.input file path
+	 * @param input  the input file path
 	 * @param output the output file path
 	 * @param windowSize a window size
 	 * @throws IOException exception if there is an error reading/writing files
@@ -297,7 +297,7 @@ public class AlgoTRuleGrowth_withStrings {
 
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I Uï¿½{c} --> J. The method makes sure that:
+	 * with any item c. This results in rules of the form I U {c} --> J. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ before last occurence of J
 	 *   - c is lexically bigger than all items in I
@@ -555,7 +555,7 @@ public class AlgoTRuleGrowth_withStrings {
     
 	/**
 	 * This method search for items for expanding left side of a rule I --> J 
-	 * with any item c. This results in rules of the form I --> J Uï¿½{c}. The method makes sure that:
+	 * with any item c. This results in rules of the form I --> J U {c}. The method makes sure that:
 	 *   - c  is not already included in I or J
 	 *   - c appear at least minsup time in tidsIJ after the first occurence of I
 	 *   - c is lexically bigger than all items in J

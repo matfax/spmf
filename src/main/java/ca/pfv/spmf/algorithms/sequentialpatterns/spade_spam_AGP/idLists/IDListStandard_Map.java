@@ -136,7 +136,7 @@ public class IDListStandard_Map implements IDList {
 
     /**
      * It executes a join operation under the after relation for a two sets of
-     * appearances that correspond to a same sequence in two different ca.pfv.spmf.patterns
+     * appearances that correspond to a same sequence in two different patterns
      *
      * @param sid Sequence identifier of the sequence where we want to check if
      * it exists the pattern
@@ -182,7 +182,7 @@ public class IDListStandard_Map implements IDList {
 
     /**
      * It executes a join operation under the equal relation for a two sets of
-     * appearances that correspond to a same sequence in two different ca.pfv.spmf.patterns
+     * appearances that correspond to a same sequence in two different patterns
      *
      * @param sid Sequence identifier of the sequence where we want to check if
      * it exists the pattern

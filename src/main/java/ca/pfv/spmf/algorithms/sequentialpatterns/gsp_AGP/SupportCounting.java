@@ -72,7 +72,7 @@ class SupportCounting {
      * @param k the level where we are checking
      * @param minSupportAbsolute the absolute minimum support, i.e. the minimum number of
      * sequences where a candidate have to appear
-     * @return the set of frequent ca.pfv.spmf.patterns.
+     * @return the set of frequent patterns.
      */
     public Set<Pattern> countSupport(List<Pattern> candidateSet, int k, double minSupportAbsolute) {
         indexationMap.clear();

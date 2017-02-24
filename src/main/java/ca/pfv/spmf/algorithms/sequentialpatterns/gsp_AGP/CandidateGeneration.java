@@ -61,18 +61,18 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
             Set<Pattern> matching = null;
             //For each frequent (k-1)-sequence
             for (Pattern frequentPattern1 : frequentList) {
-                //For the second element of the frequent ca.pfv.spmf.patterns
+                //For the second element of the frequent patterns
                 Item currentItem = frequentPattern1.getIthElement(1).getItem();
                 //If we did not previously processed
                 if (!currentItem.equals(previousItem)) {
-                    //We get all the ca.pfv.spmf.patterns that starts with that item as first element
+                    //We get all the patterns that starts with that item as first element
                     matching = indexationMap.get(currentItem);
                     //and assign that item to the previous one
                     previousItem = currentItem;
                 }
                 //If matching is not empty
                 if (matching != null) {
-                    //for each of its ca.pfv.spmf.patterns
+                    //for each of its patterns
                     for (Pattern frequentPattern2 : matching) {
                         //we try combining both frequentPattern1 and frequentPattern2
                         Pattern candidate = abstractionCreator.generateCandidates(abstractionCreator, frequentPattern1, frequentPattern2, minSupportAbsolute);
@@ -129,7 +129,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.gsp_AGP.items.patterns.Pattern;
                 }
             }
             if (!isInfrequent) {
-                //We only add in the output set those ca.pfv.spmf.patterns that not have any infrequent subpattern
+                //We only add in the output set those patterns that not have any infrequent subpattern
                 candidatePatterns.add(candidate);
             }
         }

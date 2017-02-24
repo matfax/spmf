@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 /**
- * This is an implementation of a "pattern" as used by the GoKrimp and SedKrimp ca.pfv.spmf.algorithms
+ * This is an implementation of a "pattern" as used by the GoKrimp and SedKrimp algorithms
  * <br/><br/>
  * For more information please refer to the paper Mining Compressing Sequential Patterns in the Journal Statistical Analysis and Data Mining
  * <br/><br/>
@@ -46,7 +46,7 @@ public class MyPattern implements Comparable<MyPattern> {
  int g_cost; // the cost of encoding the gaps  
  
  /**
-  * print the set of ca.pfv.spmf.patterns
+  * print the set of patterns
   */
  void print(){
      System.out.print(ids);
@@ -73,7 +73,7 @@ public class MyPattern implements Comparable<MyPattern> {
  
   @Override
   /**
-   * compare two ca.pfv.spmf.patterns by benefits
+   * compare two patterns by benefits
    */
    public int compareTo(MyPattern o) {
         return (int)(o.ben-this.ben);

@@ -24,7 +24,7 @@ import java.util.BitSet;
  * TNR or TopKRules algorithm for top-k association rule mining.
  * <br/><br/>
  * 
- * This implementation is optimized for these ca.pfv.spmf.algorithms. In particular,
+ * This implementation is optimized for these algorithms. In particular,
  * it stores the tidset of the rule and the tidset of the 
  * rule antecedent as bitsets. Furthermore, the antecedent and 
  * consequent are stored as array of integers.  Lastly,

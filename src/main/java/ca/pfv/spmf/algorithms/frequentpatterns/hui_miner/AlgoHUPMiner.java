@@ -98,7 +98,7 @@ public class AlgoHUPMiner {
 
 	/**
 	 * Run the algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtility the minimum utility threshold
 	 * @param k the number of partitions
@@ -124,7 +124,7 @@ public class AlgoHUPMiner {
 		transactionCount = 0;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is  a comment, is  empty or is a
@@ -155,7 +155,7 @@ public class AlgoHUPMiner {
 				transactionCount++;
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -271,7 +271,7 @@ public class AlgoHUPMiner {
 
 			}
 		} catch (Exception e) {
-			// to catch error while reading the ca.pfv.spmf.input file
+			// to catch error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){

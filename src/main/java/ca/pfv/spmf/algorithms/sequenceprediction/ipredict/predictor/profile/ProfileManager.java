@@ -17,7 +17,7 @@ public class ProfileManager {
 	public static void loadProfileByName(String name) {
 		Profile profile = null;
 		try {
-			Class<?> classI = Class.forName("ca.pfv.spmf.ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.profile."+ name + "Profile");
+			Class<?> classI = Class.forName("ca.pfv.spmf.algorithms.sequenceprediction.ipredict.predictor.profile."+ name + "Profile");
 			profile = (Profile) classI.newInstance();
 		} catch (Exception e) {
 			profile = new DefaultProfile();

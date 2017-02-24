@@ -32,7 +32,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.kmeans_for_
 
 /**
  * This is the original implementation of the Fournier-Viger algorithm (2008) for sequential
- * pattern mining, which  combines features from several ca.pfv.spmf.algorithms and includes original features such
+ * pattern mining, which  combines features from several algorithms and includes original features such
  * as accepting items with double values.  For details about this algorithm see:
  * <br/><br/>
  * 
@@ -56,7 +56,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.kmeans_for_
 * @author Philippe Fournier-Viger
  */
 public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
-	// The sequential ca.pfv.spmf.patterns that are found
+	// The sequential patterns that are found
 	private Sequences patterns = null;
 	
 	/// number of sequential pattern found
@@ -73,7 +73,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	private final double minWholeInterval; // min time length of a seq. pattern (c3)
 	private final double maxWholeInterval;  // max time length of a seq. pattern (c4)
 	private final double minsupp;  // minimum support threshold
-	private final boolean findClosedPatterns;  // find closed ca.pfv.spmf.patterns or not
+	private final boolean findClosedPatterns;  // find closed patterns or not
 	private int minsuppRelative;  // minimum support as an integer
 	private boolean enableBackscanPruning;  // use backscan pruning or not
 	
@@ -144,7 +144,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	/**
 	 * Run the algorithm and save the result to memory
 	 * @param database a sequence database
-	 * @return a set of sequential ca.pfv.spmf.patterns (Sequences)
+	 * @return a set of sequential patterns (Sequences)
 	 * @throws IOException 
 	 */
 	public Sequences runAlgorithm(SequenceDatabase database) throws IOException {
@@ -169,7 +169,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 		// record end time
 		endTime = System.currentTimeMillis();
 		
-		// return the set of ca.pfv.spmf.patterns found
+		// return the set of patterns found
 		return patterns;
 	}
 
@@ -178,7 +178,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	 * The main method. It is inspired by
 	 * the method ISDB based on the description in the article of Hirate & Yumana but
 	 * with some additional modifications for clustering and for finding
-	 * closed seq. ca.pfv.spmf.patterns.
+	 * closed seq. patterns.
 	 * @param originalDatabase The initial context.
 	 * @throws IOException  exception if error writing to output file
 	 */
@@ -241,13 +241,13 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 						// Sequence IDs
 						prefix.setSequencesID(projectedDatabase.getCluster().getSequenceIDs());
 					}
-					// variable to store the largest support of ca.pfv.spmf.patterns
+					// variable to store the largest support of patterns
 					// that will be found starting with this prefix
 					int maxSuccessorSupport =0;
 					
 					// We recursively try to extend the prefix.
 					
-					// If the user wants to find closed ca.pfv.spmf.patterns, then
+					// If the user wants to find closed patterns, then 
 					// if the current prefix respect the backscan pruning condition
 					// (see BIDE paper for details).
 					if(!findClosedPatterns  || !checkBackScanPruning(prefix)){
@@ -604,9 +604,9 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 				// if the constraint C4 is respected
 				if(isMaxWholeIntervalRespected(newPrefix)){ // C4 check
 					// make a recursive call to extend the prefix with this item
-					// and generate other ca.pfv.spmf.patterns starting with that prefix + item
+					// and generate other patterns starting with that prefix + item
 					int successorSupport = projectionPair(newPrefix, pair, prefix, database, k);
-					// record the largest support of ca.pfv.spmf.patterns found starting
+					// record the largest support of patterns found starting
 					// with this prefix+pair until now
 					if(successorSupport > maxSupport){
 						maxSupport = successorSupport;
@@ -656,7 +656,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	 * @throws IOException if error writing to output file
 	 */
 	private int projectionPair(Sequence newPrefix, Pair paire, Sequence oldPrefix, PseudoSequenceDatabase database, int k) throws IOException {
-		// variable to store the maximum support of frequent seq. ca.pfv.spmf.patterns that can be obtained
+		// variable to store the maximum support of frequent seq. patterns that can be obtained
 		// by growing newPrefix.
 		int maxSupport = 0;
 		// Create projected databases (because of the clustering, there can be more than one
@@ -704,7 +704,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 				prefix.setSequencesID(sequenceIDs); 
 			}
 			
-			// variable to store the largest support of ca.pfv.spmf.patterns
+			// variable to store the largest support of patterns
 			// that will be found starting with this prefix
 			int maxSuccessor =0;
 			
@@ -719,15 +719,15 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 			
 			// if the C3 constraint is respected
 			if(isMinWholeIntervalRespected(prefix)){ 
-				// if the user wants closed ca.pfv.spmf.patterns,
+				// if the user wants closed patterns,
 				// then check if there is a forward extension of the current prefix
 				boolean noForwardSIExtension = !findClosedPatterns || !(prefix.getAbsoluteSupport() == maxSuccessor);
-				// if the user wants closed ca.pfv.spmf.patterns,
+				// if the user wants closed patterns,
 				// then check if there is a backward extension of the current prefix
 				boolean noBackwardExtension = !findClosedPatterns  || !checkBackwardExtension(prefix);
 				// if the pattern is closed
 				if(noForwardSIExtension && noBackwardExtension){ 
-					// add the sequential ca.pfv.spmf.patterns to the set of ca.pfv.spmf.patterns found
+					// add the sequential patterns to the set of patterns found 
 					savePattern(prefix);
 				}
 				//  if this is the pattern with the highest support found,
@@ -1111,7 +1111,7 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 	private Sequence appendItemToSequence(Sequence prefix, ItemSimple item, long timestamp) {
 		Sequence newPrefix = prefix.cloneSequence();  // isSuffix
 		long decalage = newPrefix.get(newPrefix.size()-1).getTimestamp();
-		newPrefix.addItemset(new Itemset(item, timestamp + decalage));  // crï¿½ï¿½ un nouvel itemset   + decalage
+		newPrefix.addItemset(new Itemset(item, timestamp + decalage));  // créé un nouvel itemset   + decalage
 		return newPrefix;
 	}
 	
@@ -1141,13 +1141,13 @@ public class AlgoFournierViger08 extends AbstractAlgoPrefixSpan{
 		r.append(" Frequent sequences count : ");
 		r.append(patternCount);
 		r.append('\n');
-//		r.append(ca.pfv.spmf.patterns.toString(databaseSize));
+//		r.append(patterns.toString(databaseSize));
 		r.append("===================================================\n");
 		System.out.println(r.toString());
 	}
 	
 	/**
-	 * Print the seq. ca.pfv.spmf.patterns found to System.out. with
+	 * Print the seq. patterns found to System.out. with
 	 * @param databaseSize  the size of the database (a number of sequences)
 	 */
 	public void printResult(int databaseSize) {

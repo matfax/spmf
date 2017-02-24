@@ -5,7 +5,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clasp_AGP.dataStructures.patter
 
 /**
  * This is an implementation of a class implementing the Saver interface. By 
- * means of these lines, the user choose to keep his ca.pfv.spmf.patterns in the memory.
+ * means of these lines, the user choose to keep his patterns in the memory.
  * 
  * NOTE: This implementation saves the pattern  to a file as soon 
  * as they are found or can keep the pattern into memory, depending

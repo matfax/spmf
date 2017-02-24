@@ -23,7 +23,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.clasp_AGP.idlists.IDList;
  * until this one, passing by the different nodes in the way that are ancestors 
  * of the current trie. We do not keep any trace of the parent nodes since the 
  * whole trie will be run at the end of the algorithm, just before applying the
- * postprocessing step to remove the remaining non-closed frequent ca.pfv.spmf.patterns.
+ * postprocessing step to remove the remaining non-closed frequent patterns.
  *
  * Besides, in a trie we keep some information relative to that pattern that is
  * referred, such as the sequences where the pattern appears, its support, and

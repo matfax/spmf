@@ -28,7 +28,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimens
 /**
  * Implementation of a sequence (a list of itemsets), which 
  * represents a sequential pattern or a sequence of a sequence database, as used by SeqDim and
- * Fournier-Viger (2008) ca.pfv.spmf.algorithms.
+ * Fournier-Viger (2008) algorithms.
  * 
  * @see AlgoSeqDim
  * @see AlgoFournierViger08
@@ -42,7 +42,7 @@ public class Sequence{
 	/** the sequence ID  */
 	private int id; 
 	
-	/** List of IDS of all ca.pfv.spmf.patterns that contains this one. */
+	/** List of IDS of all patterns that contains this one. */
 	private Set<Integer> sequencesID = null;
 	
 	/**

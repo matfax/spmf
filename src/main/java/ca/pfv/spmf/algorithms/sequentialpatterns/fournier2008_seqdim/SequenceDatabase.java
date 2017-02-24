@@ -30,9 +30,9 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.kmeans_for_
 import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimensionalsequentialpatterns.AlgoSeqDim;
 
 /**
- * Implementation of a sequence database as used by the SeqDim and Fournier-Vier (2008) ca.pfv.spmf.algorithms.
+ * Implementation of a sequence database as used by the SeqDim and Fournier-Vier (2008) algorithms.
  * Each sequence need to hvae a unique ID.
- * See examples in the /test/ directory for the format of ca.pfv.spmf.input files. that can be read by this class.
+ * See examples in the /test/ directory for the format of input files. that can be read by this class.
  * 
  * @see AlgoFournierViger08
  * @see AlgoSeqDim
@@ -49,8 +49,8 @@ public class SequenceDatabase{
 	private Cluster cluster = null;
 	
 	/**
-	 * Load a sequence database from an ca.pfv.spmf.input file
-	 * @param path the ca.pfv.spmf.input file path
+	 * Load a sequence database from an input file
+	 * @param path the input file path
 	 * @throws IOException exception if error reading file
 	 */
 	public void loadFile(String path) throws IOException {
@@ -76,7 +76,7 @@ public class SequenceDatabase{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			// Close the ca.pfv.spmf.input file
+			// Close the input file
 			if(myInput != null){
 				myInput.close();
 			}
@@ -84,7 +84,7 @@ public class SequenceDatabase{
 	}
 	
 	/**
-	 * Process a line from the ca.pfv.spmf.input file, splitted into tokens.
+	 * Process a line from the input file, splitted into tokens.
 	 * @param tokens  a list of tokens (String).
 	 */
 	void processSequence(String[] tokens) {	//

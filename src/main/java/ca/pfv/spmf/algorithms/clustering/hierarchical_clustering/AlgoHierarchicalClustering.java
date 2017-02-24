@@ -25,9 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
+import ca.pfv.spmf.algorithms.clustering.instancereader.AlgoInstanceFileReader;
 import ca.pfv.spmf.patterns.cluster.ClusterWithMean;
 import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
+import ca.pfv.spmf.patterns.cluster.DoubleArrayInstance;
 import ca.pfv.spmf.tools.MemoryLogger;
 
 /**
@@ -63,6 +65,9 @@ public class AlgoHierarchicalClustering {
 	
 	/* The distance function to be used for clustering */
 	private DistanceFunction distanceFunction = null;
+	
+	/** The names of the attributes **/
+	private List<String> attributeNames = null;
 
 	/**
 	 * Default constructor
@@ -72,13 +77,14 @@ public class AlgoHierarchicalClustering {
 
 	/**
 	 * Run the algorithm.
-	 * @param inputFile an ca.pfv.spmf.input file containing vectors of doubles
+	 * @param inputFile an input file containing vectors of doubles
 	 * @param maxDistance  the maximum distance allowed for merging two clusters
-	 * @param distanceFunction 
+	 * @param distanceFunction  the distance function
+	 * @param separator  the character used to separated values in the input file (by default, it is the space).
 	 * @return a list of Clusters
 	 * @throws IOException exception if error while reading the file
 	 */
-	public List<ClusterWithMean> runAlgorithm(String inputFile, double maxDistance, DistanceFunction distanceFunction) throws NumberFormatException, IOException {
+	public List<ClusterWithMean> runAlgorithm(String inputFile, double maxDistance, DistanceFunction distanceFunction, String separator) throws NumberFormatException, IOException {
 		// record start time
 		startTimestamp = System.currentTimeMillis();
 		
@@ -91,39 +97,19 @@ public class AlgoHierarchicalClustering {
 		// create an empty list of clusters
 		clusters = new ArrayList<ClusterWithMean>();
 		
-		// Read the vectors from the ca.pfv.spmf.input file
-		// and add each vector to an individual cluster.
-		BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-		String line;
-		// for each line until the end of file
-		while (((line = reader.readLine()) != null)) { 
-			// if the line is  a comment, is  empty or is a
-			// kind of metadata
-			if (line.isEmpty() == true ||
-					line.charAt(0) == '#' || line.charAt(0) == '%'
-							|| line.charAt(0) == '@') {
-				continue;
-			}
-			// split the line by spaces
-			String[] lineSplited = line.split(" ");
-			// convert the values to double values and put them in 
-			// a vector of doubles
-			double [] vector = new double[lineSplited.length];
-			for (int i=0; i< lineSplited.length; i++) { 
-				double value = Double.parseDouble(lineSplited[i]);
-				vector[i] = value;
-//				System.out.println("val");
-			}
-			// create a DoubleArray object with the vector
-			DoubleArray theVector = new DoubleArray(vector);
-			
-			// Initiallly we create a cluster for each vector
-			ClusterWithMean cluster = new ClusterWithMean(vector.length);
-			cluster.addVector(theVector);
-			cluster.setMean(theVector.clone());
+		// Read the input file
+		AlgoInstanceFileReader reader = new AlgoInstanceFileReader();
+		List<DoubleArray> instances = reader.runAlgorithm(inputFile, separator);
+		int dimensionCount = reader.getAttributeNames().size();
+		attributeNames = reader.getAttributeNames();
+		
+		// Initiallly we create a cluster for each vector
+		for(DoubleArray instance : instances){
+			ClusterWithMean cluster = new ClusterWithMean(dimensionCount);
+			cluster.addVector(instance);
+			cluster.setMean(instance.clone());
 			clusters.add(cluster);
 		}
-		reader.close(); // close the ca.pfv.spmf.input file
 
 		// (2) Loop to combine the two closest clusters into a bigger cluster
 		// until no clusters can be combined.
@@ -197,6 +183,13 @@ public class AlgoHierarchicalClustering {
 	 */
 	public void saveToFile(String output) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+		
+		// First, we will print the attribute names
+		for(String attributeName : attributeNames){
+			writer.write("@ATTRIBUTEDEF=" + attributeName);
+			writer.newLine();
+		}
+		
 		// for each cluster
 		for(int i=0; i< clusters.size(); i++){
 			// if the cluster is not empty
@@ -219,7 +212,7 @@ public class AlgoHierarchicalClustering {
 	 * Print statistics about the latest execution to System.out.
 	 */
 	public void printStatistics() {
-		System.out.println("========== HIERARCHICAL CLUSTERING - STATS ============");
+		System.out.println("========== HIERARCHICAL CLUSTERING SPMF 2.09 - STATS ============");
 		System.out.println(" Distance function: " + distanceFunction.getName());
 		System.out.println(" Total time ~: " + (endTimestamp - startTimestamp)
 				+ " ms");

@@ -16,14 +16,6 @@ package ca.pfv.spmf.algorithms.clustering.dbscan;
 * SPMF. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceEuclidian;
 import ca.pfv.spmf.algorithms.clustering.distanceFunctions.DistanceFunction;
 import ca.pfv.spmf.datastructures.kdtree.KDTree;
@@ -31,6 +23,10 @@ import ca.pfv.spmf.patterns.cluster.Cluster;
 import ca.pfv.spmf.patterns.cluster.ClustersEvaluation;
 import ca.pfv.spmf.patterns.cluster.DoubleArray;
 import ca.pfv.spmf.tools.MemoryLogger;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /* This file is copyright (c) 2008-2015 Philippe Fournier-Viger
 * 
@@ -78,10 +74,13 @@ public class AlgoDBSCAN {
 	/* This KD-Tree is used to index the data points for fast access to points in the epsilon radius*/
 	KDTree kdtree;
 	
-	/* Buffer for storing points **/
+	/* Buffers for storing points **/
 	List<DoubleArray> bufferNeighboors1 = null;
 	List<DoubleArray> bufferNeighboors2 = null;
 
+	/** The names of the attributes **/
+	private List<String> attributeNames = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -91,16 +90,17 @@ public class AlgoDBSCAN {
 	
 	/**
 	 * Run the DBSCAN algorithm
-	 * @param inputFile an ca.pfv.spmf.input file path containing a list of vectors of double values
+	 * @param inputFile an input file path containing a list of vectors of double values
 	 * @param minPts  the minimum number of points (see DBScan article)
 	 * @param epsilon  the epsilon distance (see DBScan article)
-	 * @param seaparator  the string that is used to separate double values on each line of the ca.pfv.spmf.input file (default: single space)
+	 * @param separator2 
+	 * @param seaparator  the string that is used to separate double values on each line of the input file (default: single space)
 	 * @return a list of clusters (some of them may be empty)
 	 * @throws IOException exception if an error while writing the file occurs
 	 */
 	public List<Cluster> runAlgorithm(String inputFile, int minPts, double epsilon, String separator) throws NumberFormatException, IOException {
 		
-		// record the start time
+		// record the start time   
 		startTimestamp =  System.currentTimeMillis();
 		// reset the number of noise points to 0
 		numberOfNoisePoints =0;
@@ -108,18 +108,43 @@ public class AlgoDBSCAN {
 		// Structure to store the vectors from the file
 		List<DoubleArray> points = new ArrayList<DoubleArray>();
 		
-		// read the vectors from the ca.pfv.spmf.input file
-		BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+		// read the vectors from the input file
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(inputFile)));
 		String line;
+		
+		// The list of attribute names
+		attributeNames = new ArrayList<String>();
+		 
+		String currentInstanceName = null;
 		// for each line until the end of the file
 		while (((line = reader.readLine()) != null)) {
+
+			
 			// if the line is  a comment, is  empty or is a
 			// kind of metadata
 			if (line.isEmpty() == true ||
-					line.charAt(0) == '#' || line.charAt(0) == '%'
-							|| line.charAt(0) == '@') {
+					line.charAt(0) == '#' || line.charAt(0) == '%') {
 				continue;
 			}
+			
+			
+			// Read the name of the instance from the file
+			if(line.charAt(0) == '@'){
+				// if it is the name of the instance
+				if(line.startsWith("@NAME=")){
+					currentInstanceName = line.substring(6, line.length());
+				}
+				// if it is the name of an attribute   // @ATTRIBUTEDEF=Y
+				if(line.startsWith("@ATTRIBUTEDEF=")){
+					String attributeName = line.substring(14, line.length());
+					attributeNames.add(attributeName);
+				}
+				continue;
+			}
+			// if no name in the file, then we generate one
+			String nameToUse = currentInstanceName == null ?  "Instance" + points.size() : currentInstanceName;
+			currentInstanceName = null;
+			
 			// split the line by spaces
 			String[] lineSplited = line.split(separator);
 			// create a vector of double
@@ -132,10 +157,18 @@ public class AlgoDBSCAN {
 				vector[i] = value;
 			}
 			// add the vector to the list of vectors
-			points.add(new DoubleArrayDBS(vector));
+			points.add(new DoubleArrayDBS(vector, nameToUse));
 		}
 		// close the file
 		reader.close();
+		
+		// If the file did not contain attribute names, we will generate some
+		if(attributeNames.size() == 0 && points.size() > 0){
+			int dimensionCount = points.get(0).data.length;
+			for(int i = 0; i < dimensionCount; i++){
+				attributeNames.add("Attribute"+i);
+			}
+		}
 		
 		// build kd-tree
 		kdtree = new KDTree();
@@ -255,6 +288,13 @@ public class AlgoDBSCAN {
 	 */
 	public void saveToFile(String output) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+		
+		// First, we will print the attribute names
+		for(String attributeName : attributeNames){
+			writer.write("@ATTRIBUTEDEF=" + attributeName);
+			writer.newLine();
+		}
+		
 		// for each cluster
 		for(int i=0; i< clusters.size(); i++){
 			// if the cluster is not empty
@@ -275,7 +315,7 @@ public class AlgoDBSCAN {
 	 * Print statistics of the latest execution to System.out.
 	 */
 	public void printStatistics() {
-		System.out.println("========== DBSCAN - SPMF 0.98d - STATS ============");
+		System.out.println("========== DBSCAN - SPMF 2.09 - STATS ============");
 		System.out.println(" Total time ~: " + (endTimestamp - startTimestamp)
 				+ " ms");
 		System.out.println(" Max memory:" + MemoryLogger.getInstance().getMaxMemory() + " mb ");

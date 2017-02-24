@@ -202,7 +202,7 @@ public class Pattern implements Comparable<Pattern> {
     /**
      * Compare this pattern with another
      * Since we always compare elements which belong to the same equivalence class
-     * we only make the comparison of the last items of both ca.pfv.spmf.patterns.
+     * we only make the comparison of the last items of both patterns.
      * @param arg  another pattern
      * @return 0 if equals, -1 if this one is smaller, otherwise 1
      */

@@ -38,7 +38,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * as described in the conference paper : <br/><br/>
  * 
  *  Yin, Junfu, Zhigang Zheng, and Longbing Cao. "USpan: an efficient algorithm for 
- *  mining high utility sequential ca.pfv.spmf.patterns." Proceedings of the 18th ACM SIGKDD
+ *  mining high utility sequential patterns." Proceedings of the 18th ACM SIGKDD 
  *  international conference on Knowledge discovery and data mining. ACM, 2012.
  *  
  *  This implementation tries to be as faithful as possible to the article.
@@ -78,7 +78,7 @@ public class AlgoUSpan {
 	/** max pattern length **/
 	int maxPatternLength = Integer.MAX_VALUE;
 	
-	/** the ca.pfv.spmf.input file path **/
+	/** the input file path **/
 	String input;
 
 	/**
@@ -90,7 +90,7 @@ public class AlgoUSpan {
 
 	/**
 	 * Run the USPAN algorithm
-	 * @param input the ca.pfv.spmf.input file path
+	 * @param input the input file path
 	 * @param output the output file path
 	 * @param minUtility the minimum utility threshold
 	 * @throws IOException exception if error while writing the file
@@ -99,7 +99,7 @@ public class AlgoUSpan {
 		// reset maximum
 		MemoryLogger.getInstance().reset();
 		
-		// ca.pfv.spmf.input path
+		// input path
 		this.input = input;
 		
 		// initialize the buffer for storing the current itemset
@@ -125,7 +125,7 @@ public class AlgoUSpan {
 		String thisLine;
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			// for each line (transaction) until the end of file
 			while ((thisLine = myInput.readLine()) != null) {
 				// if the line is a comment, is  empty or is a kind of metadata, skip it
@@ -166,7 +166,7 @@ public class AlgoUSpan {
 				sequenceCount++;
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
@@ -191,7 +191,7 @@ public class AlgoUSpan {
 		
 		try {
 			// prepare the object for reading the file
-			myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+			myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 			
 			// We will read each sequence in buffers.
 			// The first buffer will store the items of a sequence and the -1 between them)
@@ -411,11 +411,11 @@ public class AlgoUSpan {
 				}
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
-				// close the ca.pfv.spmf.input file
+				// close the input file
 				myInput.close();
 			}
 	    }
@@ -437,9 +437,9 @@ public class AlgoUSpan {
 
 	
 	/**
-	 * This is the initial call to the USpan procedure to find all High utility sequential ca.pfv.spmf.patterns
-	 * of length 1. It is optimized for finding ca.pfv.spmf.patterns of length 1.
-	 * To find larger ca.pfv.spmf.patterns the "uspan" method is then used recursively.
+	 * This is the initial call to the USpan procedure to find all High utility sequential patterns
+	 * of length 1. It is optimized for finding patterns of length 1. 
+	 * To find larger patterns the "uspan" method is then used recursively.
 	 * @param prefix  This is the buffer for storing the current prefix. Initially, it is empty.
 	 * @param prefixLength The current prefix length. Initially, it is zero.
 	 * @param database This is the original sequence database (as a set of QMatrix)
@@ -547,7 +547,7 @@ public class AlgoUSpan {
 					}
 
 					//Then, we recursively call the procedure uspan for growing this pattern and
-					// try to find larger high utility sequential ca.pfv.spmf.patterns
+					// try to find larger high utility sequential patterns
 					if(1 < maxPatternLength) {
 						uspan(prefix, 1, matrixProjections, 1);
 					}
@@ -574,7 +574,7 @@ public class AlgoUSpan {
 	}
 	
 	/**
-	 * This is the general USpan procedure to find all High utility sequential ca.pfv.spmf.patterns of length
+	 * This is the general USpan procedure to find all High utility sequential patterns of length
 	 * greater than 1. 
 	 * @param prefix  This is the buffer for storing the current prefix.
 	 * @param prefixLength The current prefix length. 
@@ -733,7 +733,7 @@ public class AlgoUSpan {
 					}
 
 					// Finally, we recursively call the procedure uspan for growing this pattern
-					// to try to find larger ca.pfv.spmf.patterns
+					// to try to find larger patterns
 					if(itemCount+1 < maxPatternLength) {
 						uspan(prefix, prefixLength+1, matrixProjections, itemCount+1);
 					}
@@ -904,7 +904,7 @@ public class AlgoUSpan {
 					}
 
 					// Finally, we recursively call the procedure uspan() for growing this pattern
-					// to try to find larger high utilit sequential ca.pfv.spmf.patterns
+					// to try to find larger high utilit sequential patterns
 					if(itemCount+1 < maxPatternLength) {
 						uspan(prefix, prefixLength+2, matrixProjections, itemCount+1);
 					}
@@ -992,7 +992,7 @@ public class AlgoUSpan {
 	private void checkIfUtilityOfPatternIsCorrect(int[] prefix, int prefixLength, int utility) throws IOException {
 		int calculatedUtility = 0;
 		
-		BufferedReader myInput = new BufferedReader(new InputStreamReader( new FileInputStream(new File(input))));
+		BufferedReader myInput = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(input)));
 		// we will read the database
 		try {
 			// prepare the object for reading the file
@@ -1053,11 +1053,11 @@ public class AlgoUSpan {
 				calculatedUtility += util;
 			}
 		} catch (Exception e) {
-			// catches exception if error while reading the ca.pfv.spmf.input file
+			// catches exception if error while reading the input file
 			e.printStackTrace();
 		}finally {
 			if(myInput != null){
-				// close the ca.pfv.spmf.input file
+				// close the input file
 				myInput.close();
 			}
 	    }

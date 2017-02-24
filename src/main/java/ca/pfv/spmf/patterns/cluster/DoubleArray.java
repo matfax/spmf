@@ -17,7 +17,7 @@ package ca.pfv.spmf.patterns.cluster;
 */
 
 /**
- * This class represents a vector of double values, used mainly by clustering ca.pfv.spmf.algorithms
+ * This class represents a vector of double values, used mainly by clustering algorithms
  * such as KMeans.
 * 
  * @author Philippe Fournier-Viger

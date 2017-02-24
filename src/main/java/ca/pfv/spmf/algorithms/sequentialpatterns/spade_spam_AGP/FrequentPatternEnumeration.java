@@ -46,11 +46,11 @@ public class FrequentPatternEnumeration {
     private CandidateGenerator candidateGenerator;
     /**
      * The absolute minimum support  threshold, i.e. the minimum number of
-     * sequences where the ca.pfv.spmf.patterns have to be
+     * sequences where the patterns have to be
      */
     private double minSupportAbsolute;
     /**
-     * Number of frequent ca.pfv.spmf.patterns found by the algorithm. Initially set to
+     * Number of frequent patterns found by the algorithm. Initially set to
      * zero.
      */
     private static int frequentPatterns = 0;
@@ -77,13 +77,13 @@ public class FrequentPatternEnumeration {
     }
 
     /**
-     * Execution of the search of frequent ca.pfv.spmf.patterns.
+     * Execution of the search of frequent patterns.
      *
      * @param eq The equivalence class from we start to search for.
      * @param dfs Flag indicating if we are interested in a depth-first search
      * if activated. Otherwise, we understand that we are interested in a
      * breadth-first search
-     * @param keepPatterns Flag to indicate if we want to keep the ca.pfv.spmf.patterns
+     * @param keepPatterns Flag to indicate if we want to keep the patterns
      * found.
      * @param verbose Flag for debugging purposes
      * @param coocMapBefore
@@ -173,7 +173,7 @@ public class FrequentPatternEnumeration {
                         EquivalenceClass newEq = new EquivalenceClass(extension);
                         newEq.setIdList(newIdList);
 
-                        //We increment the number of frequent ca.pfv.spmf.patterns
+                        //We increment the number of frequent patterns
                         increaseFrequentPatterns();
 
                         /*Finally, we keep the new class as a member of the 
@@ -233,7 +233,7 @@ public class FrequentPatternEnumeration {
     }
 
     /**
-     * It returns the number of frequent ca.pfv.spmf.patterns found by the last execution of
+     * It returns the number of frequent patterns found by the last execution of
      * the algorithm.
      *
      * @return
@@ -247,7 +247,7 @@ public class FrequentPatternEnumeration {
     }
 
     /**
-     * Increase the number of frequent ca.pfv.spmf.patterns
+     * Increase the number of frequent patterns
      */
     private synchronized static void increaseFrequentPatterns() {
         frequentPatterns++;

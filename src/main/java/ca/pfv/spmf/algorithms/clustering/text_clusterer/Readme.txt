@@ -1,8 +1,8 @@
 The text clusterer works as follows,
-1. Load the ca.pfv.spmf.input file
+1. Load the input file
 2. remove the stopwords
 3. stem the words
-4. Calculate tf*idf value for each record in the ca.pfv.spmf.input file.
+4. Calculate tf*idf value for each record in the input file.
 5. Calculate similarity matrix by using the tfidf values of the records.
 6. Take most similar records per each record and make them as clusters initially.
 7. Use the transitive rule A,B are most similar and B,C are most similar; A and C are likely to be similar. This imply that A, B, C are in the same cluster.

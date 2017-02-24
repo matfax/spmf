@@ -41,7 +41,7 @@ import ca.pfv.spmf.algorithms.sequentialpatterns.fournier2008_seqdim.multidimens
 
 public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	
-	// The sequential ca.pfv.spmf.patterns that are found
+	// The sequential patterns that are found
 	private Sequences patterns = null;
 	
 	// for statistics
@@ -73,10 +73,10 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	/**
 	 * Run the algorithm
 	 * @param database a sequence database
-	 * @return a set of sequential ca.pfv.spmf.patterns (Sequences)
+	 * @return a set of sequential patterns (Sequences)
 	 */
 	public Sequences runAlgorithm(SequenceDatabase database) {
-		// initialize the set of seq. ca.pfv.spmf.patterns
+		// initialize the set of seq. patterns
 		patterns = new Sequences("FREQUENT SEQUENTIAL PATTERNS");
 		// convert minsup from a percentage to an integer value indicating
 		// minsup in terms of sequence count
@@ -92,7 +92,7 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 		prefixSpan(database);
 		// record end time
 		endTime = System.currentTimeMillis();
-		// return sequential ca.pfv.spmf.patterns found
+		// return sequential patterns found
 		return patterns;
 	}
 	
@@ -101,8 +101,8 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	 * @param database A sequence database
 	 */
 	private void prefixSpan(SequenceDatabase database){
-		// We have to scan the database to find all frequent ca.pfv.spmf.patterns of size 1.
-		// We note the sequences in which these ca.pfv.spmf.patterns appear in a map
+		// We have to scan the database to find all frequent patterns of size 1.
+		// We note the sequences in which these patterns appear in a map
 		// where key = item  and value =  a set of IDs of sequences containing
 		// that item.
 		Map<ItemSimple, Set<Integer>> mapSequenceID = calculateSupportOfItems(database);
@@ -125,7 +125,7 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 		
 		// Now, the algorithm will consider each frequent item as 
 		// a frequent seq. pattern, and try to grow them recursively to
-		// find larger seq. ca.pfv.spmf.patterns.
+		// find larger seq. patterns.
 		
 		// For each item
 		for(Entry<ItemSimple, Set<Integer>> entry : mapSequenceID.entrySet()){
@@ -146,7 +146,7 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 				patterns.addSequence(prefix, 1);  
 				
 				// We make a recursive call to try to grow the prefix
-				// recursively to find larger sequential ca.pfv.spmf.patterns.
+				// recursively to find larger sequential patterns.
 				recursion(prefix, 2, projectedDatabase); 
 			}
 		}		
@@ -260,7 +260,7 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 	
 	/**
 	 * This is the recursive method for growing a prefix of size >=1 to find larger
-	 * sequential ca.pfv.spmf.patterns
+	 * sequential patterns
 	 * @param prefix the prefix
 	 * @param k the size of the current prefix + 1
 	 * @param database the sequence database
@@ -292,10 +292,10 @@ public class AlgoPrefixSpanMDSPM extends AbstractAlgoPrefixSpan {
 				Sequence prefix2 = newPrefix.cloneSequence();
 				prefix2.setSequencesID(paire.getSequencesID()); 
 				
-				// add the new prefix to the set of frequent seq. ca.pfv.spmf.patterns
+				// add the new prefix to the set of frequent seq. patterns
 				patterns.addSequence(prefix2, prefix2.size());  
 				// make a recursive call to this method to try to find
-				// larger sequential ca.pfv.spmf.patterns starting with the new prefix.
+				// larger sequential patterns starting with the new prefix.
 				recursion(prefix2, k+1, projectedContext); 
 			}
 		}
