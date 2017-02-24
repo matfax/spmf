@@ -1,0 +1,15 @@
+machine:
+  timezone:
+    Europe/Berlin
+  environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+  java:
+    version: oraclejdk8
+dependencies:
+  override:
+    - chmod +x gradlew
+  cache_directories:
+    - ~/spmf/build
+test:
+  override:
+    - ./gradlew check
